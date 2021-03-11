@@ -41,4 +41,9 @@ typedef struct DomNode_ {
     char *runnerType;
 } DomNode;
 
+
+DomNode* createDomNode(void);
+int attachDomNode(DomNode *node, DomNode *parent, DomNode *previous, DomNode *next);
+int attachDomNoderange(DomNode *first, DomNode *last, DomNode *parent, DomNode *previous, DomNode *next);
+
 #endif // _NODE_H_
