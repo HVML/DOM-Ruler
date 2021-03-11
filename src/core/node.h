@@ -21,19 +21,24 @@ typedef enum {
 } DomNodeType;
 
 typedef struct DomNode_ {
-    void* attach;
-
-    char* name;
-    char* value;
-    DomNodeType type;
-
     struct DomNode_ *parent;  /**< Parent node */
     struct DomNode_ *first_child; /**< First child node */
     struct DomNode_ *last_child;  /**< Last child node */
     struct DomNode_ *previous;    /**< Previous sibling */
     struct DomNode_ *next;        /**< Next sibling */
 
+    void *attach;
 
+    char *name;
+    char *value;
+    DomNodeType domType;
+
+    char *id;
+    char **classes;
+    int classesCount;
+    char *inlineStyle;
+
+    char *runnerType;
 } DomNode;
 
 #endif // _NODE_H_
