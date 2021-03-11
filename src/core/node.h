@@ -45,5 +45,6 @@ typedef struct DomNode_ {
 DomNode* createDomNode(void);
 int attachDomNode(DomNode *node, DomNode *parent, DomNode *previous, DomNode *next);
 int attachDomNoderange(DomNode *first, DomNode *last, DomNode *parent, DomNode *previous, DomNode *next);
+void destroyDomNode(DomNode *node);
 
 #endif // _NODE_H_
