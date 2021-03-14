@@ -49,64 +49,538 @@
 #include <stdio.h>
 
 #define UNUSED(x) ((x) = (x))
-static css_error node_name(void *pw, void *node, css_qname *qname);
-static css_error node_classes(void *pw, void *node,
-		lwc_string ***classes, uint32_t *n_classes);
-static css_error node_id(void *pw, void *node, lwc_string **id);
-static css_error named_parent_node(void *pw, void *node,
-		const css_qname *qname, void **parent);
-static css_error named_sibling_node(void *pw, void *node,
-		const css_qname *qname, void **sibling);
-static css_error named_generic_sibling_node(void *pw, void *node,
-		const css_qname *qname, void **sibling);
-static css_error parent_node(void *pw, void *node, void **parent);
-static css_error sibling_node(void *pw, void *node, void **sibling);
-static css_error node_has_name(void *pw, void *node,
-		const css_qname *qname, bool *match);
-static css_error node_has_class(void *pw, void *node,
-		lwc_string *name, bool *match);
-static css_error node_has_id(void *pw, void *node,
-		lwc_string *name, bool *match);
-static css_error node_has_attribute(void *pw, void *node,
-		const css_qname *qname, bool *match);
-static css_error node_has_attribute_equal(void *pw, void *node,
+
+/******************************************************************************
+ * Style selection callbacks                                                  *
+ ******************************************************************************/
+
+/**
+ * Callback to retrieve a node's name.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Pointer to location to receive node name
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ */
+css_error node_name(void *pw, void *node, css_qname *qname)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to retrieve a node's classes.
+ *
+ * \param pw         HTML document
+ * \param node       DOM node
+ * \param classes    Pointer to location to receive class name array
+ * \param n_classes  Pointer to location to receive length of class name array
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ *
+ * \note The returned array will be destroyed by libcss. Therefore, it must
+ *       be allocated using the same allocator as used by libcss during style
+ *       selection.
+ */
+css_error node_classes(void *pw, void *node, lwc_string ***classes, uint32_t *n_classes)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to retrieve a node's ID.
+ *
+ * \param pw    HTML document
+ * \param node  DOM node
+ * \param id    Pointer to location to receive id value
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ */
+css_error node_id(void *pw, void *node, lwc_string **id)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to find a named parent node
+ *
+ * \param pw      HTML document
+ * \param node    DOM node
+ * \param qname   Node name to search for
+ * \param parent  Pointer to location to receive parent
+ * \return CSS_OK.
+ *
+ * \post \a parent will contain the result, or NULL if there is no match
+ */
+css_error named_parent_node(void *pw, void *node, const css_qname *qname, void **parent)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to find a named sibling node.
+ *
+ * \param pw       HTML document
+ * \param node     DOM node
+ * \param qname    Node name to search for
+ * \param sibling  Pointer to location to receive sibling
+ * \return CSS_OK.
+ *
+ * \post \a sibling will contain the result, or NULL if there is no match
+ */
+css_error named_sibling_node(void *pw, void *node, const css_qname *qname, void **sibling)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to find a named generic sibling node.
+ *
+ * \param pw       HTML document
+ * \param node     DOM node
+ * \param qname    Node name to search for
+ * \param sibling  Pointer to location to receive ancestor
+ * \return CSS_OK.
+ *
+ * \post \a sibling will contain the result, or NULL if there is no match
+ */
+css_error named_generic_sibling_node(void *pw, void *node, const css_qname *qname, void **sibling)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to retrieve the parent of a node.
+ *
+ * \param pw      HTML document
+ * \param node    DOM node
+ * \param parent  Pointer to location to receive parent
+ * \return CSS_OK.
+ *
+ * \post \a parent will contain the result, or NULL if there is no match
+ */
+css_error parent_node(void *pw, void *node, void **parent)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to retrieve the preceding sibling of a node.
+ *
+ * \param pw       HTML document
+ * \param node     DOM node
+ * \param sibling  Pointer to location to receive sibling
+ * \return CSS_OK.
+ *
+ * \post \a sibling will contain the result, or NULL if there is no match
+ */
+css_error sibling_node(void *pw, void *node, void **sibling)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has the given name.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Name to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_name(void *pw, void *node, const css_qname *qname, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has the given class.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param name   Name to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_class(void *pw, void *node, lwc_string *name, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has the given id.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param name   Name to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_id(void *pw, void *node, lwc_string *name, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has an attribute with the given name.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Name to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_attribute(void *pw, void *node, const css_qname *qname, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has an attribute with given name and value.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Name to match
+ * \param value  Value to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_attribute_equal(void *pw, void *node,
 		const css_qname *qname, lwc_string *value,
-		bool *match);
-static css_error node_has_attribute_dashmatch(void *pw, void *node,
+		bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has an attribute with the given name whose
+ * value dashmatches that given.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Name to match
+ * \param value  Value to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_attribute_dashmatch(void *pw, void *node,
 		const css_qname *qname, lwc_string *value,
-		bool *match);
-static css_error node_has_attribute_includes(void *pw, void *node,
+		bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has an attribute with the given name whose
+ * value includes that given.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Name to match
+ * \param value  Value to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_attribute_includes(void *pw, void *node,
 		const css_qname *qname, lwc_string *value,
-		bool *match);
-static css_error node_has_attribute_prefix(void *pw, void *node,
+		bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has an attribute with the given name whose
+ * value has the prefix given.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Name to match
+ * \param value  Value to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_attribute_prefix(void *pw, void *node,
 		const css_qname *qname, lwc_string *value,
-		bool *match);
-static css_error node_has_attribute_suffix(void *pw, void *node,
+		bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has an attribute with the given name whose
+ * value has the suffix given.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Name to match
+ * \param value  Value to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_attribute_suffix(void *pw, void *node,
 		const css_qname *qname, lwc_string *value,
-		bool *match);
-static css_error node_has_attribute_substring(void *pw, void *node,
+		bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has an attribute with the given name whose
+ * value contains the substring given.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Name to match
+ * \param value  Value to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_has_attribute_substring(void *pw, void *node,
 		const css_qname *qname, lwc_string *value,
-		bool *match);
-static css_error node_is_root(void *pw, void *node, bool *match);
-static css_error node_count_siblings(void *pw, void *node,
-		bool same_name, bool after, int32_t *count);
-static css_error node_is_empty(void *pw, void *node, bool *match);
-static css_error node_is_link(void *pw, void *node, bool *match);
-static css_error node_is_hover(void *pw, void *node, bool *match);
-static css_error node_is_active(void *pw, void *node, bool *match);
-static css_error node_is_focus(void *pw, void *node, bool *match);
-static css_error node_is_enabled(void *pw, void *node, bool *match);
-static css_error node_is_disabled(void *pw, void *node, bool *match);
-static css_error node_is_checked(void *pw, void *node, bool *match);
-static css_error node_is_target(void *pw, void *node, bool *match);
-static css_error node_is_lang(void *pw, void *node,
-		lwc_string *lang, bool *match);
-static css_error ua_default_for_property(void *pw, uint32_t property,
-		css_hint *hint);
-static css_error set_libcss_node_data(void *pw, void *node,
-		void *libcss_node_data);
-static css_error get_libcss_node_data(void *pw, void *node,
-		void **libcss_node_data);
+		bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node is the root node of the document.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_is_root(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to count a node's siblings.
+ *
+ * \param pw         HTML document
+ * \param n          DOM node
+ * \param same_name  Only count siblings with the same name, or all
+ * \param after      Count anteceding instead of preceding siblings
+ * \param count      Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a count will contain the number of siblings
+ */
+css_error node_count_siblings(void *pw, void *node,
+		bool same_name, bool after, int32_t *count)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node is empty.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node is empty and false otherwise.
+ */
+css_error node_is_empty(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node is a linking element.
+ *
+ * \param pw     HTML document
+ * \param n      DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_is_link(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node is currently being hovered over.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_is_hover(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node is currently activated.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_is_active(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has the input focus.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_is_focus(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node is enabled.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match with contain true if the node is enabled and false otherwise.
+ */
+css_error node_is_enabled(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node is disabled.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match with contain true if the node is disabled and false otherwise.
+ */
+css_error node_is_disabled(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node is checked.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match with contain true if the node is checked and false otherwise.
+ */
+css_error node_is_checked(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node is the target of the document URL.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match with contain true if the node matches and false otherwise.
+ */
+css_error node_is_target(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to determine if a node has the given language
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param lang   Language specifier to match
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
+css_error node_is_lang(void *pw, void *node,
+		lwc_string *lang, bool *match)
+{
+	return CSS_OK;
+}
+
+/**
+ * Callback to retrieve the User-Agent defaults for a CSS property.
+ *
+ * \param pw        HTML document
+ * \param property  Property to retrieve defaults for
+ * \param hint      Pointer to hint object to populate
+ * \return CSS_OK       on success,
+ *         CSS_INVALID  if the property should not have a user-agent default.
+ */
+css_error ua_default_for_property(void *pw, uint32_t property,
+		css_hint *hint)
+{
+	return CSS_OK;
+}
+
+css_error set_libcss_node_data(void *pw, void *node,
+		void *libcss_node_data)
+{
+	return CSS_OK;
+}
+
+css_error get_libcss_node_data(void *pw, void *node,
+		void **libcss_node_data)
+{
+	return CSS_OK;
+}
+
 
 css_error nscss_compute_font_size(void *pw, const css_hint *parent,
 		css_hint *size)
@@ -126,23 +600,56 @@ css_error resolve_url(void *pw,
     return CSS_OK;
 }
 
+/**
+ * Callback to find a named ancestor node.
+ *
+ * \param pw        HTML document
+ * \param node      DOM node
+ * \param qname     Node name to search for
+ * \param ancestor  Pointer to location to receive ancestor
+ * \return CSS_OK.
+ *
+ * \post \a ancestor will contain the result, or NULL if there is no match
+ */
 css_error named_ancestor_node(void *pw, void *node,
 		const css_qname *qname, void **ancestor)
 {
 	return CSS_OK;
 }
 
+/**
+ * Callback to determine if a node is a linking element whose target has been
+ * visited.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param match  Pointer to location to receive result
+ * \return CSS_OK.
+ *
+ * \post \a match will contain true if the node matches and false otherwise.
+ */
 css_error node_is_visited(void *pw, void *node, bool *match)
 {
 	return CSS_OK;
 }
 
+/**
+ * Callback to retrieve presentational hints for a node
+ *
+ * \param[in] pw HTML document
+ * \param[in] node DOM node
+ * \param[out] nhints number of hints retrieved
+ * \param[out] hints retrieved hints
+ * \return CSS_OK               on success,
+ *         CSS_PROPERTY_NOT_SET if there is no hint for the requested property,
+ *         CSS_NOMEM            on memory exhaustion.
+ */
 css_error node_presentational_hint( void *pw, void *node, uint32_t *nhints, css_hint **hints)
 {
 	return CSS_OK;
 }
 
-static css_select_handler selection_handler = {
+css_select_handler selection_handler = {
 	CSS_SELECT_HANDLER_VERSION_1,
 
 	node_name,
