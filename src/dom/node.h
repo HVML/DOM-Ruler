@@ -69,8 +69,8 @@ typedef enum {
 
 typedef struct DomNode_ {
     struct DomNode_ *parent;  /**< Parent node */
-    struct DomNode_ *first_child; /**< First child node */
-    struct DomNode_ *last_child;  /**< Last child node */
+    struct DomNode_ *firstChild; /**< First child node */
+    struct DomNode_ *lastChild;  /**< Last child node */
     struct DomNode_ *previous;    /**< Previous sibling */
     struct DomNode_ *next;        /**< Next sibling */
 
@@ -92,7 +92,7 @@ typedef struct DomNode_ {
 DomNode* createDomNode(char* name, char* value, DomNodeType domType, 
         char *id, char **classes, int classesCount, char *inlineStyle, char *runnerType);
 int attachDomNode(DomNode *node, DomNode *parent, DomNode *previous, DomNode *next);
-int attachDomNoderange(DomNode *first, DomNode *last, DomNode *parent, DomNode *previous, DomNode *next);
+int attachDomNodeRange(DomNode *first, DomNode *last, DomNode *parent, DomNode *previous, DomNode *next);
 void destroyDomNode(DomNode *node);
 
 #endif // _NODE_H_

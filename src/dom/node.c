@@ -106,3 +106,27 @@ DomNode* createDomNode(char* name, char* value, DomNodeType domType,
     return result;
 }
 
+int attachDomNode(DomNode *node, DomNode *parent, DomNode *previous, DomNode *next)
+{
+    return attachDomNodeRange(node, node, parent, previous, next);
+}
+
+int attachDomNodeRange(DomNode *first, DomNode *last, DomNode *parent, DomNode *previous, DomNode *next)
+{
+    DomNode *n;
+
+    first->previous = previous;
+    last->next = next;
+
+    if (previous != NULL)
+        previous->next = first;
+    else
+        parent->firstChild = first;
+
+    if (next != NULL)
+        next->previous = last;
+    else
+        parent->lastChild = last;
+
+    return 0;
+}
