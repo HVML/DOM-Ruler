@@ -47,10 +47,12 @@ project(hilayout)
 
 list(APPEND hilayout_INCLUDE_DIRECTORIES
     dom
+    select
 )
 
 list(APPEND hilayout_SOURCES
     dom/node.c
+    select/select.c
 )
 
 include_directories(${hilayout_INCLUDE_DIRECTORIES})
