@@ -130,3 +130,36 @@ int attachDomNodeRange(DomNode *first, DomNode *last, DomNode *parent, DomNode *
 
     return 0;
 }
+
+
+void destroyDomNode(DomNode *node)
+{
+    if (node == NULL)
+        return;
+
+    if (node->name != NULL)
+        free(node->name);
+
+    if (node->value != NULL)
+        free(node->value);
+
+    if (node->id != NULL)
+        free(node->id);
+
+    if (node->classesCount > 0 && node->classes)
+    {
+        for (int i = 0; i < node->classesCount; i++)
+        {
+            free(node->classes[i]);
+        }
+        free(node->classes);
+    }
+
+    if (node->inlineStyle != NULL)
+        free(node->inlineStyle);
+
+    if (node->runnerType != NULL)
+        free(node->runnerType);
+
+    free(node);
+}
