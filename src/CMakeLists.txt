@@ -56,5 +56,6 @@ list(APPEND hilayout_SOURCES
 )
 
 include_directories(${hilayout_INCLUDE_DIRECTORIES})
+link_directories(${HICSS_LIBRARY_DIRS})
 add_library(hilayout SHARED ${hilayout_SOURCES})
-
+target_link_libraries(hilayout ${HICSS_LIBRARIES})

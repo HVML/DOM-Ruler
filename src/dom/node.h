@@ -49,6 +49,10 @@
 #ifndef _NODE_H_
 #define _NODE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef enum {
     DOM_ELEMENT_NODE        = 1,
     DOM_ATTRIBUTE_NODE      = 2,
@@ -94,5 +98,9 @@ DomNode* createDomNode(char* name, char* value, DomNodeType domType,
 int attachDomNode(DomNode *node, DomNode *parent, DomNode *previous, DomNode *next);
 int attachDomNodeRange(DomNode *first, DomNode *last, DomNode *parent, DomNode *previous, DomNode *next);
 void destroyDomNode(DomNode *node);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // _NODE_H_
