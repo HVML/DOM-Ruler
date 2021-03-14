@@ -46,3 +46,65 @@
  */
 
 #include "select.h"
+#include <stdio.h>
+
+#define UNUSED(x) ((x) = (x))
+
+css_stylesheet *create_css_style(const uint8_t *data, size_t len,
+		const char *charset, const char *url, bool allow_quirks)
+{
+	css_stylesheet_params params;
+	css_stylesheet *sheet;
+	css_error error;
+
+	params.params_version = CSS_STYLESHEET_PARAMS_VERSION_1;
+	params.level = CSS_LEVEL_DEFAULT;
+	params.charset = charset;
+	params.url = url;
+	params.title = NULL;
+	params.allow_quirks = allow_quirks;
+	params.inline_style = true;
+	params.resolve = resolve_url;
+	params.resolve_pw = NULL;
+	params.import = NULL;
+	params.import_pw = NULL;
+	params.color = NULL;
+	params.color_pw = NULL;
+	params.font = NULL;
+	params.font_pw = NULL;
+
+	error = css_stylesheet_create(&params, &sheet);
+	if (error != CSS_OK) {
+		fprintf(stderr, "Failed creating sheet: %d", error);
+		return NULL;
+	}
+
+	error = css_stylesheet_append_data(sheet, data, len);
+	if (error != CSS_OK && error != CSS_NEEDDATA) {
+		fprintf(stderr, "failed appending data: %d", error);
+		css_stylesheet_destroy(sheet);
+		return NULL;
+	}
+
+	error = css_stylesheet_data_done(sheet);
+	if (error != CSS_OK) {
+		fprintf(stderr, "failed completing parse: %d", error);
+		css_stylesheet_destroy(sheet);
+		return NULL;
+	}
+
+	return sheet;
+}
+
+
+css_error resolve_url(void *pw,
+        const char *base, lwc_string *rel, lwc_string **abs)
+{
+    UNUSED(pw);
+    UNUSED(base);
+
+    /* About as useless as possible */
+    *abs = lwc_string_ref(rel);
+
+    return CSS_OK;
+}

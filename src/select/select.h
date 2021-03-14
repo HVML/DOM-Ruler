@@ -49,11 +49,17 @@
 #ifndef _SELECT_H_
 #define _SELECT_H_
 
+#include <libcss/libcss.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+css_stylesheet *create_css_style(const uint8_t *data, size_t len,
+		const char *charset, const char *url, bool allow_quirks);
 
+static css_error resolve_url(void *pw,
+        const char *base, lwc_string *rel, lwc_string **abs);
 #ifdef __cplusplus
 }
 #endif
