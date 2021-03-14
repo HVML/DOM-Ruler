@@ -43,5 +43,16 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-add_subdirectory(src)
-#add_subdirectory(test)
+project(hilayout)
+
+list(APPEND hilayout_INCLUDE_DIRECTORIES
+    dom
+)
+
+list(APPEND hilayout_SOURCES
+    dom/node.c
+)
+
+include_directories(${hilayout_INCLUDE_DIRECTORIES})
+add_library(hilayout SHARED ${hilayout_SOURCES})
+
