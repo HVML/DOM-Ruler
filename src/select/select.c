@@ -49,8 +49,142 @@
 #include <stdio.h>
 
 #define UNUSED(x) ((x) = (x))
+static css_error node_name(void *pw, void *node, css_qname *qname);
+static css_error node_classes(void *pw, void *node,
+		lwc_string ***classes, uint32_t *n_classes);
+static css_error node_id(void *pw, void *node, lwc_string **id);
+static css_error named_parent_node(void *pw, void *node,
+		const css_qname *qname, void **parent);
+static css_error named_sibling_node(void *pw, void *node,
+		const css_qname *qname, void **sibling);
+static css_error named_generic_sibling_node(void *pw, void *node,
+		const css_qname *qname, void **sibling);
+static css_error parent_node(void *pw, void *node, void **parent);
+static css_error sibling_node(void *pw, void *node, void **sibling);
+static css_error node_has_name(void *pw, void *node,
+		const css_qname *qname, bool *match);
+static css_error node_has_class(void *pw, void *node,
+		lwc_string *name, bool *match);
+static css_error node_has_id(void *pw, void *node,
+		lwc_string *name, bool *match);
+static css_error node_has_attribute(void *pw, void *node,
+		const css_qname *qname, bool *match);
+static css_error node_has_attribute_equal(void *pw, void *node,
+		const css_qname *qname, lwc_string *value,
+		bool *match);
+static css_error node_has_attribute_dashmatch(void *pw, void *node,
+		const css_qname *qname, lwc_string *value,
+		bool *match);
+static css_error node_has_attribute_includes(void *pw, void *node,
+		const css_qname *qname, lwc_string *value,
+		bool *match);
+static css_error node_has_attribute_prefix(void *pw, void *node,
+		const css_qname *qname, lwc_string *value,
+		bool *match);
+static css_error node_has_attribute_suffix(void *pw, void *node,
+		const css_qname *qname, lwc_string *value,
+		bool *match);
+static css_error node_has_attribute_substring(void *pw, void *node,
+		const css_qname *qname, lwc_string *value,
+		bool *match);
+static css_error node_is_root(void *pw, void *node, bool *match);
+static css_error node_count_siblings(void *pw, void *node,
+		bool same_name, bool after, int32_t *count);
+static css_error node_is_empty(void *pw, void *node, bool *match);
+static css_error node_is_link(void *pw, void *node, bool *match);
+static css_error node_is_hover(void *pw, void *node, bool *match);
+static css_error node_is_active(void *pw, void *node, bool *match);
+static css_error node_is_focus(void *pw, void *node, bool *match);
+static css_error node_is_enabled(void *pw, void *node, bool *match);
+static css_error node_is_disabled(void *pw, void *node, bool *match);
+static css_error node_is_checked(void *pw, void *node, bool *match);
+static css_error node_is_target(void *pw, void *node, bool *match);
+static css_error node_is_lang(void *pw, void *node,
+		lwc_string *lang, bool *match);
+static css_error ua_default_for_property(void *pw, uint32_t property,
+		css_hint *hint);
+static css_error set_libcss_node_data(void *pw, void *node,
+		void *libcss_node_data);
+static css_error get_libcss_node_data(void *pw, void *node,
+		void **libcss_node_data);
 
-css_stylesheet *create_css_style(const uint8_t *data, size_t len,
+css_error nscss_compute_font_size(void *pw, const css_hint *parent,
+		css_hint *size)
+{
+    return CSS_OK;
+}
+
+css_error resolve_url(void *pw,
+        const char *base, lwc_string *rel, lwc_string **abs)
+{
+    UNUSED(pw);
+    UNUSED(base);
+
+    /* About as useless as possible */
+    *abs = lwc_string_ref(rel);
+
+    return CSS_OK;
+}
+
+css_error named_ancestor_node(void *pw, void *node,
+		const css_qname *qname, void **ancestor)
+{
+	return CSS_OK;
+}
+
+css_error node_is_visited(void *pw, void *node, bool *match)
+{
+	return CSS_OK;
+}
+
+css_error node_presentational_hint( void *pw, void *node, uint32_t *nhints, css_hint **hints)
+{
+	return CSS_OK;
+}
+
+static css_select_handler selection_handler = {
+	CSS_SELECT_HANDLER_VERSION_1,
+
+	node_name,
+	node_classes,
+	node_id,
+	named_ancestor_node,
+	named_parent_node,
+	named_sibling_node,
+	named_generic_sibling_node,
+	parent_node,
+	sibling_node,
+	node_has_name,
+	node_has_class,
+	node_has_id,
+	node_has_attribute,
+	node_has_attribute_equal,
+	node_has_attribute_dashmatch,
+	node_has_attribute_includes,
+	node_has_attribute_prefix,
+	node_has_attribute_suffix,
+	node_has_attribute_substring,
+	node_is_root,
+	node_count_siblings,
+	node_is_empty,
+	node_is_link,
+	node_is_visited,
+	node_is_hover,
+	node_is_active,
+	node_is_focus,
+	node_is_enabled,
+	node_is_disabled,
+	node_is_checked,
+	node_is_target,
+	node_is_lang,
+	node_presentational_hint,
+	ua_default_for_property,
+	nscss_compute_font_size,
+	set_libcss_node_data,
+	get_libcss_node_data
+};
+
+css_stylesheet *createStylesheet(const uint8_t *data, size_t len,
 		const char *charset, const char *url, bool allow_quirks)
 {
 	css_stylesheet_params params;
@@ -97,14 +231,78 @@ css_stylesheet *create_css_style(const uint8_t *data, size_t len,
 }
 
 
-css_error resolve_url(void *pw,
-        const char *base, lwc_string *rel, lwc_string **abs)
+int destroyStylesheet(css_stylesheet *style)
 {
-    UNUSED(pw);
-    UNUSED(base);
-
-    /* About as useless as possible */
-    *abs = lwc_string_ref(rel);
-
-    return CSS_OK;
+    return css_stylesheet_destroy(style);
 }
+
+css_select_results *selectStyle(const css_stylesheet *styleSheet, DomNode *n,
+		const css_media *media, const css_stylesheet *inlineStyleSheet)
+{
+	css_computed_style *composed;
+	css_select_results *styles;
+	int pseudo_element;
+	css_error error;
+    css_error code;
+    css_select_ctx *select_ctx;
+    uint32_t count;
+
+    code = css_select_ctx_create(&select_ctx);
+    if (code != CSS_OK)
+        fprintf(stderr, "css_select_ctx_create failed! code=%d", code);
+
+    code = css_select_ctx_append_sheet(select_ctx, styleSheet, CSS_ORIGIN_AUTHOR, NULL);
+    if (code != CSS_OK)
+        fprintf(stderr, "css_select_ctx_append_sheet failed! code=%d", code);
+
+    code = css_select_ctx_count_sheets(select_ctx, &count);
+    if (code != CSS_OK)
+        fprintf(stderr, "css_select_ctx_count_sheets failed! code=%d", code);
+
+    printf("created selection context with %i sheets\n", count);
+
+	/* Select style for node */
+	error = css_select_style(select_ctx, n, media, inlineStyleSheet,
+			&selection_handler, NULL, &styles);
+
+	if (error != CSS_OK || styles == NULL) {
+		/* Failed selecting partial style -- bail out */
+		return NULL;
+	}
+
+	for (pseudo_element = CSS_PSEUDO_ELEMENT_NONE + 1;
+			pseudo_element < CSS_PSEUDO_ELEMENT_COUNT;
+			pseudo_element++) {
+
+		if (pseudo_element == CSS_PSEUDO_ELEMENT_FIRST_LETTER ||
+				pseudo_element == CSS_PSEUDO_ELEMENT_FIRST_LINE)
+			/* TODO: Handle first-line and first-letter pseudo
+			 *       element computed style completion */
+			continue;
+
+		if (styles->styles[pseudo_element] == NULL)
+			/* There were no rules concerning this pseudo element */
+			continue;
+
+		/* Complete the pseudo element's computed style, by composing
+		 * with the base element's style */
+		error = css_computed_style_compose(
+				styles->styles[CSS_PSEUDO_ELEMENT_NONE],
+				styles->styles[pseudo_element],
+				nscss_compute_font_size, NULL,
+				&composed);
+		if (error != CSS_OK) {
+			/* TODO: perhaps this shouldn't be quite so
+			 * catastrophic? */
+			css_select_results_destroy(styles);
+			return NULL;
+		}
+
+		/* Replace select_results style with composed style */
+		css_computed_style_destroy(styles->styles[pseudo_element]);
+		styles->styles[pseudo_element] = composed;
+	}
+
+	return styles;
+}
+

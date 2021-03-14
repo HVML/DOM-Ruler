@@ -51,15 +51,20 @@
 
 #include <libcss/libcss.h>
 
+#include "node.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-css_stylesheet *create_css_style(const uint8_t *data, size_t len,
+css_stylesheet *createStylesheet(const uint8_t *data, size_t len,
 		const char *charset, const char *url, bool allow_quirks);
 
-static css_error resolve_url(void *pw,
-        const char *base, lwc_string *rel, lwc_string **abs);
+int destroyStylesheet(css_stylesheet *style);
+
+css_select_results *selectStyle(const css_stylesheet *style, DomNode *n,
+		const css_media *media, const css_stylesheet *inline_style);
+
 #ifdef __cplusplus
 }
 #endif
