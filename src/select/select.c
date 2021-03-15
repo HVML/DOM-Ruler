@@ -277,6 +277,15 @@ css_error named_generic_sibling_node(void *pw, void *node, const css_qname *qnam
  */
 css_error parent_node(void *pw, void *node, void **parent)
 {
+    DomNode *n = node;
+    *parent = NULL;
+    for (n = n->parent; n != NULL; n = n->parent) {
+        if (n->domType != DOM_ELEMENT_NODE)
+            continue;
+
+        *parent = n;
+        break;
+    }
     return CSS_OK;
 }
 
@@ -292,7 +301,29 @@ css_error parent_node(void *pw, void *node, void **parent)
  */
 css_error sibling_node(void *pw, void *node, void **sibling)
 {
-    return CSS_OK;
+	DomNode *n = node;
+	DomNode *prev;
+	int err;
+
+	*sibling = NULL;
+
+	/* Find sibling element */
+	dom_node_get_previous_sibling(n, &n);
+
+	while (n != NULL) {
+		DomNodeType type = n->domType;
+		if (type == DOM_ELEMENT_NODE)
+			break;
+
+		dom_node_get_previous_sibling(n, &prev);
+		n = prev;
+	}
+
+	if (n != NULL) {
+		*sibling = n;
+	}
+
+	return CSS_OK;
 }
 
 /**
@@ -308,7 +339,9 @@ css_error sibling_node(void *pw, void *node, void **sibling)
  */
 css_error node_has_name(void *pw, void *node, const css_qname *qname, bool *match)
 {
-    return CSS_OK;
+	DomNode *n = node;
+    lwc_string_caseless_isequal(n->lwcName, qname->name, match);
+	return CSS_OK;
 }
 
 /**
@@ -324,6 +357,23 @@ css_error node_has_name(void *pw, void *node, const css_qname *qname, bool *matc
  */
 css_error node_has_class(void *pw, void *node, lwc_string *name, bool *match)
 {
+	unsigned int class;
+    DomNode *n = node;
+	
+	/* Short-circuit case where we have no classes */
+	if (n->classesCount == 0) {
+		*match = false;
+        return CSS_OK;
+	}
+
+    /* Standards mode: case sensitively match */
+    for (class = 0; class < n->classesCount; class++) {
+        if (lwc_error_ok == lwc_string_caseless_isequal(name,
+                    n->lwcClasses[class], match) &&
+                *match == true)
+            return CSS_OK;
+    }
+
     return CSS_OK;
 }
 
@@ -340,6 +390,8 @@ css_error node_has_class(void *pw, void *node, lwc_string *name, bool *match)
  */
 css_error node_has_id(void *pw, void *node, lwc_string *name, bool *match)
 {
+	DomNode *n = node;
+    lwc_string_caseless_isequal(n->lwcId, name, match);
     return CSS_OK;
 }
 
@@ -357,6 +409,7 @@ css_error node_has_id(void *pw, void *node, lwc_string *name, bool *match)
  */
 css_error node_has_attribute(void *pw, void *node, const css_qname *qname, bool *match)
 {
+    *match = false;
     return CSS_OK;
 }
 
@@ -377,6 +430,7 @@ css_error node_has_attribute_equal(void *pw, void *node,
         const css_qname *qname, lwc_string *value,
         bool *match)
 {
+    *match = false;
     return CSS_OK;
 }
 
@@ -398,6 +452,7 @@ css_error node_has_attribute_dashmatch(void *pw, void *node,
         const css_qname *qname, lwc_string *value,
         bool *match)
 {
+    *match = false;
     return CSS_OK;
 }
 
@@ -419,6 +474,7 @@ css_error node_has_attribute_includes(void *pw, void *node,
         const css_qname *qname, lwc_string *value,
         bool *match)
 {
+    *match = false;
     return CSS_OK;
 }
 
@@ -440,6 +496,7 @@ css_error node_has_attribute_prefix(void *pw, void *node,
         const css_qname *qname, lwc_string *value,
         bool *match)
 {
+    *match = false;
     return CSS_OK;
 }
 
@@ -461,6 +518,7 @@ css_error node_has_attribute_suffix(void *pw, void *node,
         const css_qname *qname, lwc_string *value,
         bool *match)
 {
+    *match = false;
     return CSS_OK;
 }
 
@@ -482,6 +540,7 @@ css_error node_has_attribute_substring(void *pw, void *node,
         const css_qname *qname, lwc_string *value,
         bool *match)
 {
+    *match = false;
     return CSS_OK;
 }
 
@@ -497,7 +556,59 @@ css_error node_has_attribute_substring(void *pw, void *node,
  */
 css_error node_is_root(void *pw, void *node, bool *match)
 {
+    DomNode *n = node;
+    if (n->parent == NULL)
+        *match = true;
+    else
+        *match = false;
     return CSS_OK;
+}
+
+int dom_node_get_next_sibling(DomNode *node,
+        DomNode **result)
+{
+    /* Attr nodes have no next siblings */
+    if (node->domType == DOM_ATTRIBUTE_NODE) {
+        *result = NULL;
+        return CSS_OK;
+    }
+
+    *result = node->next;
+    return CSS_OK;
+}
+
+static int
+node_count_siblings_check(DomNode *node,
+			  bool check_name,
+			  lwc_string *name)
+{
+	DomNodeType type;
+	int ret = 0;
+	int exc;
+
+	if (node == NULL)
+		return 0;
+
+	type = node->domType;
+	if (type != DOM_ELEMENT_NODE) {
+		return 0;
+	}
+
+	if (check_name) {
+		lwc_string *node_name = node->lwcName;
+
+		if (node_name != NULL) {
+
+            bool match = false;
+            if (lwc_string_caseless_isequal(node_name, name,
+                    &match) == lwc_error_ok && match) {
+				ret = 1;
+			}
+		}
+	} else {
+		ret = 1;
+	}
+	return ret;
 }
 
 /**
@@ -512,10 +623,43 @@ css_error node_is_root(void *pw, void *node, bool *match)
  *
  * \post \a count will contain the number of siblings
  */
-css_error node_count_siblings(void *pw, void *node,
+css_error node_count_siblings(void *pw, void *n,
         bool same_name, bool after, int32_t *count)
 {
-    return CSS_OK;
+	int32_t cnt = 0;
+	int exc;
+	lwc_string *node_name = NULL;
+
+	if (same_name) {
+		DomNode *node = n;
+        node_name = node->lwcName;
+		if (node_name == NULL) {
+			return CSS_NOMEM;
+		}
+	}
+
+	if (after) {
+		DomNode *node = n;
+		DomNode *next;
+
+		do {
+			dom_node_get_next_sibling(node, &next);
+			node = next;
+			cnt += node_count_siblings_check(node, same_name, node_name);
+		} while (node != NULL);
+	} else {
+		DomNode *node = n;
+		DomNode *next;
+
+		do {
+			dom_node_get_previous_sibling(node, &next);
+			node = next;
+			cnt += node_count_siblings_check(node, same_name, node_name);
+		} while (node != NULL);
+	}
+
+	*count = cnt;
+	return CSS_OK;
 }
 
 /**
