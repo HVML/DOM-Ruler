@@ -61,9 +61,15 @@ DomNode* createDomNode(char* name, char* value, DomNodeType domType,
     }
 
     if (name != NULL)
+    {
         result->name = strdup(name);
+        lwc_intern_string(result->name, strlen(result->name), &result->lwcName);
+    }
     else
+    {
         result->name = NULL;
+        result->lwcName = NULL;
+    }
 
     if (value != NULL)
         result->value = strdup(value);
@@ -139,6 +145,10 @@ void destroyDomNode(DomNode *node)
 
     if (node->name != NULL)
         free(node->name);
+
+    if (node->lwcName != NULL)
+        lwc_string_destroy(node->lwcName);
+
 
     if (node->value != NULL)
         free(node->value);

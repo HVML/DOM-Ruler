@@ -65,6 +65,13 @@
  */
 css_error node_name(void *pw, void *node, css_qname *qname)
 {
+    DomNode *n = node;
+
+    if (n->name == NULL)
+        return CSS_NOMEM;
+
+    qname->name = lwc_string_ref(n->lwcName);
+
     return CSS_OK;
 }
 

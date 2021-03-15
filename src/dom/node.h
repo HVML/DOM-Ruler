@@ -49,6 +49,8 @@
 #ifndef _NODE_H_
 #define _NODE_H_
 
+#include <libcss/libcss.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -81,6 +83,8 @@ typedef struct DomNode_ {
     void *attach;
 
     char *name;
+    lwc_string *lwcName;
+
     char *value;
     DomNodeType domType;
 
