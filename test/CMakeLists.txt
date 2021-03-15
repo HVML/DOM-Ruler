@@ -12,7 +12,7 @@ list(APPEND css_select_test_SOURCES
     ${CMAKE_SOURCE_DIR}/test/css_select.c
 )
 
-include_directories(${css_select_test_INCLUDE_DIRECTORIES})
+include_directories(${css_select_test_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})
 link_directories(${HICSS_LIBRARY_DIRS})
 add_executable(css_select_test ${css_select_test_SOURCES})
 target_link_libraries(css_select_test hilayout)
