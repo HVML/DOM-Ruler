@@ -58,12 +58,12 @@ extern "C" {
 #endif
 
 css_stylesheet *createStylesheet(const uint8_t *data, size_t len,
-		const char *charset, const char *url, bool allow_quirks);
+		const char *charset, const char *url, bool allow_quirks, bool inline_style);
 
 int destroyStylesheet(css_stylesheet *style);
 
-css_select_results *selectStyle(const css_stylesheet *style, DomNode *n,
-		const css_media *media, const css_stylesheet *inline_style);
+css_select_results *selectStyle(const css_stylesheet *style, void *node,
+		const css_media *media, const css_stylesheet *inline_style, css_select_handler *handler);
 
 #ifdef __cplusplus
 }

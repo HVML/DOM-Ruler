@@ -1064,7 +1064,7 @@ css_select_handler selection_handler = {
 };
 
 css_stylesheet *createStylesheet(const uint8_t *data, size_t len,
-        const char *charset, const char *url, bool allow_quirks)
+        const char *charset, const char *url, bool allow_quirks, bool inline_style)
 {
     css_stylesheet_params params;
     css_stylesheet *sheet;
@@ -1076,7 +1076,7 @@ css_stylesheet *createStylesheet(const uint8_t *data, size_t len,
     params.url = url;
     params.title = NULL;
     params.allow_quirks = allow_quirks;
-    params.inline_style = true;
+    params.inline_style = inline_style;
     params.resolve = resolve_url;
     params.resolve_pw = NULL;
     params.import = NULL;
@@ -1088,23 +1088,30 @@ css_stylesheet *createStylesheet(const uint8_t *data, size_t len,
 
     error = css_stylesheet_create(&params, &sheet);
     if (error != CSS_OK) {
-        fprintf(stderr, "Failed creating sheet: %d", error);
+        fprintf(stderr, "Failed creating sheet: %d\n", error);
         return NULL;
     }
 
     error = css_stylesheet_append_data(sheet, data, len);
     if (error != CSS_OK && error != CSS_NEEDDATA) {
-        fprintf(stderr, "failed appending data: %d", error);
+        fprintf(stderr, "failed appending data: %d\n", error);
         css_stylesheet_destroy(sheet);
         return NULL;
     }
 
     error = css_stylesheet_data_done(sheet);
     if (error != CSS_OK) {
-        fprintf(stderr, "failed completing parse: %d", error);
+        fprintf(stderr, "failed completing parse: %d\n", error);
         css_stylesheet_destroy(sheet);
         return NULL;
     }
+
+    size_t size = 0;
+    error = css_stylesheet_size(sheet, &size);
+    if (error != CSS_OK)
+        fprintf(stderr, "css_stylesheet_size %d\n", error);
+
+    fprintf(stderr, "appended data, size now %zu\n", size);
 
     return sheet;
 }
@@ -1115,8 +1122,8 @@ int destroyStylesheet(css_stylesheet *style)
     return css_stylesheet_destroy(style);
 }
 
-css_select_results *selectStyle(const css_stylesheet *styleSheet, DomNode *n,
-        const css_media *media, const css_stylesheet *inlineStyleSheet)
+css_select_results *selectStyle(const css_stylesheet *styleSheet, void *n,
+        const css_media *media, const css_stylesheet *inlineStyleSheet, css_select_handler *handler)
 {
     css_computed_style *composed;
     css_select_results *styles;
@@ -1128,21 +1135,30 @@ css_select_results *selectStyle(const css_stylesheet *styleSheet, DomNode *n,
 
     code = css_select_ctx_create(&select_ctx);
     if (code != CSS_OK)
-        fprintf(stderr, "css_select_ctx_create failed! code=%d", code);
+    {
+        fprintf(stderr, "css_select_ctx_create failed! code=%d\n", code);
+        return NULL;
+    }
 
     code = css_select_ctx_append_sheet(select_ctx, styleSheet, CSS_ORIGIN_AUTHOR, NULL);
     if (code != CSS_OK)
-        fprintf(stderr, "css_select_ctx_append_sheet failed! code=%d", code);
+    {
+        fprintf(stderr, "css_select_ctx_append_sheet failed! code=%d\n", code);
+        return NULL;
+    }
 
     code = css_select_ctx_count_sheets(select_ctx, &count);
     if (code != CSS_OK)
-        fprintf(stderr, "css_select_ctx_count_sheets failed! code=%d", code);
+    {
+        fprintf(stderr, "css_select_ctx_count_sheets failed! code=%d\n", code);
+        return NULL;
+    }
 
-    printf("created selection context with %i sheets\n", count);
+    fprintf(stderr, "created selection context with %i sheets\n", count);
 
     /* Select style for node */
     error = css_select_style(select_ctx, n, media, inlineStyleSheet,
-            &selection_handler, NULL, &styles);
+            handler ? handler : &selection_handler, NULL, &styles);
 
     if (error != CSS_OK || styles == NULL) {
         /* Failed selecting partial style -- bail out */
