@@ -1201,3 +1201,8 @@ css_select_results *selectStyle(const css_stylesheet *styleSheet, void *n,
     return styles;
 }
 
+int destroySelectResult(css_select_results *result)
+{
+    if (result)
+        return css_select_results_destroy(result);
+}

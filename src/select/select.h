@@ -65,6 +65,7 @@ int destroyStylesheet(css_stylesheet *style);
 css_select_results *selectStyle(const css_stylesheet *style, void *node,
 		const css_media *media, const css_stylesheet *inline_style, css_select_handler *handler);
 
+int destroySelectResult(css_select_results *result);
 #ifdef __cplusplus
 }
 #endif

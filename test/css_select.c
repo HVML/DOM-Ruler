@@ -223,9 +223,12 @@ int main(int argc, char **argv)
 		else
 			printf("color of h%i is %x\n", hh, color_shade);
 
+        destroySelectResult(style);
+#if 0
 		code = css_select_results_destroy(style);
 		if (code != CSS_OK)
 			die("css_computed_style_destroy", code);
+#endif
 	}
 
 
