@@ -236,7 +236,33 @@ css_error named_sibling_node(void *pw, void *node, const css_qname *qname, void 
  */
 css_error named_generic_sibling_node(void *pw, void *node, const css_qname *qname, void **sibling)
 {
-    return CSS_OK;
+	DomNode *n = node;
+	DomNode *prev;
+	int err;
+
+	*sibling = NULL;
+
+	dom_node_get_previous_sibling(n, &n);
+
+	while (n != NULL) {
+		DomNodeType type = n->domType;
+		lwc_string *name;
+
+		if (type == DOM_ELEMENT_NODE) {
+            bool match = false;
+            if (lwc_string_caseless_isequal(n->lwcName, qname->name,
+                        &match) == lwc_error_ok && match)
+            {
+                *sibling = n;
+                break;
+            }
+		}
+
+		dom_node_get_previous_sibling(n, &prev);
+		n = prev;
+	}
+
+	return CSS_OK;
 }
 
 /**
