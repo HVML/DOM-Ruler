@@ -118,6 +118,7 @@ DomNode* createDomNode(char* name, char* value, DomNodeType domType,
     else
         result->runnerType = NULL;
 
+    result->attach = NULL;
     return result;
 }
 

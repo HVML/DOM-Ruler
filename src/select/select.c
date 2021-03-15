@@ -861,12 +861,16 @@ css_error ua_default_for_property(void *pw, uint32_t property,
 css_error set_libcss_node_data(void *pw, void *node,
         void *libcss_node_data)
 {
+    DomNode *n = node;
+    n->attach = libcss_node_data;
     return CSS_OK;
 }
 
 css_error get_libcss_node_data(void *pw, void *node,
         void **libcss_node_data)
 {
+    DomNode* n = node;
+    *libcss_node_data = n->attach;
     return CSS_OK;
 }
 

@@ -99,6 +99,7 @@ typedef struct DomNode_ {
     char *inlineStyle;
 
     char *runnerType;
+
 } DomNode;
 
 
