@@ -89,8 +89,13 @@ typedef struct DomNode_ {
     DomNodeType domType;
 
     char *id;
+    lwc_string *lwcId;
+
     char **classes;
+    lwc_string **lwcClasses;
+
     int classesCount;
+
     char *inlineStyle;
 
     char *runnerType;

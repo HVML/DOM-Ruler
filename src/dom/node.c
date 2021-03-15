@@ -79,16 +79,24 @@ DomNode* createDomNode(char* name, char* value, DomNodeType domType,
     result->domType = domType;
 
     if (id != NULL)
+    {
         result->id = strdup(id);
+        lwc_intern_string(result->id, strlen(result->id), &result->lwcId);
+    }
     else
+    {
         result->id = NULL;
+        result->lwcId = NULL;
+    }
 
     if (classesCount > 0 && classes != NULL)
     {
         char** resultClasses = (char**) malloc(sizeof(char*)*classesCount);
+        result->lwcClasses = malloc(sizeof(lwc_string *) * classesCount);
         for (int i = 0; i < classesCount; i++)
         {
             resultClasses[i] = strdup(classes[i]);
+            lwc_intern_string(resultClasses[i], strlen(resultClasses[i]), &result->lwcClasses[i]);
         }
         result->classes = resultClasses;
         result->classesCount = classesCount;
@@ -96,6 +104,7 @@ DomNode* createDomNode(char* name, char* value, DomNodeType domType,
     else
     {
         result->classes = NULL;
+        result->lwcClasses = NULL;
         result->classesCount = 0;
     }
 
@@ -144,25 +153,29 @@ void destroyDomNode(DomNode *node)
         return;
 
     if (node->name != NULL)
+    {
         free(node->name);
-
-    if (node->lwcName != NULL)
         lwc_string_destroy(node->lwcName);
-
+    }
 
     if (node->value != NULL)
         free(node->value);
 
     if (node->id != NULL)
+    {
         free(node->id);
+        lwc_string_destroy(node->lwcId);
+    }
 
     if (node->classesCount > 0 && node->classes)
     {
         for (int i = 0; i < node->classesCount; i++)
         {
             free(node->classes[i]);
+            lwc_string_destroy(node->lwcClasses[i]);
         }
         free(node->classes);
+        free(node->lwcClasses);
     }
 
     if (node->inlineStyle != NULL)

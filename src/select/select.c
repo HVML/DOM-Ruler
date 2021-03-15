@@ -91,6 +91,22 @@ css_error node_name(void *pw, void *node, css_qname *qname)
  */
 css_error node_classes(void *pw, void *node, lwc_string ***classes, uint32_t *n_classes)
 {
+    DomNode *n = node;
+
+    if (n->classesCount > 0)
+    {
+        uint32_t classnr;
+
+        *classes = n->lwcClasses;
+        *n_classes = n->classesCount;
+
+        for (classnr = 0; classnr < n->classesCount; classnr++)
+            (void) lwc_string_ref((*classes)[classnr]);
+
+    } else {
+        *n_classes = 0;
+        *classes = NULL;
+    }
     return CSS_OK;
 }
 
@@ -105,6 +121,13 @@ css_error node_classes(void *pw, void *node, lwc_string ***classes, uint32_t *n_
  */
 css_error node_id(void *pw, void *node, lwc_string **id)
 {
+    DomNode *n = node;
+
+    if (n->id == NULL)
+        return CSS_NOMEM;
+
+    *id = lwc_string_ref(n->lwcId);
+
     return CSS_OK;
 }
 
@@ -119,8 +142,40 @@ css_error node_id(void *pw, void *node, lwc_string **id)
  *
  * \post \a parent will contain the result, or NULL if there is no match
  */
-css_error named_parent_node(void *pw, void *node, const css_qname *qname, void **parent)
+css_error named_parent_node(void *pw, void *n, const css_qname *qname, void **parent)
 {
+    DomNode* node = n;
+
+    *parent = NULL;
+
+    for (node = node->parent; node != NULL; node = node->parent) {
+        if (node->domType != DOM_ELEMENT_NODE)
+            continue;
+
+        assert(node->name != NULL);
+
+        bool match = false;
+        if (lwc_string_caseless_isequal(node->lwcName, qname->name,
+                    &match) == lwc_error_ok && match)
+        {
+            *parent = (DomNode *)node;
+        }
+        break;
+    }
+
+    return CSS_OK;
+}
+
+int dom_node_get_previous_sibling(DomNode *node,
+        DomNode **result)
+{
+    /* Attr nodes have no previous siblings */
+    if (node->domType == DOM_ATTRIBUTE_NODE) {
+        *result = NULL;
+        return CSS_OK;
+    }
+
+    *result = node->previous;
     return CSS_OK;
 }
 
@@ -137,7 +192,35 @@ css_error named_parent_node(void *pw, void *node, const css_qname *qname, void *
  */
 css_error named_sibling_node(void *pw, void *node, const css_qname *qname, void **sibling)
 {
-    return CSS_OK;
+	DomNode *n = node;
+	DomNode *prev;
+	int err;
+
+	*sibling = NULL;
+
+	/* Find sibling element */
+	dom_node_get_previous_sibling(n, &n);
+
+	while (n != NULL) {
+        DomNodeType type = n->domType;
+
+		if (type == DOM_ELEMENT_NODE)
+			break;
+
+		dom_node_get_previous_sibling(n, &prev);
+		n = prev;
+	}
+
+	if (n != NULL) {
+        bool match = false;
+        if (lwc_string_caseless_isequal(n->lwcName, qname->name,
+                    &match) == lwc_error_ok && match)
+        {
+			*sibling = n;
+        }
+	}
+
+	return CSS_OK;
 }
 
 /**
