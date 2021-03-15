@@ -27,3 +27,6 @@ hiacejs_run
 #log
 *.log
 log
+
+#test
+css_select_test
