@@ -68,10 +68,12 @@ css_error node_name(void *pw, void *node, css_qname *qname)
     DomNode *n = node;
 
     if (n->name == NULL)
+    {
+        qname->name = NULL;
         return CSS_NOMEM;
+    }
 
     qname->name = lwc_string_ref(n->lwcName);
-
     return CSS_OK;
 }
 
@@ -124,7 +126,10 @@ css_error node_id(void *pw, void *node, lwc_string **id)
     DomNode *n = node;
 
     if (n->id == NULL)
-        return CSS_NOMEM;
+    {
+        *id = NULL;
+        return CSS_OK;
+    }
 
     *id = lwc_string_ref(n->lwcId);
 

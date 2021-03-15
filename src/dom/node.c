@@ -120,6 +120,11 @@ DomNode* createDomNode(char* name, char* value, DomNodeType domType,
         result->runnerType = NULL;
 
     result->attach = NULL;
+    result->parent = NULL;
+    result->firstChild = NULL;
+    result->lastChild = NULL;
+    result->previous = NULL;
+    result->next = NULL;
     return result;
 }
 
