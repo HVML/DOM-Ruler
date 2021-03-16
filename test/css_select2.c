@@ -52,7 +52,23 @@
 #include <libcss/libcss.h>
 #include "node.h"
 #include "select.h"
+/*
+ 
+   <root>
+        <title>this is title</title>
+        <description>this is description</description>
+        <page>
+            <hijs></hijs>
+            <hijs></hijs>
+            <hiweb></hiweb>
+            <hiweb></hiweb>
+        </page>
+        <indicator>...</indicator>
+   </root>
 
+
+ */
+ 
 int main(int argc, char **argv)
 {
 	css_error code;
@@ -71,25 +87,37 @@ int main(int argc, char **argv)
 
     sheet = createStylesheet(data, strlen(data), "UTF-8", "css_select", true, false);
 
+
+    DomNode* root = createDomNode("root", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+    DomNode* title = createDomNode("title", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+    DomNode* description = createDomNode("description", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+    DomNode* page = createDomNode("page", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+    DomNode* indicator = createDomNode("indicator", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+
+    DomNode* hiweb = createDomNode("hiweb", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+    DomNode* hijs = createDomNode("hijs", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+
+    // node tree
+    attachDomNode(title, root, NULL, NULL);
+    attachDomNode(description, root, title, NULL);
+    attachDomNode(page, root, description, NULL);
+    attachDomNode(indicator, root, page, NULL);
+    attachDomNode(hiweb, page, NULL, NULL);
+    attachDomNode(hijs, page, hiweb, NULL);
+
     css_select_results *style;
     uint8_t color_type;
     css_color color_shade;
 
-    char nodeName[] = "hiweb";
-    DomNode* domNode = createDomNode(nodeName, NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
-    style = selectStyle(sheet, domNode, &media, NULL, NULL);
+    style = selectStyle(sheet, hiweb, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
-    printf("color of %s is %x\n", nodeName, color_shade);
+    printf("color of %s is %x\n", hiweb->name, color_shade);
     destroySelectResult(style);
-    destroyDomNode(domNode);
 
-    char nodeName2[] = "hijs";
-    domNode = createDomNode(nodeName2, NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
-    style = selectStyle(sheet, domNode, &media, NULL, NULL);
+    style = selectStyle(sheet, hijs, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
-    printf("color of %s is %x\n", nodeName, color_shade);
+    printf("color of %s is %x\n", hijs->name, color_shade);
     destroySelectResult(style);
-    destroyDomNode(domNode);
 
 
     destroyStylesheet(sheet);
