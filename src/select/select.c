@@ -1211,3 +1211,42 @@ int destroySelectResult(css_select_results *result)
     if (result)
         return css_select_results_destroy(result);
 }
+
+css_fixed css_screen_dpi = F_90;
+css_fixed css_baseline_pixel_density = F_96;
+static inline css_fixed css_pixels_css_to_physical(
+        css_fixed css_pixels)
+{
+    return FDIV(FMUL(css_pixels, css_screen_dpi),
+            css_baseline_pixel_density);
+}
+
+
+css_fixed css_len2px(
+		css_fixed length,
+		css_unit unit,
+		const css_computed_style *style)
+{
+	/* We assume the screen and any other output has the same dpi */
+	css_fixed px_per_unit;
+
+//	unit = css_utils__fudge_viewport_units(ctx, unit);
+
+	switch (unit) {
+	case CSS_UNIT_PX:
+		px_per_unit = F_1;
+		break;
+	default:
+		px_per_unit = 0;
+		break;
+	}
+
+	px_per_unit = css_pixels_css_to_physical(px_per_unit);
+
+	/* Ensure we round px_per_unit to the nearest whole number of pixels:
+	 * the use of FIXTOINT() below will truncate. */
+	px_per_unit += F_0_5;
+
+	/* Calculate total number of pixels */
+	return FMUL(length, TRUNCATEFIX(px_per_unit));
+}

@@ -66,6 +66,12 @@ css_select_results *selectStyle(const css_stylesheet *style, void *node,
 		const css_media *media, const css_stylesheet *inline_style, css_select_handler *handler);
 
 int destroySelectResult(css_select_results *result);
+
+css_fixed css_len2px(
+        css_fixed length,
+        css_unit unit,
+        const css_computed_style *style);
+
 #ifdef __cplusplus
 }
 #endif

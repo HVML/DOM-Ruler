@@ -69,14 +69,21 @@
 
  */
  
+#define FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
+
 int main(int argc, char **argv)
 {
 	css_error code;
 	css_stylesheet *sheet;
 	size_t size;
 	const char data[] = "h1 { color: red } "
-		"hiweb { color: #321; } "
-		"hijs { color: #123456; }";
+        "root { display: block; } "
+        "title { position: relative; width: 100%; height: 20%; color: #321; } "
+        "description { position: relative; width: 100%; height: 10%; color: #321; } "
+        "page { position: relative; width: 100%; height: 60%; color: #321; } "
+        "indicator { position: relative; width: 100%; height: 10%; color: #321; } "
+        "hiweb { position: relative; width: 100%; height: 25%; color: #321; } "
+        "hijs { position: relative; width: 100%; height: 50%; color: #123456; }";
 	css_select_ctx *select_ctx;
 	uint32_t count;
 	unsigned int hh;
@@ -108,16 +115,49 @@ int main(int argc, char **argv)
     css_select_results *style;
     uint8_t color_type;
     css_color color_shade;
+    css_unit unit = CSS_UNIT_PX;
+    css_fixed len = 0;
+    uint8_t val;
 
     style = selectStyle(sheet, hiweb, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
-    printf("color of %s is %x\n", hiweb->name, color_shade);
+    fprintf(stderr, "color of %s is %x\n", hiweb->name, color_shade);
+
+    val = css_computed_width(style->styles[CSS_PSEUDO_ELEMENT_NONE], &len, &unit);
+    fprintf(stderr, "%s css_fixed=%d|unit=%d\n", hiweb->name, len, unit);
+    switch (val) {
+    case CSS_WIDTH_INHERIT:
+        fprintf(stderr, "%s width: inherit\n", hiweb->name);
+        break;
+    case CSS_WIDTH_AUTO:
+        fprintf(stderr, "%s width: auto\n", hiweb->name);
+        break;
+    case CSS_WIDTH_SET:
+        {
+            int width = 0;
+            if (unit == CSS_UNIT_PCT)
+            {
+                width = FPCT_OF_INT_TOINT(len, 1080);
+            }
+            else
+            {
+                width = FIXTOINT(css_len2px(len, unit, style->styles[CSS_PSEUDO_ELEMENT_NONE]));
+            }
+
+            fprintf(stderr, "%s b width: %d |len=%d\n", hiweb->name, width, len);
+        }
+        break;
+    default:
+        break;
+    }
+
     destroySelectResult(style);
 
     style = selectStyle(sheet, hijs, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     printf("color of %s is %x\n", hijs->name, color_shade);
     destroySelectResult(style);
+
 
 
     destroyStylesheet(sheet);
