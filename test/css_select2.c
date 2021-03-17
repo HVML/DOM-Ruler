@@ -54,17 +54,17 @@
 #include "select.h"
 /*
  
-   <root>
-        <title>this is title</title>
-        <description>this is description</description>
-        <page>
+   <div id="root">
+        <div id="title">this is title</div>
+        <div id="description">this is description</div>
+        <div id="page">
             <hijs></hijs>
             <hijs></hijs>
             <hiweb></hiweb>
             <hiweb></hiweb>
-        </page>
-        <indicator>...</indicator>
-   </root>
+        </div>
+        <div id="indicator">...</div>
+   </div>
 
 
  */
@@ -77,13 +77,13 @@ int main(int argc, char **argv)
 	css_stylesheet *sheet;
 	size_t size;
 	const char data[] = "h1 { color: red } "
-        "root { display: block; } "
-        "title { position: relative; width: 100%; height: 20%; color: #321; } "
-        "description { position: relative; width: 100%; height: 10%; color: #321; } "
-        "page { position: relative; width: 100%; height: 60%; color: #321; } "
-        "indicator { position: relative; width: 100%; height: 10%; color: #321; } "
-        "hiweb { position: relative; width: 100%; height: 25%; color: #321; } "
-        "hijs { position: relative; width: 100%; height: 50%; color: #123456; }";
+        "#root { display: block; } "
+        "#title { position: relative; width: 100%; height: 20%; color: #123; } "
+        "#description { position: relative; width: 100%; height: 10%; color: #124; } "
+        "#page { position: relative; width: 100%; height: 60%; color: #125; } "
+        "#indicator { position: relative; width: 100%; height: 10%; color: #126; } "
+        "hiweb { position: relative; width: 100%; height: 25%; color: #127; } "
+        "hijs { position: relative; width: 100%; height: 50%; color: #128; }";
 	css_select_ctx *select_ctx;
 	uint32_t count;
 	unsigned int hh;
@@ -95,11 +95,11 @@ int main(int argc, char **argv)
     sheet = createStylesheet(data, strlen(data), "UTF-8", "css_select", true, false);
 
 
-    DomNode* root = createDomNode("root", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
-    DomNode* title = createDomNode("title", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
-    DomNode* description = createDomNode("description", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
-    DomNode* page = createDomNode("page", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
-    DomNode* indicator = createDomNode("indicator", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+    DomNode* root = createDomNode("div", NULL, DOM_ELEMENT_NODE, "root", NULL, 0, NULL, NULL);
+    DomNode* title = createDomNode("div", NULL, DOM_ELEMENT_NODE, "title", NULL, 0, NULL, NULL);
+    DomNode* description = createDomNode("div", NULL, DOM_ELEMENT_NODE, "description", NULL, 0, NULL, NULL);
+    DomNode* page = createDomNode("div",  NULL, DOM_ELEMENT_NODE, "page", NULL, 0, NULL, NULL);
+    DomNode* indicator = createDomNode("div",  NULL, DOM_ELEMENT_NODE, "indicator", NULL, 0, NULL, NULL);
 
     DomNode* hiweb = createDomNode("hiweb", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
     DomNode* hijs = createDomNode("hijs", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
@@ -119,18 +119,23 @@ int main(int argc, char **argv)
     css_fixed len = 0;
     uint8_t val;
 
-    style = selectStyle(sheet, hiweb, &media, NULL, NULL);
+    DomNode* nodeSelect = title;
+    style = selectStyle(sheet, nodeSelect, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
-    fprintf(stderr, "color of %s is %x\n", hiweb->name, color_shade);
+    fprintf(stderr, "####################\n");
+    fprintf(stderr, "name=%s|id=%s|color=%x\n", nodeSelect->name, nodeSelect->id, color_shade);
+
+    int position = css_computed_position(style->styles[CSS_PSEUDO_ELEMENT_NONE]);
+    fprintf(stderr, "name=%s|id=%s|position=%d\n", nodeSelect->name, nodeSelect->id, position);
 
     val = css_computed_width(style->styles[CSS_PSEUDO_ELEMENT_NONE], &len, &unit);
-    fprintf(stderr, "%s css_fixed=%d|unit=%d\n", hiweb->name, len, unit);
+    fprintf(stderr, "name=%s|id=%s|len=%d|unit=%d\n", nodeSelect->name, nodeSelect->id, len, unit);
     switch (val) {
     case CSS_WIDTH_INHERIT:
-        fprintf(stderr, "%s width: inherit\n", hiweb->name);
+        fprintf(stderr, "name=%s|id=%s|width=inherit\n", nodeSelect->name, nodeSelect->id);
         break;
     case CSS_WIDTH_AUTO:
-        fprintf(stderr, "%s width: auto\n", hiweb->name);
+        fprintf(stderr, "name=%s|id=%s|width=auto\n", nodeSelect->name, nodeSelect->id);
         break;
     case CSS_WIDTH_SET:
         {
@@ -144,18 +149,21 @@ int main(int argc, char **argv)
                 width = FIXTOINT(css_len2px(len, unit, style->styles[CSS_PSEUDO_ELEMENT_NONE]));
             }
 
-            fprintf(stderr, "%s b width: %d |len=%d\n", hiweb->name, width, len);
+            fprintf(stderr, "name=%s|id=%s|len=%d|width=%d\n", nodeSelect->name, nodeSelect->id, len, width);
         }
         break;
     default:
         break;
     }
 
+
     destroySelectResult(style);
 
-    style = selectStyle(sheet, hijs, &media, NULL, NULL);
+    fprintf(stderr, "###################\n");
+    nodeSelect = title;
+    style = selectStyle(sheet, nodeSelect, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
-    printf("color of %s is %x\n", hijs->name, color_shade);
+    fprintf(stderr, "name=%s|id=%s|color=%x\n", nodeSelect->name, nodeSelect->id, color_shade);
     destroySelectResult(style);
 
 
