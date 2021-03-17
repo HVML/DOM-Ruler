@@ -53,6 +53,7 @@
 
 #define UNKNOWN_WIDTH INT_MAX
 #define UNKNOWN_MAX_WIDTH INT_MAX
+#define AUTO INT_MIN
 
 DomNode* createDomNode(char* name, char* value, DomNodeType domType, 
         char *id, char **classes, int classesCount, char *inlineStyle, char *runnerType)
