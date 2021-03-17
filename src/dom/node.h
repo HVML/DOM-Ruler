@@ -73,6 +73,23 @@ typedef enum {
     DOM_NODE_TYPE_COUNT
 } DomNodeType;
 
+typedef enum {
+    LAYOUT_BLOCK,
+    LAYOUT_INLINE_CONTAINER,
+    LAYOUT_INLINE,
+    LAYOUT_TABLE,
+    LAYOUT_TABLE_ROW,
+    LAYOUT_TABLE_CELL,
+    LAYOUT_TABLE_ROW_GROUP,
+    LAYOUT_FLOAT_LEFT,
+    LAYOUT_FLOAT_RIGHT,
+    LAYOUT_INLINE_BLOCK,
+    LAYOUT_BR,
+    LAYOUT_TEXT,
+    LAYOUT_INLINE_END,
+    LAYOUT_NONE
+} LayoutType;
+
 typedef struct DomNode_ {
     struct DomNode_ *parent;  /**< Parent node */
     struct DomNode_ *firstChild; /**< First child node */
@@ -123,6 +140,8 @@ typedef struct DomNode_ {
 
     int minWidth;
     int maxWidth;
+
+    LayoutType layoutType;
 
 } DomNode;
 

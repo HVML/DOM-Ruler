@@ -151,6 +151,8 @@ DomNode* createDomNode(char* name, char* value, DomNodeType domType,
 
     result->minWidth = 0;
     result->maxWidth = UNKNOWN_MAX_WIDTH;
+
+    result->layoutType = LAYOUT_INLINE;
     return result;
 }
 
