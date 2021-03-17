@@ -54,6 +54,8 @@ list(APPEND hilayout_SOURCES
     dom/node.c
     select/select.c
     layout/layout.c
+    layout/layout_block.c
+    layout/layout_inline_block.c
 )
 
 include_directories(${hilayout_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})

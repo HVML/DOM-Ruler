@@ -45,6 +45,23 @@
  \endverbatim
  */
 
+#ifndef _LAYOUT_H_
+#define _LAYOUT_H_
+
 #include "node.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 bool layout_page(DomNode *page, int width, int height);
+bool layout_block(DomNode *page, int width, int height);
+bool layout_inline_block(DomNode *page, int width, int height);
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // _LAYOUT_H_

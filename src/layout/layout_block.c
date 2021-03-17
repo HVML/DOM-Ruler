@@ -49,19 +49,7 @@
 #include "layout.h"
 
 
-bool layout_page(DomNode *page, int width, int height)
+bool layout_block(DomNode *page, int width, int height)
 {
-    if (page == NULL)
-    {
-        return false;
-    }
-    switch (page->layoutType)
-    {
-        case LAYOUT_BLOCK:
-            return layout_block(page, width, height);
-
-        case LAYOUT_INLINE_BLOCK:
-            return layout_inline_block(page, width, height);
-    }
-    return layout_block(page, width, height);
+    return false;
 }
