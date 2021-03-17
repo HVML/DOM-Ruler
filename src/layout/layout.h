@@ -56,8 +56,8 @@ extern "C" {
 
 
 bool layout_page(DomNode *page, int width, int height);
-bool layout_block(DomNode *page, int width, int height);
-bool layout_inline_block(DomNode *page, int width, int height);
+bool layout_block(DomNode *node, int width, int height);
+bool layout_inline_block(DomNode *node, int width, int height);
 
 
 #ifdef __cplusplus

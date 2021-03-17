@@ -52,6 +52,7 @@
 #include <libcss/libcss.h>
 #include "node.h"
 #include "select.h"
+#include "layout.h"
 /*
  
    <div id="page">
@@ -101,16 +102,16 @@ int main(int argc, char **argv)
     DomNode* runners = createDomNode("div",  NULL, DOM_ELEMENT_NODE, "runners", NULL, 0, NULL, NULL);
     DomNode* indicator = createDomNode("div",  NULL, DOM_ELEMENT_NODE, "indicator", NULL, 0, NULL, NULL);
 
-    DomNode* hiweb = createDomNode("hiweb", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
-    DomNode* hijs = createDomNode("hijs", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+    DomNode* hiweb = createDomNode("hiweb", NULL, DOM_ELEMENT_NODE, "hiweb", NULL, 0, NULL, NULL);
+    DomNode* hijs = createDomNode("hijs", NULL, DOM_ELEMENT_NODE, "hijs", NULL, 0, NULL, NULL);
 
     // node tree
-    attachDomNode(title, page, NULL, NULL);
-    attachDomNode(description, page, title, NULL);
-    attachDomNode(runners, page, description, NULL);
+    attachDomNode(title, page, NULL, description);
+    attachDomNode(description, page, title, runners);
+    attachDomNode(runners, page, description, indicator);
     attachDomNode(indicator, page, runners, NULL);
-    attachDomNode(hiweb, runners, NULL, NULL);
-    attachDomNode(hijs, runners, hiweb, NULL);
+    attachDomNode(hiweb, runners, NULL, hijs);
+    //attachDomNode(hijs, runners, hiweb, NULL);
 
     css_select_results *style;
     uint8_t color_type;
@@ -166,7 +167,8 @@ int main(int argc, char **argv)
     fprintf(stderr, "name=%s|id=%s|color=%x\n", nodeSelect->name, nodeSelect->id, color_shade);
     destroySelectResult(style);
 
-
+    fprintf(stderr, "\n############################\n");
+    layout_block(page, 1080, 720);
 
     destroyStylesheet(sheet);
 

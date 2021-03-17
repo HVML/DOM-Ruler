@@ -48,8 +48,42 @@
 
 #include "layout.h"
 
+#include <stdio.h>
 
-bool layout_block(DomNode *page, int width, int height)
+int layout_block_child_node(DomNode *node, int y, int *cy, int level)
 {
+    if (node == NULL)
+        return 0;
+
+    level++;
+    fprintf(stderr, "layout_block_node|    %d     |name=%s|id=%s\n", level, node->name, node->id);
+    int height = 0;
+    DomNode* child = node->firstChild;
+    if (child)
+    {
+        while(child)
+        {
+            int ch = layout_block_child_node(child, 0, cy, level);
+            height += ch;
+            child = child->next;
+        }
+    }
+    else
+    {
+        height = 10;
+    }
+    node->height = height;
+    fprintf(stderr, "layout_block_node|    %d     |name=%s|id=%s|height=%d\n", level, node->name, node->id, height);
+    return height;
+}
+
+bool layout_block(DomNode *node, int width, int height)
+{
+    if (node == NULL)
+        return true;
+
+    int level = 0;
+    int cy = 0;
+    layout_block_child_node(node, 0, &cy, level);
     return false;
 }

@@ -6,6 +6,7 @@ project(css_select_test)
 list(APPEND css_select_test_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/dom
     ${CMAKE_SOURCE_DIR}/src/select
+    ${CMAKE_SOURCE_DIR}/src/layout
 )
 
 list(APPEND css_select_test_SOURCES
