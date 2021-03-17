@@ -100,6 +100,30 @@ typedef struct DomNode_ {
 
     char *runnerType;
 
+
+    int x;
+    int y;
+    int width;
+    int height;
+
+    int marginLeft;
+    int marginTop;
+    int marginRight;
+    int marginBottom;
+
+    int paddingLeft;
+    int paddingTop;
+    int paddingRight;
+    int paddingBottom;
+
+    int borderLeftWidth;
+    int borderTopWidth;
+    int borderRightWidth;
+    int borderBottomWidth;
+
+    int minWidth;
+    int maxWidth;
+
 } DomNode;
 
 

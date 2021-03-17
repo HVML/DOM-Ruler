@@ -51,6 +51,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define UNKNOWN_WIDTH INT_MAX
+#define UNKNOWN_MAX_WIDTH INT_MAX
 
 DomNode* createDomNode(char* name, char* value, DomNodeType domType, 
         char *id, char **classes, int classesCount, char *inlineStyle, char *runnerType)
@@ -125,6 +127,29 @@ DomNode* createDomNode(char* name, char* value, DomNodeType domType,
     result->lastChild = NULL;
     result->previous = NULL;
     result->next = NULL;
+
+    result->x = 0;
+    result->y = 0;
+    result->width = UNKNOWN_WIDTH;
+    result->height = 0;
+
+    result->marginLeft = 0;
+    result->marginTop = 0;
+    result->marginRight = 0;
+    result->marginBottom = 0;
+
+    result->paddingLeft = 0;
+    result->paddingTop = 0;
+    result->paddingRight = 0;
+    result->paddingBottom = 0;
+
+    result->borderLeftWidth = 0;
+    result->borderTopWidth = 0;
+    result->borderRightWidth = 0;
+    result->borderBottomWidth = 0;
+
+    result->minWidth = 0;
+    result->maxWidth = UNKNOWN_MAX_WIDTH;
     return result;
 }
 
