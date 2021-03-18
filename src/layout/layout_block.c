@@ -89,8 +89,9 @@ bool layout_block(DomNode *node, int w, int h)
     return false;
 }
 
-int layout_child_node_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height)
+int layout_child_node_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
 {
+    level++;
   //  fprintf(stderr, "............................%s...............begin|name=%s|id=%s\n", __func__, node->name, node->id);
     if (node == NULL || node->firstChild == NULL)
     {
@@ -106,7 +107,7 @@ int layout_child_node_block(DomNode *node, int x, int y, int widthLimit, int hei
     DomNode* child = node->firstChild;
     while(child)
     {
-        layout_node(child, cx, cy, widthLimit, heightLimit, &tw, &th);
+        layout_node(child, cx, cy, widthLimit, heightLimit, &tw, &th, level);
         cy = cy + th;
         *width = *width > tw ? *width : tw;
         *height += th;

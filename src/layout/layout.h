@@ -62,9 +62,9 @@ bool layout_inline_block(DomNode *node, int width, int height);
 
 int calcNodeWidthHeight(DomNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight);
 
-int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height);
-int layout_child_node_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height);
-int layout_child_node_inline_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height);
+int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
+int layout_child_node_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
+int layout_child_node_inline_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
 
 
 #ifdef __cplusplus

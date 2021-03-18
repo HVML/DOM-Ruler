@@ -171,7 +171,7 @@ int main(int argc, char **argv)
     //layout_block(root, 1080, 720);
     int w = 0;
     int h = 0;
-    layout_node(root, 0, 0, 1080, 720, &w, &h);
+    layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
 
     destroyStylesheet(sheet);
 

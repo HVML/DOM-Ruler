@@ -74,8 +74,14 @@ int calcNodeWidthHeight(DomNode *node, int containerWidth, int containerHeight, 
     return 0;
 }
 
-int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height)
+int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
 {
+    for (int i = 0; i < level; i++)
+    {
+        fprintf(stderr, "    ");
+    }
+
+    fprintf(stderr, "node|name=%s|id=%s\n", node->name, node->id);
     if (node == NULL)
     {
         return 0;
@@ -91,15 +97,15 @@ int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, in
         switch (node->layoutType)
         {
             case LAYOUT_BLOCK:
-                layout_child_node_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight);
+                layout_child_node_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight, level);
                 break;
 
             case LAYOUT_INLINE_BLOCK:
-                layout_child_node_inline_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight);
+                layout_child_node_inline_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight, level);
                 break;
 
             default:
-                layout_child_node_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight);
+                layout_child_node_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight, level);
                 break;
         }
     }
@@ -107,6 +113,10 @@ int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, in
     calcNodeWidthHeight(node, widthLimit, heightLimit, childWidth, childHeight);
     *width = node->width;
     *height = node->height;
-    fprintf(stderr, "............................%s...............node|name=%s|id=%s|(%d, %d, %d, %d)\n", __func__, node->name, node->id, node->x, node->y, node->width, node->height);
+    for (int i = 0; i < level; i++)
+    {
+        fprintf(stderr, "    ");
+    }
+    fprintf(stderr, "node|name=%s|id=%s|(%d, %d, %d, %d)\n", node->name, node->id, node->x, node->y, node->width, node->height);
     return 0;
 }
