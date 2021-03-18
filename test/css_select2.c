@@ -55,10 +55,10 @@
 #include "layout.h"
 /*
  
-   <div id="page">
+   <div id="root">
         <div id="title">this is title</div>
         <div id="description">this is description</div>
-        <div id="runners">
+        <div id="page">
             <hijs></hijs>
             <hijs></hijs>
             <hiweb></hiweb>
@@ -78,10 +78,10 @@ int main(int argc, char **argv)
 	css_stylesheet *sheet;
 	size_t size;
 	const char data[] = "h1 { color: red } "
-        "#page { display: block; } "
+        "#root { display: block; } "
         "#title { position: relative; width: 100%; height: 20%; color: #123; } "
         "#description { position: relative; width: 100%; height: 10%; color: #124; } "
-        "#runners { position: relative; width: 100%; height: 60%; color: #125; } "
+        "#page { position: relative; width: 100%; height: 60%; color: #125; } "
         "#indicator { position: relative; width: 100%; height: 10%; color: #126; } "
         "hiweb { position: relative; width: 100%; height: 25%; color: #127; } "
         "hijs { position: relative; width: 100%; height: 50%; color: #128; }";
@@ -96,22 +96,22 @@ int main(int argc, char **argv)
     sheet = createStylesheet(data, strlen(data), "UTF-8", "css_select", true, false);
 
 
-    DomNode* page = createDomNode("div", NULL, DOM_ELEMENT_NODE, "page", NULL, 0, NULL, NULL);
+    DomNode* root = createDomNode("div", NULL, DOM_ELEMENT_NODE, "root", NULL, 0, NULL, NULL);
     DomNode* title = createDomNode("div", NULL, DOM_ELEMENT_NODE, "title", NULL, 0, NULL, NULL);
     DomNode* description = createDomNode("div", NULL, DOM_ELEMENT_NODE, "description", NULL, 0, NULL, NULL);
-    DomNode* runners = createDomNode("div",  NULL, DOM_ELEMENT_NODE, "runners", NULL, 0, NULL, NULL);
+    DomNode* page = createDomNode("div",  NULL, DOM_ELEMENT_NODE, "page", NULL, 0, NULL, NULL);
     DomNode* indicator = createDomNode("div",  NULL, DOM_ELEMENT_NODE, "indicator", NULL, 0, NULL, NULL);
 
     DomNode* hiweb = createDomNode("hiweb", NULL, DOM_ELEMENT_NODE, "hiweb", NULL, 0, NULL, NULL);
     DomNode* hijs = createDomNode("hijs", NULL, DOM_ELEMENT_NODE, "hijs", NULL, 0, NULL, NULL);
 
     // node tree
-    attachDomNode(title, page, NULL, description);
-    attachDomNode(description, page, title, runners);
-    attachDomNode(runners, page, description, indicator);
-    attachDomNode(indicator, page, runners, NULL);
-    attachDomNode(hiweb, runners, NULL, hijs);
-    //attachDomNode(hijs, runners, hiweb, NULL);
+    attachDomNode(title, root, NULL, description);
+    attachDomNode(description, root, title, page);
+    attachDomNode(page, root, description, indicator);
+    attachDomNode(indicator, root, page, NULL);
+    attachDomNode(hiweb, page, NULL, hijs);
+    //attachDomNode(hijs, page, hiweb, NULL);
 
     css_select_results *style;
     uint8_t color_type;
@@ -168,7 +168,10 @@ int main(int argc, char **argv)
     destroySelectResult(style);
 
     fprintf(stderr, "\n############################\n");
-    layout_block(page, 1080, 720);
+    //layout_block(root, 1080, 720);
+    int w = 0;
+    int h = 0;
+    layout_node(root, 0, 0, 1080, 720, &w, &h);
 
     destroyStylesheet(sheet);
 

@@ -47,6 +47,7 @@
 
 
 #include "layout.h"
+#include <stdio.h>
 
 
 bool layout_page(DomNode *page, int width, int height)
@@ -64,4 +65,48 @@ bool layout_page(DomNode *page, int width, int height)
             return layout_inline_block(page, width, height);
     }
     return layout_block(page, width, height);
+}
+
+int calcNodeWidthHeight(DomNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight)
+{
+    node->width = 10 + childWidth;
+    node->height = 10 + childHeight;
+    return 0;
+}
+
+int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height)
+{
+    if (node == NULL)
+    {
+        return 0;
+    }
+
+    node->x = x;
+    node->y = y;
+
+    int childWidth = 0;
+    int childHeight = 0;
+    if (node->firstChild)
+    {
+        switch (node->layoutType)
+        {
+            case LAYOUT_BLOCK:
+                layout_child_node_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight);
+                break;
+
+            case LAYOUT_INLINE_BLOCK:
+                layout_child_node_inline_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight);
+                break;
+
+            default:
+                layout_child_node_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight);
+                break;
+        }
+    }
+
+    calcNodeWidthHeight(node, widthLimit, heightLimit, childWidth, childHeight);
+    *width = node->width;
+    *height = node->height;
+    fprintf(stderr, "............................%s...............node|name=%s|id=%s|(%d, %d, %d, %d)\n", __func__, node->name, node->id, node->x, node->y, node->width, node->height);
+    return 0;
 }

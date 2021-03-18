@@ -67,23 +67,54 @@ int layout_block_child_node(DomNode *node, int y, int *cy, int level)
             height += ch;
             child = child->next;
         }
+        node->height = height;
     }
     else
     {
         height = 10;
+        node->height = height;
     }
-    node->height = height;
     fprintf(stderr, "layout_block_node|    %d     |name=%s|id=%s|height=%d\n", level, node->name, node->id, height);
     return height;
 }
 
-bool layout_block(DomNode *node, int width, int height)
+bool layout_block(DomNode *node, int w, int h)
 {
     if (node == NULL)
         return true;
 
     int level = 0;
     int cy = 0;
-    layout_block_child_node(node, 0, &cy, level);
+    int height = layout_block_child_node(node, 0, &cy, level);
     return false;
 }
+
+int layout_child_node_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height)
+{
+  //  fprintf(stderr, "............................%s...............begin|name=%s|id=%s\n", __func__, node->name, node->id);
+    if (node == NULL || node->firstChild == NULL)
+    {
+ //       fprintf(stderr, "............................%s...............end|name=%s|id=%s\n", __func__, node->name, node->id);
+        return 0;
+    }
+
+    int cx = x;
+    int cy = y;
+    int tw = 0;
+    int th = 0;
+
+    DomNode* child = node->firstChild;
+    while(child)
+    {
+        layout_node(child, cx, cy, widthLimit, heightLimit, &tw, &th);
+        cy = cy + th;
+        *width = *width > tw ? *width : tw;
+        *height += th;
+
+        child = child->next;
+    }
+
+//    fprintf(stderr, "............................%s...............end|name=%s|id=%s|retW=%d|retH=%d\n", __func__, node->name, node->id, *width, *height);
+    return 0;
+}
+
