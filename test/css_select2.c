@@ -59,10 +59,8 @@
         <div id="title">this is title</div>
         <div id="description">this is description</div>
         <div id="page">
-            <hijs></hijs>
-            <hijs></hijs>
             <hiweb></hiweb>
-            <hiweb></hiweb>
+            <hijs></hijs>
         </div>
         <div id="indicator">...</div>
    </div>
