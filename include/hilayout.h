@@ -54,6 +54,17 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#define HILAYOUT_OK                 0
+#define HILAYOUT_NOMEM              1
+#define HILAYOUT_BADPARM            2
+#define HILAYOUT_INVALID            3
+#define HILAYOUT_FILENOTFOUND       4
+#define HILAYOUT_NEEDDATA           5
+#define HILAYOUT_BADCHARSET         6
+#define HILAYOUT_EOF                7
+#define HILAYOUT_IMPORTS_PENDING    8
+#define HILAYOUT_PROPERTY_NOT_SET   9
+
 typedef struct HLDomElementNode_ HLDomElementNode;
 typedef struct HLCSS_ HLCSS;
 
@@ -102,8 +113,8 @@ extern "C" {
 
 
 HLCSS* hilayout_css_create(void);
-int hilayout_css_append_data(const char* data, size_t len);
-int hilayout_css_destroy(HLCSS* sheet);
+int hilayout_css_append_data(HLCSS* css, const char* data, size_t len);
+int hilayout_css_destroy(HLCSS* css);
 
 HLDomElementNode* hilayout_element_node_create(const char* tag_name);
 int hilayout_element_node_set_attr(HLDomElementNode* node, const char* name, const char* value);

@@ -47,9 +47,13 @@ project(hilayout)
 
 list(APPEND hilayout_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/dom
+    ${CMAKE_SOURCE_DIR}/src/select
 )
 
 list(APPEND hilayout_SOURCES
+    ${CMAKE_SOURCE_DIR}/src/dom/node.c
+    ${CMAKE_SOURCE_DIR}/src/select/select.c
     ${CMAKE_SOURCE_DIR}/src/layout/hilayout.c
 )
 
