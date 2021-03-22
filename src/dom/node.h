@@ -46,8 +46,8 @@
  */
 
 
-#ifndef _NODE_H_
-#define _NODE_H_
+#ifndef _HL_NODE_H
+#define _HL_NODE_H
 
 #include <libcss/libcss.h>
 
@@ -156,4 +156,4 @@ void destroyDomNode(DomNode *node);
 }
 #endif
 
-#endif // _NODE_H_
+#endif // _HL_NODE_H
