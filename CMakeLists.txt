@@ -48,4 +48,4 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 find_package(HiCSS REQUIRED)
 
 add_subdirectory(src)
-#add_subdirectory(test)
+add_subdirectory(test)

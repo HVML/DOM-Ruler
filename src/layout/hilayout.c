@@ -81,7 +81,7 @@ css_stylesheet *create_css_stylesheet(const char *charset, const char *url, bool
 
     error = css_stylesheet_create(&params, &sheet);
     if (error != CSS_OK) {
-        fprintf(stderr, "Failed creating sheet: %d\n", error);
+        HL_LOGE("Failed create sheet: %d\n", error);
         return NULL;
     }
 
@@ -114,7 +114,7 @@ int hilayout_css_append_data(HLCSS* css, const char* data, size_t len)
 
     css_error error = css_stylesheet_append_data(css->sheet, data, len);
     if (error != CSS_OK && error != CSS_NEEDDATA) {
-        fprintf(stderr, "failed appending data: %d\n", error);
+        HL_LOGE("failed appending data: %d\n", error);
         return error;
     }
 

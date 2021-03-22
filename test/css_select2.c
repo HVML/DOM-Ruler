@@ -53,6 +53,7 @@
 #include "node.h"
 #include "select.h"
 #include "layout.h"
+#include "hilayout.h"
 /*
  
    <div id="root">
@@ -172,6 +173,9 @@ int main(int argc, char **argv)
     layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
 
     destroyStylesheet(sheet);
+    HL_LOGD("LOGD test \n");
+    HL_LOGE("LOGE test \n");
+    HL_LOGW("LOGW test \n");
 
 	return 0;
 }

@@ -65,6 +65,27 @@
 #define HILAYOUT_IMPORTS_PENDING    8
 #define HILAYOUT_PROPERTY_NOT_SET   9
 
+
+#if defined(_DEBUG)
+#   define HL_LOGD(fmt, ...)                                                               \
+    do {                                                                                   \
+        fprintf (stderr, "D|%s:%d:%s|"fmt, __FILE__, __LINE__, __func__, ##__VA_ARGS__);   \
+    } while (0)
+# else
+#   define HL_LOGD(fmt, ...) do { } while (0)
+#endif
+
+#define HL_LOGE(fmt, ...)                           \
+    do {                                            \
+        fprintf (stderr, "E|"fmt, ##__VA_ARGS__);   \
+    } while (0)
+
+#define HL_LOGW(fmt, ...)                           \
+    do {                                            \
+        fprintf (stderr, "W|"fmt, ##__VA_ARGS__);   \
+    } while (0)
+
+
 typedef struct HLDomElementNode_ HLDomElementNode;
 typedef struct HLCSS_ HLCSS;
 
