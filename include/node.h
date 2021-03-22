@@ -49,6 +49,11 @@
 #ifndef _HL_NODE_H_
 #define _HL_NODE_H_
 
+#include <stdio.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdint.h>
+
 typedef struct HLDomElementNode_ HLDomElementNode;
 typedef struct HLCSS_ HLCSS;
 

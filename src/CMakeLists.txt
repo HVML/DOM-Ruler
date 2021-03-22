@@ -46,16 +46,11 @@ cmake_minimum_required(VERSION 3.10)
 project(hilayout)
 
 list(APPEND hilayout_INCLUDE_DIRECTORIES
-    dom
-    select
+    ${CMAKE_SOURCE_DIR}/include
 )
 
 list(APPEND hilayout_SOURCES
-    dom/node.c
-    select/select.c
-    layout/layout.c
-    layout/layout_block.c
-    layout/layout_inline_block.c
+    ${CMAKE_SOURCE_DIR}/src/layout/hilayout.c
 )
 
 include_directories(${hilayout_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})
