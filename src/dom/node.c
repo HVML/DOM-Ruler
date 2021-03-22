@@ -221,3 +221,33 @@ void destroyDomNode(DomNode *node)
 
     free(node);
 }
+
+lwc_string* _hilayout_lwc_string_dup(const char* str)
+{
+    lwc_string* result = NULL;
+    lwc_intern_string(str, strlen(str), &result);
+    return result;
+}
+
+HLDomElementNode* hilayout_element_node_create(const char* tag_name)
+{
+    if (tag_name == NULL)
+    {
+        HL_LOGE("create HLDomElementNode failed. tag_name=%s\n", tag_name);
+        return NULL;
+    }
+
+    HLDomElementNode* node = (HLDomElementNode*)malloc(sizeof(HLDomElementNode));
+    if (node == NULL)
+    {
+        HL_LOGE("create HLDomElementNode failed. %d\n", HILAYOUT_NOMEM);
+        return NULL;
+    }
+
+    memset(node, 0, sizeof(HLDomElementNode));
+    node->tag_name = strdup(tag_name);
+    node->inner_tag_name = _hilayout_lwc_string_dup(tag_name);
+
+    return node;
+}
+
