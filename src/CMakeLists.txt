@@ -61,7 +61,6 @@ list(APPEND hilayout_SOURCES
     ${CMAKE_SOURCE_DIR}/src/layout/layout_block.c
     ${CMAKE_SOURCE_DIR}/src/layout/layout_block.c
     ${CMAKE_SOURCE_DIR}/src/layout/layout_inline_block.c
-    ${CMAKE_SOURCE_DIR}/src/layout/hilayout.c
 )
 
 include_directories(${hilayout_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})
