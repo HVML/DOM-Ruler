@@ -1186,7 +1186,7 @@ int hilayout_css_destroy(HLCSS* css)
     free(css);
 }
 
-css_select_results *selectStyle(const css_stylesheet *styleSheet, void *n,
+css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
         const css_media *media, const css_stylesheet *inlineStyleSheet, css_select_handler *handler)
 {
     css_computed_style *composed;
@@ -1196,6 +1196,19 @@ css_select_results *selectStyle(const css_stylesheet *styleSheet, void *n,
     css_error code;
     css_select_ctx *select_ctx;
     uint32_t count;
+
+    if (css == NULL || css->sheet == NULL)
+    {
+        HL_LOGW("css select style param error.\n");
+        return NULL;
+    }
+
+    if (css->done != 1)
+    {
+        _hilayout_css_stylesheet_data_done(css->sheet);
+    }
+
+    css_stylesheet* styleSheet = css->sheet;
 
     code = css_select_ctx_create(&select_ctx);
     if (code != CSS_OK)
@@ -1265,7 +1278,7 @@ css_select_results *selectStyle(const css_stylesheet *styleSheet, void *n,
     return styles;
 }
 
-int destroySelectResult(css_select_results *result)
+int _hilayout_css_select_result_destroy(css_select_results *result)
 {
     if (result)
         return css_select_results_destroy(result);

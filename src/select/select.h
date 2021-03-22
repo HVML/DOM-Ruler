@@ -70,10 +70,10 @@ int _hilayout_css_stylesheet_append_data(css_stylesheet* sheet, const uint8_t *d
 int _hilayout_css_stylesheet_data_done(css_stylesheet* sheet);
 int _hilayout_css_stylesheet_destroy(css_stylesheet* sheet);
 
-css_select_results *selectStyle(const css_stylesheet *style, void *node,
+css_select_results* _hilayout_css_select_style(const HLCSS* css, void *node,
 		const css_media *media, const css_stylesheet *inline_style, css_select_handler *handler);
 
-int destroySelectResult(css_select_results *result);
+int _hilayout_css_select_result_destroy(css_select_results *result);
 
 css_fixed css_len2px(
         css_fixed length,

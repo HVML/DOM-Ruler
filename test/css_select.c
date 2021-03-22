@@ -56,7 +56,6 @@
 int main(int argc, char **argv)
 {
 	css_error code;
-	css_stylesheet *sheet;
 	size_t size;
 	const char data[] = "h1 { color: red } "
 		"h4 { color: #321; } "
@@ -69,7 +68,14 @@ int main(int argc, char **argv)
 		.type = CSS_MEDIA_SCREEN,
 	};
 
-    sheet = createStylesheet(data, strlen(data), "UTF-8", "css_select", true, false);
+    HLCSS* css = hilayout_css_create();
+    if (css == NULL)
+    {
+        HL_LOGE("create HLCSS failed.\n");
+        return HILAYOUT_INVALID;
+    }
+
+    hilayout_css_append_data(css, data, strlen(data));
 
 	/* select style for each of h1 to h6 */
 	for (hh = 1; hh != 7; hh++) {
@@ -79,21 +85,22 @@ int main(int argc, char **argv)
 
 
         DomNode* domNode = createDomNode("h1", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
-        style = selectStyle(sheet, domNode, &media, NULL, NULL);
+        style = _hilayout_css_select_style(css, domNode, &media, NULL, NULL);
 
 		color_type = css_computed_color(
 				style->styles[CSS_PSEUDO_ELEMENT_NONE],
 				&color_shade);
 		if (color_type == CSS_COLOR_INHERIT)
-			printf("color of h%i is 'inherit'\n", hh);
+			HL_LOGW("color of h%i is 'inherit'\n", hh);
 		else
-			printf("color of h%i is %x\n", hh, color_shade);
+			HL_LOGW("color of h%i is %x\n", hh, color_shade);
 
-        destroySelectResult(style);
+        _hilayout_css_select_result_destroy(style);
         destroyDomNode(domNode);
 	}
 
-    destroyStylesheet(sheet);
+
+    hilayout_css_destroy(css);
 
 	return 0;
 }
