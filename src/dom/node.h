@@ -49,7 +49,9 @@
 #ifndef _HL_NODE_H
 #define _HL_NODE_H
 
+#include "hilayout.h"
 #include <libcss/libcss.h>
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -89,6 +91,65 @@ typedef enum {
     LAYOUT_INLINE_END,
     LAYOUT_NONE
 } LayoutType;
+
+
+typedef struct HLDomElementNode_ {
+    struct HLDomElementNode_* parent;  /**< Parent node */
+    struct HLDomElementNode_* first_child; /**< First child node */
+    struct HLDomElementNode_* last_child;  /**< Last child node */
+    struct HLDomElementNode_* previous;    /**< Previous sibling */
+    struct HLDomElementNode_* next;        /**< Next sibling */
+
+    void* private_data;
+
+    char* tag_name;
+    char* tag_value;
+
+    char* tag_id;
+    char* tag_classes;
+    char* tag_inline_style;
+
+    // begin for hicss inner
+    lwc_string* inner_tag_name;
+    lwc_string* inner_tag_id;
+    lwc_string** inner_tag_classes;
+    int inner_tag_classes_count;
+
+    void* attach_data;
+    // end for hicss inner
+    
+    // begin for layout output
+    double x;
+    double y;
+    double w;
+    double h;
+
+    double min_w;
+    double max_w;
+
+    double min_h;
+    double max_h;
+
+    int z_index;
+
+    // top, right, bottom, left
+    double margin[4];
+    double padding[4];
+    double borderWidth[4];
+    int borderType[4];
+
+    // background
+    int32_t background_color;
+
+    // text
+    char* font_family;
+    double font_size;
+    uint32_t font_color;
+    HLFontWeight font_weight;
+
+    // end for layout output
+    
+} HLDomElementNode;
 
 typedef struct DomNode_ {
     struct DomNode_ *parent;  /**< Parent node */
