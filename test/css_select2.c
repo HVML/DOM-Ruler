@@ -74,7 +74,6 @@
 int main(int argc, char **argv)
 {
 	css_error code;
-	css_stylesheet *sheet;
 	size_t size;
 	const char data[] = "h1 { color: red } "
         "#root { display: block; } "
@@ -92,7 +91,14 @@ int main(int argc, char **argv)
 		.type = CSS_MEDIA_SCREEN,
 	};
 
-    sheet = createStylesheet(data, strlen(data), "UTF-8", "css_select", true, false);
+    HLCSS* css = hilayout_css_create();
+    if (css == NULL)
+    {
+        HL_LOGE("create HLCSS failed.\n");
+        return HILAYOUT_INVALID;
+    }
+
+    hilayout_css_append_data(css, data, strlen(data));
 
 
     DomNode* root = createDomNode("div", NULL, DOM_ELEMENT_NODE, "root", NULL, 0, NULL, NULL);
@@ -120,7 +126,7 @@ int main(int argc, char **argv)
     uint8_t val;
 
     DomNode* nodeSelect = title;
-    style = selectStyle(sheet, nodeSelect, &media, NULL, NULL);
+    style = _hilayout_css_select_style(css, nodeSelect, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     fprintf(stderr, "####################\n");
     fprintf(stderr, "name=%s|id=%s|color=%x\n", nodeSelect->name, nodeSelect->id, color_shade);
@@ -157,14 +163,14 @@ int main(int argc, char **argv)
     }
 
 
-    destroySelectResult(style);
+    _hilayout_css_select_result_destroy(style);
 
     fprintf(stderr, "###################\n");
     nodeSelect = title;
-    style = selectStyle(sheet, nodeSelect, &media, NULL, NULL);
+    style = _hilayout_css_select_style(css, nodeSelect, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     fprintf(stderr, "name=%s|id=%s|color=%x\n", nodeSelect->name, nodeSelect->id, color_shade);
-    destroySelectResult(style);
+    _hilayout_css_select_result_destroy(style);
 
     fprintf(stderr, "\n############################\n");
     //layout_block(root, 1080, 720);
@@ -172,7 +178,7 @@ int main(int argc, char **argv)
     int h = 0;
     layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
 
-    destroyStylesheet(sheet);
+    hilayout_css_destroy(css);
     HL_LOGD("LOGD test \n");
     HL_LOGE("LOGE test \n");
     HL_LOGW("LOGW test \n");
