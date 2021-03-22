@@ -48,6 +48,9 @@
 #include "select.h"
 #include <stdio.h>
 
+#define DEFAULT_CHARSET "UTF-8"
+#define DEFAULT_URL "hilayout_css_select"
+
 #define UNUSED(x) ((x) = (x))
 
 /******************************************************************************
@@ -1068,8 +1071,7 @@ css_select_handler selection_handler = {
     get_libcss_node_data
 };
 
-css_stylesheet *createStylesheet(const uint8_t *data, size_t len,
-        const char *charset, const char *url, bool allow_quirks, bool inline_style)
+css_stylesheet* _hilayout_css_stylesheet_create(const char *charset, const char *url, bool allow_quirks, bool inline_style)
 {
     css_stylesheet_params params;
     css_stylesheet *sheet;
@@ -1093,18 +1095,49 @@ css_stylesheet *createStylesheet(const uint8_t *data, size_t len,
 
     error = css_stylesheet_create(&params, &sheet);
     if (error != CSS_OK) {
-        fprintf(stderr, "Failed creating sheet: %d\n", error);
+        HL_LOGE("Failed create sheet: %d\n", error);
         return NULL;
     }
 
-    error = css_stylesheet_append_data(sheet, data, len);
+    return sheet;
+}
+
+int _hilayout_css_stylesheet_append_data(css_stylesheet* sheet, const uint8_t *data, size_t len)
+{
+    if (sheet == NULL || data == NULL || len <= 0)
+        return HILAYOUT_BADPARM;
+
+    css_error error = css_stylesheet_append_data(sheet, data, len);
     if (error != CSS_OK && error != CSS_NEEDDATA) {
-        fprintf(stderr, "failed appending data: %d\n", error);
-        css_stylesheet_destroy(sheet);
+        HL_LOGE("append css data failed|code=%d\n", error);
+        return error;
+    }
+    return HILAYOUT_OK;
+}
+
+int _hilayout_css_stylesheet_data_done(css_stylesheet* sheet)
+{
+    if (sheet)
+        return css_stylesheet_data_done(sheet);
+    return HILAYOUT_OK;
+}
+
+int _hilayout_css_stylesheet_destroy(css_stylesheet* sheet)
+{
+    if (sheet)
+        return css_stylesheet_destroy(sheet);
+    return HILAYOUT_OK;
+}
+
+css_stylesheet* _hilayout_css_stylesheet_inline_style_create(const uint8_t *data, size_t len)
+{
+    css_stylesheet *sheet = _hilayout_css_stylesheet_create(DEFAULT_CHARSET, DEFAULT_URL, true, false);
+    if (sheet == NULL)
+    {
         return NULL;
     }
 
-    error = css_stylesheet_data_done(sheet);
+    css_error error = css_stylesheet_data_done(sheet);
     if (error != CSS_OK) {
         fprintf(stderr, "failed completing parse: %d\n", error);
         css_stylesheet_destroy(sheet);
@@ -1122,9 +1155,35 @@ css_stylesheet *createStylesheet(const uint8_t *data, size_t len,
 }
 
 
-int destroyStylesheet(css_stylesheet *style)
+HLCSS* hilayout_css_create(void)
 {
-    return css_stylesheet_destroy(style);
+    char url[] = "hilayout_css_select";
+    css_stylesheet *sheet = _hilayout_css_stylesheet_create(DEFAULT_CHARSET, DEFAULT_URL, true, false);
+    if (sheet == NULL)
+    {
+        return NULL;
+    }
+
+    HLCSS* css = (HLCSS*)malloc(sizeof(HLCSS));
+    css->sheet = sheet;
+    css->done = 0;
+    return css;
+}
+
+int hilayout_css_append_data(HLCSS* css, const char* data, size_t len)
+{
+    if (css)
+        return _hilayout_css_stylesheet_append_data(css->sheet, data, len);
+    return HILAYOUT_BADPARM;
+}
+
+int hilayout_css_destroy(HLCSS* css)
+{
+    if (css == NULL)
+        return HILAYOUT_OK;
+
+    _hilayout_css_stylesheet_destroy(css->sheet);
+    free(css);
 }
 
 css_select_results *selectStyle(const css_stylesheet *styleSheet, void *n,
