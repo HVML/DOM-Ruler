@@ -450,3 +450,33 @@ const HLUsedTextValues* hilayout_element_node_get_used_font_value(HLDomElementNo
 {
     return node ? & node->textValues : NULL;
 }
+
+
+int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent)
+{
+    if (node == NULL || parent == NULL)
+    {
+        HL_LOGE("append as last child|node=%p|parent=%p|param error\n", node, parent);
+        return HILAYOUT_BADPARM;
+    }
+
+
+    node->parent = parent;
+    if (parent->first_child == NULL)
+    {
+        parent->first_child = node;
+        parent->last_child = node;
+        node->previous = NULL;
+        node->next = NULL;
+        return HILAYOUT_OK;
+    }
+
+    HLDomElementNode* last = parent->last_child;
+    last->next = node;
+    parent->last_child = node;
+
+    node->previous = last;
+    node->next = NULL;
+
+    return HILAYOUT_OK;
+}
