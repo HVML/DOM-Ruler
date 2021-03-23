@@ -46,8 +46,8 @@
  */
 
 
-#ifndef _SELECT_H_
-#define _SELECT_H_
+#ifndef _HL_SELECT_H_
+#define _HL_SELECT_H_
 
 #include <libcss/libcss.h>
 
@@ -84,4 +84,4 @@ css_fixed css_len2px(
 }
 #endif
 
-#endif // _SELECT_H_
+#endif // _HL_SELECT_H_

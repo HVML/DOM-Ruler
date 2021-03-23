@@ -45,8 +45,8 @@
  \endverbatim
  */
 
-#ifndef _LAYOUT_H_
-#define _LAYOUT_H_
+#ifndef _HL_LAYOUT_H_
+#define _HL_LAYOUT_H_
 
 #include "node.h"
 
@@ -66,4 +66,4 @@ int layout_child_node_inline_block(HLDomElementNode *node, int x, int y, int wid
 }
 #endif
 
-#endif // _LAYOUT_H_
+#endif // _HL_LAYOUT_H_

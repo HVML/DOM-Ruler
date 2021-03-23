@@ -46,8 +46,8 @@
  */
 
 
-#ifndef _HL_LAYOUT_H_
-#define _HL_LAYOUT_H_
+#ifndef _HL_HILAYOUT_H_
+#define _HL_HILAYOUT_H_
 
 #include <stdio.h>
 #include <stddef.h>
@@ -185,4 +185,4 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 }
 #endif
 
-#endif // _HL_LAYOUT_H_
+#endif // _HL_HILAYOUT_H_
