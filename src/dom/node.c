@@ -103,7 +103,7 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     node->inner_tag = _hilayout_lwc_string_dup(tag);
 
 
-    node->boxValues.w = UNKNOWN_WIDTH;
+    node->box_values.w = UNKNOWN_WIDTH;
 
     node->min_w = 0;
     node->max_w = UNKNOWN_MAX_WIDTH;
@@ -272,25 +272,25 @@ void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE
         _hilayout_lwc_string_destroy(node->inner_classes[i]);
     }
 
-    if (node->textValues.family)
+    if (node->text_values.family)
     {
-        free(node->textValues.family);
+        free(node->text_values.family);
     }
 }
 
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node)
 {
-    return node ? & node->boxValues : NULL;
+    return node ? & node->box_values : NULL;
 }
 
 const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node)
 {
-    return node ? & node->backgroundValues : NULL;
+    return node ? & node->background_valuess : NULL;
 }
 
 const HLUsedTextValues* hilayout_element_node_get_used_font_value(HLDomElementNode* node)
 {
-    return node ? & node->textValues : NULL;
+    return node ? & node->text_values : NULL;
 }
 
 

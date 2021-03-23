@@ -61,8 +61,8 @@
 
 int calcNodeWidthHeight(HLDomElementNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight)
 {
-    node->boxValues.w = 10 + childWidth;
-    node->boxValues.h = 10 + childHeight;
+    node->box_values.w = 10 + childWidth;
+    node->box_values.h = 10 + childHeight;
     return 0;
 }
 
@@ -79,8 +79,8 @@ int layout_node(HLDomElementNode *node, int x, int y, int widthLimit, int height
         return 0;
     }
 
-    node->boxValues.x = x;
-    node->boxValues.y = y;
+    node->box_values.x = x;
+    node->box_values.y = y;
 
     int childWidth = 0;
     int childHeight = 0;
@@ -103,13 +103,13 @@ int layout_node(HLDomElementNode *node, int x, int y, int widthLimit, int height
     }
 
     calcNodeWidthHeight(node, widthLimit, heightLimit, childWidth, childHeight);
-    *width = node->boxValues.w;
-    *height = node->boxValues.h;
+    *width = node->box_values.w;
+    *height = node->box_values.h;
     for (int i = 0; i < level; i++)
     {
         fprintf(stderr, "    ");
     }
-    fprintf(stderr, "node|tag=%s|id=%s|(%f, %f, %f, %f)\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->boxValues.x, node->boxValues.y, node->boxValues.w, node->boxValues.h);
+    fprintf(stderr, "node|tag=%s|id=%s|(%f, %f, %f, %f)\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h);
     return 0;
 }
 
@@ -214,7 +214,7 @@ int _hilayout_calc_z_index(HLDomElementNode *node)
         HL_LOGW("calc z index|tag=%s|id=%s|name=%s|z-index=default\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
         break;
     }
-    node->boxValues.z_index = index;
+    node->box_values.z_index = index;
     return index;
 }
 
@@ -227,13 +227,13 @@ int _hilayout_layout_node(HLDomElementNode *node, int x, int y, int container_wi
     }
 
     HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|parent=%p\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->parent);
-    node->boxValues.x = x;
-    node->boxValues.y = y;
+    node->box_values.x = x;
+    node->box_values.y = y;
 
     if (node->parent == NULL)
     {
-        node->boxValues.w = container_width;
-        node->boxValues.h = container_height;
+        node->box_values.w = container_width;
+        node->box_values.h = container_height;
         _hilayout_calc_z_index(node);
     }
 
@@ -251,23 +251,23 @@ int _hilayout_layout_node(HLDomElementNode *node, int x, int y, int container_wi
         {
             case LAYOUT_BLOCK:
                 _hilayout_layout_node(child, cx, cy, cw, ch, cl);
-                cy = cy + child->boxValues.h;
-                node_width = node_width + child->boxValues.w;
-                node_height = node_height + child->boxValues.h;
+                cy = cy + child->box_values.h;
+                node_width = node_width + child->box_values.w;
+                node_height = node_height + child->box_values.h;
                 break;
 
             default:
                 _hilayout_layout_node(child, cx, cy, cw, ch, cl);
-                cy = cy + child->boxValues.h;
-                node_height = node_height + child->boxValues.h;
+                cy = cy + child->box_values.h;
+                node_height = node_height + child->box_values.h;
                 break;
         }
         child = child->next;
     }
 
-    node->boxValues.w = node_width + 10;
-    node->boxValues.h = node_height + 10;
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|parent=%p|w=%f|h=%f\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->parent, node->boxValues.w, node->boxValues.h);
+    node->box_values.w = node_width + 10;
+    node->box_values.h = node_height + 10;
+    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|parent=%p|w=%f|h=%f\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->parent, node->box_values.w, node->box_values.h);
     return HILAYOUT_OK;
 }
 

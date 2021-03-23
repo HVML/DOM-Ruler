@@ -131,9 +131,9 @@ typedef struct HLDomElementNode_ {
     // end for hicss inner
     
     // begin for layout output
-    HLUsedBoxValues boxValues;
-    HLUsedBackgroundValues backgroundValues;
-    HLUsedTextValues textValues;
+    HLUsedBoxValues box_values;
+    HLUsedBackgroundValues background_valuess;
+    HLUsedTextValues text_values;
 
     double min_w;
     double max_w;
