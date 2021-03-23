@@ -55,6 +55,16 @@
 #define UNKNOWN_MAX_WIDTH INT_MAX
 #define AUTO INT_MIN
 
+
+char *HL_ATTR_NAME_ARRAY[HL_ATTR_NAME_COUNT] = {
+    "name",
+    "value",
+    "id",
+    "classes",
+    "style"
+};
+
+
 DomNode* createDomNode(char* name, char* value, DomNodeType domType, 
         char *id, char **classes, int classesCount, char *inlineStyle, char *runnerType)
 {
@@ -229,11 +239,11 @@ lwc_string* _hilayout_lwc_string_dup(const char* str)
     return result;
 }
 
-HLDomElementNode* hilayout_element_node_create(const char* tag_name)
+HLDomElementNode* hilayout_element_node_create(const char* tag)
 {
-    if (tag_name == NULL)
+    if (tag == NULL)
     {
-        HL_LOGE("create HLDomElementNode failed. tag_name=%s\n", tag_name);
+        HL_LOGE("create HLDomElementNode failed. tag=%s\n", tag);
         return NULL;
     }
 
@@ -245,9 +255,65 @@ HLDomElementNode* hilayout_element_node_create(const char* tag_name)
     }
 
     memset(node, 0, sizeof(HLDomElementNode));
-    node->tag_name = strdup(tag_name);
-    node->inner_tag_name = _hilayout_lwc_string_dup(tag_name);
+    node->tag = strdup(tag);
+    node->inner_tag = _hilayout_lwc_string_dup(tag);
 
     return node;
 }
 
+const char* hilayout_element_node_get_tag_name(HLDomElementNode* node)
+{
+    return node ? node->tag : NULL;
+}
+
+int hilayout_element_node_set_attr(HLDomElementNode* node, const char* name, const char* value)
+{
+    if (node == NULL || name == NULL)
+    {
+        HL_LOGE("set element attr|node=%p|name=%s|value=%s|param error\n", node, name, value);
+        return HILAYOUT_BADPARM;
+    }
+
+    int index = -1;
+    for (int i = 0; i < HL_ATTR_NAME_COUNT; i++) 
+    {
+        if (strcasecmp(name, HL_ATTR_NAME_ARRAY[i]) == 0)
+        {
+            index = i;
+            break;
+        }
+    }
+
+    if (index >= 0)
+    {
+        if (node->attr[index] != NULL)
+        {
+            free(node->attr[index]);
+        }
+        node->attr[index] = value != NULL ? strdup(value) : NULL;
+        return HILAYOUT_OK;
+    }
+    HL_LOGE("set element attr|node=%p|name=%s|value=%s|not support\n", node, name, value);
+    return HILAYOUT_NOT_SUPPORT;
+}
+
+const char* hilayout_element_node_get_attr(HLDomElementNode* node, const char* name)
+{
+    if (node == NULL || name == NULL)
+    {
+        HL_LOGE("get element attr|node=%p|name=%s|param error\n", node, name);
+        return NULL;
+    }
+
+    int index = -1;
+    for (int i = 0; i < HL_ATTR_NAME_COUNT; i++) 
+    {
+        if (strcasecmp(name, HL_ATTR_NAME_ARRAY[i]) == 0)
+        {
+            index = i;
+            break;
+        }
+    }
+
+    return index >= 0 ? node->attr[index] : NULL;
+}

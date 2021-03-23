@@ -54,18 +54,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define HILAYOUT_OK                 0
-#define HILAYOUT_NOMEM              1
-#define HILAYOUT_BADPARM            2
-#define HILAYOUT_INVALID            3
-#define HILAYOUT_FILENOTFOUND       4
-#define HILAYOUT_NEEDDATA           5
-#define HILAYOUT_BADCHARSET         6
-#define HILAYOUT_EOF                7
-#define HILAYOUT_IMPORTS_PENDING    8
-#define HILAYOUT_PROPERTY_NOT_SET   9
-
-
+// log begin
 #if defined(_DEBUG)
 #   define HL_LOGD(fmt, ...)                                                               \
     do {                                                                                   \
@@ -84,6 +73,35 @@
     do {                                            \
         fprintf (stderr, "W|"fmt, ##__VA_ARGS__);   \
     } while (0)
+
+// log end
+
+// error code begin
+#define HILAYOUT_OK                 0
+#define HILAYOUT_NOMEM              1
+#define HILAYOUT_BADPARM            2
+#define HILAYOUT_INVALID            3
+#define HILAYOUT_FILENOTFOUND       4
+#define HILAYOUT_NEEDDATA           5
+#define HILAYOUT_BADCHARSET         6
+#define HILAYOUT_EOF                7
+#define HILAYOUT_IMPORTS_PENDING    8
+#define HILAYOUT_PROPERTY_NOT_SET   9
+#define HILAYOUT_NOT_SUPPORT        10
+
+// error code end
+
+// attribute name begin
+
+#define HL_ATTR_NAME            "name"
+#define HL_ATTR_VALUE           "value"
+#define HL_ATTR_ID              "id"
+#define HL_ATTR_CLASSES         "classes"
+#define HL_ATTR_STYLE           "style"
+
+
+// attribute name end
+
 
 
 typedef struct HLDomElementNode_ HLDomElementNode;
@@ -138,11 +156,20 @@ int hilayout_css_append_data(HLCSS* css, const char* data, size_t len);
 int hilayout_css_destroy(HLCSS* css);
 
 HLDomElementNode* hilayout_element_node_create(const char* tag_name);
+
+const char* hilayout_element_node_get_tag_name(HLDomElementNode* node);
+
 int hilayout_element_node_set_attr(HLDomElementNode* node, const char* name, const char* value);
 const char* hilayout_element_node_get_attr(HLDomElementNode* node, const char* name);
+
 int hilayout_element_node_set_private_data(HLDomElementNode* node, void* data);
 void* hilayout_element_node_get_private_data(HLDomElementNode* node);
+
+int hilayout_element_node_set_content(HLDomElementNode* node, const char* data);
+const char* hilayout_element_node_get_content(HLDomElementNode* node);
+
 void hilayout_element_node_destroy(HLDomElementNode *node);
+
 
 int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent);
 

@@ -92,6 +92,16 @@ typedef enum {
     LAYOUT_NONE
 } LayoutType;
 
+typedef enum {
+    HL_ATTR_NAME_NAME = 0,
+    HL_ATTR_NAME_VALUE,
+    HL_ATTR_NAME_ID,
+    HL_ATTR_NAME_CLASSES,
+    HL_ATTR_NAME_STYLE,
+
+    /* And a count of the number of node types */
+    HL_ATTR_NAME_COUNT
+} _HLAttrNameEnum;
 
 typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* parent;  /**< Parent node */
@@ -100,19 +110,16 @@ typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* previous;    /**< Previous sibling */
     struct HLDomElementNode_* next;        /**< Next sibling */
 
+    char* tag;
+    char* attr[HL_ATTR_NAME_COUNT];
+    char* content;
+
     void* private_data;
 
-    char* tag_name;
-    char* tag_value;
-
-    char* tag_id;
-    char* tag_classes;
-    char* tag_inline_style;
-
     // begin for hicss inner
-    lwc_string* inner_tag_name;
-    lwc_string* inner_tag_id;
-    lwc_string** inner_tag_classes;
+    lwc_string* inner_tag;
+    lwc_string* inner_id;
+    lwc_string** inner_classes;
     int inner_tag_classes_count;
 
     void* attach_data;
