@@ -190,7 +190,7 @@ int main(int argc, char **argv)
         .width = 1080,
         .height = 720,
         .dpi = 72,
-        .density = 0
+        .density = 72
     };
 
     HL_LOGD("############################\n");
