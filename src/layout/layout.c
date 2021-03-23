@@ -250,15 +250,23 @@ int _hilayout_layout_node(HLDomElementNode *node, int x, int y, int container_wi
         switch (child->layout_type)
         {
             case LAYOUT_BLOCK:
+                cy = cy + node_height;
                 _hilayout_layout_node(child, cx, cy, cw, ch, cl);
-                cy = cy + child->box_values.h;
+                node_width = node_width + child->box_values.w;
+                node_height = node_height + child->box_values.h;
+                break;
+
+            case LAYOUT_INLINE_BLOCK:
+                cx = cx + node_width;
+                _hilayout_layout_node(child, cx, cy, cw, ch, cl);
                 node_width = node_width + child->box_values.w;
                 node_height = node_height + child->box_values.h;
                 break;
 
             default:
+                cy = cy + node_height;
                 _hilayout_layout_node(child, cx, cy, cw, ch, cl);
-                cy = cy + child->box_values.h;
+                node_width = node_width + child->box_values.w;
                 node_height = node_height + child->box_values.h;
                 break;
         }
