@@ -98,7 +98,7 @@
 #define HL_ATTR_NAME            "name"
 #define HL_ATTR_VALUE           "value"
 #define HL_ATTR_ID              "id"
-#define HL_ATTR_CLASSES         "classes"
+#define HL_ATTR_CLASS           "class"
 #define HL_ATTR_STYLE           "style"
 
 

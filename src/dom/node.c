@@ -60,7 +60,7 @@ char *HL_ATTR_NAME_ARRAY[HL_ATTR_NAME_COUNT] = {
     "name",
     "value",
     "id",
-    "classes",
+    "class",
     "style"
 };
 
@@ -468,6 +468,9 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
         parent->last_child = node;
         node->previous = NULL;
         node->next = NULL;
+        HL_LOGD("curr|tag=%s|name=%s\n", node->tag, node->attr[HL_ATTR_NAME_NAME]);
+        HL_LOGD("parent->first_child|tag=%s|name=%s\n", parent->first_child->tag, parent->first_child->attr[HL_ATTR_NAME_NAME]);
+        HL_LOGD("parent->last_child|tag=%s|name=%s\n", parent->last_child->tag, parent->last_child->attr[HL_ATTR_NAME_NAME]);
         return HILAYOUT_OK;
     }
 
@@ -477,6 +480,10 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
 
     node->previous = last;
     node->next = NULL;
+
+    HL_LOGD("curr|tag=%s|name=%s\n", node->tag, node->attr[HL_ATTR_NAME_NAME]);
+    HL_LOGD("parent->first_child|tag=%s|name=%s\n", parent->first_child->tag, parent->first_child->attr[HL_ATTR_NAME_NAME]);
+    HL_LOGD("parent->last_child|tag=%s|name=%s\n", parent->last_child->tag, parent->last_child->attr[HL_ATTR_NAME_NAME]);
 
     return HILAYOUT_OK;
 }

@@ -3,6 +3,22 @@ cmake_minimum_required(VERSION 3.10)
 project(css_select_test)
 add_definitions(-D_DEBUG)
 
+# node
+list(APPEND node_test_INCLUDE_DIRECTORIES
+    ${CMAKE_SOURCE_DIR}/src/dom
+    ${CMAKE_SOURCE_DIR}/src/select
+    ${CMAKE_SOURCE_DIR}/src/layout
+)
+
+list(APPEND node_test_SOURCES
+    ${CMAKE_SOURCE_DIR}/test/node_test.c
+)
+
+include_directories(${node_test_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})
+link_directories(${HICSS_LIBRARY_DIRS})
+add_executable(node_test ${node_test_SOURCES})
+target_link_libraries(node_test hilayout)
+
 # css
 list(APPEND css_select_test_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/dom
