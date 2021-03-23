@@ -193,6 +193,12 @@ int _hilayout_select_child_style(const css_media* media, css_select_ctx* select_
     return HILAYOUT_OK;
 }
 
+int _hilayout_layout_node(HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
+{
+    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+    return HILAYOUT_OK;
+}
+
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 {
     if (media == NULL || root == NULL || css == NULL || css->sheet == NULL)
@@ -230,7 +236,8 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         return ret;
     }
 
+    ret = _hilayout_layout_node(root, 0, 0, m.width, m.height, 0);
     _hilayout_css_select_ctx_destroy(select_ctx);
-    return 0;
+    return ret;
 }
 
