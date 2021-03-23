@@ -1243,6 +1243,7 @@ int _hilayout_select_node_style(const css_media* media, css_select_ctx* select_c
     {
         node->select_styles = result;
         node->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
+        HL_LOGW("select node style|tag=%s|id=%s|name=%s\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
         return HILAYOUT_OK;
     }
     return HILAYOUT_SELECT_STYLE_ERR;
