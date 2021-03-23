@@ -1186,6 +1186,55 @@ int hilayout_css_destroy(HLCSS* css)
     free(css);
 }
 
+css_select_ctx* _hilayout_css_select_ctx_create(HLCSS* css)
+{
+    uint32_t count;
+    if (css == NULL || css->sheet == NULL)
+    {
+        HL_LOGW("css create select ctx|css=%p|css->sheet=%p|param error.\n", css, css->sheet);
+        return NULL;
+    }
+
+    if (css->done != 1)
+    {
+        _hilayout_css_stylesheet_data_done(css->sheet);
+        css->done = 1;
+    }
+
+    css_select_ctx* select_ctx = NULL;;
+    css_error code = css_select_ctx_create(&select_ctx);
+    if (code != CSS_OK)
+    {
+        HL_LOGW("css create select ctx failed|code=%d\n", code);
+        return NULL;
+    }
+
+    code = css_select_ctx_append_sheet(select_ctx, css->sheet, CSS_ORIGIN_AUTHOR, NULL);
+    if (code != CSS_OK)
+    {
+        HL_LOGW("append sheet to select ctx failed|code=%d\n", code);
+        return NULL;
+    }
+
+    code = css_select_ctx_count_sheets(select_ctx, &count);
+    if (code != CSS_OK)
+    {
+        HL_LOGW("count select ctx sheets failed!|code=%d\n", code);
+        _hilayout_css_select_ctx_destroy(select_ctx);
+        return NULL;
+    }
+
+    HL_LOGD("create select ctx|sheet count=%d\n", count);
+    return select_ctx;
+}
+
+int _hilayout_css_select_ctx_destroy(css_select_ctx* ctx)
+{
+    if (ctx)
+        return css_select_ctx_destroy(ctx);
+    return HILAYOUT_OK;
+}
+
 css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
         const css_media *media, const css_stylesheet *inlineStyleSheet, css_select_handler *handler)
 {
