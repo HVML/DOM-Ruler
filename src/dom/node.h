@@ -148,6 +148,10 @@ typedef struct HLDomElementNode_ {
     int borderType[4];
 
     // end for layout output
+
+    // for css select result
+    css_select_results* select_styles;
+    css_computed_style* computed_style;
 } HLDomElementNode;
 
 

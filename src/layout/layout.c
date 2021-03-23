@@ -182,12 +182,6 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         return HILAYOUT_NOMEM;
     }
 
-    if (css->done != 1)
-    {
-        _hilayout_css_stylesheet_data_done(css->sheet);
-        css->done = 1;
-    }
-
 	HLContext context = {
 		.media = media,
 		.css = css
@@ -206,6 +200,12 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
     HL_LOGD("media|param w=%d|h=%d|after calc inner|w=%d|h=%d|to physical|w=%d|h=%d\n",
             media->width, media->height, m.width, m.height, FIXTOINT(hl_css_pixels_css_to_physical(ctx, m.width)), FIXTOINT(hl_css_pixels_css_to_physical(ctx, m.height)));
 
+    // create css select context
+    css_select_ctx* select_ctx = _hilayout_css_select_ctx_create(css);
+
+
+
+    _hilayout_css_select_ctx_destroy(select_ctx);
     return 0;
 }
 

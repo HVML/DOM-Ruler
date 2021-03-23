@@ -90,6 +90,7 @@
 #define HILAYOUT_IMPORTS_PENDING    8
 #define HILAYOUT_PROPERTY_NOT_SET   9
 #define HILAYOUT_NOT_SUPPORT        10
+#define HILAYOUT_SELECT_STYLE_ERR   11
 
 // error code end
 
