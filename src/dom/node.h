@@ -119,7 +119,7 @@ typedef struct HLDomElementNode_ {
     // begin for hicss inner
     lwc_string* inner_tag;
     lwc_string* inner_id;
-    lwc_string** inner_classes;
+    lwc_string* inner_classes[HILAYOUT_MAX_CLASS_COUNT];
     int inner_classes_count;
 
     void* attach_data;

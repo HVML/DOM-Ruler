@@ -277,6 +277,24 @@ const char* hilayout_element_node_get_tag_name(HLDomElementNode* node)
     return node ? node->tag : NULL;
 }
 
+static const char _HILAYOUT_WHITESPACE[] = " ";
+void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
+{
+    if (node == NULL || classes == NULL || strlen(classes) == 0)
+    {
+        node->inner_classes_count = 0;
+        return;
+    }
+    char* value = strdup(classes);
+    char* c = strtok(value, _HILAYOUT_WHITESPACE);
+    while (c != NULL) {
+        node->inner_classes[node->inner_classes_count]= _hilayout_lwc_string_dup(c);
+        node->inner_classes_count++;
+        c = strtok(NULL, _HILAYOUT_WHITESPACE);
+    }
+    free(value);
+}
+
 int hilayout_element_node_set_attr(HLDomElementNode* node, const char* name, const char* value)
 {
     if (node == NULL || name == NULL)
@@ -301,7 +319,24 @@ int hilayout_element_node_set_attr(HLDomElementNode* node, const char* name, con
         {
             free(node->attr[index]);
         }
-        node->attr[index] = value != NULL ? strdup(value) : NULL;
+        if (value)
+        {
+            node->attr[index] = strdup(value);
+            switch (index)
+            {
+                case HL_ATTR_NAME_ID:
+                    node->inner_id = _hilayout_lwc_string_dup(value);
+                    break;
+
+                case HL_ATTR_NAME_CLASSES:
+                    _hilayout_fill_inner_classes(node, value);
+                    break;
+            }
+        }
+        else
+        {
+            node->attr[index] = NULL;
+        }
         return HILAYOUT_OK;
     }
     HL_LOGE("set element attr|node=%p|name=%s|value=%s|not support\n", node, name, value);
