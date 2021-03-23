@@ -193,9 +193,62 @@ int _hilayout_select_child_style(const css_media* media, css_select_ctx* select_
     return HILAYOUT_OK;
 }
 
+int _hilayout_calc_z_index(HLDomElementNode *node)
+{
+    int32_t index = 0;
+    int8_t val = css_computed_z_index(node->computed_style, &index);
+    switch (val) {
+    case CSS_Z_INDEX_INHERIT:
+        HL_LOGW("calc z index|tag=%s|id=%s|name=%s|z-index=inherit\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+        break;
+
+    case CSS_Z_INDEX_AUTO:
+        HL_LOGW("calc z index||tag=%s|id=%s|name=%s|z-index=auto\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+        break;
+
+    case CSS_Z_INDEX_SET:
+        HL_LOGW("calc z index|tag=%s|id=%s|name=%s|z-index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
+        break;
+
+    default:
+        HL_LOGW("calc z index|tag=%s|id=%s|name=%s|z-index=default\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+        break;
+    }
+    node->boxValues.z_index = index;
+    return index;
+}
+
 int _hilayout_layout_node(HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
 {
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+    if (node == NULL)
+    {
+        HL_LOGW("layout node|level=%d|node=%p\n", level, node);
+        return HILAYOUT_OK;
+    }
+
+    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|parent=%p\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->parent);
+    if (node->parent == NULL)
+    {
+        node->boxValues.x = x;
+        node->boxValues.y = y;
+        node->boxValues.w = container_width;
+        node->boxValues.h = container_height;
+        _hilayout_calc_z_index(node);
+    }
+
+#if 0
+    HLDomElementNode* child = node->first_child;
+    while(child)
+    {
+        ret = _hilayout_layout_node(child, select_ctx, child);
+        if (ret != HILAYOUT_OK)
+        {
+            return ret;
+        }
+        child = child->next;
+    }
+#endif
+
     return HILAYOUT_OK;
 }
 
