@@ -54,7 +54,6 @@
 extern "C" {
 #endif
 
-
 int calcNodeWidthHeight(HLDomElementNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight);
 
 int layout_node(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);

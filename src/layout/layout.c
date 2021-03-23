@@ -47,8 +47,17 @@
 
 
 #include "layout.h"
+#include "select.h"
 #include <stdio.h>
+#include <stdlib.h>
 
+#ifndef max
+#define max(a,b) ((a)>(b)?(a):(b))
+#endif
+
+#ifndef min
+#define min(a,b) ((a)<(b)?(a):(b))
+#endif
 
 int calcNodeWidthHeight(HLDomElementNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight)
 {
@@ -103,3 +112,95 @@ int layout_node(HLDomElementNode *node, int x, int y, int widthLimit, int height
     fprintf(stderr, "node|tag=%s|id=%s|(%f, %f, %f, %f)\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->boxValues.x, node->boxValues.y, node->boxValues.w, node->boxValues.h);
     return 0;
 }
+
+/** Media DPI in fixed point units: defaults to 96, same as nscss_baseline_pixel_density */
+css_fixed default_hl_css_media_dpi = F_96;
+
+/** Medium screen density for device viewing distance. */
+css_fixed default_hl_css_baseline_pixel_density = F_96;
+
+typedef struct HLContext_ {
+    HLMedia* media;
+    HLCSS* css;
+    css_fixed hl_css_media_dpi;
+    css_fixed hl_css_baseline_pixel_density;
+} HLContext;
+
+
+/**
+ * Convert css pixels to physical pixels.
+ *
+ * \param[in] css_pixels  Length in css pixels.
+ * \return length in physical pixels
+ */
+static inline css_fixed hl_css_pixels_css_to_physical(HLContext* ctx, css_fixed css_pixels)
+{
+    return FDIV(FMUL(css_pixels, ctx->hl_css_media_dpi), ctx->hl_css_baseline_pixel_density);
+}
+
+/**
+ * Convert physical pixels to css pixels.
+ *
+ * \param[in] physical_pixels  Length in physical pixels.
+ * \return length in css pixels
+ */
+static inline css_fixed hl_css_pixels_physical_to_css(HLContext* ctx, css_fixed physical_pixels)
+{
+    return FDIV(FMUL(physical_pixels, ctx->hl_css_baseline_pixel_density), ctx->hl_css_media_dpi);
+}
+
+int hl_set_media_dpi(HLContext* ctx, int dpi)
+{
+    if (dpi < 72 || dpi > 250) {
+        int bad = dpi;
+        dpi = min(max(dpi, 72), 250);
+        HL_LOGW("%s|invalid dpi=%d|change to dpi=%d\n", __func__, bad, dpi);
+    }
+    ctx->hl_css_media_dpi = INTTOFIX(dpi);
+    return HILAYOUT_OK;
+}
+
+int hl_set_baseline_pixel_density(HLContext* ctx, int density)
+{
+    if (density < 72 || density > 250) {
+        int bad = density;
+        density = min(max(density, 72), 250);
+        HL_LOGW("%s|invalid density=%d|change to density=%d\n", __func__, bad, density);
+    }
+    ctx->hl_css_baseline_pixel_density = INTTOFIX(density);
+    return HILAYOUT_OK;
+}
+
+
+int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
+{
+    if (media == NULL || root == NULL || css == NULL || css->sheet == NULL)
+    {
+        HL_LOGW("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n", __func__, media, root, css, css->sheet);
+        return HILAYOUT_NOMEM;
+    }
+
+    if (css->done != 1)
+    {
+        _hilayout_css_stylesheet_data_done(css->sheet);
+        css->done = 1;
+    }
+
+	HLContext context = {
+		.media = media,
+		.css = css
+	};
+    HLContext* ctx = &context;
+    hl_set_media_dpi(ctx, media->dpi > 0 ? media->dpi : default_hl_css_media_dpi);
+    hl_set_baseline_pixel_density(ctx, media->density > 0 ? media->density : default_hl_css_baseline_pixel_density);
+
+	css_media m;
+	m.type = CSS_MEDIA_SCREEN;
+    m.width  = hl_css_pixels_physical_to_css(ctx, INTTOFIX(media->width));
+    m.height = hl_css_pixels_physical_to_css(ctx, INTTOFIX(media->height));
+
+    HL_LOGW("media|in_w=%d|in_h=%d|calc.w=%d|calc.h=%d\n", media->width, media->height, m.width, m.height);
+
+    return 0;
+}
+
