@@ -114,10 +114,12 @@ int layout_node(HLDomElementNode *node, int x, int y, int widthLimit, int height
 }
 
 /** Media DPI in fixed point units: defaults to 96, same as nscss_baseline_pixel_density */
-css_fixed default_hl_css_media_dpi = F_96;
+//css_fixed default_hl_css_media_dpi = F_96;
+int hl_default_media_dpi = 96;
 
 /** Medium screen density for device viewing distance. */
-css_fixed default_hl_css_baseline_pixel_density = F_96;
+//css_fixed default_hl_css_baseline_pixel_density = F_96;
+int hl_default_css_baseline_pixel_density = 96;
 
 typedef struct HLContext_ {
     HLMedia* media;
@@ -191,15 +193,18 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 		.css = css
 	};
     HLContext* ctx = &context;
-    hl_set_media_dpi(ctx, media->dpi > 0 ? media->dpi : default_hl_css_media_dpi);
-    hl_set_baseline_pixel_density(ctx, media->density > 0 ? media->density : default_hl_css_baseline_pixel_density);
+    hl_set_media_dpi(ctx, media->dpi > 0 ? media->dpi : hl_default_media_dpi);
+    hl_set_baseline_pixel_density(ctx, media->density > 0 ? media->density : hl_default_css_baseline_pixel_density);
 
 	css_media m;
 	m.type = CSS_MEDIA_SCREEN;
     m.width  = hl_css_pixels_physical_to_css(ctx, INTTOFIX(media->width));
     m.height = hl_css_pixels_physical_to_css(ctx, INTTOFIX(media->height));
 
-    HL_LOGW("media|in_w=%d|in_h=%d|calc.w=%d|calc.h=%d\n", media->width, media->height, m.width, m.height);
+    HL_LOGD("media|param dpi=%d|density=%d|after calc inner|dpi=0x%x|density=0x%x\n",
+            media->dpi, media->density, ctx->hl_css_media_dpi, ctx->hl_css_baseline_pixel_density);
+    HL_LOGD("media|param w=%d|h=%d|after calc inner|w=%d|h=%d|to physical|w=%d|h=%d\n",
+            media->width, media->height, m.width, m.height, FIXTOINT(hl_css_pixels_css_to_physical(ctx, m.width)), FIXTOINT(hl_css_pixels_css_to_physical(ctx, m.height)));
 
     return 0;
 }

@@ -186,10 +186,18 @@ int main(int argc, char **argv)
     HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), color_shade);
     _hilayout_css_select_result_destroy(style);
 
-    HL_LOGD("\n############################\n");
-    int w = 0;
-    int h = 0;
-    layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
+    HLMedia hl_media = {
+        .width = 1080,
+        .height = 720,
+        .dpi = 72,
+        .density = 0
+    };
+
+    HL_LOGD("############################\n");
+    hilayout_do_layout(&hl_media, css, root);
+    //int w = 0;
+    //int h = 0;
+    //layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
 
     hilayout_css_destroy(css);
     HL_LOGD("LOGD test \n");
