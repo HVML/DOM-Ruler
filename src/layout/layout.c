@@ -173,6 +173,25 @@ int hl_set_baseline_pixel_density(HLContext* ctx, int density)
     return HILAYOUT_OK;
 }
 
+int _hilayout_select_child_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node)
+{
+    int ret = _hilayout_select_node_style(media, select_ctx, node);
+    if (ret != HILAYOUT_OK)
+    {
+        return ret;
+    }
+    HLDomElementNode* child = node->first_child;
+    while(child)
+    {
+        ret = _hilayout_select_child_style(media, select_ctx, child);
+        if (ret != HILAYOUT_OK)
+        {
+            return ret;
+        }
+        child = child->next;
+    }
+    return HILAYOUT_OK;
+}
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 {
@@ -203,7 +222,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
     // create css select context
     css_select_ctx* select_ctx = _hilayout_css_select_ctx_create(css);
 
-
+    int ret = _hilayout_select_child_style(&m, select_ctx, root);
 
     _hilayout_css_select_ctx_destroy(select_ctx);
     return 0;
