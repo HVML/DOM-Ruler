@@ -317,3 +317,35 @@ const char* hilayout_element_node_get_attr(HLDomElementNode* node, const char* n
 
     return index >= 0 ? node->attr[index] : NULL;
 }
+
+int hilayout_element_node_set_private_data(HLDomElementNode* node, void* data)
+{
+    if (node)
+        node->private_data = data;
+}
+
+void* hilayout_element_node_get_private_data(HLDomElementNode* node)
+{
+    return node ? node->private_data : NULL;
+}
+
+int hilayout_element_node_set_content(HLDomElementNode* node, const char* content)
+{
+    if (node == NULL)
+    {
+        HL_LOGE("set content|node=%p|content=%s|param error\n", node, content);
+        return HILAYOUT_BADPARM;
+    }
+
+    if (node->content)
+    {
+        free(node->content);
+    }
+    node->content = strdup(content);
+    return HILAYOUT_OK;
+}
+
+const char* hilayout_element_node_get_content(HLDomElementNode* node)
+{
+    return node ? node->content : NULL;
+}
