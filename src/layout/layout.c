@@ -223,6 +223,12 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
     css_select_ctx* select_ctx = _hilayout_css_select_ctx_create(css);
 
     int ret = _hilayout_select_child_style(&m, select_ctx, root);
+    if (ret != HILAYOUT_OK)
+    {
+        HL_LOGW("%s|select child style failed.|code=%d\n", __func__, ret);
+        _hilayout_css_select_ctx_destroy(select_ctx);
+        return ret;
+    }
 
     _hilayout_css_select_ctx_destroy(select_ctx);
     return 0;
