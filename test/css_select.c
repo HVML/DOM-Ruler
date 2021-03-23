@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 		css_color color_shade;
 
 
-        DomNode* domNode = createDomNode("h1", NULL, DOM_ELEMENT_NODE, NULL, NULL, 0, NULL, NULL);
+        HLDomElementNode* domNode = hilayout_element_node_create("h1");
         style = _hilayout_css_select_style(css, domNode, &media, NULL, NULL);
 
 		color_type = css_computed_color(
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 			HL_LOGW("color of h%i is %x\n", hh, color_shade);
 
         _hilayout_css_select_result_destroy(style);
-        destroyDomNode(domNode);
+        hilayout_element_node_destroy(domNode, NULL);
 	}
 
 

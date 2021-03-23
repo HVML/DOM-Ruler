@@ -53,6 +53,7 @@
 
 #define UNKNOWN_WIDTH INT_MAX
 #define UNKNOWN_MAX_WIDTH INT_MAX
+#define UNKNOWN_MAX_HEIGHT INT_MAX
 #define AUTO INT_MIN
 
 
@@ -63,174 +64,6 @@ char *HL_ATTR_NAME_ARRAY[HL_ATTR_NAME_COUNT] = {
     "class",
     "style"
 };
-
-
-DomNode* createDomNode(char* name, char* value, DomNodeType domType, 
-        char *id, char **classes, int classesCount, char *inlineStyle, char *runnerType)
-{
-    DomNode* result = (DomNode*)malloc(sizeof(DomNode));
-    if (result == NULL)
-    {
-        return NULL;
-    }
-
-    if (name != NULL)
-    {
-        result->name = strdup(name);
-        lwc_intern_string(result->name, strlen(result->name), &result->lwcName);
-    }
-    else
-    {
-        result->name = NULL;
-        result->lwcName = NULL;
-    }
-
-    if (value != NULL)
-        result->value = strdup(value);
-    else
-        result->value = NULL;
-
-    result->domType = domType;
-
-    if (id != NULL)
-    {
-        result->id = strdup(id);
-        lwc_intern_string(result->id, strlen(result->id), &result->lwcId);
-    }
-    else
-    {
-        result->id = NULL;
-        result->lwcId = NULL;
-    }
-
-    if (classesCount > 0 && classes != NULL)
-    {
-        char** resultClasses = (char**) malloc(sizeof(char*)*classesCount);
-        result->lwcClasses = malloc(sizeof(lwc_string *) * classesCount);
-        for (int i = 0; i < classesCount; i++)
-        {
-            resultClasses[i] = strdup(classes[i]);
-            lwc_intern_string(resultClasses[i], strlen(resultClasses[i]), &result->lwcClasses[i]);
-        }
-        result->classes = resultClasses;
-        result->classesCount = classesCount;
-    }
-    else
-    {
-        result->classes = NULL;
-        result->lwcClasses = NULL;
-        result->classesCount = 0;
-    }
-
-    if (inlineStyle != NULL)
-        result->inlineStyle = strdup(inlineStyle);
-    else
-        result->inlineStyle = NULL;
-
-    if (runnerType != NULL)
-        result->runnerType = strdup(runnerType);
-    else
-        result->runnerType = NULL;
-
-    result->attach = NULL;
-    result->parent = NULL;
-    result->firstChild = NULL;
-    result->lastChild = NULL;
-    result->previous = NULL;
-    result->next = NULL;
-
-    result->x = 0;
-    result->y = 0;
-    result->width = UNKNOWN_WIDTH;
-    result->height = 0;
-
-    result->marginLeft = 0;
-    result->marginTop = 0;
-    result->marginRight = 0;
-    result->marginBottom = 0;
-
-    result->paddingLeft = 0;
-    result->paddingTop = 0;
-    result->paddingRight = 0;
-    result->paddingBottom = 0;
-
-    result->borderLeftWidth = 0;
-    result->borderTopWidth = 0;
-    result->borderRightWidth = 0;
-    result->borderBottomWidth = 0;
-
-    result->minWidth = 0;
-    result->maxWidth = UNKNOWN_MAX_WIDTH;
-
-    result->layoutType = LAYOUT_INLINE;
-    return result;
-}
-
-int attachDomNode(DomNode *node, DomNode *parent, DomNode *previous, DomNode *next)
-{
-    return attachDomNodeRange(node, node, parent, previous, next);
-}
-
-int attachDomNodeRange(DomNode *first, DomNode *last, DomNode *parent, DomNode *previous, DomNode *next)
-{
-    DomNode *n;
-
-    first->previous = previous;
-    last->next = next;
-
-    if (previous != NULL)
-        previous->next = first;
-    else
-        parent->firstChild = first;
-
-    if (next != NULL)
-        next->previous = last;
-    else
-        parent->lastChild = last;
-
-    return 0;
-}
-
-
-void destroyDomNode(DomNode *node)
-{
-    if (node == NULL)
-        return;
-
-    if (node->name != NULL)
-    {
-        free(node->name);
-        lwc_string_destroy(node->lwcName);
-    }
-
-    if (node->value != NULL)
-        free(node->value);
-
-    if (node->id != NULL)
-    {
-        free(node->id);
-        lwc_string_destroy(node->lwcId);
-    }
-
-    if (node->classesCount > 0 && node->classes)
-    {
-        for (int i = 0; i < node->classesCount; i++)
-        {
-            free(node->classes[i]);
-            lwc_string_destroy(node->lwcClasses[i]);
-        }
-        free(node->classes);
-        free(node->lwcClasses);
-    }
-
-    if (node->inlineStyle != NULL)
-        free(node->inlineStyle);
-
-    if (node->runnerType != NULL)
-        free(node->runnerType);
-
-    free(node);
-}
 
 lwc_string* _hilayout_lwc_string_dup(const char* str)
 {
@@ -268,6 +101,15 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     memset(node, 0, sizeof(HLDomElementNode));
     node->tag = strdup(tag);
     node->inner_tag = _hilayout_lwc_string_dup(tag);
+
+
+    node->boxValues.w = UNKNOWN_WIDTH;
+
+    node->min_w = 0;
+    node->max_w = UNKNOWN_MAX_WIDTH;
+
+    node->min_h = 0;
+    node->max_h = UNKNOWN_MAX_HEIGHT;
 
     return node;
 }

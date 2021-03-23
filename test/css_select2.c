@@ -101,22 +101,35 @@ int main(int argc, char **argv)
     hilayout_css_append_data(css, data, strlen(data));
 
 
-    DomNode* root = createDomNode("div", NULL, DOM_ELEMENT_NODE, "root", NULL, 0, NULL, NULL);
-    DomNode* title = createDomNode("div", NULL, DOM_ELEMENT_NODE, "title", NULL, 0, NULL, NULL);
-    DomNode* description = createDomNode("div", NULL, DOM_ELEMENT_NODE, "description", NULL, 0, NULL, NULL);
-    DomNode* page = createDomNode("div",  NULL, DOM_ELEMENT_NODE, "page", NULL, 0, NULL, NULL);
-    DomNode* indicator = createDomNode("div",  NULL, DOM_ELEMENT_NODE, "indicator", NULL, 0, NULL, NULL);
+    HLDomElementNode* root = hilayout_element_node_create("div");
+    hilayout_element_node_set_attr(root, HL_ATTR_ID, "root");
 
-    DomNode* hiweb = createDomNode("hiweb", NULL, DOM_ELEMENT_NODE, "hiweb", NULL, 0, NULL, NULL);
-    DomNode* hijs = createDomNode("hijs", NULL, DOM_ELEMENT_NODE, "hijs", NULL, 0, NULL, NULL);
+    HLDomElementNode* title = hilayout_element_node_create("div");
+    hilayout_element_node_set_attr(title, HL_ATTR_ID, "title");
 
-    // node tree
-    attachDomNode(title, root, NULL, description);
-    attachDomNode(description, root, title, page);
-    attachDomNode(page, root, description, indicator);
-    attachDomNode(indicator, root, page, NULL);
-    attachDomNode(hiweb, page, NULL, hijs);
-    //attachDomNode(hijs, page, hiweb, NULL);
+    HLDomElementNode* description = hilayout_element_node_create("div");
+    hilayout_element_node_set_attr(description, HL_ATTR_ID, "description");
+
+    HLDomElementNode* page = hilayout_element_node_create("div");
+    hilayout_element_node_set_attr(page, HL_ATTR_ID, "page");
+
+    HLDomElementNode* indicator = hilayout_element_node_create("div");
+    hilayout_element_node_set_attr(indicator, HL_ATTR_ID, "indicator");
+
+
+    HLDomElementNode* hiweb = hilayout_element_node_create("hiweb");
+    hilayout_element_node_set_attr(hiweb, HL_ATTR_ID, "hiweb");
+
+    HLDomElementNode* hijs = hilayout_element_node_create("hijs");
+    hilayout_element_node_set_attr(hijs, HL_ATTR_ID, "hijs");
+
+    hilayout_element_node_append_as_last_child(root, title);
+    hilayout_element_node_append_as_last_child(root, description);
+    hilayout_element_node_append_as_last_child(root, page);
+    hilayout_element_node_append_as_last_child(root, indicator);
+
+    hilayout_element_node_append_as_last_child(page, hiweb);
+    hilayout_element_node_append_as_last_child(page, hijs);
 
     css_select_results *style;
     uint8_t color_type;
@@ -125,23 +138,24 @@ int main(int argc, char **argv)
     css_fixed len = 0;
     uint8_t val;
 
-    DomNode* nodeSelect = title;
-    style = _hilayout_css_select_style(css, nodeSelect, &media, NULL, NULL);
+    HLDomElementNode* node_select = title;
+    style = _hilayout_css_select_style(css, node_select, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
-    fprintf(stderr, "####################\n");
-    fprintf(stderr, "name=%s|id=%s|color=%x\n", nodeSelect->name, nodeSelect->id, color_shade);
+    HL_LOGD("################################\n");
+    HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), color_shade);
 
     int position = css_computed_position(style->styles[CSS_PSEUDO_ELEMENT_NONE]);
-    fprintf(stderr, "name=%s|id=%s|position=%d\n", nodeSelect->name, nodeSelect->id, position);
+    HL_LOGW("tag=%s|id=%s|position=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), position);
 
     val = css_computed_width(style->styles[CSS_PSEUDO_ELEMENT_NONE], &len, &unit);
-    fprintf(stderr, "name=%s|id=%s|len=%d|unit=%d\n", nodeSelect->name, nodeSelect->id, len, unit);
+    HL_LOGW("tag=%s|id=%s|len=%d|unit=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), len, unit);
+
     switch (val) {
     case CSS_WIDTH_INHERIT:
-        fprintf(stderr, "name=%s|id=%s|width=inherit\n", nodeSelect->name, nodeSelect->id);
+        HL_LOGW("tag=%s|id=%s|width=inherit\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID));
         break;
     case CSS_WIDTH_AUTO:
-        fprintf(stderr, "name=%s|id=%s|width=auto\n", nodeSelect->name, nodeSelect->id);
+        HL_LOGW("tag=%s|id=%s|width=auto\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID));
         break;
     case CSS_WIDTH_SET:
         {
@@ -155,7 +169,7 @@ int main(int argc, char **argv)
                 width = FIXTOINT(css_len2px(len, unit, style->styles[CSS_PSEUDO_ELEMENT_NONE]));
             }
 
-            fprintf(stderr, "name=%s|id=%s|len=%d|width=%d\n", nodeSelect->name, nodeSelect->id, len, width);
+            HL_LOGW("tag=%s|id=%s|len=%d|width=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), len , width);
         }
         break;
     default:
@@ -165,18 +179,18 @@ int main(int argc, char **argv)
 
     _hilayout_css_select_result_destroy(style);
 
-    fprintf(stderr, "###################\n");
-    nodeSelect = title;
-    style = _hilayout_css_select_style(css, nodeSelect, &media, NULL, NULL);
+    HL_LOGD("###################\n");
+    node_select = title;
+    style = _hilayout_css_select_style(css, node_select, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
-    fprintf(stderr, "name=%s|id=%s|color=%x\n", nodeSelect->name, nodeSelect->id, color_shade);
+    HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), color_shade);
     _hilayout_css_select_result_destroy(style);
 
-    fprintf(stderr, "\n############################\n");
+    HL_LOGD("\n############################\n");
     //layout_block(root, 1080, 720);
     int w = 0;
     int h = 0;
-    layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
+    //layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
 
     hilayout_css_destroy(css);
     HL_LOGD("LOGD test \n");

@@ -73,7 +73,7 @@ typedef enum {
 
     /* And a count of the number of node types */
     DOM_NODE_TYPE_COUNT
-} DomNodeType;
+} HLDomElementNodeType;
 
 typedef enum {
     LAYOUT_BLOCK,
@@ -122,7 +122,8 @@ typedef struct HLDomElementNode_ {
     lwc_string* inner_classes[HILAYOUT_MAX_CLASS_COUNT];
     int inner_classes_count;
 
-    void* attach_data;
+    HLDomElementNodeType inner_dom_type;;
+    void* inner_attach;
     // end for hicss inner
     
     // begin for layout output
@@ -143,7 +144,6 @@ typedef struct HLDomElementNode_ {
     int borderType[4];
 
     // end for layout output
-    
 } HLDomElementNode;
 
 typedef struct DomNode_ {
@@ -159,7 +159,7 @@ typedef struct DomNode_ {
     lwc_string *lwcName;
 
     char *value;
-    DomNodeType domType;
+    HLDomElementNodeType domType;
 
     char *id;
     lwc_string *lwcId;
@@ -201,12 +201,6 @@ typedef struct DomNode_ {
 
 } DomNode;
 
-
-DomNode* createDomNode(char* name, char* value, DomNodeType domType, 
-        char *id, char **classes, int classesCount, char *inlineStyle, char *runnerType);
-int attachDomNode(DomNode *node, DomNode *parent, DomNode *previous, DomNode *next);
-int attachDomNodeRange(DomNode *first, DomNode *last, DomNode *parent, DomNode *previous, DomNode *next);
-void destroyDomNode(DomNode *node);
 
 #ifdef __cplusplus
 }
