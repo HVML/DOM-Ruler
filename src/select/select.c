@@ -47,6 +47,7 @@
 
 #include "select.h"
 #include <stdio.h>
+#include <string.h>
 
 #define DEFAULT_CHARSET "UTF-8"
 #define DEFAULT_URL "hilayout_css_select"
@@ -1233,6 +1234,72 @@ int _hilayout_css_select_ctx_destroy(css_select_ctx* ctx)
     if (ctx)
         return css_select_ctx_destroy(ctx);
     return HILAYOUT_OK;
+}
+
+css_select_results* _hilayout_get_node_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node)
+{
+    if (media == NULL || select_ctx == NULL || node == NULL)
+    {
+        HL_LOGW("get node style failed.\n");
+        return NULL;
+    }
+
+    // prepare inline style
+    css_stylesheet* inline_style = NULL;
+    const char* style = node->attr[HL_ATTR_NAME_STYLE];
+    if (style != NULL)
+    {
+        inline_style = _hilayout_css_stylesheet_inline_style_create(style, strlen(style));
+    }
+
+    /* Select style for node */
+    css_select_results *styles;
+    css_error error = css_select_style(select_ctx, node, media, inline_style, &selection_handler, NULL, &styles);
+
+    if (error != CSS_OK || styles == NULL) {
+        /* Failed selecting partial style -- bail out */
+        _hilayout_css_stylesheet_destroy(inline_style);
+        return NULL;
+    }
+
+    int pseudo_element;
+    css_computed_style *composed = NULL;
+    for (pseudo_element = CSS_PSEUDO_ELEMENT_NONE + 1;
+            pseudo_element < CSS_PSEUDO_ELEMENT_COUNT;
+            pseudo_element++) {
+
+        if (pseudo_element == CSS_PSEUDO_ELEMENT_FIRST_LETTER ||
+                pseudo_element == CSS_PSEUDO_ELEMENT_FIRST_LINE)
+            /* TODO: Handle first-line and first-letter pseudo
+             *       element computed style completion */
+            continue;
+
+        if (styles->styles[pseudo_element] == NULL)
+            /* There were no rules concerning this pseudo element */
+            continue;
+
+        /* Complete the pseudo element's computed style, by composing
+         * with the base element's style */
+        error = css_computed_style_compose(
+                styles->styles[CSS_PSEUDO_ELEMENT_NONE],
+                styles->styles[pseudo_element],
+                compute_font_size, NULL,
+                &composed);
+        if (error != CSS_OK) {
+            /* TODO: perhaps this shouldn't be quite so
+             * catastrophic? */
+            css_select_results_destroy(styles);
+            _hilayout_css_stylesheet_destroy(inline_style);
+            return NULL;
+        }
+
+        /* Replace select_results style with composed style */
+        css_computed_style_destroy(styles->styles[pseudo_element]);
+        styles->styles[pseudo_element] = composed;
+    }
+
+    _hilayout_css_stylesheet_destroy(inline_style);
+    return styles;
 }
 
 css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,

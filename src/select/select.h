@@ -73,6 +73,8 @@ int _hilayout_css_stylesheet_destroy(css_stylesheet* sheet);
 css_select_ctx* _hilayout_css_select_ctx_create(HLCSS* css);
 int _hilayout_css_select_ctx_destroy(css_select_ctx* ctx);
 
+css_select_results* _hilayout_get_node_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node);
+
 css_select_results* _hilayout_css_select_style(const HLCSS* css, void *node,
 		const css_media *media, const css_stylesheet *inline_style, css_select_handler *handler);
 
