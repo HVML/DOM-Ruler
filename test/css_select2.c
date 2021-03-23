@@ -123,14 +123,15 @@ int main(int argc, char **argv)
     HLDomElementNode* hijs = hilayout_element_node_create("hijs");
     hilayout_element_node_set_attr(hijs, HL_ATTR_ID, "hijs");
 
-    hilayout_element_node_append_as_last_child(root, title);
-    hilayout_element_node_append_as_last_child(root, description);
-    hilayout_element_node_append_as_last_child(root, page);
-    hilayout_element_node_append_as_last_child(root, indicator);
+    hilayout_element_node_append_as_last_child(title, root);
+    hilayout_element_node_append_as_last_child(description, root);
+    hilayout_element_node_append_as_last_child(page, root);
+    hilayout_element_node_append_as_last_child(indicator, root);
 
-    hilayout_element_node_append_as_last_child(page, hiweb);
-    hilayout_element_node_append_as_last_child(page, hijs);
+    hilayout_element_node_append_as_last_child(hiweb, page);
+    hilayout_element_node_append_as_last_child(hijs, page);
 
+#if 1
     css_select_results *style;
     uint8_t color_type;
     css_color color_shade;
@@ -195,14 +196,9 @@ int main(int argc, char **argv)
 
     HL_LOGD("############################\n");
     hilayout_do_layout(&hl_media, css, root);
-    //int w = 0;
-    //int h = 0;
-    //layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
 
     hilayout_css_destroy(css);
-    HL_LOGD("LOGD test \n");
-    HL_LOGE("LOGE test \n");
-    HL_LOGW("LOGW test \n");
+#endif
 
 	return 0;
 }
