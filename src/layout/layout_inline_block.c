@@ -49,12 +49,12 @@
 #include "layout.h"
 
 
-bool layout_inline_block(DomNode *node, int width, int height)
+bool layout_inline_block(HLDomElementNode *node, int width, int height)
 {
     return false;
 }
 
-int layout_child_node_inline_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
+int layout_child_node_inline_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
 {
     return 0;
 }

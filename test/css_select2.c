@@ -187,10 +187,9 @@ int main(int argc, char **argv)
     _hilayout_css_select_result_destroy(style);
 
     HL_LOGD("\n############################\n");
-    //layout_block(root, 1080, 720);
     int w = 0;
     int h = 0;
-    //layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
+    layout_node(root, 0, 0, 1080, 720, &w, &h, 0);
 
     hilayout_css_destroy(css);
     HL_LOGD("LOGD test \n");

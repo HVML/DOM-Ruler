@@ -50,49 +50,10 @@
 
 #include <stdio.h>
 
-int layout_block_child_node(DomNode *node, int y, int *cy, int level)
-{
-    if (node == NULL)
-        return 0;
-
-    level++;
-    fprintf(stderr, "layout_block_node|    %d     |name=%s|id=%s\n", level, node->name, node->id);
-    int height = 0;
-    DomNode* child = node->firstChild;
-    if (child)
-    {
-        while(child)
-        {
-            int ch = layout_block_child_node(child, 0, cy, level);
-            height += ch;
-            child = child->next;
-        }
-        node->height = height;
-    }
-    else
-    {
-        height = 10;
-        node->height = height;
-    }
-    fprintf(stderr, "layout_block_node|    %d     |name=%s|id=%s|height=%d\n", level, node->name, node->id, height);
-    return height;
-}
-
-bool layout_block(DomNode *node, int w, int h)
-{
-    if (node == NULL)
-        return true;
-
-    int level = 0;
-    int cy = 0;
-    int height = layout_block_child_node(node, 0, &cy, level);
-    return false;
-}
-
-int layout_child_node_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
+int layout_child_node_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
 {
     level++;
-    if (node == NULL || node->firstChild == NULL)
+    if (node == NULL || node->first_child == NULL)
     {
         return 0;
     }
@@ -102,7 +63,7 @@ int layout_child_node_block(DomNode *node, int x, int y, int widthLimit, int hei
     int tw = 0;
     int th = 0;
 
-    DomNode* child = node->firstChild;
+    HLDomElementNode* child = node->first_child;
     while(child)
     {
         layout_node(child, cx, cy, widthLimit, heightLimit, &tw, &th, level);

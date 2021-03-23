@@ -50,51 +50,34 @@
 #include <stdio.h>
 
 
-bool layout_page(DomNode *page, int width, int height)
+int calcNodeWidthHeight(HLDomElementNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight)
 {
-    if (page == NULL)
-    {
-        return false;
-    }
-    switch (page->layoutType)
-    {
-        case LAYOUT_BLOCK:
-            return layout_block(page, width, height);
-
-        case LAYOUT_INLINE_BLOCK:
-            return layout_inline_block(page, width, height);
-    }
-    return layout_block(page, width, height);
-}
-
-int calcNodeWidthHeight(DomNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight)
-{
-    node->width = 10 + childWidth;
-    node->height = 10 + childHeight;
+    node->boxValues.w = 10 + childWidth;
+    node->boxValues.h = 10 + childHeight;
     return 0;
 }
 
-int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
+int layout_node(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
 {
     for (int i = 0; i < level; i++)
     {
         fprintf(stderr, "    ");
     }
 
-    fprintf(stderr, "node|name=%s|id=%s\n", node->name, node->id);
+    fprintf(stderr, "node|tag=%s|id=%s\n", node->tag, node->attr[HL_ATTR_NAME_ID]);
     if (node == NULL)
     {
         return 0;
     }
 
-    node->x = x;
-    node->y = y;
+    node->boxValues.x = x;
+    node->boxValues.y = y;
 
     int childWidth = 0;
     int childHeight = 0;
-    if (node->firstChild)
+    if (node->first_child)
     {
-        switch (node->layoutType)
+        switch (node->layout_type)
         {
             case LAYOUT_BLOCK:
                 layout_child_node_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight, level);
@@ -111,12 +94,12 @@ int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, in
     }
 
     calcNodeWidthHeight(node, widthLimit, heightLimit, childWidth, childHeight);
-    *width = node->width;
-    *height = node->height;
+    *width = node->boxValues.w;
+    *height = node->boxValues.h;
     for (int i = 0; i < level; i++)
     {
         fprintf(stderr, "    ");
     }
-    fprintf(stderr, "node|name=%s|id=%s|(%d, %d, %d, %d)\n", node->name, node->id, node->x, node->y, node->width, node->height);
+    fprintf(stderr, "node|tag=%s|id=%s|(%f, %f, %f, %f)\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->boxValues.x, node->boxValues.y, node->boxValues.w, node->boxValues.h);
     return 0;
 }

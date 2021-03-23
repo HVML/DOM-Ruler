@@ -55,16 +55,11 @@ extern "C" {
 #endif
 
 
-bool layout_page(DomNode *page, int width, int height);
-bool layout_block(DomNode *node, int width, int height);
-bool layout_inline_block(DomNode *node, int width, int height);
+int calcNodeWidthHeight(HLDomElementNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight);
 
-
-int calcNodeWidthHeight(DomNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight);
-
-int layout_node(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
-int layout_child_node_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
-int layout_child_node_inline_block(DomNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
+int layout_node(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
+int layout_child_node_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
+int layout_child_node_inline_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
 
 
 #ifdef __cplusplus

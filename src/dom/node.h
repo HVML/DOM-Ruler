@@ -116,6 +116,10 @@ typedef struct HLDomElementNode_ {
 
     void* private_data;
 
+
+    //inner layout
+    LayoutType layout_type;
+
     // begin for hicss inner
     lwc_string* inner_tag;
     lwc_string* inner_id;
@@ -145,61 +149,6 @@ typedef struct HLDomElementNode_ {
 
     // end for layout output
 } HLDomElementNode;
-
-typedef struct DomNode_ {
-    struct DomNode_ *parent;  /**< Parent node */
-    struct DomNode_ *firstChild; /**< First child node */
-    struct DomNode_ *lastChild;  /**< Last child node */
-    struct DomNode_ *previous;    /**< Previous sibling */
-    struct DomNode_ *next;        /**< Next sibling */
-
-    void *attach;
-
-    char *name;
-    lwc_string *lwcName;
-
-    char *value;
-    HLDomElementNodeType domType;
-
-    char *id;
-    lwc_string *lwcId;
-
-    char **classes;
-    lwc_string **lwcClasses;
-
-    int classesCount;
-
-    char *inlineStyle;
-
-    char *runnerType;
-
-
-    int x;
-    int y;
-    int width;
-    int height;
-
-    int marginLeft;
-    int marginTop;
-    int marginRight;
-    int marginBottom;
-
-    int paddingLeft;
-    int paddingTop;
-    int paddingRight;
-    int paddingBottom;
-
-    int borderLeftWidth;
-    int borderTopWidth;
-    int borderRightWidth;
-    int borderBottomWidth;
-
-    int minWidth;
-    int maxWidth;
-
-    LayoutType layoutType;
-
-} DomNode;
 
 
 #ifdef __cplusplus
