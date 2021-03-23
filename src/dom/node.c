@@ -234,9 +234,20 @@ void destroyDomNode(DomNode *node)
 
 lwc_string* _hilayout_lwc_string_dup(const char* str)
 {
+    if (str == NULL)
+    {
+        return NULL;
+    }
+
     lwc_string* result = NULL;
     lwc_intern_string(str, strlen(str), &result);
     return result;
+}
+
+void _hilayout_lwc_string_destroy(lwc_string* str)
+{
+    if (str)
+        lwc_string_destroy(str);
 }
 
 HLDomElementNode* hilayout_element_node_create(const char* tag)
@@ -348,4 +359,59 @@ int hilayout_element_node_set_content(HLDomElementNode* node, const char* conten
 const char* hilayout_element_node_get_content(HLDomElementNode* node)
 {
     return node ? node->content : NULL;
+}
+
+void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE_DESTROY_CALLBACK callback)
+{
+    if (node == NULL)
+        return;
+
+    if (node->tag)
+    {
+        free(node->tag);
+    }
+
+    for (int i = 0; i < HL_ATTR_NAME_COUNT; i++)
+    {
+        if (node->attr[i])
+            free(node->attr[i]);
+    }
+
+    if (node->content)
+    {
+        free(node->content);
+    }
+
+    if (node->private_data && callback)
+    {
+        callback(node->private_data);
+    }
+
+    _hilayout_lwc_string_destroy(node->inner_tag);
+    _hilayout_lwc_string_destroy(node->inner_id);
+
+    for (int i = 0; i < node->inner_classes_count; i++)
+    {
+        _hilayout_lwc_string_destroy(node->inner_classes[i]);
+    }
+
+    if (node->textValues.family)
+    {
+        free(node->textValues.family);
+    }
+}
+
+const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node)
+{
+    return node ? & node->boxValues : NULL;
+}
+
+const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node)
+{
+    return node ? & node->backgroundValues : NULL;
+}
+
+const HLUsedTextValues* hilayout_element_node_get_used_font_value(HLDomElementNode* node)
+{
+    return node ? & node->textValues : NULL;
 }

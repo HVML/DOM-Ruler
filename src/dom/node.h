@@ -120,16 +120,15 @@ typedef struct HLDomElementNode_ {
     lwc_string* inner_tag;
     lwc_string* inner_id;
     lwc_string** inner_classes;
-    int inner_tag_classes_count;
+    int inner_classes_count;
 
     void* attach_data;
     // end for hicss inner
     
     // begin for layout output
-    double x;
-    double y;
-    double w;
-    double h;
+    HLUsedBoxValues boxValues;
+    HLUsedBackgroundValues backgroundValues;
+    HLUsedTextValues textValues;
 
     double min_w;
     double max_w;
@@ -137,22 +136,11 @@ typedef struct HLDomElementNode_ {
     double min_h;
     double max_h;
 
-    int z_index;
-
     // top, right, bottom, left
     double margin[4];
     double padding[4];
     double borderWidth[4];
     int borderType[4];
-
-    // background
-    int32_t background_color;
-
-    // text
-    char* font_family;
-    double font_size;
-    uint32_t font_color;
-    HLFontWeight font_weight;
 
     // end for layout output
     

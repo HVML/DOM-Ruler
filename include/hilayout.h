@@ -168,14 +168,14 @@ void* hilayout_element_node_get_private_data(HLDomElementNode* node);
 int hilayout_element_node_set_content(HLDomElementNode* node, const char* content);
 const char* hilayout_element_node_get_content(HLDomElementNode* node);
 
-void hilayout_element_node_destroy(HLDomElementNode *node);
-
-
-int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent);
+typedef void  (* HILAYOUT_ELEMENT_NODE_DESTROY_CALLBACK)(void* data);
+void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE_DESTROY_CALLBACK callback);
 
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node);
 const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node);
 const HLUsedTextValues* hilayout_element_node_get_used_font_value(HLDomElementNode* node);
+
+int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent);
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 
