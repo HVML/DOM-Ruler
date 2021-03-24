@@ -391,7 +391,7 @@ void _hl_find_dimensions(const HLContext *len_ctx,
 	}
 }
 
-int _hilayout_layout_node(HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
+int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
 {
     if (node == NULL)
     {
@@ -424,21 +424,21 @@ int _hilayout_layout_node(HLDomElementNode *node, int x, int y, int container_wi
         {
             case LAYOUT_BLOCK:
                 cy = cy + node_height;
-                _hilayout_layout_node(child, cx, cy, cw, ch, cl);
+                _hilayout_layout_node(ctx, child, cx, cy, cw, ch, cl);
                 node_width = node_width + child->box_values.w;
                 node_height = node_height + child->box_values.h;
                 break;
 
             case LAYOUT_INLINE_BLOCK:
                 cx = cx + node_width;
-                _hilayout_layout_node(child, cx, cy, cw, ch, cl);
+                _hilayout_layout_node(ctx, child, cx, cy, cw, ch, cl);
                 node_width = node_width + child->box_values.w;
                 node_height = node_height + child->box_values.h;
                 break;
 
             default:
                 cy = cy + node_height;
-                _hilayout_layout_node(child, cx, cy, cw, ch, cl);
+                _hilayout_layout_node(ctx, child, cx, cy, cw, ch, cl);
                 node_width = node_width + child->box_values.w;
                 node_height = node_height + child->box_values.h;
                 break;
@@ -493,7 +493,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
     }
     context.root_style = root->computed_style;
 
-    _hilayout_layout_node(root, 0, 0, media->width, media->height, 0);
+    _hilayout_layout_node(&context, root, 0, 0, media->width, media->height, 0);
     _hilayout_css_select_ctx_destroy(select_ctx);
     return ret;
 }
