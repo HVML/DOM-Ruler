@@ -167,20 +167,20 @@ int _hilayout_calc_z_index(HLDomElementNode *node)
     int8_t val = css_computed_z_index(node->computed_style, &index);
     switch (val) {
     case CSS_Z_INDEX_INHERIT:
-        HL_LOGW("calc z index|tag=%s|id=%s|name=%s|z-index=inherit|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
+        HL_LOGD("calc z index|tag=%s|id=%s|name=%s|z-index=inherit|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
         index = node->parent ? node->parent->box_values.z_index : 0;
         break;
 
     case CSS_Z_INDEX_AUTO:
-        HL_LOGW("calc z index||tag=%s|id=%s|name=%s|z-index=auto|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
+        HL_LOGD("calc z index||tag=%s|id=%s|name=%s|z-index=auto|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
         break;
 
     case CSS_Z_INDEX_SET:
-        HL_LOGW("calc z index|tag=%s|id=%s|name=%s|z-index=%d|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index, index);
+        HL_LOGD("calc z index|tag=%s|id=%s|name=%s|z-index=%d|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index, index);
         break;
 
     default:
-        HL_LOGW("calc z index|tag=%s|id=%s|name=%s|z-index=default|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
+        HL_LOGD("calc z index|tag=%s|id=%s|name=%s|z-index=default|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
         break;
     }
     node->box_values.z_index = index;
@@ -631,7 +631,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         return HILAYOUT_OK;
     }
 
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+    HL_LOGD("layout node|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
     node->box_values.x = x;
     node->box_values.y = y;
 
@@ -747,7 +747,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
     int ret = _hilayout_select_child_style(&m, select_ctx, root);
     if (ret != HILAYOUT_OK)
     {
-        HL_LOGW("%s|select child style failed.|code=%d\n", __func__, ret);
+        HL_LOGD("%s|select child style failed.|code=%d\n", __func__, ret);
         _hilayout_css_select_ctx_destroy(select_ctx);
         return ret;
     }
