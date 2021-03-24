@@ -58,6 +58,7 @@
 #define HL_LEFT         3
 
 #define HL_AUTO         INT_MIN
+#define UNKNOWN_WIDTH   INT_MAX
 
 /* Fixed point percentage (a) of an integer (b), to an integer */
 #define HL_FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))

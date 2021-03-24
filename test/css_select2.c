@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 	size_t size;
 	const char data[] = "h1 { color: red } "
         "#root { display: block; } "
-        "#title { position: relative; width: 100%; height: 20%; color: #123; } "
+        "#title { position: relative; left:20%; width: 100%; height: 20%; color: #123; } "
         "#description { position: relative; width: 100%; height: 10%; color: #124; } "
         "#page { position: relative; width: 100%; height: 60%; color: #125; } "
         "#indicator { position: relative; width: 100%; height: 10%; color: #126; } "
