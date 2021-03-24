@@ -391,6 +391,125 @@ void _hl_find_dimensions(const HLContext *len_ctx,
 	}
 }
 
+int _hl_solve_width(HLDomElementNode* box,
+		   int available_width,
+		   int width,
+		   int lm,
+		   int rm,
+		   int max_width,
+		   int min_width)
+{
+	bool auto_width = false;
+
+	/* Increase specified left/right margins */
+	if (box->margin[HL_LEFT] != HL_AUTO && box->margin[HL_LEFT] < lm &&
+			box->margin[HL_LEFT] >= 0)
+		box->margin[HL_LEFT] = lm;
+	if (box->margin[HL_RIGHT] != HL_AUTO && box->margin[HL_RIGHT] < rm &&
+			box->margin[HL_RIGHT] >= 0)
+		box->margin[HL_RIGHT] = rm;
+
+	/* Find width */
+	if (width == HL_AUTO) {
+		int margin_left = box->margin[HL_LEFT];
+		int margin_right = box->margin[HL_RIGHT];
+
+		if (margin_left == HL_AUTO) {
+			margin_left = lm;
+		}
+		if (margin_right == HL_AUTO) {
+			margin_right = rm;
+		}
+
+		width = available_width -
+				(margin_left + box->border[HL_LEFT] +
+				box->padding[HL_LEFT] + box->padding[HL_RIGHT] +
+				box->border[HL_RIGHT] + margin_right);
+		width = width < 0 ? 0 : width;
+		auto_width = true;
+	}
+
+	if (max_width >= 0 && width > max_width) {
+		/* max-width is admissable and width exceeds max-width */
+		width = max_width;
+		auto_width = false;
+	}
+
+	if (min_width > 0 && width < min_width) {
+		/* min-width is admissable and width is less than max-width */
+		width = min_width;
+		auto_width = false;
+	}
+
+	/* Width was auto, and unconstrained by min/max width, so we're done */
+	if (auto_width) {
+		/* any other 'auto' become 0 or the minimum required values */
+		if (box->margin[HL_LEFT] == HL_AUTO) {
+			box->margin[HL_LEFT] = lm;
+		}
+		if (box->margin[HL_RIGHT] == HL_AUTO) {
+			box->margin[HL_RIGHT] = rm;
+		}
+		return width;
+	}
+
+	/* Width was not auto, or was constrained by min/max width
+	 * Need to compute left/right margins */
+
+	/* HTML alignment (only applies to over-constrained boxes) */
+	if (box->margin[HL_LEFT] != HL_AUTO && box->margin[HL_RIGHT] != HL_AUTO &&
+			box->parent != NULL && box->parent->computed_style != NULL) {
+		switch (css_computed_text_align(box->parent->computed_style)) {
+		case CSS_TEXT_ALIGN_LIBCSS_RIGHT:
+			box->margin[HL_LEFT] = HL_AUTO;
+			box->margin[HL_RIGHT] = 0;
+			break;
+		case CSS_TEXT_ALIGN_LIBCSS_CENTER:
+			box->margin[HL_LEFT] = box->margin[HL_RIGHT] = HL_AUTO;
+			break;
+		case CSS_TEXT_ALIGN_LIBCSS_LEFT:
+			box->margin[HL_LEFT] = 0;
+			box->margin[HL_RIGHT] = HL_AUTO;
+			break;
+		default:
+			/* Leave it alone; no HTML alignment */
+			break;
+		}
+	}
+
+	if (box->margin[HL_LEFT] == HL_AUTO && box->margin[HL_RIGHT] == HL_AUTO) {
+		/* make the margins equal, centering the element */
+		box->margin[HL_LEFT] = box->margin[HL_RIGHT] =
+				(available_width - lm - rm -
+				(box->border[HL_LEFT] + box->padding[HL_LEFT] +
+				width + box->padding[HL_RIGHT] +
+				box->border[HL_RIGHT])) / 2;
+
+		if (box->margin[HL_LEFT] < 0) {
+			box->margin[HL_RIGHT] += box->margin[HL_LEFT];
+			box->margin[HL_LEFT] = 0;
+		}
+
+		box->margin[HL_LEFT] += lm;
+
+	} else if (box->margin[HL_LEFT] == HL_AUTO) {
+		box->margin[HL_LEFT] = available_width - lm -
+				(box->border[HL_LEFT] + box->padding[HL_LEFT] +
+				width + box->padding[HL_RIGHT] +
+				box->border[HL_RIGHT] + box->margin[HL_RIGHT]);
+		box->margin[HL_LEFT] = box->margin[HL_LEFT] < lm
+				? lm : box->margin[HL_LEFT];
+	} else {
+		/* margin-right auto or "over-constrained" */
+		box->margin[HL_RIGHT] = available_width - rm -
+				(box->margin[HL_LEFT] + box->border[HL_LEFT] +
+				 box->padding[HL_LEFT] + width +
+				 box->padding[HL_RIGHT] +
+				 box->border[HL_RIGHT]);
+	}
+
+	return width;
+}
 int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
 {
     if (node == NULL)
@@ -409,6 +528,32 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         node->box_values.h = container_height;
         _hilayout_calc_z_index(node);
     }
+
+    int n_width = 0;
+    int n_max_width = 0;
+    int n_min_width = 0;
+    int n_height = 0;
+    int n_max_height = 0;
+    int n_min_height = 0;
+
+    _hl_find_dimensions(ctx,
+            container_width,
+            container_height,
+            node,
+            node->computed_style,
+            &n_width,
+            &n_height,
+            &n_max_width,
+            &n_min_width,
+            &n_max_height,
+            &n_min_height);
+    int sw = _hl_solve_width(node, container_width, n_width, 0, 0, n_max_width, n_min_width);
+    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|nw=%d|n_max_width=%d|n_min_width=%d|nh=%d|n_max_height=%d|n_min_height=%d|sw=%d\n", 
+            level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
+            n_width, n_max_width, n_min_width,
+            n_height, n_max_height, n_min_height,
+            sw
+           );
 
     int cx = x;
     int cy = y;

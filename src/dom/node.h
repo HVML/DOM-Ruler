@@ -144,7 +144,7 @@ typedef struct HLDomElementNode_ {
     // top, right, bottom, left
     double margin[4];
     double padding[4];
-    double borderWidth[4];
+    double border[4];
     int borderType[4];
 
     // end for layout output
