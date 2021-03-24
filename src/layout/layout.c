@@ -510,6 +510,46 @@ int _hl_solve_width(HLDomElementNode* box,
 
 	return width;
 }
+
+int _hl_block_find_dimensions(HLContext* ctx,
+        HLDomElementNode *node,
+        int container_width,
+        int container_height,
+        int lm,
+        int rm
+        )
+{
+    int width = 0;
+    int max_width = 0;
+    int min_width = 0;
+    int height = 0;
+    int max_height = 0;
+    int min_height = 0;
+
+    _hl_find_dimensions(ctx,
+            container_width,
+            container_height,
+            node,
+            node->computed_style,
+            &width,
+            &height,
+            &max_width,
+            &min_width,
+            &max_height,
+            &min_height);
+    int sw = _hl_solve_width(node, container_width, width, 0, 0, max_width, min_width);
+    int sh = height;
+    HL_LOGW("block node dimension|tag=%s|id=%s|name=%s|nw=%d|max_width=%d|min_width=%d|nh=%d|max_height=%d|min_height=%d|sw=%d|sh=%d\n", 
+            node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
+            width, max_width, min_width,
+            height, max_height, min_height,
+            sw, sh
+           );
+
+    node->box_values.w = sw;
+    node->box_values.h = sh;
+}
+
 int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
 {
     if (node == NULL)
@@ -528,33 +568,18 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         node->box_values.h = container_height;
         _hilayout_calc_z_index(node);
     }
+    else
+    {
+        switch (node->layout_type)
+        {
+            case LAYOUT_BLOCK:
+                _hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0);
+                break;
 
-    int n_width = 0;
-    int n_max_width = 0;
-    int n_min_width = 0;
-    int n_height = 0;
-    int n_max_height = 0;
-    int n_min_height = 0;
-
-    _hl_find_dimensions(ctx,
-            container_width,
-            container_height,
-            node,
-            node->computed_style,
-            &n_width,
-            &n_height,
-            &n_max_width,
-            &n_min_width,
-            &n_max_height,
-            &n_min_height);
-    int sw = _hl_solve_width(node, container_width, n_width, 0, 0, n_max_width, n_min_width);
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|nw=%d|n_max_width=%d|n_min_width=%d|nh=%d|n_max_height=%d|n_min_height=%d|sw=%d\n", 
-            level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
-            n_width, n_max_width, n_min_width,
-            n_height, n_max_height, n_min_height,
-            sw
-           );
-
+            case LAYOUT_INLINE_BLOCK:
+                break;
+        }
+    }
     int cx = x;
     int cy = y;
     int cw = container_width;
@@ -591,8 +616,6 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         child = child->next;
     }
 
-    node->box_values.w = node_width + 10;
-    node->box_values.h = node_height + 10;
     HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|parent=%p|w=%f|h=%f\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->parent, node->box_values.w, node->box_values.h);
     return HILAYOUT_OK;
 }
