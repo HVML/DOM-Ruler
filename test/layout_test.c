@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         "#description { position: relative; width: 100%; height: 10%; color: #124; } \n"
         "#page { position: relative; width: 100%; height: 60%; color: #125; } \n"
         "#indicator { position: relative; width: 100%; height: 10%; color: #126; } \n"
-        "hiweb { position: relative; width: 100%; height: 25%; color: #127; } \n"
+        "hiweb { position: relative; width: 100%; height: 25%; color: #127; font-family: \"Times New Roman\", Times, serif; } \n"
         "hijs { position: relative; width: 100%; height: 50%; color: #128; background:red;} \n";
 
     fprintf(stderr, "####################################### html ###########################\n");

@@ -51,6 +51,7 @@
 #include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef uint8_t (*css_len_func)(const css_computed_style *style, css_fixed *length, css_unit *unit);
 typedef uint8_t (*css_border_style_func)(const css_computed_style *style);
@@ -628,6 +629,75 @@ int _hilayout_find_background(HLDomElementNode* node)
     css_color color;
     css_computed_background_color(node->computed_style, &color);
     node->background_values.color = color;
+    return HILAYOUT_OK;
+}
+
+int _hilayout_find_font(HLDomElementNode* node)
+{
+    lwc_string **families;
+    uint8_t val = css_computed_font_family(node->computed_style, &families);
+    if (val == CSS_FONT_FAMILY_INHERIT)
+    {
+        HL_LOGW("layout node|tag=%s|id=%s|name=%s|font inherit\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+        if (node->parent && node->parent->text_values.family)
+        {
+            node->text_values.family = strdup(node->parent->text_values.family);
+        }
+    }
+    else
+    {
+        char* buf[1024] = {0};
+        int index = 0;
+        int len = 0;
+        if (families != NULL) {
+            while (*families != NULL) {
+                buf[index] = strdup(lwc_string_data(*families));
+                len += strlen(buf[index]);
+                index++;
+                families++;
+            }
+        }
+
+        switch (val) {
+            case CSS_FONT_FAMILY_SERIF:
+                buf[index] = strdup("serif");
+                len += strlen(buf[index]);
+                index++;
+                break;
+            case CSS_FONT_FAMILY_SANS_SERIF:
+                buf[index] = strdup("sans-serif");
+                len += strlen(buf[index]);
+                index++;
+                break;
+            case CSS_FONT_FAMILY_CURSIVE:
+                buf[index] = strdup("cursive");
+                len += strlen(buf[index]);
+                index++;
+                break;
+            case CSS_FONT_FAMILY_FANTASY:
+                buf[index] = strdup("fantasy");
+                len += strlen(buf[index]);
+                index++;
+                break;
+            case CSS_FONT_FAMILY_MONOSPACE:
+                buf[index] = strdup("monospace");
+                len += strlen(buf[index]);
+                index++;
+                break;
+        }
+
+        char* result = (char*)malloc(len + 1);
+        memset(result, 0, len+1);
+        for (int i=0; i<index; i++)
+        {
+            strcat(result, buf[i]);
+            strcat(result, ",");
+            free(buf[i]);
+        }
+        result[strlen(result) - 1 ] = 0;
+        node->text_values.family = result;
+    }
+
 }
 
 int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
@@ -644,6 +714,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 
     _hilayout_calc_z_index(node);
     _hilayout_find_background(node);
+    _hilayout_find_font(node);
     if (node->parent == NULL)
     {
         node->box_values.w = container_width;
@@ -716,7 +787,12 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         child = child->next;
     }
 
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)|background=0x%08X\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h, node->background_values.color);
+    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s\n", 
+            level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
+            node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h, 
+            node->background_values.color,
+            node->text_values.family
+            );
     return HILAYOUT_OK;
 }
 
