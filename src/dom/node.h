@@ -132,7 +132,7 @@ typedef struct HLDomElementNode_ {
     
     // begin for layout output
     HLUsedBoxValues box_values;
-    HLUsedBackgroundValues background_valuess;
+    HLUsedBackgroundValues background_values;
     HLUsedTextValues text_values;
 
     double min_w;

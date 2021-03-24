@@ -285,7 +285,7 @@ const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode
 
 const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node)
 {
-    return node ? & node->background_valuess : NULL;
+    return node ? & node->background_values : NULL;
 }
 
 const HLUsedTextValues* hilayout_element_node_get_used_font_value(HLDomElementNode* node)
