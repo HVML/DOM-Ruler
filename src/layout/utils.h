@@ -45,20 +45,64 @@
  \endverbatim
  */
 
-#ifndef _HL_LAYOUT_H_
-#define _HL_LAYOUT_H_
+#ifndef _HL_UTILS_H_
+#define _HL_UTILS_H_
 
-#include "node.h"
+#include "hilayout.h"
+#include <libcss/libcss.h>
+
+// top, right, bottom, left
+#define HL_TOP          0
+#define HL_RIGHT        1
+#define HL_BOTTOM       2
+#define HL_LEFT         3
+
+#define HL_AUTO         INT_MIN
+
+/* Fixed point percentage (a) of an integer (b), to an integer */
+#define HL_FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
+
+#ifndef max
+#define max(a,b) ((a)>(b)?(a):(b))
+#endif
+
+#ifndef min
+#define min(a,b) ((a)<(b)?(a):(b))
+#endif
+
+typedef struct HLContext_ {
+    HLMedia* media;
+    HLCSS* css;
+    css_fixed hl_css_media_dpi;
+    css_fixed hl_css_baseline_pixel_density;
+
+    int vw;
+    int vh;
+    const css_computed_style *root_style;
+} HLContext;
+
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int layout_child_node_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
-int layout_child_node_inline_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
+css_fixed _hl_css_pixels_css_to_physical(const HLContext* ctx, css_fixed css_pixels);
+css_fixed _hl_css_pixels_physical_to_css(const HLContext* ctx, css_fixed physical_pixels);
+int _hl_set_media_dpi(HLContext* ctx, int dpi);
+int _hl_set_baseline_pixel_density(HLContext* ctx, int density);
+
+
+css_unit _hl_css_utils_fudge_viewport_units(const HLContext *ctx, css_unit unit);
+css_fixed _hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit);
+css_fixed _hl_css_len2px(const HLContext *ctx,
+		css_fixed length,
+		css_unit unit,
+		const css_computed_style *style);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // _HL_LAYOUT_H_
+#endif // _HL_UTILS_H_
+

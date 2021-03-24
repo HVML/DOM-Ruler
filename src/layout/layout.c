@@ -48,76 +48,54 @@
 
 #include "layout.h"
 #include "select.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef max
-#define max(a,b) ((a)>(b)?(a):(b))
-#endif
+typedef uint8_t (*css_len_func)(const css_computed_style *style, css_fixed *length, css_unit *unit);
+typedef uint8_t (*css_border_style_func)(const css_computed_style *style);
+typedef uint8_t (*css_border_color_func)(const css_computed_style *style, css_color *color);
 
-#ifndef min
-#define min(a,b) ((a)<(b)?(a):(b))
-#endif
+/** Array of per-side access functions for computed style margins. */
+static const css_len_func margin_funcs[4] = {
+	css_computed_margin_top,
+	css_computed_margin_right,
+	css_computed_margin_bottom,
+	css_computed_margin_left,
+};
 
-/** Media DPI in fixed point units: defaults to 96, same as nscss_baseline_pixel_density */
-//css_fixed default_hl_css_media_dpi = F_96;
-int hl_default_media_dpi = 96;
+/** Array of per-side access functions for computed style paddings. */
+static const css_len_func padding_funcs[4] = {
+	css_computed_padding_top,
+	css_computed_padding_right,
+	css_computed_padding_bottom,
+	css_computed_padding_left,
+};
 
-/** Medium screen density for device viewing distance. */
-//css_fixed default_hl_css_baseline_pixel_density = F_96;
-int hl_default_css_baseline_pixel_density = 96;
+/** Array of per-side access functions for computed style border_widths. */
+static const css_len_func border_width_funcs[4] = {
+	css_computed_border_top_width,
+	css_computed_border_right_width,
+	css_computed_border_bottom_width,
+	css_computed_border_left_width,
+};
 
-typedef struct HLContext_ {
-    HLMedia* media;
-    HLCSS* css;
-    css_fixed hl_css_media_dpi;
-    css_fixed hl_css_baseline_pixel_density;
-} HLContext;
+/** Array of per-side access functions for computed style border styles. */
+static const css_border_style_func border_style_funcs[4] = {
+	css_computed_border_top_style,
+	css_computed_border_right_style,
+	css_computed_border_bottom_style,
+	css_computed_border_left_style,
+};
 
+/** Array of per-side access functions for computed style border colors. */
+static const css_border_color_func border_color_funcs[4] = {
+	css_computed_border_top_color,
+	css_computed_border_right_color,
+	css_computed_border_bottom_color,
+	css_computed_border_left_color,
+};
 
-/**
- * Convert css pixels to physical pixels.
- *
- * \param[in] css_pixels  Length in css pixels.
- * \return length in physical pixels
- */
-static inline css_fixed hl_css_pixels_css_to_physical(HLContext* ctx, css_fixed css_pixels)
-{
-    return FDIV(FMUL(css_pixels, ctx->hl_css_media_dpi), ctx->hl_css_baseline_pixel_density);
-}
-
-/**
- * Convert physical pixels to css pixels.
- *
- * \param[in] physical_pixels  Length in physical pixels.
- * \return length in css pixels
- */
-static inline css_fixed hl_css_pixels_physical_to_css(HLContext* ctx, css_fixed physical_pixels)
-{
-    return FDIV(FMUL(physical_pixels, ctx->hl_css_baseline_pixel_density), ctx->hl_css_media_dpi);
-}
-
-int hl_set_media_dpi(HLContext* ctx, int dpi)
-{
-    if (dpi < 72 || dpi > 250) {
-        int bad = dpi;
-        dpi = min(max(dpi, 72), 250);
-        HL_LOGW("%s|invalid dpi=%d|change to dpi=%d\n", __func__, bad, dpi);
-    }
-    ctx->hl_css_media_dpi = INTTOFIX(dpi);
-    return HILAYOUT_OK;
-}
-
-int hl_set_baseline_pixel_density(HLContext* ctx, int density)
-{
-    if (density < 72 || density > 250) {
-        int bad = density;
-        density = min(max(density, 72), 250);
-        HL_LOGW("%s|invalid density=%d|change to density=%d\n", __func__, bad, density);
-    }
-    ctx->hl_css_baseline_pixel_density = INTTOFIX(density);
-    return HILAYOUT_OK;
-}
 
 int _hilayout_select_child_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node)
 {
@@ -137,6 +115,50 @@ int _hilayout_select_child_style(const css_media* media, css_select_ctx* select_
         child = child->next;
     }
     return HILAYOUT_OK;
+}
+
+
+void _hl_calculate_mbp_width(const HLContext *len_ctx,
+		    const css_computed_style *style,
+		    unsigned int side,
+		    bool margin,
+		    bool border,
+		    bool padding,
+		    int *fixed,
+		    float *frac
+            )
+{
+    *fixed += 0;
+    *frac += 0;
+}
+
+void _layout_handle_box_sizing(
+		const HLContext *len_ctx,
+		HLDomElementNode *node,
+		int available_width,
+		bool setwidth,
+		int *dimension)
+{
+	enum css_box_sizing_e bs;
+
+	assert(node && node->computed_style);
+
+	bs = css_computed_box_sizing(node->computed_style);
+
+	if (bs == CSS_BOX_SIZING_BORDER_BOX) {
+		int orig = *dimension;
+		int fixed = 0;
+		float frac = 0;
+
+		_hl_calculate_mbp_width(len_ctx, node->computed_style,
+				setwidth ? HL_LEFT : HL_TOP,
+				false, true, true, &fixed, &frac);
+		_hl_calculate_mbp_width(len_ctx, node->computed_style,
+				setwidth ? HL_RIGHT : HL_BOTTOM,
+				false, true, true, &fixed, &frac);
+		orig -= frac * available_width + fixed;
+		*dimension = orig > 0 ? orig : 0;
+	}
 }
 
 int _hilayout_calc_z_index(HLDomElementNode *node)
@@ -235,21 +257,24 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 
 	HLContext context = {
 		.media = media,
-		.css = css
+		.css = css,
 	};
-    HLContext* ctx = &context;
-    hl_set_media_dpi(ctx, media->dpi > 0 ? media->dpi : hl_default_media_dpi);
-    hl_set_baseline_pixel_density(ctx, media->density > 0 ? media->density : hl_default_css_baseline_pixel_density);
+    _hl_set_media_dpi(&context, media->dpi);
+    _hl_set_baseline_pixel_density(&context, media->density);
 
 	css_media m;
 	m.type = CSS_MEDIA_SCREEN;
-    m.width  = hl_css_pixels_physical_to_css(ctx, INTTOFIX(media->width));
-    m.height = hl_css_pixels_physical_to_css(ctx, INTTOFIX(media->height));
+    m.width  = _hl_css_pixels_physical_to_css(&context, INTTOFIX(media->width));
+    m.height = _hl_css_pixels_physical_to_css(&context, INTTOFIX(media->height));
+    context.vw = m.width;
+    context.vh = m.height;
 
     HL_LOGD("media|param dpi=%d|density=%d|after calc inner|dpi=0x%x|density=0x%x\n",
             media->dpi, media->density, ctx->hl_css_media_dpi, ctx->hl_css_baseline_pixel_density);
     HL_LOGD("media|param w=%d|h=%d|after calc inner|w=%d|h=%d|to physical|w=%d|h=%d\n",
-            media->width, media->height, m.width, m.height, FIXTOINT(hl_css_pixels_css_to_physical(ctx, m.width)), FIXTOINT(hl_css_pixels_css_to_physical(ctx, m.height)));
+            media->width, media->height, m.width, m.height, 
+            FIXTOINT(_hl_css_pixels_css_to_physical(ctx, m.width)), 
+            FIXTOINT(_hl_css_pixels_css_to_physical(ctx, m.height)));
 
     // create css select context
     css_select_ctx* select_ctx = _hilayout_css_select_ctx_create(css);
@@ -261,6 +286,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         _hilayout_css_select_ctx_destroy(select_ctx);
         return ret;
     }
+    context.root_style = root->computed_style;
 
     _hilayout_layout_node(root, 0, 0, media->width, media->height, 0);
     _hilayout_css_select_ctx_destroy(select_ctx);
