@@ -71,6 +71,20 @@
  
 #define FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
 
+char* readCSS(char* filename)
+{
+    char* text;
+    FILE* fp = fopen(filename,"r");
+    fseek(fp,0,SEEK_END);
+
+    long size = ftell(fp);
+    text = (char*)malloc(size+1);
+    rewind(fp); 
+    fread(text, sizeof(char), size, fp);
+    text[size] = '\0';
+    return text;
+}
+
 int main(int argc, char **argv)
 {
 	css_error code;
@@ -97,8 +111,15 @@ int main(int argc, char **argv)
 
     fprintf(stderr, "####################################### html ###########################\n");
     fprintf(stderr, "%s\n", html);
+
+
     fprintf(stderr, "####################################### css  ###########################\n");
-    fprintf(stderr, "%s\n", data);
+    const char* css_data = data;
+    if (argc > 1)
+    {
+        css_data = readCSS(argv[1]);
+    }
+    fprintf(stderr, "%s\n", css_data);
 
     HLCSS* css = hilayout_css_create();
     if (css == NULL)
@@ -107,7 +128,7 @@ int main(int argc, char **argv)
         return HILAYOUT_INVALID;
     }
 
-    hilayout_css_append_data(css, data, strlen(data));
+    hilayout_css_append_data(css, css_data, strlen(css_data));
 
 
     HLDomElementNode* root = hilayout_element_node_create("div");
