@@ -701,12 +701,9 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
         node->text_values.family = result;
     }
 
-#if 0
     css_computed_font_size(node->computed_style, &length, &unit);
-    fprintf(stderr, "font length=%d|unit=%d\n", length, unit);
-    node->text_values.size = FIXTOINT(FMUL(_hl_css_len2pt(ctx, length, unit),
-                INTTOFIX(HL_PLOT_STYLE_SCALE)));
-#endif
+    int text_height = _hl_css_len2px(ctx, length, unit, node->computed_style);
+    node->text_values.size = FIXTOINT(text_height * 3 / 4);
 
     css_color color;
     val = css_computed_color(node->computed_style, &color);
@@ -718,6 +715,40 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
     } else if (val == CSS_COLOR_COLOR) {
         node->text_values.color = color;
     }
+
+    val = css_computed_font_weight(node->computed_style);
+	switch (val) {
+	case CSS_FONT_WEIGHT_100:
+        node->text_values.weight = HLFONT_WEIGHT_THIN;
+		break;
+	case CSS_FONT_WEIGHT_200:
+        node->text_values.weight = HLFONT_WEIGHT_EXTRA_LIGHT;
+		break;
+	case CSS_FONT_WEIGHT_300:
+        node->text_values.weight = HLFONT_WEIGHT_LIGHT;
+		break;
+	case CSS_FONT_WEIGHT_400:
+	case CSS_FONT_WEIGHT_NORMAL:
+	default:
+        node->text_values.weight = HLFONT_WEIGHT_NORMAL;
+		break;
+	case CSS_FONT_WEIGHT_500:
+        node->text_values.weight = HLFONT_WEIGHT_MEDIUM;
+		break;
+	case CSS_FONT_WEIGHT_600:
+        node->text_values.weight = HLFONT_WEIGHT_DEMIBOLD;
+		break;
+	case CSS_FONT_WEIGHT_700:
+	case CSS_FONT_WEIGHT_BOLD:
+        node->text_values.weight = HLFONT_WEIGHT_BOLD;
+		break;
+	case CSS_FONT_WEIGHT_800:
+        node->text_values.weight = HLFONT_WEIGHT_EXTRA_BOLD;
+		break;
+	case CSS_FONT_WEIGHT_900:
+        node->text_values.weight = HLFONT_WEIGHT_BLACK;
+		break;
+	}
 }
 
 int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
@@ -807,11 +838,12 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         child = child->next;
     }
 
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X\n", 
+    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%d\n", 
             level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
             node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h, 
             node->background_values.color,
-            node->text_values.family, node->text_values.color
+            node->text_values.family, node->text_values.color, node->text_values.weight,
+            node->text_values.size
             );
     return HILAYOUT_OK;
 }
