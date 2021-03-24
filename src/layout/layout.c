@@ -316,7 +316,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         return ret;
     }
 
-    ret = _hilayout_layout_node(root, 0, 0, m.width, m.height, 0);
+    _hilayout_layout_node(root, 0, 0, media->width, media->height, 0);
     _hilayout_css_select_ctx_destroy(select_ctx);
     return ret;
 }
