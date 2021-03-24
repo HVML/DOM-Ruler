@@ -562,11 +562,11 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     node->box_values.x = x;
     node->box_values.y = y;
 
+    _hilayout_calc_z_index(node);
     if (node->parent == NULL)
     {
         node->box_values.w = container_width;
         node->box_values.h = container_height;
-        _hilayout_calc_z_index(node);
     }
     else
     {
