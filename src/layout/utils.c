@@ -250,3 +250,32 @@ css_fixed _hl_css_len2px(
 }
 
 
+uint8_t _hl_ns_computed_min_height(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    uint8_t value = css_computed_min_height(style, length, unit);
+
+    if (value == CSS_MIN_HEIGHT_AUTO) {
+        value = CSS_MIN_HEIGHT_SET;
+        *length = 0;
+        *unit = CSS_UNIT_PX;
+    }
+
+    return value;
+}
+
+uint8_t _hl_ns_computed_min_width(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    uint8_t value = css_computed_min_width(style, length, unit);
+
+    if (value == CSS_MIN_WIDTH_AUTO) {
+        value = CSS_MIN_WIDTH_SET;
+        *length = 0;
+        *unit = CSS_UNIT_PX;
+    }
+
+    return value;
+}
