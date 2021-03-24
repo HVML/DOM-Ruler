@@ -59,60 +59,6 @@
 #define min(a,b) ((a)<(b)?(a):(b))
 #endif
 
-int calcNodeWidthHeight(HLDomElementNode *node, int containerWidth, int containerHeight, int childWidth, int childHeight)
-{
-    node->box_values.w = 10 + childWidth;
-    node->box_values.h = 10 + childHeight;
-    return 0;
-}
-
-int layout_node(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
-{
-    for (int i = 0; i < level; i++)
-    {
-        fprintf(stderr, "    ");
-    }
-
-    fprintf(stderr, "node|tag=%s|id=%s\n", node->tag, node->attr[HL_ATTR_NAME_ID]);
-    if (node == NULL)
-    {
-        return 0;
-    }
-
-    node->box_values.x = x;
-    node->box_values.y = y;
-
-    int childWidth = 0;
-    int childHeight = 0;
-    if (node->first_child)
-    {
-        switch (node->layout_type)
-        {
-            case LAYOUT_BLOCK:
-                layout_child_node_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight, level);
-                break;
-
-            case LAYOUT_INLINE_BLOCK:
-                layout_child_node_inline_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight, level);
-                break;
-
-            default:
-                layout_child_node_block(node, x, y, widthLimit, heightLimit, &childWidth, &childHeight, level);
-                break;
-        }
-    }
-
-    calcNodeWidthHeight(node, widthLimit, heightLimit, childWidth, childHeight);
-    *width = node->box_values.w;
-    *height = node->box_values.h;
-    for (int i = 0; i < level; i++)
-    {
-        fprintf(stderr, "    ");
-    }
-    fprintf(stderr, "node|tag=%s|id=%s|(%f, %f, %f, %f)\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h);
-    return 0;
-}
-
 /** Media DPI in fixed point units: defaults to 96, same as nscss_baseline_pixel_density */
 //css_fixed default_hl_css_media_dpi = F_96;
 int hl_default_media_dpi = 96;

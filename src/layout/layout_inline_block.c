@@ -48,6 +48,7 @@
 
 #include "layout.h"
 
+#if 0
 
 bool layout_inline_block(HLDomElementNode *node, int width, int height)
 {
@@ -58,3 +59,4 @@ int layout_child_node_inline_block(HLDomElementNode *node, int x, int y, int wid
 {
     return 0;
 }
+#endif
