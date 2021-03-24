@@ -539,7 +539,7 @@ int _hl_block_find_dimensions(HLContext* ctx,
             &min_height);
     int sw = _hl_solve_width(node, container_width, width, 0, 0, max_width, min_width);
     int sh = height;
-    HL_LOGW("block node dimension|tag=%s|id=%s|name=%s|nw=%d|max_width=%d|min_width=%d|nh=%d|max_height=%d|min_height=%d|sw=%d|sh=%d\n", 
+    HL_LOGD("block node dimension|tag=%s|id=%s|name=%s|nw=%d|max_width=%d|min_width=%d|nh=%d|max_height=%d|min_height=%d|sw=%d|sh=%d\n", 
             node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
             width, max_width, min_width,
             height, max_height, min_height,
@@ -558,7 +558,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         return HILAYOUT_OK;
     }
 
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|parent=%p\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->parent);
+    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
     node->box_values.x = x;
     node->box_values.y = y;
 
@@ -616,7 +616,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         child = child->next;
     }
 
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|parent=%p|w=%f|h=%f\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->parent, node->box_values.w, node->box_values.h);
+    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h);
     return HILAYOUT_OK;
 }
 
