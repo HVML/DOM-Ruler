@@ -63,6 +63,12 @@
 /* Fixed point percentage (a) of an integer (b), to an integer */
 #define HL_FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
 
+/** 22:10 fixed point */
+#define HL_PLOT_STYLE_RADIX (10)
+
+/** Scaling factor for plot styles */
+#define HL_PLOT_STYLE_SCALE (1 << HL_PLOT_STYLE_RADIX)
+
 #ifndef max
 #define max(a,b) ((a)>(b)?(a):(b))
 #endif

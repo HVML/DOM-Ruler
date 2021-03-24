@@ -632,9 +632,12 @@ int _hilayout_find_background(HLDomElementNode* node)
     return HILAYOUT_OK;
 }
 
-int _hilayout_find_font(HLDomElementNode* node)
+int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
 {
     lwc_string **families;
+    css_fixed length = 0;
+    css_unit unit = CSS_UNIT_PX;
+
     uint8_t val = css_computed_font_family(node->computed_style, &families);
     if (val == CSS_FONT_FAMILY_INHERIT)
     {
@@ -698,6 +701,23 @@ int _hilayout_find_font(HLDomElementNode* node)
         node->text_values.family = result;
     }
 
+#if 0
+    css_computed_font_size(node->computed_style, &length, &unit);
+    fprintf(stderr, "font length=%d|unit=%d\n", length, unit);
+    node->text_values.size = FIXTOINT(FMUL(_hl_css_len2pt(ctx, length, unit),
+                INTTOFIX(HL_PLOT_STYLE_SCALE)));
+#endif
+
+    css_color color;
+    val = css_computed_color(node->computed_style, &color);
+    if (val == CSS_COLOR_INHERIT) {
+        if (node->parent)
+        {
+            node->text_values.color = node->parent->text_values.color;
+        }
+    } else if (val == CSS_COLOR_COLOR) {
+        node->text_values.color = color;
+    }
 }
 
 int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
@@ -714,7 +734,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 
     _hilayout_calc_z_index(node);
     _hilayout_find_background(node);
-    _hilayout_find_font(node);
+    _hilayout_find_font(ctx, node);
     if (node->parent == NULL)
     {
         node->box_values.w = container_width;
@@ -787,11 +807,11 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         child = child->next;
     }
 
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s\n", 
+    HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X\n", 
             level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
             node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h, 
             node->background_values.color,
-            node->text_values.family
+            node->text_values.family, node->text_values.color
             );
     return HILAYOUT_OK;
 }

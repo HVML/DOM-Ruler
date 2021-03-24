@@ -137,7 +137,7 @@ typedef enum {
 
 typedef struct HLUsedTextValues_ {
     char* family;
-    double size;
+    int size;
     uint32_t color;
     HLFontWeight weight;
 } HLUsedTextValues;
