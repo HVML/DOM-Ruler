@@ -132,7 +132,7 @@ void _hl_calculate_mbp_width(const HLContext *len_ctx,
     *frac += 0;
 }
 
-void _layout_handle_box_sizing(
+void _hl_handle_box_sizing(
 		const HLContext *len_ctx,
 		HLDomElementNode *node,
 		int available_width,
@@ -185,6 +185,210 @@ int _hilayout_calc_z_index(HLDomElementNode *node)
     }
     node->box_values.z_index = index;
     return index;
+}
+
+void _hl_find_dimensions(const HLContext *len_ctx,
+		       int available_width,
+		       int viewport_height,
+		       HLDomElementNode *box,
+		       const css_computed_style *style,
+		       int *width,
+		       int *height,
+		       int *max_width,
+		       int *min_width,
+		       int *max_height,
+		       int *min_height
+		       )
+{
+	HLDomElementNode* containing_block = NULL;
+	unsigned int i;
+
+	if (width) {
+		enum css_width_e wtype;
+		css_fixed value = 0;
+		css_unit unit = CSS_UNIT_PX;
+
+		wtype = css_computed_width(style, &value, &unit);
+
+		if (wtype == CSS_WIDTH_SET) {
+			if (unit == CSS_UNIT_PCT) {
+				*width = HL_FPCT_OF_INT_TOINT(
+						value, available_width);
+			} else {
+				*width = FIXTOINT(_hl_css_len2px(len_ctx,
+						value, unit, style));
+			}
+		} else {
+			*width = HL_AUTO;
+		}
+
+		if (*width != HL_AUTO) {
+			_hl_handle_box_sizing(len_ctx, box, available_width,
+					true, width);
+		}
+	}
+
+	if (height) {
+		enum css_height_e htype;
+		css_fixed value = 0;
+		css_unit unit = CSS_UNIT_PX;
+
+		htype = css_computed_height(style, &value, &unit);
+
+		if (htype == CSS_HEIGHT_SET) {
+			if (unit == CSS_UNIT_PCT) {
+				enum css_height_e cbhtype;
+
+				if (box->parent && box->parent->layout_type !=
+						LAYOUT_INLINE_CONTAINER) {
+					/* Box is a block level element */
+					containing_block = box->parent;
+				} else if (box->parent && box->parent->layout_type ==
+						LAYOUT_INLINE_CONTAINER) {
+					/* Box is an inline block */
+					assert(box->parent->parent);
+					containing_block = box->parent->parent;
+				}
+
+				if (containing_block) {
+					css_fixed f = 0;
+					css_unit u = CSS_UNIT_PX;
+
+					cbhtype = css_computed_height(
+							containing_block->computed_style,
+							&f, &u);
+				}
+
+				if (containing_block &&
+					containing_block->box_values.h != HL_AUTO &&
+					(css_computed_position(box->computed_style) ==
+							CSS_POSITION_ABSOLUTE ||
+						cbhtype == CSS_HEIGHT_SET)) {
+					/* Box is absolutely positioned or its
+					 * containing block has a valid
+					 * specified height.
+					 * (CSS 2.1 Section 10.5) */
+					*height = HL_FPCT_OF_INT_TOINT(value,
+						containing_block->box_values.h);
+				} else if ((!box->parent ||
+						!box->parent->parent) &&
+						viewport_height >= 0) {
+					/* If root element or it's child
+					 * (HTML or BODY) */
+					*height = HL_FPCT_OF_INT_TOINT(value,
+							viewport_height);
+				} else {
+					/* precentage height not permissible
+					 * treat height as auto */
+					*height = HL_AUTO;
+				}
+			} else {
+				*height = FIXTOINT(_hl_css_len2px(len_ctx,
+						value, unit, style));
+			}
+		} else {
+			*height = HL_AUTO;
+		}
+
+		if (*height != HL_AUTO) {
+			_hl_handle_box_sizing(len_ctx, box, available_width,
+					false, height);
+		}
+	}
+
+	if (max_width) {
+		enum css_max_width_e type;
+		css_fixed value = 0;
+		css_unit unit = CSS_UNIT_PX;
+
+		type = css_computed_max_width(style, &value, &unit);
+
+		if (type == CSS_MAX_WIDTH_SET) {
+			if (unit == CSS_UNIT_PCT) {
+				*max_width = HL_FPCT_OF_INT_TOINT(value,
+						available_width);
+			} else {
+				*max_width = FIXTOINT(_hl_css_len2px(len_ctx,
+						value, unit, style));
+			}
+		} else {
+			/* Inadmissible */
+			*max_width = -1;
+		}
+
+		if (*max_width != -1) {
+			_hl_handle_box_sizing(len_ctx, box, available_width,
+					true, max_width);
+		}
+	}
+
+	if (min_width) {
+		enum css_min_width_e type;
+		css_fixed value = 0;
+		css_unit unit = CSS_UNIT_PX;
+
+		type = _hl_ns_computed_min_width(style, &value, &unit);
+
+		if (type == CSS_MIN_WIDTH_SET) {
+			if (unit == CSS_UNIT_PCT) {
+				*min_width = HL_FPCT_OF_INT_TOINT(value,
+						available_width);
+			} else {
+				*min_width = FIXTOINT(_hl_css_len2px(len_ctx,
+						value, unit, style));
+			}
+		} else {
+			/* Inadmissible */
+			*min_width = 0;
+		}
+
+		if (*min_width != 0) {
+			_hl_handle_box_sizing(len_ctx, box, available_width,
+					true, min_width);
+		}
+	}
+
+	if (max_height) {
+		enum css_max_height_e type;
+		css_fixed value = 0;
+		css_unit unit = CSS_UNIT_PX;
+
+		type = css_computed_max_height(style, &value, &unit);
+
+		if (type == CSS_MAX_HEIGHT_SET) {
+			if (unit == CSS_UNIT_PCT) {
+				/* TODO: handle percentage */
+				*max_height = -1;
+			} else {
+				*max_height = FIXTOINT(_hl_css_len2px(len_ctx,
+						value, unit, style));
+			}
+		} else {
+			/* Inadmissible */
+			*max_height = -1;
+		}
+	}
+
+	if (min_height) {
+		enum css_min_height_e type;
+		css_fixed value = 0;
+		css_unit unit = CSS_UNIT_PX;
+
+		type = _hl_ns_computed_min_height(style, &value, &unit);
+
+		if (type == CSS_MIN_HEIGHT_SET) {
+			if (unit == CSS_UNIT_PCT) {
+				/* TODO: handle percentage */
+				*min_height = 0;
+			} else {
+				*min_height = FIXTOINT(_hl_css_len2px(len_ctx,
+						value, unit, style));
+			}
+		} else {
+			/* Inadmissible */
+			*min_height = 0;
+		}
+	}
 }
 
 int _hilayout_layout_node(HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
