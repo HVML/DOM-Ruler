@@ -49,10 +49,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <libcss/libcss.h>
-#include "node.h"
-#include "select.h"
-#include "layout.h"
 #include "hilayout.h"
 /*
  
@@ -87,7 +83,6 @@ char* readCSS(char* filename)
 
 int main(int argc, char **argv)
 {
-	css_error code;
 	size_t size;
     const char html[] = " \
            <div id=\"root\"> \n\
