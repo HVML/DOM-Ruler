@@ -111,7 +111,7 @@ int main(int argc, char **argv)
     const HLUsedBackgroundValues* bg = hilayout_element_node_get_used_background_value(root);
     HL_LOGW("test|get bg value|ret=%p\n", bg);
 
-    const HLUsedTextValues* text = hilayout_element_node_get_used_font_value(root);
+    const HLUsedTextValues* text = hilayout_element_node_get_used_text_value(root);
     HL_LOGW("test|get text value|ret=%p\n", text);
 
     // test append as last child

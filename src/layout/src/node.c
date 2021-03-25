@@ -288,7 +288,7 @@ const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HL
     return node ? & node->background_values : NULL;
 }
 
-const HLUsedTextValues* hilayout_element_node_get_used_font_value(HLDomElementNode* node)
+const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNode* node)
 {
     return node ? & node->text_values : NULL;
 }
