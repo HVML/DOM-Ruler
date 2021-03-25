@@ -52,16 +52,17 @@ list(APPEND hilayout_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
     ${CMAKE_SOURCE_DIR}/src/css/libcss/include
+    ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
 list(APPEND hilayout_SOURCES
-    node.c
-    select.c
-    utils.c
-    layout.c
-    layout_block.c
-    layout_block.c
-    layout_inline_block.c
+    src/node.c
+    src/select.c
+    src/utils.c
+    src/layout.c
+    src/layout_block.c
+    src/layout_block.c
+    src/layout_inline_block.c
 )
 
 include_directories(${hilayout_INCLUDE_DIRECTORIES})

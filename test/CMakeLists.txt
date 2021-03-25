@@ -9,7 +9,7 @@ list(APPEND node_test_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
     ${CMAKE_SOURCE_DIR}/src/css/libcss/include
-    ${CMAKE_SOURCE_DIR}/src/layout
+    ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
 list(APPEND node_test_SOURCES
@@ -27,7 +27,7 @@ list(APPEND css_select_test_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
     ${CMAKE_SOURCE_DIR}/src/css/libcss/include
-    ${CMAKE_SOURCE_DIR}/src/layout
+    ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
 list(APPEND css_select_test_SOURCES
@@ -44,7 +44,7 @@ list(APPEND css_select_test2_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
     ${CMAKE_SOURCE_DIR}/src/css/libcss/include
-    ${CMAKE_SOURCE_DIR}/src/layout
+    ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
 list(APPEND css_select_test2_SOURCES
