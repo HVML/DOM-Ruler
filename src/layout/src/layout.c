@@ -129,8 +129,47 @@ void _hl_calculate_mbp_width(const HLContext *len_ctx,
 		    float *frac
             )
 {
-    *fixed += 0;
-    *frac += 0;
+	css_fixed value = 0;
+	css_unit unit = CSS_UNIT_PX;
+
+	assert(style);
+
+	/* margin */
+	if (margin) {
+		enum css_margin_e type;
+
+		type = margin_funcs[side](style, &value, &unit);
+		if (type == CSS_MARGIN_SET) {
+			if (unit == CSS_UNIT_PCT) {
+				*frac += FIXTOINT(FDIV(value, F_100));
+			} else {
+				*fixed += FIXTOINT(_hl_css_len2px(len_ctx,
+						value, unit, style));
+			}
+		}
+	}
+
+	/* border */
+	if (border) {
+		if (border_style_funcs[side](style) !=
+				CSS_BORDER_STYLE_NONE) {
+			border_width_funcs[side](style, &value, &unit);
+
+			*fixed += FIXTOINT(_hl_css_len2px(len_ctx,
+					value, unit, style));
+		}
+	}
+
+	/* padding */
+	if (padding) {
+		padding_funcs[side](style, &value, &unit);
+		if (unit == CSS_UNIT_PCT) {
+			*frac += FIXTOINT(FDIV(value, F_100));
+		} else {
+			*fixed += FIXTOINT(_hl_css_len2px(len_ctx,
+					value, unit, style));
+		}
+	}
 }
 
 void _hl_handle_box_sizing(
