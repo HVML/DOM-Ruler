@@ -151,33 +151,6 @@ int main(int argc, char **argv)
     val = css_computed_width(style->styles[CSS_PSEUDO_ELEMENT_NONE], &len, &unit);
     HL_LOGW("tag=%s|id=%s|len=%d|unit=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), len, unit);
 
-    switch (val) {
-    case CSS_WIDTH_INHERIT:
-        HL_LOGW("tag=%s|id=%s|width=inherit\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID));
-        break;
-    case CSS_WIDTH_AUTO:
-        HL_LOGW("tag=%s|id=%s|width=auto\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID));
-        break;
-    case CSS_WIDTH_SET:
-        {
-            int width = 0;
-            if (unit == CSS_UNIT_PCT)
-            {
-                width = FPCT_OF_INT_TOINT(len, 1080);
-            }
-            else
-            {
-                width = FIXTOINT(css_len2px(len, unit, style->styles[CSS_PSEUDO_ELEMENT_NONE]));
-            }
-
-            HL_LOGW("tag=%s|id=%s|len=%d|width=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), len , width);
-        }
-        break;
-    default:
-        break;
-    }
-
-
     _hilayout_css_select_result_destroy(style);
 
     HL_LOGD("###################\n");

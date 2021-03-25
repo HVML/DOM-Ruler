@@ -81,11 +81,6 @@ css_select_results* _hilayout_css_select_style(const HLCSS* css, void *node,
 
 int _hilayout_css_select_result_destroy(css_select_results *result);
 
-css_fixed css_len2px(
-        css_fixed length,
-        css_unit unit,
-        const css_computed_style *style);
-
 #ifdef __cplusplus
 }
 #endif
