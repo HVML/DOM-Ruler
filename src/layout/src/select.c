@@ -1148,7 +1148,7 @@ int _hilayout_css_stylesheet_destroy(css_stylesheet* sheet)
 
 css_stylesheet* _hilayout_css_stylesheet_inline_style_create(const uint8_t *data, size_t len)
 {
-    css_stylesheet *sheet = _hilayout_css_stylesheet_create(DEFAULT_CHARSET, DEFAULT_URL, true, false);
+    css_stylesheet *sheet = _hilayout_css_stylesheet_create(DEFAULT_CHARSET, DEFAULT_URL, true, true);
     if (sheet == NULL)
     {
         return NULL;
