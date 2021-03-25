@@ -1,5 +1,6 @@
 #root { 
     display: block; 
+    color: blue;
 }
 
 #title { 
@@ -37,7 +38,7 @@ hiweb {
     height: 25%; 
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
-    font-size:10;
+    font-size:10px;
 }
 
 hijs { 

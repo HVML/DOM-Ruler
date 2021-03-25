@@ -148,7 +148,7 @@ int hilayout_element_node_set_attr(HLDomElementNode* node, const char* name, con
     int index = -1;
     for (int i = 0; i < HL_ATTR_NAME_COUNT; i++) 
     {
-        if (strcasecmp(name, HL_ATTR_NAME_ARRAY[i]) == 0)
+        if (strcmp(name, HL_ATTR_NAME_ARRAY[i]) == 0)
         {
             index = i;
             break;
@@ -196,7 +196,7 @@ const char* hilayout_element_node_get_attr(HLDomElementNode* node, const char* n
     int index = -1;
     for (int i = 0; i < HL_ATTR_NAME_COUNT; i++) 
     {
-        if (strcasecmp(name, HL_ATTR_NAME_ARRAY[i]) == 0)
+        if (strcmp(name, HL_ATTR_NAME_ARRAY[i]) == 0)
         {
             index = i;
             break;
