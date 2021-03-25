@@ -641,7 +641,7 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
     uint8_t val = css_computed_font_family(node->computed_style, &families);
     if (val == CSS_FONT_FAMILY_INHERIT)
     {
-        HL_LOGW("layout node|tag=%s|id=%s|name=%s|font inherit\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+        HL_LOGD("layout node|tag=%s|id=%s|name=%s|font inherit\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
         if (node->parent && node->parent->text_values.family)
         {
             node->text_values.family = strdup(node->parent->text_values.family);
@@ -766,7 +766,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     _hilayout_calc_z_index(node);
     _hilayout_find_background(node);
     _hilayout_find_font(ctx, node);
-    if (node->parent == NULL)
+    if (_hl_node_is_root(node))
     {
         node->box_values.w = container_width;
         node->box_values.h = container_height;
@@ -780,6 +780,11 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 break;
 
             case LAYOUT_INLINE_BLOCK:
+                _hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0);
+                break;
+
+            default:
+                _hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0);
                 break;
         }
     }
@@ -870,20 +875,13 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
     context.vw = m.width;
     context.vh = m.height;
 
-    HL_LOGD("media|param dpi=%d|density=%d|after calc inner|dpi=0x%x|density=0x%x\n",
-            media->dpi, media->density, ctx->hl_css_media_dpi, ctx->hl_css_baseline_pixel_density);
-    HL_LOGD("media|param w=%d|h=%d|after calc inner|w=%d|h=%d|to physical|w=%d|h=%d\n",
-            media->width, media->height, m.width, m.height, 
-            FIXTOINT(_hl_css_pixels_css_to_physical(ctx, m.width)), 
-            FIXTOINT(_hl_css_pixels_css_to_physical(ctx, m.height)));
-
     // create css select context
     css_select_ctx* select_ctx = _hilayout_css_select_ctx_create(css);
 
     int ret = _hilayout_select_child_style(&m, select_ctx, root);
     if (ret != HILAYOUT_OK)
     {
-        HL_LOGD("%s|select child style failed.|code=%d\n", __func__, ret);
+        HL_LOGW("%s|select child style failed.|code=%d\n", __func__, ret);
         _hilayout_css_select_ctx_destroy(select_ctx);
         return ret;
     }

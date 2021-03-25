@@ -46,6 +46,7 @@
  */
 
 #include "select.h"
+#include "utils.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -1243,6 +1244,7 @@ int _hilayout_select_node_style(const css_media* media, css_select_ctx* select_c
     {
         node->select_styles = result;
         node->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
+//        node->layout_type = _hl_computed_display(node->computed_style, _hl_node_is_root(node));
         HL_LOGD("select node style|tag=%s|id=%s|name=%s\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
         return HILAYOUT_OK;
     }

@@ -154,6 +154,7 @@ typedef struct HLDomElementNode_ {
     css_computed_style* computed_style;
 } HLDomElementNode;
 
+bool _hl_node_is_root(HLDomElementNode *n);
 
 #ifdef __cplusplus
 }

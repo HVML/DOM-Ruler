@@ -281,3 +281,16 @@ uint8_t _hl_computed_min_width(
 }
 
 
+uint8_t _hl_computed_display(const css_computed_style *style, bool root)
+{
+    uint8_t value = css_computed_display(style, root);
+
+    if (value == CSS_DISPLAY_FLEX) {
+        return CSS_DISPLAY_BLOCK;
+
+    } else if (value == CSS_DISPLAY_INLINE_FLEX) {
+        return CSS_DISPLAY_INLINE_BLOCK;
+    }
+
+    return value;
+}

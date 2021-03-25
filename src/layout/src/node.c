@@ -329,3 +329,19 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
 
     return HILAYOUT_OK;
 }
+
+
+bool _hl_node_is_root(HLDomElementNode *n)
+{
+    if (n == NULL)
+    {
+        return false;
+    }
+
+    HLDomElementNode *parent = n->parent;
+    if (parent != NULL) 
+    {
+        return false;
+    }
+    return true;
+}
