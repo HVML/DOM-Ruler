@@ -107,12 +107,14 @@ css_fixed _hl_css_len2px(const HLContext *ctx,
 		css_unit unit,
 		const css_computed_style *style);
 
-uint8_t _hl_ns_computed_min_height(
+uint8_t _hl_computed_min_height(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit);
-uint8_t _hl_ns_computed_min_width(
+uint8_t _hl_computed_min_width(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit);
+
+
 #ifdef __cplusplus
 }
 #endif

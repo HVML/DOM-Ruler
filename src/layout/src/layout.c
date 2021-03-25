@@ -328,7 +328,7 @@ void _hl_find_dimensions(const HLContext *len_ctx,
 		css_fixed value = 0;
 		css_unit unit = CSS_UNIT_PX;
 
-		type = _hl_ns_computed_min_width(style, &value, &unit);
+		type = _hl_computed_min_width(style, &value, &unit);
 
 		if (type == CSS_MIN_WIDTH_SET) {
 			if (unit == CSS_UNIT_PCT) {
@@ -375,7 +375,7 @@ void _hl_find_dimensions(const HLContext *len_ctx,
 		css_fixed value = 0;
 		css_unit unit = CSS_UNIT_PX;
 
-		type = _hl_ns_computed_min_height(style, &value, &unit);
+		type = _hl_computed_min_height(style, &value, &unit);
 
 		if (type == CSS_MIN_HEIGHT_SET) {
 			if (unit == CSS_UNIT_PCT) {

@@ -250,7 +250,7 @@ css_fixed _hl_css_len2px(
 }
 
 
-uint8_t _hl_ns_computed_min_height(
+uint8_t _hl_computed_min_height(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit)
 {
@@ -265,7 +265,7 @@ uint8_t _hl_ns_computed_min_height(
     return value;
 }
 
-uint8_t _hl_ns_computed_min_width(
+uint8_t _hl_computed_min_width(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit)
 {
@@ -279,3 +279,5 @@ uint8_t _hl_ns_computed_min_width(
 
     return value;
 }
+
+
