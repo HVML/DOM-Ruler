@@ -43,26 +43,5 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-project(hilayout)
-
-#add_definitions(-D_DEBUG)
-
-list(APPEND hilayout_INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src/layout
-)
-
-list(APPEND hilayout_SOURCES
-    ${CMAKE_SOURCE_DIR}/src/layout/node.c
-    ${CMAKE_SOURCE_DIR}/src/layout/select.c
-    ${CMAKE_SOURCE_DIR}/src/layout/utils.c
-    ${CMAKE_SOURCE_DIR}/src/layout/layout.c
-    ${CMAKE_SOURCE_DIR}/src/layout/layout_block.c
-    ${CMAKE_SOURCE_DIR}/src/layout/layout_block.c
-    ${CMAKE_SOURCE_DIR}/src/layout/layout_inline_block.c
-)
-
-include_directories(${hilayout_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})
-link_directories(${HICSS_LIBRARY_DIRS})
-add_library(hilayout SHARED ${hilayout_SOURCES})
-target_link_libraries(hilayout ${HICSS_LIBRARIES})
+add_subdirectory(css)
+add_subdirectory(layout)

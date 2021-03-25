@@ -5,8 +5,10 @@ add_definitions(-D_DEBUG)
 
 # node
 list(APPEND node_test_INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/src/dom
-    ${CMAKE_SOURCE_DIR}/src/select
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
+    ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
+    ${CMAKE_SOURCE_DIR}/src/css/libcss/include
     ${CMAKE_SOURCE_DIR}/src/layout
 )
 
@@ -21,8 +23,10 @@ target_link_libraries(node_test hilayout)
 
 # css
 list(APPEND css_select_test_INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/src/dom
-    ${CMAKE_SOURCE_DIR}/src/select
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
+    ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
+    ${CMAKE_SOURCE_DIR}/src/css/libcss/include
     ${CMAKE_SOURCE_DIR}/src/layout
 )
 
@@ -37,8 +41,10 @@ target_link_libraries(css_select_test hilayout)
 
 list(APPEND css_select_test2_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src/dom
-    ${CMAKE_SOURCE_DIR}/src/select
+    ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
+    ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
+    ${CMAKE_SOURCE_DIR}/src/css/libcss/include
+    ${CMAKE_SOURCE_DIR}/src/layout
 )
 
 list(APPEND css_select_test2_SOURCES
@@ -54,8 +60,10 @@ target_link_libraries(css_select_test2 hilayout)
 # layout_test
 list(APPEND layout_test_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src/dom
-    ${CMAKE_SOURCE_DIR}/src/select
+    ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
+    ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
+    ${CMAKE_SOURCE_DIR}/src/css/libcss/include
+    ${CMAKE_SOURCE_DIR}/src/layout
 )
 
 list(APPEND layout_test_SOURCES

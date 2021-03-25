@@ -43,5 +43,28 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-add_subdirectory(src)
-add_subdirectory(test)
+project(hilayout)
+
+#add_definitions(-D_DEBUG)
+
+list(APPEND hilayout_INCLUDE_DIRECTORIES
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
+    ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
+    ${CMAKE_SOURCE_DIR}/src/css/libcss/include
+)
+
+list(APPEND hilayout_SOURCES
+    node.c
+    select.c
+    utils.c
+    layout.c
+    layout_block.c
+    layout_block.c
+    layout_inline_block.c
+)
+
+include_directories(${hilayout_INCLUDE_DIRECTORIES})
+link_directories(${HICSS_LIBRARY_DIRS})
+add_library(hilayout SHARED ${hilayout_SOURCES})
+target_link_libraries(hilayout css)
