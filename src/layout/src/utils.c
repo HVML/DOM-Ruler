@@ -46,6 +46,7 @@
  */
 
 #include "utils.h"
+#include "node.h"
 
 /** Media DPI in fixed point units: defaults to 96, same as nscss_baseline_pixel_density */
 //css_fixed default_hl_css_media_dpi = F_96;
@@ -285,12 +286,16 @@ uint8_t _hl_computed_display(const css_computed_style *style, bool root)
 {
     uint8_t value = css_computed_display(style, root);
 
-    if (value == CSS_DISPLAY_FLEX) {
-        return CSS_DISPLAY_BLOCK;
+    switch (value)
+    {
+        case CSS_DISPLAY_BLOCK:
+            return LAYOUT_BLOCK;
 
-    } else if (value == CSS_DISPLAY_INLINE_FLEX) {
-        return CSS_DISPLAY_INLINE_BLOCK;
+        case CSS_DISPLAY_INLINE_BLOCK:
+            return LAYOUT_INLINE_BLOCK;
+
+        default:
+            return LAYOUT_BLOCK;
+
     }
-
-    return value;
 }

@@ -55,6 +55,11 @@
 
 #define UNUSED(x) ((x) = (x))
 
+const char default_css[] = "div { display: block; }"
+    "hiweb { display: block; }"
+    "hijs { display: block; }"
+    "minigui { display: block; }";
+
 /******************************************************************************
  * Style selection callbacks                                                  *
  ******************************************************************************/
@@ -1101,7 +1106,17 @@ css_stylesheet* _hilayout_css_stylesheet_create(const char *charset, const char 
         return NULL;
     }
 
+    if (!inline_style)
+    {
+        _hilayout_css_stylesheet_append_default_data(sheet);
+    }
+
     return sheet;
+}
+
+int _hilayout_css_stylesheet_append_default_data(css_stylesheet* sheet)
+{
+    return _hilayout_css_stylesheet_append_data(sheet, default_css, strlen(default_css));
 }
 
 int _hilayout_css_stylesheet_append_data(css_stylesheet* sheet, const uint8_t *data, size_t len)
@@ -1244,8 +1259,8 @@ int _hilayout_select_node_style(const css_media* media, css_select_ctx* select_c
     {
         node->select_styles = result;
         node->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
-//        node->layout_type = _hl_computed_display(node->computed_style, _hl_node_is_root(node));
-        HL_LOGD("select node style|tag=%s|id=%s|name=%s\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+        node->layout_type = _hl_computed_display(node->computed_style, _hl_node_is_root(node));
+        HL_LOGW("select node style|tag=%s|id=%s|name=%s|layout_type=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->layout_type);
         return HILAYOUT_OK;
     }
     return HILAYOUT_SELECT_STYLE_ERR;
