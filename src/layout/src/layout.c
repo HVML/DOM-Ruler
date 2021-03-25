@@ -526,7 +526,7 @@ int _hl_block_find_dimensions(HLContext* ctx,
     node->box_values.h = sh;
 }
 
-void layout_compute_offsets(const HLContext* len_ctx,
+void _hl_computed_offsets(const HLContext* len_ctx,
 		       HLDomElementNode* box,
 		       HLDomElementNode* containing_block,
 		       int* top,
@@ -785,7 +785,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
             case LAYOUT_BLOCK:
                 if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
-                    layout_compute_offsets(ctx, child, node, &top, &right, &bottom, &left);
+                    _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
                 cy = cy + top + node_height;
                 _hilayout_layout_node(ctx, child, cx + left, cy, cw, ch, cl);
@@ -796,7 +796,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
             case LAYOUT_INLINE_BLOCK:
                 if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
-                    layout_compute_offsets(ctx, child, node, &top, &right, &bottom, &left);
+                    _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
                 cx = cx + left + node_width;
                 _hilayout_layout_node(ctx, child, cx, cy + top, cw, ch, cl);
@@ -807,7 +807,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
             default:
                 if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
-                    layout_compute_offsets(ctx, child, node, &top, &right, &bottom, &left);
+                    _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
                 cy = cy + top + node_height;
                 _hilayout_layout_node(ctx, child, cx + left, cy, cw, ch, cl);

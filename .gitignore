@@ -32,4 +32,4 @@ log
 css_select_test
 css_select_test2
 test/layout_test
-.a
+*.a
