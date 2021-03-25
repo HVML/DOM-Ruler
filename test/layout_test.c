@@ -131,6 +131,7 @@ int main(int argc, char **argv)
 
     HLDomElementNode* title = hilayout_element_node_create("div");
     hilayout_element_node_set_attr(title, HL_ATTR_ID, "title");
+    hilayout_element_node_set_attr(title, HL_ATTR_STYLE, "position: relative; left: 0%; top: 0%; width: 100%; height: 10%;");
 
     HLDomElementNode* description = hilayout_element_node_create("div");
     hilayout_element_node_set_attr(description, HL_ATTR_ID, "description");
