@@ -68,3 +68,8 @@ include_directories(${hilayout_INCLUDE_DIRECTORIES})
 link_directories(${HICSS_LIBRARY_DIRS})
 add_library(hilayout SHARED ${hilayout_SOURCES})
 target_link_libraries(hilayout css)
+
+configure_file(hilayout.pc.in hilayout.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hilayout.pc DESTINATION lib/pkgconfig)
+install(FILES ${CMAKE_SOURCE_DIR}/include/hilayout.h DESTINATION include)
+install(TARGETS hilayout DESTINATION lib)
