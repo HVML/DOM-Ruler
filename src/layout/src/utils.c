@@ -299,3 +299,29 @@ uint8_t _hl_computed_display(const css_computed_style *style, bool root)
 
     }
 }
+
+int _hi_computed_z_index(HLDomElementNode *node)
+{
+    int32_t index = 0;
+    int8_t val = css_computed_z_index(node->computed_style, &index);
+    switch (val) {
+    case CSS_Z_INDEX_INHERIT:
+        HL_LOGD("calc z index|tag=%s|id=%s|name=%s|z-index=inherit|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
+        index = node->parent ? node->parent->box_values.z_index : 0;
+        break;
+
+    case CSS_Z_INDEX_AUTO:
+        HL_LOGD("calc z index||tag=%s|id=%s|name=%s|z-index=auto|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
+        break;
+
+    case CSS_Z_INDEX_SET:
+        HL_LOGD("calc z index|tag=%s|id=%s|name=%s|z-index=%d|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index, index);
+        break;
+
+    default:
+        HL_LOGD("calc z index|tag=%s|id=%s|name=%s|z-index=default|index=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], index);
+        break;
+    }
+    node->box_values.z_index = index;
+    return index;
+}

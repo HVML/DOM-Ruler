@@ -115,6 +115,7 @@ uint8_t _hl_computed_min_width(
         css_fixed *length, css_unit *unit);
 
 uint8_t _hl_computed_display(const css_computed_style *style, bool root);
+int _hi_computed_z_index(HLDomElementNode *node);
 
 
 #ifdef __cplusplus
