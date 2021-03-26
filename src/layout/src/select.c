@@ -1260,7 +1260,7 @@ int _hilayout_select_node_style(const css_media* media, css_select_ctx* select_c
         node->select_styles = result;
         node->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
         node->layout_type = _hl_computed_display(node->computed_style, _hl_node_is_root(node));
-        HL_LOGW("select node style|tag=%s|id=%s|name=%s|layout_type=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->layout_type);
+        HL_LOGD("select node style|tag=%s|id=%s|name=%s|layout_type=%d\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], node->layout_type);
         return HILAYOUT_OK;
     }
     return HILAYOUT_SELECT_STYLE_ERR;
