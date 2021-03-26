@@ -826,8 +826,8 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
-                cy = cy + top + node_height;
-                _hilayout_layout_node(ctx, child, cx + left, cy, cw, ch, cl);
+                cy = cy + node_height;
+                _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
                 node_width = node_width + child->box_values.w;
                 node_height = node_height + child->box_values.h;
                 break;
@@ -837,8 +837,8 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
-                cx = cx + left + node_width;
-                _hilayout_layout_node(ctx, child, cx, cy + top, cw, ch, cl);
+                cx = cx + node_width;
+                _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
                 node_width = node_width + child->box_values.w;
                 node_height = node_height + child->box_values.h;
                 break;
@@ -848,8 +848,8 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
-                cy = cy + top + node_height;
-                _hilayout_layout_node(ctx, child, cx + left, cy, cw, ch, cl);
+                cy = cy + node_height;
+                _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
                 node_width = node_width + child->box_values.w;
                 node_height = node_height + child->box_values.h;
                 break;
