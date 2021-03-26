@@ -838,11 +838,14 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 }
 
                 _hl_block_find_dimensions(ctx, child, cw, ch, 0, 0);
-                cx = cx + prev_width;
-                if (cx + prev_width + left > cw)
+                if (cx + prev_width + child->box_values.w + left > cw)
                 {
                     cx = x;
                     cy = cy + line_height;
+                }
+                else
+                {
+                    cx = cx + prev_width;
                 }
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
                 prev_width = child->box_values.w;
