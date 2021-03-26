@@ -1156,24 +1156,17 @@ css_stylesheet* _hilayout_css_stylesheet_inline_style_create(const uint8_t *data
 
     css_error error = _hilayout_css_stylesheet_append_data(sheet, data, len);
     if (error != CSS_OK) {
-        fprintf(stderr, "failed add inline style: %d\n", error);
+        HL_LOGE("failed add inline style: %d\n", error);
         css_stylesheet_destroy(sheet);
         return NULL;
     }
 
     error = css_stylesheet_data_done(sheet);
     if (error != CSS_OK) {
-        fprintf(stderr, "failed completing parse: %d\n", error);
+        HL_LOGE("failed completing parse: %d\n", error);
         css_stylesheet_destroy(sheet);
         return NULL;
     }
-
-    size_t size = 0;
-    error = css_stylesheet_size(sheet, &size);
-    if (error != CSS_OK)
-        fprintf(stderr, "css_stylesheet_size %d\n", error);
-
-    fprintf(stderr, "appended data, size now %zu\n", size);
 
     return sheet;
 }
