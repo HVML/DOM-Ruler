@@ -57,6 +57,7 @@
 
 typedef struct HLCSS_ {
     css_stylesheet* sheet;
+    css_stylesheet* ua_sheet;
     int done;
 } HLCSS;
 
@@ -66,7 +67,7 @@ extern "C" {
 
 css_stylesheet* _hilayout_css_stylesheet_create(const char *charset, const char *url, bool allow_quirks, bool inline_style);
 css_stylesheet* _hilayout_css_stylesheet_inline_style_create(const uint8_t *data, size_t len);
-int _hilayout_css_stylesheet_append_default_data(css_stylesheet* sheet);
+css_stylesheet* _hilayout_css_stylesheet_create_ua_css();
 int _hilayout_css_stylesheet_append_data(css_stylesheet* sheet, const uint8_t *data, size_t len);
 int _hilayout_css_stylesheet_data_done(css_stylesheet* sheet);
 int _hilayout_css_stylesheet_destroy(css_stylesheet* sheet);

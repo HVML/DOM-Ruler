@@ -55,7 +55,7 @@
 
 #define UNUSED(x) ((x) = (x))
 
-const char default_css[] = "div { display: block; }"
+const char default_ua_css[] = "div { display: block; }"
     "hiweb { display: block; }"
     "hijs { display: block; }"
     "minigui { display: block; }";
@@ -1106,17 +1106,32 @@ css_stylesheet* _hilayout_css_stylesheet_create(const char *charset, const char 
         return NULL;
     }
 
-    if (!inline_style)
-    {
-        _hilayout_css_stylesheet_append_default_data(sheet);
-    }
-
     return sheet;
 }
 
-int _hilayout_css_stylesheet_append_default_data(css_stylesheet* sheet)
+css_stylesheet* _hilayout_css_stylesheet_create_ua_css()
 {
-    return _hilayout_css_stylesheet_append_data(sheet, default_css, strlen(default_css));
+    css_stylesheet *sheet = _hilayout_css_stylesheet_create(DEFAULT_CHARSET, DEFAULT_URL, true, false);
+    if (sheet == NULL)
+    {
+        return NULL;
+    }
+
+    css_error error = _hilayout_css_stylesheet_append_data(sheet, default_ua_css, strlen(default_ua_css));
+    if (error != CSS_OK) {
+        HL_LOGE("failed append default_css: %d\n", error);
+        css_stylesheet_destroy(sheet);
+        return NULL;
+    }
+
+    error = css_stylesheet_data_done(sheet);
+    if (error != CSS_OK) {
+        HL_LOGE("failed completing parse: %d\n", error);
+        css_stylesheet_destroy(sheet);
+        return NULL;
+    }
+
+    return sheet;
 }
 
 int _hilayout_css_stylesheet_append_data(css_stylesheet* sheet, const uint8_t *data, size_t len)
@@ -1174,7 +1189,6 @@ css_stylesheet* _hilayout_css_stylesheet_inline_style_create(const uint8_t *data
 
 HLCSS* hilayout_css_create(void)
 {
-    char url[] = "hilayout_css_select";
     css_stylesheet *sheet = _hilayout_css_stylesheet_create(DEFAULT_CHARSET, DEFAULT_URL, true, false);
     if (sheet == NULL)
     {
@@ -1182,8 +1196,10 @@ HLCSS* hilayout_css_create(void)
     }
 
     HLCSS* css = (HLCSS*)malloc(sizeof(HLCSS));
+    css->ua_sheet = _hilayout_css_stylesheet_create_ua_css();
     css->sheet = sheet;
     css->done = 0;
+
     return css;
 }
 
@@ -1199,6 +1215,7 @@ int hilayout_css_destroy(HLCSS* css)
     if (css == NULL)
         return HILAYOUT_OK;
 
+    _hilayout_css_stylesheet_destroy(css->ua_sheet);
     _hilayout_css_stylesheet_destroy(css->sheet);
     free(css);
 }
@@ -1226,6 +1243,13 @@ css_select_ctx* _hilayout_css_select_ctx_create(HLCSS* css)
         return NULL;
     }
 
+    code = css_select_ctx_append_sheet(select_ctx, css->ua_sheet, CSS_ORIGIN_UA, NULL);
+    if (code != CSS_OK)
+    {
+        HL_LOGW("append ua sheet to select ctx failed|code=%d\n", code);
+        return NULL;
+    }
+
     code = css_select_ctx_append_sheet(select_ctx, css->sheet, CSS_ORIGIN_AUTHOR, NULL);
     if (code != CSS_OK)
     {
@@ -1241,7 +1265,7 @@ css_select_ctx* _hilayout_css_select_ctx_create(HLCSS* css)
         return NULL;
     }
 
-    HL_LOGD("create select ctx|sheet count=%d\n", count);
+    HL_LOGW("create select ctx|sheet count=%d\n", count);
     return select_ctx;
 }
 
