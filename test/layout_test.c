@@ -180,6 +180,16 @@ int main(int argc, char **argv)
     hilayout_do_layout(&hl_media, css, root);
     hilayout_css_destroy(css);
 
+    hilayout_element_node_destroy(root, NULL);
+    hilayout_element_node_destroy(title, NULL);
+    hilayout_element_node_destroy(page, NULL);
+    hilayout_element_node_destroy(description, NULL);
+    hilayout_element_node_destroy(indicator, NULL);
+    hilayout_element_node_destroy(hiweb, NULL);
+    hilayout_element_node_destroy(hiweb2, NULL);
+    hilayout_element_node_destroy(hijs, NULL);
+    hilayout_element_node_destroy(hijs2, NULL);
+
 	return 0;
 }
 

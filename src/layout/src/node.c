@@ -80,7 +80,7 @@ lwc_string* _hilayout_lwc_string_dup(const char* str)
 void _hilayout_lwc_string_destroy(lwc_string* str)
 {
     if (str)
-        lwc_string_destroy(str);
+        lwc_string_unref(str);
 }
 
 HLDomElementNode* hilayout_element_node_create(const char* tag)
@@ -275,6 +275,11 @@ void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE
     if (node->text_values.family)
     {
         free(node->text_values.family);
+    }
+
+    if (node->select_styles)
+    {
+        css_select_results_destroy(node->select_styles);
     }
 }
 
