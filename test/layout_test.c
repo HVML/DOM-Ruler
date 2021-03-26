@@ -101,10 +101,10 @@ int main(int argc, char **argv)
         "#page { position: relative; width: 100%; height: 80%; color: #125; } \n"
         "#indicator { position: relative; width: 100%; height: 10%; color: #126; } \n"
         "#description { position: relative; width: 100%; height: 0%; color: #124; } \n"
-        "hiweb { position: relative; width: 100%; height: 50%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
-        "hiweb2 { position: relative; width: 100%; height: 50%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
-        "hijs { position: relative; width: 100%; height: 50%; color: #127; } \n"
-        "hijs2 { position: relative; width: 100%; height: 50%; color: #128; background:red;} \n";
+        "hiweb { position: relative; width: 50%; height: 50%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
+        "hiweb2 { position: relative; width: 50%; height: 50%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
+        "hijs { position: relative; width: 50%; height: 50%; color: #127; } \n"
+        "hijs2 { position: relative; width: 50%; height: 50%; color: #128; background:red;} \n";
 
     fprintf(stderr, "####################################### html ###########################\n");
     fprintf(stderr, "%s\n", html);

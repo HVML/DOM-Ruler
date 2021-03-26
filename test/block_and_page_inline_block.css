@@ -49,7 +49,7 @@ hiweb {
 #hiweb2 { 
     display: inline-block;
     position: relative; 
-    width: 100%; 
+    width: auto; 
     height: 25%; 
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
@@ -59,7 +59,7 @@ hiweb {
 hijs { 
     display: inline-block;
     position: relative; 
-    width: 20%; 
+    width: auto; 
     height: 50%; 
     color: #128; 
     background:red;
@@ -68,7 +68,7 @@ hijs {
 #hijs2 { 
     display: inline-block;
     position: relative; 
-    width: 50%; 
+    width: auto; 
     height: 50%; 
     color: #128; 
     background:red;
