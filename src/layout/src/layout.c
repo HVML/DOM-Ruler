@@ -814,9 +814,11 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     int right = 0;
     int bottom = 0;
     int left = 0;
+    int line_height = 0;
     HLDomElementNode* child = node->first_child;
     while(child)
     {
+        fprintf(stderr, "before  lineheight=%d\n", line_height);
         switch (child->layout_type)
         {
             case LAYOUT_BLOCK:
@@ -824,8 +826,9 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
+                cy = cy + line_height;
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
-                cy = cy + child->box_values.h;
+                line_height = 0;
                 break;
 
             case LAYOUT_INLINE_BLOCK:
@@ -834,7 +837,6 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
-                cy = cy + child->box_values.h;
                 cx = cx + child->box_values.w;
                 break;
 
@@ -843,11 +845,14 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
+                cy = cy + line_height;
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
-                cy = cy + child->box_values.h;
+                line_height = 0;
                 break;
         }
+        line_height = line_height < child->box_values.h ? child->box_values.h : line_height;
         child = child->next;
+        fprintf(stderr, "after  lineheight=%d\n", line_height);
     }
 
     HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%d\n", 
