@@ -773,7 +773,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         return HILAYOUT_OK;
     }
 
-    HL_LOGD("layout node|level=%d|tag=%s|id=%s|name=%s|in x=%d|y=%d\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], x, y);
+    HL_LOGD("layout node|level=%d|tag=%s|id=%s|name=%s|in x=%d|y=%d|container_width=%d|container_height=%d\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], x, y, container_width, container_height);
     node->box_values.x = x;
     node->box_values.y = y;
 
@@ -836,7 +836,14 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
+
+                _hl_block_find_dimensions(ctx, child, cw, ch, 0, 0);
                 cx = cx + prev_width;
+                if (cx + prev_width + left > cw)
+                {
+                    cx = x;
+                    cy = cy + line_height;
+                }
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
                 prev_width = child->box_values.w;
                 break;
