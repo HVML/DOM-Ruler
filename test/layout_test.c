@@ -97,11 +97,11 @@ int main(int argc, char **argv)
         ";
 	const char data[] = "h1 { color: red } \n"
         "#root { display: block; } \n"
-        "#title { position: relative; left:20%; width: 100%; height: 20%; color: #123; } \n"
-        "#description { position: relative; width: 100%; height: 10%; color: #124; } \n"
-        "#page { position: relative; width: 100%; height: 60%; color: #125; } \n"
+        "#title { position: relative; left:20%; width: 100%; height: 10%; color: #123; } \n"
+        "#page { position: relative; width: 100%; height: 80%; color: #125; } \n"
         "#indicator { position: relative; width: 100%; height: 10%; color: #126; } \n"
-        "hiweb { position: relative; width: 100%; height: 25%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
+        "#description { position: relative; width: 100%; height: 0%; color: #124; } \n"
+        "hiweb { position: relative; width: 100%; height: 50%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
         "hijs { position: relative; width: 100%; height: 50%; color: #128; background:red;} \n";
 
     fprintf(stderr, "####################################### html ###########################\n");
@@ -152,8 +152,8 @@ int main(int argc, char **argv)
     hilayout_element_node_set_attr(hijs, HL_ATTR_ID, "hijs");
 
     hilayout_element_node_append_as_last_child(title, root);
-    hilayout_element_node_append_as_last_child(description, root);
     hilayout_element_node_append_as_last_child(page, root);
+    hilayout_element_node_append_as_last_child(description, root);
     hilayout_element_node_append_as_last_child(indicator, root);
 
     hilayout_element_node_append_as_last_child(hiweb, page);

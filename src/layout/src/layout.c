@@ -773,7 +773,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         return HILAYOUT_OK;
     }
 
-    HL_LOGD("layout node|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
+    HL_LOGD("layout node|level=%d|tag=%s|id=%s|name=%s|in x=%d|y=%d\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], x, y);
     node->box_values.x = x;
     node->box_values.y = y;
 
@@ -809,8 +809,6 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     int cw = container_width;
     int ch = container_height;
     int cl = level + 1;
-    int node_height = 0;
-    int node_width = 0;
 
     int top = 0;
     int right = 0;
@@ -826,10 +824,8 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
-                cy = cy + node_height;
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
-                node_width = node_width + child->box_values.w;
-                node_height = node_height + child->box_values.h;
+                cy = cy + child->box_values.h;
                 break;
 
             case LAYOUT_INLINE_BLOCK:
@@ -837,10 +833,9 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
-                cx = cx + node_width;
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
-                node_width = node_width + child->box_values.w;
-                node_height = node_height + child->box_values.h;
+                cy = cy + child->box_values.h;
+                cx = cx + child->box_values.w;
                 break;
 
             default:
@@ -848,10 +843,8 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
-                cy = cy + node_height;
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
-                node_width = node_width + child->box_values.w;
-                node_height = node_height + child->box_values.h;
+                cy = cy + child->box_values.h;
                 break;
         }
         child = child->next;
