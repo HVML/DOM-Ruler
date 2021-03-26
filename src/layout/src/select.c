@@ -1154,7 +1154,14 @@ css_stylesheet* _hilayout_css_stylesheet_inline_style_create(const uint8_t *data
         return NULL;
     }
 
-    css_error error = css_stylesheet_data_done(sheet);
+    css_error error = _hilayout_css_stylesheet_append_data(sheet, data, len);
+    if (error != CSS_OK) {
+        fprintf(stderr, "failed add inline style: %d\n", error);
+        css_stylesheet_destroy(sheet);
+        return NULL;
+    }
+
+    error = css_stylesheet_data_done(sheet);
     if (error != CSS_OK) {
         fprintf(stderr, "failed completing parse: %d\n", error);
         css_stylesheet_destroy(sheet);
