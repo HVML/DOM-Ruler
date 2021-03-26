@@ -102,7 +102,9 @@ int main(int argc, char **argv)
         "#indicator { position: relative; width: 100%; height: 10%; color: #126; } \n"
         "#description { position: relative; width: 100%; height: 0%; color: #124; } \n"
         "hiweb { position: relative; width: 100%; height: 50%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
-        "hijs { position: relative; width: 100%; height: 50%; color: #128; background:red;} \n";
+        "hiweb2 { position: relative; width: 100%; height: 50%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
+        "hijs { position: relative; width: 100%; height: 50%; color: #127; } \n"
+        "hijs2 { position: relative; width: 100%; height: 50%; color: #128; background:red;} \n";
 
     fprintf(stderr, "####################################### html ###########################\n");
     fprintf(stderr, "%s\n", html);
@@ -148,8 +150,14 @@ int main(int argc, char **argv)
     HLDomElementNode* hiweb = hilayout_element_node_create("hiweb");
     hilayout_element_node_set_attr(hiweb, HL_ATTR_ID, "hiweb");
 
+    HLDomElementNode* hiweb2 = hilayout_element_node_create("hiweb");
+    hilayout_element_node_set_attr(hiweb2, HL_ATTR_ID, "hiweb2");
+
     HLDomElementNode* hijs = hilayout_element_node_create("hijs");
     hilayout_element_node_set_attr(hijs, HL_ATTR_ID, "hijs");
+
+    HLDomElementNode* hijs2 = hilayout_element_node_create("hijs");
+    hilayout_element_node_set_attr(hijs2, HL_ATTR_ID, "hijs2");
 
     hilayout_element_node_append_as_last_child(title, root);
     hilayout_element_node_append_as_last_child(page, root);
@@ -157,7 +165,9 @@ int main(int argc, char **argv)
     hilayout_element_node_append_as_last_child(indicator, root);
 
     hilayout_element_node_append_as_last_child(hiweb, page);
+    hilayout_element_node_append_as_last_child(hiweb2, page);
     hilayout_element_node_append_as_last_child(hijs, page);
+    hilayout_element_node_append_as_last_child(hijs2, page);
 
     HLMedia hl_media = {
         .width = 1080,

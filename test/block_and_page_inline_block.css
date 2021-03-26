@@ -4,7 +4,7 @@
 }
 
 #title { 
-    display: inline-block; 
+    display: block; 
     position: relative; 
     left: 70%; 
     width: 70%; 
@@ -13,7 +13,7 @@
 } 
 
 #description { 
-    display: inline-block; 
+    display: block; 
     position: relative; 
     width: 40%; 
     height: 10%; 
@@ -21,7 +21,7 @@
 }
 
 #page { 
-    display: inline-block; 
+    display: block; 
     position: relative; 
     width: 50%; 
     height: 60%; 
@@ -29,7 +29,7 @@
 }
 
 #indicator { 
-    display: inline-block; 
+    display: block; 
     position: relative; 
     width: 10%; 
     height: 10%; 
@@ -37,6 +37,7 @@
 }
 
 hiweb { 
+    display: inline-block;
     position: relative; 
     width: 50%; 
     height: 25%; 
@@ -45,9 +46,10 @@ hiweb {
     font-size:10px;
 }
 
-hiweb2 { 
+#hiweb2 { 
+    display: inline-block;
     position: relative; 
-    width: 50%; 
+    width: 100%; 
     height: 25%; 
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
@@ -55,14 +57,16 @@ hiweb2 {
 }
 
 hijs { 
+    display: inline-block;
     position: relative; 
-    width: 50%; 
+    width: 20%; 
     height: 50%; 
     color: #128; 
     background:red;
 }
 
-hijs2 { 
+#hijs2 { 
+    display: inline-block;
     position: relative; 
     width: 50%; 
     height: 50%; 
