@@ -38,8 +38,10 @@
 
 hiweb { 
     display: inline-block;
-    position: relative; 
-    width: 50%; 
+    position: fixed; 
+    left: 50px;
+    top: 10px;
+    width: 100px; 
     height: 25%; 
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
@@ -48,8 +50,9 @@ hiweb {
 
 #hiweb2 { 
     display: inline-block;
-    position: relative; 
-    width: auto; 
+    position: fixed; 
+    left: 100px;
+    top: 20px;
     height: 25%; 
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
@@ -58,10 +61,7 @@ hiweb {
 
 hijs { 
     display: inline-block;
-    position: fixed; 
-    left: 100px;
-    top: 20px;
-    width: 100px; 
+    position: relative; 
     width: auto; 
     height: 50%; 
     color: #128; 
@@ -70,10 +70,8 @@ hijs {
 
 #hijs2 { 
     display: inline-block;
-    position: fixed; 
-    left: 50px;
-    top: 10px;
-    width: 100px; 
+    position: relative; 
+    width: auto; 
     height: 50%; 
     color: #128; 
     background:red;
