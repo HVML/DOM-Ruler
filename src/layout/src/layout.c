@@ -822,14 +822,16 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         if (css_computed_position(child->computed_style) == CSS_POSITION_FIXED)
         {
             _hl_computed_offsets(ctx, child, ctx->root, &top, &right, &bottom, &left);
-            cx = ctx->root->box_values.x;
-            cy = ctx->root->box_values.y;
+            int x = ctx->root->box_values.x;
+            int y = ctx->root->box_values.y;
+            int w = ctx->root->box_values.w;
+            int h = ctx->root->box_values.h;
             if (left == HL_AUTO)
                 left = 0;
 
             if (top == HL_AUTO)
                 top = 0;
-            _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
+            _hilayout_layout_node(ctx, child, x + left, y + top, w, h, cl);
             line_height = 0;
             child = child->next;
             continue;
