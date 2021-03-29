@@ -86,6 +86,8 @@ typedef struct HLContext_ {
     int vw;
     int vh;
     const css_computed_style *root_style;
+
+    HLDomElementNode* root;
 } HLContext;
 
 

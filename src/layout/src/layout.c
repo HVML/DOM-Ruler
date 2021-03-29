@@ -819,6 +819,22 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     HLDomElementNode* child = node->first_child;
     while(child)
     {
+        if (css_computed_position(child->computed_style) == CSS_POSITION_FIXED)
+        {
+            _hl_computed_offsets(ctx, child, ctx->root, &top, &right, &bottom, &left);
+            cx = ctx->root->box_values.x;
+            cy = ctx->root->box_values.y;
+            if (left == HL_AUTO)
+                left = 0;
+
+            if (top == HL_AUTO)
+                top = 0;
+            _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
+            line_height = 0;
+            child = child->next;
+            continue;
+        }
+
         switch (child->layout_type)
         {
             case LAYOUT_BLOCK:
@@ -836,7 +852,6 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
                 }
-
                 _hl_block_find_dimensions(ctx, child, cw, ch, 0, 0);
                 if (cx + prev_width + child->box_values.w + left > cw)
                 {
@@ -886,6 +901,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 	HLContext context = {
 		.media = media,
 		.css = css,
+        .root = root,
 	};
     _hl_set_media_dpi(&context, media->dpi);
     _hl_set_baseline_pixel_density(&context, media->density);
