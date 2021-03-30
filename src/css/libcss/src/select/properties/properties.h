@@ -145,6 +145,12 @@ PROPERTY_FUNCS(width);
 PROPERTY_FUNCS(word_spacing);
 PROPERTY_FUNCS(writing_mode);
 PROPERTY_FUNCS(z_index);
+PROPERTY_FUNCS(grid_template_columns);
+PROPERTY_FUNCS(grid_template_rows);
+PROPERTY_FUNCS(grid_column_start);
+PROPERTY_FUNCS(grid_column_end);
+PROPERTY_FUNCS(grid_row_start);
+PROPERTY_FUNCS(grid_row_end);
 
 #undef PROPERTY_FUNCS
 

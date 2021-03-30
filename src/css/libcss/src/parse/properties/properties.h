@@ -458,4 +458,24 @@ css_error css__parse_z_index(css_language *c,
 		const parserutils_vector *vector, int *ctx,
 		css_style *result);
 
+// grid begin
+css_error css__parse_grid_template_columns(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+css_error css__parse_grid_template_rows(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+css_error css__parse_grid_column_start(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+css_error css__parse_grid_column_end(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+css_error css__parse_grid_row_start(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+css_error css__parse_grid_row_end(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+// grid end
 #endif

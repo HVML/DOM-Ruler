@@ -513,5 +513,30 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
 	{
 		PROPERTY_FUNCS(order),
 		0,
+	},
+	{
+		PROPERTY_FUNCS(grid_template_columns),
+		0,
+	},
+	{
+		PROPERTY_FUNCS(grid_template_rows),
+		0,
+	},
+	{
+		PROPERTY_FUNCS(grid_column_start),
+		0,
+	},
+	{
+		PROPERTY_FUNCS(grid_column_end),
+		0,
+	},
+	{
+		PROPERTY_FUNCS(grid_row_start),
+		0,
+	},
+	{
+		PROPERTY_FUNCS(grid_row_end),
+		0,
 	}
+
 };
