@@ -70,7 +70,6 @@ css_error css__parse_grid_column_start(css_language *c,
 		return CSS_INVALID;
 	}
 
-    fprintf(stderr, "..................................%s:%d|type=%d|idata=%s|token=%p\n", __FILE__, __LINE__, token->type, lwc_string_data(token->idata), token);
     *ctx = orig_ctx;
     error = css__parse_unit_specifier(c, vector, ctx, UNIT_PX, &length, &unit);
     if (error != CSS_OK) {
