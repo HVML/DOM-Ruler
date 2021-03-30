@@ -42,7 +42,7 @@
     For more information about the commercial license, please refer to
     <http://www.minigui.com/blog/minigui-licensing-policy/>.
 
- \endverbatim
+ \startverbatim
  */
 
 #include "bytecode/bytecode.h"
@@ -57,23 +57,53 @@
 css_error css__cascade_grid_row_start(uint32_t opv, css_style *style,
 		css_select_state *state)
 {
-    return CSS_OK;
+	uint16_t value = CSS_GRID_ROW_START_INHERIT;
+	css_fixed index = 0;
+
+	if (isInherit(opv) == false) {
+		switch (getValue(opv)) {
+		case GRID_ROW_START_SET:
+			value = CSS_GRID_ROW_START_SET;
+
+			index = *((css_fixed *) style->bytecode);
+			advance_bytecode(style, sizeof(index));
+			break;
+		case GRID_ROW_START_AUTO:
+			value = CSS_GRID_ROW_START_AUTO;
+			break;
+		}
+	}
+
+	if (css__outranks_existing(getOpcode(opv), isImportant(opv), state,
+			isInherit(opv))) {
+		return set_grid_row_start(state->computed, value, index);
+	}
+
+	return CSS_OK;
+}
+
+css_error css__set_grid_row_start_from_hint(const css_hint *hint,
+		css_computed_style *style)
+{
+	return set_grid_row_start(style, hint->status, hint->data.integer);
+}
+
+css_error css__initial_grid_row_start(css_select_state *state)
+{
+	return set_grid_row_start(state->computed, CSS_GRID_ROW_START_AUTO, 0);
 }
 
 css_error css__compose_grid_row_start(const css_computed_style *parent,
 		const css_computed_style *child,
 		css_computed_style *result)
 {
-    return CSS_OK;
+	int32_t index = 0;
+	uint8_t type = get_grid_row_start(child, &index);
+
+	if (type == CSS_GRID_ROW_START_INHERIT) {
+		type = get_grid_row_start(parent, &index);
+	}
+
+	return set_grid_row_start(result, type, index);
 }
 
-css_error css__initial_grid_row_start(css_select_state *state)
-{
-    return CSS_OK;
-}
-
-css_error css__set_grid_row_start_from_hint(const css_hint *hint,
-		css_computed_style *style)
-{
-    return CSS_INVALID;
-}
