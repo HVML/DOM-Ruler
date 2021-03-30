@@ -294,6 +294,12 @@ uint8_t _hl_computed_display(const css_computed_style *style, bool root)
         case CSS_DISPLAY_INLINE_BLOCK:
             return LAYOUT_INLINE_BLOCK;
 
+        case CSS_DISPLAY_GRID:
+            return LAYOUT_BLOCK;
+
+        case CSS_DISPLAY_INLINE_GRID:
+            return LAYOUT_INLINE_BLOCK;
+
         default:
             return LAYOUT_BLOCK;
 

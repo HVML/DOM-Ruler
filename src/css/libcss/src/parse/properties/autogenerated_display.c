@@ -85,6 +85,10 @@ css_error css__parse_display(css_language *c,
 			error = css__stylesheet_style_appendOPV(result, CSS_PROP_DISPLAY, 0,DISPLAY_FLEX);
 	} else if ((lwc_string_caseless_isequal(token->idata, c->strings[INLINE_FLEX], &match) == lwc_error_ok && match)) {
 			error = css__stylesheet_style_appendOPV(result, CSS_PROP_DISPLAY, 0,DISPLAY_INLINE_FLEX);
+	} else if ((lwc_string_caseless_isequal(token->idata, c->strings[GRID], &match) == lwc_error_ok && match)) {
+			error = css__stylesheet_style_appendOPV(result, CSS_PROP_DISPLAY, 0,DISPLAY_GRID);
+	} else if ((lwc_string_caseless_isequal(token->idata, c->strings[INLINE_GRID], &match) == lwc_error_ok && match)) {
+			error = css__stylesheet_style_appendOPV(result, CSS_PROP_DISPLAY, 0,DISPLAY_INLINE_GRID);
 	} else {
 		error = CSS_INVALID;
 	}
