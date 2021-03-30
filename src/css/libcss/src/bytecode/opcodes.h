@@ -807,4 +807,28 @@ enum op_z_index {
 	Z_INDEX_AUTO			= 0x0000
 };
 
+enum op_grid_column_start {
+	GRID_COLUMN_START_SET			= 0x0080,
+
+	GRID_COLUMN_START_AUTO			= 0x0000
+};
+
+enum op_grid_column_end {
+	GRID_COLUMN_END_SET			= 0x0080,
+
+	GRID_COLUMN_END_AUTO			= 0x0000
+};
+
+enum op_grid_row_start {
+	GRID_ROW_START_SET			= 0x0080,
+
+	GRID_ROW_START_AUTO			= 0x0000
+};
+
+enum op_grid_row_end {
+	GRID_ROW_END_SET			= 0x0080,
+
+	GRID_ROW_END_AUTO			= 0x0000
+};
+
 #endif

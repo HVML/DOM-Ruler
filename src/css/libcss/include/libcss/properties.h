@@ -861,6 +861,30 @@ enum css_z_index_e {
 	CSS_Z_INDEX_AUTO			= 0x2
 };
 
+enum css_grid_column_start_e {
+	CSS_GRID_COLUMN_START_INHERIT			= 0x0,
+	CSS_GRID_COLUMN_START_SET				= 0x1,
+	CSS_GRID_COLUMN_START_AUTO				= 0x2
+};
+
+enum css_grid_column_end_e {
+	CSS_GRID_COLUMN_END_INHERIT			= 0x0,
+	CSS_GRID_COLUMN_END_SET				= 0x1,
+	CSS_GRID_COLUMN_END_AUTO			= 0x2
+};
+
+enum css_grid_row_start_e {
+	CSS_GRID_ROW_START_INHERIT			= 0x0,
+	CSS_GRID_ROW_START_SET				= 0x1,
+	CSS_GRID_ROW_START_AUTO				= 0x2
+};
+
+enum css_grid_row_end_e {
+	CSS_GRID_ROW_END_INHERIT			= 0x0,
+	CSS_GRID_ROW_END_SET				= 0x1,
+	CSS_GRID_ROW_END_AUTO				= 0x2
+};
+
 #ifdef __cplusplus
 }
 #endif

@@ -2122,3 +2122,31 @@ static inline uint8_t get_z_index(const css_computed_style *style, int32_t
 #undef Z_INDEX_INDEX
 #undef Z_INDEX_SHIFT
 #undef Z_INDEX_MASK
+
+static inline uint8_t get_grid_column_start(const css_computed_style *style, int32_t
+		*integer)
+{
+	*integer = style->i.grid_column_start;
+	return style->i.grid_column_start_type;
+}
+
+static inline uint8_t get_grid_column_end(const css_computed_style *style, int32_t
+		*integer)
+{
+	*integer = style->i.grid_column_end;
+	return style->i.grid_column_end_type;
+}
+
+static inline uint8_t get_grid_row_start(const css_computed_style *style, int32_t
+		*integer)
+{
+	*integer = style->i.grid_row_start;
+	return style->i.grid_row_start_type;
+}
+
+static inline uint8_t get_grid_row_end(const css_computed_style *style, int32_t
+		*integer)
+{
+	*integer = style->i.grid_row_end;
+	return style->i.grid_row_end_type;
+}

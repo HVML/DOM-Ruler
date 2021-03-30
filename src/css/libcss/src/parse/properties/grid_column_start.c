@@ -64,15 +64,6 @@ css_error css__parse_grid_column_start(css_language *c,
     css_fixed length = 0;
     uint32_t unit = 0;
 
-#if 0
-    while ((token = parserutils_vector_iterate(vector, ctx)) != NULL) {
-        if (token->idata != NULL) {
-            fprintf(stderr, "..................................type=%d|idata=%s|grid_template_columns=%s\n", token->type, lwc_string_data(token->idata), lwc_string_data(c->strings[GRID_TEMPLATE_COLUMNS]));
-        }
-    }
-#endif
-#if 0
-
 	token = parserutils_vector_iterate(vector, ctx);
 	if (token == NULL) {
 		*ctx = orig_ctx;
@@ -87,7 +78,7 @@ css_error css__parse_grid_column_start(css_language *c,
         return error;
     }
 
-    error = css__stylesheet_style_appendOPV(result, CSS_PROP_GRID_TEMPLATE_COLUMNS, 0, WIDTH_SET);
+    error = css__stylesheet_style_appendOPV(result, CSS_PROP_GRID_COLUMN_START, 0, GRID_COLUMN_START_SET);
     if (error != CSS_OK)
         *ctx = orig_ctx;
 
@@ -97,7 +88,4 @@ css_error css__parse_grid_column_start(css_language *c,
         return error;
     }
 	return error;
-#else
-    return CSS_INVALID;
-#endif
 }

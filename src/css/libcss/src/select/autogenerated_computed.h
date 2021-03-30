@@ -262,7 +262,18 @@ struct css_computed_style_i {
 	css_fixed width;
 	css_fixed word_spacing;
 	int32_t z_index;
-	
+
+    int32_t grid_column_start;
+    uint8_t grid_column_start_type;
+
+    int32_t grid_column_end;
+    uint8_t grid_column_end_type;
+
+    int32_t grid_row_start;
+    uint8_t grid_row_start_type;
+
+    int32_t grid_row_end;
+    uint8_t grid_row_end_type;
 };
 
 struct css_computed_style {
