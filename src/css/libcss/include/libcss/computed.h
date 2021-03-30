@@ -474,6 +474,21 @@ uint8_t css_computed_order(
 		const css_computed_style *style,
 		int32_t *order);
 
+uint8_t css_computed_grid_column_start(
+		const css_computed_style *style,
+		int32_t *z_index);
+
+uint8_t css_computed_grid_column_end(
+		const css_computed_style *style,
+		int32_t *z_index);
+
+uint8_t css_computed_grid_row_start(
+		const css_computed_style *style,
+		int32_t *z_index);
+
+uint8_t css_computed_grid_row_end(
+		const css_computed_style *style,
+		int32_t *z_index);
 #ifdef __cplusplus
 }
 #endif
