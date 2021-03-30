@@ -64,22 +64,12 @@ css_error css__parse_grid_row_end(css_language *c,
     css_fixed length = 0;
     uint32_t unit = 0;
 
-#if 0
-    while ((token = parserutils_vector_iterate(vector, ctx)) != NULL) {
-        if (token->idata != NULL) {
-            fprintf(stderr, "..................................type=%d|idata=%s|grid_template_columns=%s\n", token->type, lwc_string_data(token->idata), lwc_string_data(c->strings[GRID_TEMPLATE_COLUMNS]));
-        }
-    }
-#endif
-#if 0
-
 	token = parserutils_vector_iterate(vector, ctx);
 	if (token == NULL) {
 		*ctx = orig_ctx;
 		return CSS_INVALID;
 	}
 
-    fprintf(stderr, "..................................%s:%d|type=%d|idata=%s|token=%p\n", __FILE__, __LINE__, token->type, lwc_string_data(token->idata), token);
     *ctx = orig_ctx;
     error = css__parse_unit_specifier(c, vector, ctx, UNIT_PX, &length, &unit);
     if (error != CSS_OK) {
@@ -87,7 +77,7 @@ css_error css__parse_grid_row_end(css_language *c,
         return error;
     }
 
-    error = css__stylesheet_style_appendOPV(result, CSS_PROP_GRID_TEMPLATE_COLUMNS, 0, WIDTH_SET);
+    error = css__stylesheet_style_appendOPV(result, CSS_PROP_GRID_ROW_END, 0, GRID_ROW_END_SET);
     if (error != CSS_OK)
         *ctx = orig_ctx;
 
@@ -97,7 +87,4 @@ css_error css__parse_grid_row_end(css_language *c,
         return error;
     }
 	return error;
-#else
-    return CSS_INVALID;
-#endif
 }
