@@ -861,6 +861,18 @@ enum css_z_index_e {
 	CSS_Z_INDEX_AUTO			= 0x2
 };
 
+enum css_grid_template_columns_e {
+	CSS_GRID_TEMPLATE_COLUMNS_INHERIT			= 0x0,
+	CSS_GRID_TEMPLATE_COLUMNS_SET				= 0x1,
+	CSS_GRID_TEMPLATE_COLUMNS_AUTO				= 0x2
+};
+
+enum css_grid_template_rows_e {
+	CSS_GRID_TEMPLATE_ROWS_INHERIT			= 0x0,
+	CSS_GRID_TEMPLATE_ROWS_SET				= 0x1,
+	CSS_GRID_TEMPLATE_ROWS_AUTO				= 0x2
+};
+
 enum css_grid_column_start_e {
 	CSS_GRID_COLUMN_START_INHERIT			= 0x0,
 	CSS_GRID_COLUMN_START_SET				= 0x1,

@@ -58,46 +58,41 @@ css_error css__parse_grid_template_columns(css_language *c,
 		css_style *result)
 {
 	int orig_ctx = *ctx;
+    int last_ctx = *ctx;
 	css_error error;
 	const css_token *token;
-	bool match;
     css_fixed length = 0;
     uint32_t unit = 0;
 
-#if 0
+#if 1
     while ((token = parserutils_vector_iterate(vector, ctx)) != NULL) {
         if (token->idata != NULL) {
-            fprintf(stderr, "..................................type=%d|idata=%s|grid_template_columns=%s\n", token->type, lwc_string_data(token->idata), lwc_string_data(c->strings[GRID_TEMPLATE_COLUMNS]));
+            error = css__parse_unit_specifier(c, vector, &last_ctx, UNIT_PX, &length, &unit);
+            if (error != CSS_OK) 
+            {
+                *ctx = orig_ctx;
+                return error;
+            }
+            error = css__stylesheet_style_appendOPV(result, CSS_PROP_GRID_TEMPLATE_COLUMNS, 0, GRID_TEMPLATE_COLUMNS_SET);
+            if (error != CSS_OK)
+            {
+                *ctx = orig_ctx;
+                return error;
+            }
+
+            error = css__stylesheet_style_vappend(result, 2, length, unit);
+            if (error != CSS_OK) {
+                *ctx = orig_ctx;
+                return error;
+            }
+            fprintf(stderr, "..................................type=%d|idata=%s|grid_template_columns=%s|ctx=%d|last_ctx=%d|length=%d|unit=%d\n", 
+                    token->type, lwc_string_data(token->idata), lwc_string_data(c->strings[GRID_TEMPLATE_COLUMNS]), *ctx, last_ctx, length, unit);
+            last_ctx = *ctx;
         }
     }
-#endif
-#if 0
-
-	token = parserutils_vector_iterate(vector, ctx);
-	if (token == NULL) {
-		*ctx = orig_ctx;
-		return CSS_INVALID;
-	}
-
-    fprintf(stderr, "..................................%s:%d|type=%d|idata=%s|token=%p\n", __FILE__, __LINE__, token->type, lwc_string_data(token->idata), token);
-    *ctx = orig_ctx;
-    error = css__parse_unit_specifier(c, vector, ctx, UNIT_PX, &length, &unit);
-    if (error != CSS_OK) {
-        *ctx = orig_ctx;
-        return error;
-    }
-
-    error = css__stylesheet_style_appendOPV(result, CSS_PROP_GRID_TEMPLATE_COLUMNS, 0, WIDTH_SET);
-    if (error != CSS_OK)
-        *ctx = orig_ctx;
-
-    error = css__stylesheet_style_vappend(result, 2, length, unit);
-    if (error != CSS_OK) {
-        *ctx = orig_ctx;
-        return error;
-    }
-	return error;
+    error = css__stylesheet_style_append(result, GRID_TEMPLATE_COLUMNS_END);
+    return error;
 #else
-    return CSS_INVALID;
+    return CSS_OK;
 #endif
 }

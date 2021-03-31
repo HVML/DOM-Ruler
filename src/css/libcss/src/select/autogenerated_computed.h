@@ -5,6 +5,8 @@
  * Copyright 2017 The NetSurf Project
  */
 
+#define MAX_GRID_COLUMNS_SIZE  1024
+#define MAX_GRID_ROWS_SIZE     1024
 
 struct css_computed_style_i {
 /*
@@ -274,6 +276,16 @@ struct css_computed_style_i {
 
     int32_t grid_row_end;
     uint8_t grid_row_end_type;
+
+    size_t grid_template_columns_size;
+    uint8_t grid_template_columns_type;
+    css_fixed grid_template_columns[MAX_GRID_COLUMNS_SIZE];
+    css_unit grid_template_columns_unit[MAX_GRID_COLUMNS_SIZE];
+
+    size_t grid_template_rows_size;
+    uint8_t grid_template_rows_type;
+    css_fixed grid_template_rows[MAX_GRID_ROWS_SIZE];
+    css_unit grid_template_rows_unit[MAX_GRID_ROWS_SIZE];
 };
 
 struct css_computed_style {

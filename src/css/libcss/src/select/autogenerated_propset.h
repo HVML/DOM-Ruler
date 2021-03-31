@@ -2513,7 +2513,6 @@ static inline css_error set_z_index(css_computed_style *style, uint8_t type,
 static inline css_error set_grid_column_start(css_computed_style *style, uint8_t type,
 		int32_t integer)
 {
-    fprintf(stderr, "%s %s | value=%d\n", __FILE__, __func__, integer);
 	style->i.grid_column_start = integer;
     style->i.grid_column_start_type = type;
 	return CSS_OK;
@@ -2522,7 +2521,6 @@ static inline css_error set_grid_column_start(css_computed_style *style, uint8_t
 static inline css_error set_grid_column_end(css_computed_style *style, uint8_t type,
 		int32_t integer)
 {
-    fprintf(stderr, "%s %s | value=%d\n", __FILE__, __func__, integer);
 	style->i.grid_column_end = integer;
     style->i.grid_column_end_type = type;
 	return CSS_OK;
@@ -2531,7 +2529,6 @@ static inline css_error set_grid_column_end(css_computed_style *style, uint8_t t
 static inline css_error set_grid_row_start(css_computed_style *style, uint8_t type,
 		int32_t integer)
 {
-    fprintf(stderr, "%s %s | value=%d\n", __FILE__, __func__, integer);
 	style->i.grid_row_start = integer;
     style->i.grid_row_start_type = type;
 	return CSS_OK;
@@ -2540,8 +2537,27 @@ static inline css_error set_grid_row_start(css_computed_style *style, uint8_t ty
 static inline css_error set_grid_row_end(css_computed_style *style, uint8_t type,
 		int32_t integer)
 {
-    fprintf(stderr, "%s %s | value=%d\n", __FILE__, __func__, integer);
 	style->i.grid_row_end = integer;
     style->i.grid_row_end_type = type;
+	return CSS_OK;
+}
+
+static inline css_error set_grid_template_columns(css_computed_style *style, uint8_t type, size_t size, css_fixed *values,
+		css_unit *units)
+{
+    fprintf(stderr, "%s %s | size=%ld\n", __FILE__, __func__, size);
+    style->i.grid_template_columns_type = type;
+    style->i.grid_template_columns_size = size;
+
+    if (size == 0 || values == NULL || units == NULL)
+    {
+        return CSS_INVALID;
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        style->i.grid_template_columns[i] = values[i];
+        style->i.grid_template_columns_unit[i] = units[i];
+    }
 	return CSS_OK;
 }
