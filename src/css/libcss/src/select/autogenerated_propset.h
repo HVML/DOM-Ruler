@@ -2553,6 +2553,8 @@ static inline css_error set_grid_template_columns(css_computed_style *style, uin
         return CSS_OK;
     }
 
+    style->i.grid_template_columns = (css_fixed*) malloc(size * sizeof(css_fixed));
+    style->i.grid_template_columns_unit = (css_unit*) malloc(size *sizeof(css_unit));
     for (int i = 0; i < size; i++)
     {
         style->i.grid_template_columns[i] = values[i];
@@ -2572,6 +2574,8 @@ static inline css_error set_grid_template_rows(css_computed_style *style, uint8_
         return CSS_OK;
     }
 
+    style->i.grid_template_rows = (css_fixed*) malloc(size * sizeof(css_fixed));
+    style->i.grid_template_rows_unit = (css_unit*) malloc(size *sizeof(css_unit));
     for (int i = 0; i < size; i++)
     {
         style->i.grid_template_rows[i] = values[i];

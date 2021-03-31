@@ -188,6 +188,16 @@ css_error css_computed_style_destroy(css_computed_style *style)
 	if (style->i.background_image != NULL)
 		lwc_string_unref(style->i.background_image);
 
+    if (style->i.grid_template_columns != NULL)
+    {
+        free(style->i.grid_template_columns);
+    }
+
+    if (style->i.grid_template_rows != NULL)
+    {
+        free(style->i.grid_template_rows);
+    }
+
 	free(style);
 
 	return CSS_OK;
