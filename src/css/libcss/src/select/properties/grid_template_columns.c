@@ -58,8 +58,8 @@ css_error css__cascade_grid_template_columns(uint32_t opv, css_style *style,
         css_select_state *state)
 {
     uint16_t value = CSS_GRID_TEMPLATE_COLUMNS_INHERIT;
-    css_fixed values[1024];
-    css_unit units[1024];
+    css_fixed* values = NULL;
+    css_unit* units = NULL;
     int32_t n_values = 0;
 
     if (isInherit(opv) == false) {
@@ -83,7 +83,31 @@ css_error css__cascade_grid_template_columns(uint32_t opv, css_style *style,
                     continue;
             }
 
+            css_fixed* temp_values = (css_fixed*)realloc(values, (n_values + 1) * sizeof(css_fixed));
+            if (temp_values == NULL)
+            {
+                if (values != NULL)
+                {
+                    free(values);
+                }
+                return CSS_NOMEM;
+            }
+            values= temp_values;
             values[n_values] = length;
+
+            css_unit* temp_units= (css_unit*)realloc(units, (n_values + 1) * sizeof(css_unit));
+            if (temp_units == NULL)
+            {
+                if (units != NULL)
+                {
+                    free(units);
+                }
+                if (values != NULL) {
+                    free(values);
+                }
+                return CSS_NOMEM;
+            }
+            units= temp_units;
             units[n_values] = unit;
             n_values++;
             v = getValue(*((uint32_t *) style->bytecode));
@@ -93,7 +117,17 @@ css_error css__cascade_grid_template_columns(uint32_t opv, css_style *style,
 
     if (css__outranks_existing(getOpcode(opv), isImportant(opv), state,
             isInherit(opv))) {
-        return set_grid_template_columns(state->computed, value, n_values, values, units);
+        css_error error = set_grid_template_columns(state->computed, value, n_values, values, units);
+        if (values != NULL)
+        {
+            free(values);
+        }
+
+        if (units != NULL)
+        {
+            free(units);
+        }
+        return error;
     }
 
     return CSS_OK;
