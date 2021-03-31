@@ -99,6 +99,15 @@ typedef struct HLGridRowColumn_ {
     int column_end;
 } HLGridRowColumn;
 
+typedef struct HLGridTemplate_ {
+    int32_t* rows;
+    int32_t* columns;
+
+    int n_row;
+    int n_column;
+
+    uint8_t** mask;
+} HLGridTemplate;
 
 #ifdef __cplusplus
 extern "C" {
@@ -126,8 +135,11 @@ uint8_t _hl_computed_min_width(
 
 uint8_t _hl_computed_display(const css_computed_style *style, bool root);
 int _hi_computed_z_index(HLDomElementNode *node);
-HLGridRowColumn* _hi_computed_grid_row_column(HLDomElementNode *node);
+HLGridRowColumn* _hl_computed_grid_row_column(HLDomElementNode *node);
+HLGridTemplate* _hl_computed_grid_template(const HLContext *ctx, HLDomElementNode *node, int vw, int vh);
 
+void _hl_grid_row_column_destroy(HLGridRowColumn*);
+void _hl_grid_template_destroy(HLGridTemplate*);
 
 #ifdef __cplusplus
 }

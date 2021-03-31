@@ -329,7 +329,7 @@ int _hi_computed_z_index(HLDomElementNode *node)
     return index;
 }
 
-HLGridRowColumn* _hi_computed_grid_row_column(HLDomElementNode *node)
+HLGridRowColumn* _hl_computed_grid_row_column(HLDomElementNode *node)
 {
     if (node == NULL)
     {
@@ -372,4 +372,108 @@ HLGridRowColumn* _hi_computed_grid_row_column(HLDomElementNode *node)
     }
 
     return hlrc;
+}
+
+HLGridTemplate* _hl_computed_grid_template(const HLContext *ctx, HLDomElementNode *node, int vw, int vh)
+{
+    if (node == NULL)
+    {
+        return NULL;
+    }
+
+    int row_size = 0;
+    css_fixed* row_values = NULL;
+    css_unit* row_units = NULL;
+
+    int column_size = 0;
+    css_fixed* column_values = NULL;
+    css_unit* column_units = NULL;
+
+    uint8_t ret = 0;
+
+    ret = css_computed_grid_template_rows(node->computed_style, &row_size, &row_values, &row_units);
+    if (ret != CSS_GRID_TEMPLATE_ROWS_SET)
+    {
+        return NULL;
+    }
+
+    ret = css_computed_grid_template_columns(node->computed_style, &column_size, &column_values, &column_units);
+    if (ret != CSS_GRID_TEMPLATE_COLUMNS_SET)
+    {
+        return NULL;
+    }
+
+    HLGridTemplate* gt = (HLGridTemplate*)calloc(1, sizeof(HLGridTemplate));
+    gt->n_row = row_size;
+    gt->n_column = column_size;
+    gt->mask = (uint8_t**)calloc(gt->n_row, sizeof(uint8_t*));
+    for (int i = 0; i < gt->n_row; i++)
+    {
+        gt->mask[i] = (uint8_t*)calloc(gt->n_column, sizeof(uint8_t));
+    }
+
+    gt->rows = (int32_t*)malloc(gt->n_row * sizeof(int32_t));
+    gt->columns = (int32_t*)malloc(gt->n_column * sizeof(int32_t));
+
+    for (int i = 0; i < row_size; i++)
+    {
+        if (row_units[i] == CSS_UNIT_PCT) {
+            gt->rows[i] = HL_FPCT_OF_INT_TOINT(row_values[i], vh);
+        } else {
+            gt->rows[i] = FIXTOINT(_hl_css_len2px(ctx, row_values[i], row_units[i], node->computed_style));
+        }
+    }
+
+    for (int i = 0; i < column_size; i++)
+    {
+        if (column_units[i] == CSS_UNIT_PCT) {
+            gt->columns[i] = HL_FPCT_OF_INT_TOINT(column_values[i], vh);
+        } else {
+            gt->columns[i] = FIXTOINT(_hl_css_len2px(ctx, column_values[i], column_units[i], node->computed_style));
+        }
+    }
+
+    free(row_values);
+    free(row_units);
+    free(column_values);
+    free(column_units);
+
+    return gt;
+}
+
+void _hl_grid_row_column_destroy(HLGridRowColumn* p)
+{
+    if (p == NULL)
+    {
+        return;
+    }
+    free(p);
+}
+
+void _hl_grid_template_destroy(HLGridTemplate* p)
+{
+    if (p == NULL)
+    {
+        return;
+    }
+    if (p->rows != NULL)
+    {
+        free(p->rows);
+    }
+
+    if (p->columns != NULL)
+    {
+        free(p->columns);
+    }
+
+    if (p->mask != NULL)
+    {
+        for (int i = 0; i < p->n_row; i++)
+        {
+            free(p->mask[i]);
+        }
+    }
+
+    free(p->mask);
+    free(p);
 }
