@@ -2169,3 +2169,22 @@ static inline uint8_t get_grid_template_columns(const css_computed_style *style,
     }
 	return style->i.grid_template_columns_type;
 }
+
+static inline uint8_t get_grid_template_rows(const css_computed_style *style, int32_t *size,
+    css_fixed **values, css_unit **units)
+{
+    *size = style->i.grid_template_rows_size;
+    if (*size > 0)
+    {
+        css_fixed* v = (css_fixed*) malloc(*size * sizeof(css_fixed));
+        css_unit* u = (css_unit*) malloc(*size * sizeof(css_unit));
+        for (int i = 0; i < *size; i++)
+        {
+            v[i] = style->i.grid_template_rows[i];
+            u[i] = style->i.grid_template_rows_unit[i];
+        }
+        *values = v;
+        *units = u;
+    }
+	return style->i.grid_template_rows_type;
+}

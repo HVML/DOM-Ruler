@@ -1795,3 +1795,11 @@ uint8_t css_computed_grid_template_columns(
 {
     return get_grid_template_columns(style, n_values, values, units);
 }
+
+uint8_t css_computed_grid_template_rows(
+		const css_computed_style *style,
+        int32_t* n_values,
+		css_fixed** values, css_unit** units)
+{
+    return get_grid_template_rows(style, n_values, values, units);
+}

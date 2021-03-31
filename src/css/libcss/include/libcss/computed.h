@@ -494,6 +494,12 @@ uint8_t css_computed_grid_template_columns(
 		const css_computed_style *style,
         int32_t* n_values,
 		css_fixed** values, css_unit** units);
+
+uint8_t css_computed_grid_template_rows(
+		const css_computed_style *style,
+        int32_t* n_values,
+		css_fixed** values, css_unit** units);
+
 #ifdef __cplusplus
 }
 #endif

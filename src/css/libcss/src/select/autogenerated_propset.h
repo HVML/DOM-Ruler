@@ -2560,3 +2560,22 @@ static inline css_error set_grid_template_columns(css_computed_style *style, uin
     }
 	return CSS_OK;
 }
+
+static inline css_error set_grid_template_rows(css_computed_style *style, uint8_t type, size_t size, css_fixed *values,
+		css_unit *units)
+{
+    style->i.grid_template_rows_type = type;
+    style->i.grid_template_rows_size = size;
+
+    if (size == 0 || values == NULL || units == NULL)
+    {
+        return CSS_OK;
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        style->i.grid_template_rows[i] = values[i];
+        style->i.grid_template_rows_unit[i] = units[i];
+    }
+	return CSS_OK;
+}

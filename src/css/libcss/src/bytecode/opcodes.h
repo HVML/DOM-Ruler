@@ -813,6 +813,13 @@ enum op_grid_template_columns {
 	GRID_TEMPLATE_COLUMNS_END			= 0x0000
 };
 
+enum op_grid_template_rows {
+	GRID_TEMPLATE_ROWS_SET			= 0x0080,
+
+	GRID_TEMPLATE_ROWS_END			= 0x0000
+};
+
+
 enum op_grid_column_start {
 	GRID_COLUMN_START_SET			= 0x0080,
 
