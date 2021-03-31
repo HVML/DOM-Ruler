@@ -89,6 +89,8 @@ typedef enum {
     LAYOUT_BR,
     LAYOUT_TEXT,
     LAYOUT_INLINE_END,
+    LAYOUT_GRID,
+    LAYOUT_INLINE_GRID,
     LAYOUT_NONE
 } LayoutType;
 
