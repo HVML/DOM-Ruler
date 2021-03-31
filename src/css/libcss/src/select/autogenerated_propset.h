@@ -2545,7 +2545,6 @@ static inline css_error set_grid_row_end(css_computed_style *style, uint8_t type
 static inline css_error set_grid_template_columns(css_computed_style *style, uint8_t type, size_t size, css_fixed *values,
 		css_unit *units)
 {
-    fprintf(stderr, "%s %s | size=%ld\n", __FILE__, __func__, size);
     style->i.grid_template_columns_type = type;
     style->i.grid_template_columns_size = size;
 
