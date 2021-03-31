@@ -84,8 +84,6 @@ css_error css__parse_grid_template_rows(css_language *c,
                 *ctx = orig_ctx;
                 return error;
             }
-            fprintf(stderr, "..................................type=%d|idata=%s|grid_template_rows=%s|ctx=%d|last_ctx=%d|length=%d|unit=%d\n", 
-                    token->type, lwc_string_data(token->idata), lwc_string_data(c->strings[GRID_TEMPLATE_ROWS]), *ctx, last_ctx, length, unit);
             last_ctx = *ctx;
         }
     }
