@@ -803,7 +803,6 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         }
     }
 
-
     int cx = x;
     int cy = y;
     int cw = node->box_values.w;

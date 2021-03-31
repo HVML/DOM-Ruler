@@ -45,22 +45,15 @@
  \endverbatim
  */
 
-#ifndef _HL_LAYOUT_H_
-#define _HL_LAYOUT_H_
 
-#include "node.h"
+#include "layout.h"
+#include "select.h"
 #include "utils.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-int layout_child_node_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
-int layout_child_node_inline_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
-int _hi_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level);
-
-#ifdef __cplusplus
+int _hi_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
+{
+    return HILAYOUT_OK;
 }
-#endif
-
-#endif // _HL_LAYOUT_H_
