@@ -1772,30 +1772,30 @@ css_error compute_absolute_length_pair(css_computed_style *style,
 
 uint8_t css_computed_grid_column_start(
 		const css_computed_style *style,
-		int32_t *z_index)
+		int32_t *value)
 {
-	return get_grid_column_start(style, z_index);
+	return get_grid_column_start(style, value);
 }
 
 uint8_t css_computed_grid_column_end(
 		const css_computed_style *style,
-		int32_t *z_index)
+		int32_t *value)
 {
-	return get_grid_column_end(style, z_index);
+	return get_grid_column_end(style, value);
 }
 
 uint8_t css_computed_grid_row_start(
 		const css_computed_style *style,
-		int32_t *z_index)
+		int32_t *value)
 {
-	return get_grid_row_start(style, z_index);
+	return get_grid_row_start(style, value);
 }
 
 uint8_t css_computed_grid_row_end(
 		const css_computed_style *style,
-		int32_t *z_index)
+		int32_t *value)
 {
-	return get_grid_row_end(style, z_index);
+	return get_grid_row_end(style, value);
 }
 
 uint8_t css_computed_grid_template_columns(
