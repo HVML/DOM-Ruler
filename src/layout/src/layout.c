@@ -797,10 +797,38 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 _hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0);
                 break;
 
+            case LAYOUT_GRID:
+                _hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0);
+                break;
+
+            case LAYOUT_INLINE_GRID:
+                _hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0);
+                break;
+
             default:
                 _hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0);
                 break;
         }
+    }
+
+    HLDomElementNode* child = node->first_child;
+    if (child == NULL)
+    {
+        HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%d\n",
+                level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME],
+                node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+                node->background_values.color,
+                node->text_values.family, node->text_values.color, node->text_values.weight,
+                node->text_values.size
+               );
+        return HILAYOUT_OK;
+    }
+
+    switch(node->layout_type)
+    {
+        case LAYOUT_GRID:
+        case LAYOUT_INLINE_GRID:
+            return _hi_layout_child_node_grid(ctx, node, x, y, container_width, container_height, level);
     }
 
     int cx = x;
@@ -815,7 +843,6 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     int left = 0;
     int line_height = 0;
     int prev_width = 0;
-    HLDomElementNode* child = node->first_child;
     while(child)
     {
         if (css_computed_position(child->computed_style) == CSS_POSITION_FIXED)

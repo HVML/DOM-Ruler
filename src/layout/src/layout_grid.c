@@ -55,5 +55,6 @@
 
 int _hi_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
 {
+    fprintf(stderr, "...............................................layout child node grid\n");
     return HILAYOUT_OK;
 }

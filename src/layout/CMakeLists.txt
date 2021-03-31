@@ -61,8 +61,8 @@ list(APPEND hilayout_SOURCES
     src/utils.c
     src/layout.c
     src/layout_block.c
-    src/layout_block.c
     src/layout_inline_block.c
+    src/layout_grid.c
 )
 
 include_directories(${hilayout_INCLUDE_DIRECTORIES})
