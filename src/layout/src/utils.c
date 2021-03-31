@@ -328,3 +328,48 @@ int _hi_computed_z_index(HLDomElementNode *node)
     node->box_values.z_index = index;
     return index;
 }
+
+HLGridRowColumn* _hi_computed_grid_row_column(HLDomElementNode *node)
+{
+    if (node == NULL)
+    {
+        return NULL;
+    }
+
+    HLGridRowColumn* hlrc = calloc(1, sizeof(HLGridRowColumn));
+
+    int value = 0;
+    int8_t val = css_computed_grid_column_start(node->computed_style, &value);
+    if (val == CSS_GRID_COLUMN_START_SET)
+    {
+        hlrc->column_set = true;
+        hlrc->column_start = FIXTOINT(value);
+    }
+
+    if (hlrc->column_set)
+    {
+        val = css_computed_grid_column_start(node->computed_style, &value);
+        if (val == CSS_GRID_COLUMN_END_SET)
+        {
+            hlrc->column_end = FIXTOINT(value);
+        }
+    }
+
+    val = css_computed_grid_row_start(node->computed_style, &value);
+    if (val == CSS_GRID_COLUMN_START_SET)
+    {
+        hlrc->row_set = true;
+        hlrc->row_start = FIXTOINT(value);
+    }
+
+    if (hlrc->row_set)
+    {
+        val = css_computed_grid_row_start(node->computed_style, &value);
+        if (val == CSS_GRID_COLUMN_END_SET)
+        {
+            hlrc->row_end = FIXTOINT(value);
+        }
+    }
+
+    return hlrc;
+}

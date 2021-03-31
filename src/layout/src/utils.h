@@ -90,6 +90,14 @@ typedef struct HLContext_ {
     HLDomElementNode* root;
 } HLContext;
 
+typedef struct HLGridRowColumn_ {
+    bool row_set;
+    int row_start;
+    int row_end;
+    bool column_set;
+    int column_start;
+    int column_end;
+} HLGridRowColumn;
 
 
 #ifdef __cplusplus
@@ -118,6 +126,7 @@ uint8_t _hl_computed_min_width(
 
 uint8_t _hl_computed_display(const css_computed_style *style, bool root);
 int _hi_computed_z_index(HLDomElementNode *node);
+HLGridRowColumn* _hi_computed_grid_row_column(HLDomElementNode *node);
 
 
 #ifdef __cplusplus
