@@ -54,17 +54,16 @@
 #include "parse/properties/utils.h"
 
 css_error css__parse_grid_template_columns(css_language *c,
-		const parserutils_vector *vector, int *ctx,
-		css_style *result)
+        const parserutils_vector *vector, int *ctx,
+        css_style *result)
 {
-	int orig_ctx = *ctx;
+    int orig_ctx = *ctx;
     int last_ctx = *ctx;
-	css_error error;
-	const css_token *token;
+    css_error error;
+    const css_token *token;
     css_fixed length = 0;
     uint32_t unit = 0;
 
-#if 1
     while ((token = parserutils_vector_iterate(vector, ctx)) != NULL) {
         if (token->idata != NULL) {
             error = css__parse_unit_specifier(c, vector, &last_ctx, UNIT_PX, &length, &unit);
@@ -92,7 +91,4 @@ css_error css__parse_grid_template_columns(css_language *c,
     }
     error = css__stylesheet_style_append(result, GRID_TEMPLATE_COLUMNS_END);
     return error;
-#else
-    return CSS_OK;
-#endif
 }

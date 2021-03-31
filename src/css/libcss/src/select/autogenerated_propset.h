@@ -2551,7 +2551,7 @@ static inline css_error set_grid_template_columns(css_computed_style *style, uin
 
     if (size == 0 || values == NULL || units == NULL)
     {
-        return CSS_INVALID;
+        return CSS_OK;
     }
 
     for (int i = 0; i < size; i++)

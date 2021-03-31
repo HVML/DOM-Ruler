@@ -55,20 +55,17 @@
 #include "select/properties/helpers.h"
 
 css_error css__cascade_grid_template_columns(uint32_t opv, css_style *style,
-		css_select_state *state)
+        css_select_state *state)
 {
-	uint16_t value = CSS_GRID_TEMPLATE_COLUMNS_INHERIT;
+    uint16_t value = CSS_GRID_TEMPLATE_COLUMNS_INHERIT;
     css_fixed values[1024];
     css_unit units[1024];
     int32_t n_values = 0;
 
-    fprintf(stderr, "##################################################%s:%d\n", __FILE__, __LINE__);
-	if (isInherit(opv) == false) {
-    fprintf(stderr, "##################################################%s:%d\n", __FILE__, __LINE__);
-		uint32_t v = getValue(opv);
+    if (isInherit(opv) == false) {
+        uint32_t v = getValue(opv);
 
-		while (v != GRID_TEMPLATE_COLUMNS_END) {
-    fprintf(stderr, "##################################################%s:%d\n", __FILE__, __LINE__);
+        while (v != GRID_TEMPLATE_COLUMNS_END) {
             css_fixed length;
             css_unit unit;
 
@@ -79,8 +76,7 @@ css_error css__cascade_grid_template_columns(uint32_t opv, css_style *style,
                     advance_bytecode(style, sizeof(length));
                     unit = *((uint32_t *) style->bytecode);
                     advance_bytecode(style, sizeof(unit));
-	                unit = css__to_css_unit(unit);
-                    fprintf(stderr, ".........................................length=%d|unit=%d\n", length, unit);
+                    unit = css__to_css_unit(unit);
                     break;
 
                 default:
@@ -90,43 +86,42 @@ css_error css__cascade_grid_template_columns(uint32_t opv, css_style *style,
             values[n_values] = length;
             units[n_values] = unit;
             n_values++;
-		}
-	}
+            v = getValue(*((uint32_t *) style->bytecode));
+            advance_bytecode(style, sizeof(v));
+        }
+    }
 
-	if (css__outranks_existing(getOpcode(opv), isImportant(opv), state,
-			isInherit(opv))) {
+    if (css__outranks_existing(getOpcode(opv), isImportant(opv), state,
+            isInherit(opv))) {
         return set_grid_template_columns(state->computed, value, n_values, values, units);
     }
 
-	return CSS_OK;
+    return CSS_OK;
 }
 
 css_error css__set_grid_template_columns_from_hint(const css_hint *hint,
-		css_computed_style *style)
+        css_computed_style *style)
 {
-    fprintf(stderr, "##################################################%s:%d\n", __FILE__, __LINE__);
     return set_grid_template_columns(style, CSS_GRID_TEMPLATE_COLUMNS_AUTO, 0, NULL, NULL);
 }
 
 css_error css__initial_grid_template_columns(css_select_state *state)
 {
-    fprintf(stderr, "##################################################%s:%d\n", __FILE__, __LINE__);
     return set_grid_template_columns(state->computed, CSS_GRID_TEMPLATE_COLUMNS_AUTO,  0, NULL, NULL);
 }
 
 css_error css__compose_grid_template_columns(const css_computed_style *parent,
-		const css_computed_style *child,
-		css_computed_style *result)
+        const css_computed_style *child,
+        css_computed_style *result)
 {
-    fprintf(stderr, "##################################################%s:%d\n", __FILE__, __LINE__);
-	int32_t index = 0;
+    int32_t index = 0;
     int32_t size = 0;
     css_error error;
     css_fixed* values = NULL;
     css_unit* units = NULL;
 
     uint8_t type = get_grid_template_columns(child, &size, &values, &units);
-	if (type == CSS_GRID_TEMPLATE_COLUMNS_INHERIT) {
+    if (type == CSS_GRID_TEMPLATE_COLUMNS_INHERIT) {
         if (values != NULL)
         {
             free(values);
@@ -136,9 +131,9 @@ css_error css__compose_grid_template_columns(const css_computed_style *parent,
             free(units);
         }
         type = get_grid_template_columns(parent, &size, &values, &units);
-	}
+    }
 
-	error = set_grid_template_columns(result, type, size, values, units);
+    error = set_grid_template_columns(result, type, size, values, units);
     if (values != NULL)
     {
         free(values);
