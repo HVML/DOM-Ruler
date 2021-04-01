@@ -828,7 +828,16 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     {
         case LAYOUT_GRID:
         case LAYOUT_INLINE_GRID:
-            return _hi_layout_child_node_grid(ctx, node, x, y, container_width, container_height, level);
+            {
+                HL_LOGW("layout node|level=%d|tag=%s|id=%s|name=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%d\n",
+                        level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME],
+                        node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+                        node->background_values.color,
+                        node->text_values.family, node->text_values.color, node->text_values.weight,
+                        node->text_values.size
+                       );
+                return _hi_layout_child_node_grid(ctx, node, x, y, container_width, container_height, level);
+            }
     }
 
     int cx = x;
@@ -866,6 +875,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         switch (child->layout_type)
         {
             case LAYOUT_BLOCK:
+            case LAYOUT_GRID:
                 if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
@@ -876,6 +886,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 break;
 
             case LAYOUT_INLINE_BLOCK:
+            case LAYOUT_INLINE_GRID:
                 if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);

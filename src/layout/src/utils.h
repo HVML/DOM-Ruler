@@ -94,6 +94,7 @@ typedef struct HLGridRowColumn_ {
     bool row_set;
     int row_start;
     int row_end;
+
     bool column_set;
     int column_start;
     int column_end;
