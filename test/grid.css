@@ -1,0 +1,64 @@
+#root { 
+    display: block; 
+    color: blue;
+}
+
+#title { 
+    display: block; 
+    position: relative; 
+    width: 20%; 
+    height: 20%; 
+    color: #123; 
+} 
+
+#description { 
+    display: block; 
+    position: relative; 
+    width: 20%; 
+    height: 10%; 
+    color: #124; 
+}
+
+#page { 
+    display: grid; 
+    position: relative; 
+    width: 50%; 
+    height: 60%; 
+    color: #125; 
+    grid-template-columns: 10px 20px 30px 40%;
+    grid-template-rows: 20px 40px 60px 80%;
+}
+
+#indicator { 
+    display: block; 
+    position: relative; 
+    width: 10%; 
+    height: 10%; 
+    color: #126; 
+}
+
+#hiweb { 
+    width: 100px; 
+    height: 25%; 
+    color: #127; 
+    font-family: "Times New Roman", Times, serif; 
+    font-size:10px;
+}
+
+#hiweb2 { 
+    width: 30%; 
+    height: 50%; 
+    color: #127; 
+    font-family: "Times New Roman", Times, serif; 
+    font-size:10px;
+}
+
+#hijs { 
+    color: #128; 
+    background:red;
+}
+
+#hijs2 { 
+    color: #128; 
+    background:red;
+}
