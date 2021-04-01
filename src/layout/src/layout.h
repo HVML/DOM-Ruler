@@ -57,7 +57,7 @@ extern "C" {
 
 int layout_child_node_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
 int layout_child_node_inline_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level);
-int _hi_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level);
+int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level);
 
 #ifdef __cplusplus
 }

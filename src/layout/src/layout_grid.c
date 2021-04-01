@@ -53,8 +53,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-int _hi_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level)
+int _hl_layout_grid_child(HLContext* ctx, HLGridTemplate* gridTemplate, HLDomElementNode *node, int level)
 {
-    fprintf(stderr, "...............................................layout child node grid\n");
+    HL_LOGW("layout grid item|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME] );
+}
+
+int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level)
+{
+    HLGridTemplate* gridTemplate = _hl_computed_grid_template(ctx, node);
+
+    int cl = level + 1;
+    HLDomElementNode* child = node->first_child;
+    while(child)
+    {
+        _hl_layout_grid_child(ctx, gridTemplate, node, cl);
+        child = child->next;
+    }
     return HILAYOUT_OK;
 }

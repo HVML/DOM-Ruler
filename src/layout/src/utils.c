@@ -381,7 +381,7 @@ HLGridRowColumn* _hl_computed_grid_row_column(HLDomElementNode *node)
     return hlrc;
 }
 
-HLGridTemplate* _hl_computed_grid_template(const HLContext *ctx, HLDomElementNode *node, int vw, int vh)
+HLGridTemplate* _hl_computed_grid_template(const HLContext *ctx, HLDomElementNode *node)
 {
     if (node == NULL)
     {
@@ -411,6 +411,11 @@ HLGridTemplate* _hl_computed_grid_template(const HLContext *ctx, HLDomElementNod
     }
 
     HLGridTemplate* gt = (HLGridTemplate*)calloc(1, sizeof(HLGridTemplate));
+    gt->x = node->box_values.x;
+    gt->y = node->box_values.y;
+    gt->w = node->box_values.w;
+    gt->h = node->box_values.h;
+
     gt->n_row = row_size;
     gt->n_column = column_size;
     gt->mask = (uint8_t**)calloc(gt->n_row, sizeof(uint8_t*));
@@ -425,7 +430,7 @@ HLGridTemplate* _hl_computed_grid_template(const HLContext *ctx, HLDomElementNod
     for (int i = 0; i < row_size; i++)
     {
         if (row_units[i] == CSS_UNIT_PCT) {
-            gt->rows[i] = HL_FPCT_OF_INT_TOINT(row_values[i], vh);
+            gt->rows[i] = HL_FPCT_OF_INT_TOINT(row_values[i], gt->h);
         } else {
             gt->rows[i] = FIXTOINT(_hl_css_len2px(ctx, row_values[i], row_units[i], node->computed_style));
         }
@@ -434,7 +439,7 @@ HLGridTemplate* _hl_computed_grid_template(const HLContext *ctx, HLDomElementNod
     for (int i = 0; i < column_size; i++)
     {
         if (column_units[i] == CSS_UNIT_PCT) {
-            gt->columns[i] = HL_FPCT_OF_INT_TOINT(column_values[i], vh);
+            gt->columns[i] = HL_FPCT_OF_INT_TOINT(column_values[i], gt->w);
         } else {
             gt->columns[i] = FIXTOINT(_hl_css_len2px(ctx, column_values[i], column_units[i], node->computed_style));
         }
