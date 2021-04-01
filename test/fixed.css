@@ -59,10 +59,9 @@ hiweb {
 hijs { 
     display: inline-block;
     position: fixed; 
-    left: 100px;
-    top: 20px;
-    width: 100px; 
-    width: auto; 
+    left: 0%;
+    top: 0%;
+    width: 100%; 
     height: 50%; 
     color: #128; 
     background:red;
@@ -71,9 +70,9 @@ hijs {
 #hijs2 { 
     display: inline-block;
     position: fixed; 
-    left: 50px;
-    top: 10px;
-    width: 100px; 
+    left: 50%;
+    top: 50%;
+    width: 50%; 
     height: 50%; 
     color: #128; 
     background:red;

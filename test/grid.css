@@ -43,6 +43,7 @@
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
     font-size:10px;
+    width: 50px;
 }
 
 #hiweb2 { 
@@ -56,6 +57,7 @@
 #hijs { 
     color: #128; 
     background:red;
+    width:10%;
 }
 
 #hijs2 { 
