@@ -336,44 +336,45 @@ int _hi_computed_z_index(HLDomElementNode *node)
     return index;
 }
 
-HLGridRowColumn* _hl_computed_grid_row_column(HLDomElementNode *node)
+HLGridItem* _hl_grid_item_create(HLDomElementNode *node)
 {
     if (node == NULL)
     {
         return NULL;
     }
 
-    HLGridRowColumn* hlrc = calloc(1, sizeof(HLGridRowColumn));
+    HLGridItem* item = calloc(1, sizeof(HLGridItem));
+    item->node = node;
 
     int value = 0;
     int8_t val = css_computed_grid_column_start(node->computed_style, &value);
     if (val == CSS_GRID_COLUMN_START_SET)
     {
-        hlrc->column_start = FIXTOINT(value);
+        item->column_start = FIXTOINT(value);
     }
 
     val = css_computed_grid_column_start(node->computed_style, &value);
     if (val == CSS_GRID_COLUMN_END_SET)
     {
-        hlrc->column_end = FIXTOINT(value);
+        item->column_end = FIXTOINT(value);
     }
 
     val = css_computed_grid_row_start(node->computed_style, &value);
     if (val == CSS_GRID_COLUMN_START_SET)
     {
-        hlrc->row_start = FIXTOINT(value);
+        item->row_start = FIXTOINT(value);
     }
 
     val = css_computed_grid_row_start(node->computed_style, &value);
     if (val == CSS_GRID_COLUMN_END_SET)
     {
-        hlrc->row_end = FIXTOINT(value);
+        item->row_end = FIXTOINT(value);
     }
 
-    return hlrc;
+    return item;
 }
 
-HLGridTemplate* _hl_computed_grid_template(const HLContext *ctx, HLDomElementNode *node)
+HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode *node)
 {
     if (node == NULL)
     {
@@ -445,7 +446,7 @@ HLGridTemplate* _hl_computed_grid_template(const HLContext *ctx, HLDomElementNod
     return gt;
 }
 
-void _hl_grid_row_column_destroy(HLGridRowColumn* p)
+void _hl_grid_item_destroy(HLGridItem* p)
 {
     if (p == NULL)
     {

@@ -178,7 +178,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
     return HILAYOUT_OK;
 }
 
-int _hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template, HLDomElementNode *node, HLGridRowColumn* row_column)
+int _hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template, HLDomElementNode *node, HLGridItem* row_column)
 {
     // no set
     bool found = false;
@@ -225,22 +225,38 @@ int _hl_layout_grid_child(HLContext* ctx, HLGridTemplate* grid_template, HLDomEl
 {
     HL_LOGW("layout grid item|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME] );
 
-    HLGridRowColumn* node_row_column = _hl_computed_grid_row_column(node);
+    HLGridItem* node_row_column = _hl_grid_item_create(node);
     _hl_find_grid_child_position(ctx, grid_template, node, node_row_column);
-    _hl_grid_row_column_destroy(node_row_column);
+    _hl_grid_item_destroy(node_row_column);
+}
+
+int _hl_layout_child_with_grid_row_column_start_end(HLContext* ctx, HLGridTemplate* grid_template, HLDomElementNode *node, int level)
+{
+    HLDomElementNode* child = node->first_child;
+    while(child)
+    {
+        _hl_layout_grid_child(ctx, grid_template, child, level);
+        child = child->next;
+    }
+}
+
+int _hl_layout_child_without_grid_row_column_start_end(HLContext* ctx, HLGridTemplate* grid_template, HLDomElementNode *node, int level)
+{
+    HLDomElementNode* child = node->first_child;
+    while(child)
+    {
+        _hl_layout_grid_child(ctx, grid_template, child, level);
+        child = child->next;
+    }
 }
 
 int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level)
 {
-    HLGridTemplate* grid_template = _hl_computed_grid_template(ctx, node);
+    HLGridTemplate* grid_template = _hl_grid_template_create(ctx, node);
 
     int cl = level + 1;
-    HLDomElementNode* child = node->first_child;
-    while(child)
-    {
-        _hl_layout_grid_child(ctx, grid_template, child, cl);
-        child = child->next;
-    }
+    _hl_layout_child_with_grid_row_column_start_end(ctx, grid_template, node, cl);
+    _hl_layout_child_without_grid_row_column_start_end(ctx, grid_template, node, cl);
     _hl_grid_template_destroy(grid_template);
 
     return HILAYOUT_OK;
