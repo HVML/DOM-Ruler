@@ -55,7 +55,10 @@
 
 int _hl_layout_grid_child(HLContext* ctx, HLGridTemplate* gridTemplate, HLDomElementNode *node, int level)
 {
+    HLGridRowColumn* gridRC = _hl_computed_grid_row_column(node);
     HL_LOGW("layout grid item|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME] );
+
+    _hl_grid_row_column_destroy(gridRC);
 }
 
 int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level)
@@ -69,5 +72,7 @@ int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level
         _hl_layout_grid_child(ctx, gridTemplate, node, cl);
         child = child->next;
     }
+    _hl_grid_template_destroy(gridTemplate);
+
     return HILAYOUT_OK;
 }
