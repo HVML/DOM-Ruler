@@ -255,6 +255,11 @@ int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level
     HLGridTemplate* grid_template = _hl_grid_template_create(ctx, node);
 
     int cl = level + 1;
+    // build grid item tree
+    // layout with grid-row-start/end, grid-column-start/end
+    // layout auto
+    // free grid tree
+    // while for layout child call _hilayout_layout_node
     _hl_layout_child_with_grid_row_column_start_end(ctx, grid_template, node, cl);
     _hl_layout_child_without_grid_row_column_start_end(ctx, grid_template, node, cl);
     _hl_grid_template_destroy(grid_template);
