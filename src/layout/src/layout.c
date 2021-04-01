@@ -785,8 +785,14 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         node->box_values.w = container_width;
         node->box_values.h = container_height;
     }
-    else
+    else if (css_computed_position(node->computed_style) == CSS_POSITION_FIXED)
     {
+        HLDomElementNode* op = node->parent;
+        node->parent = ctx->root;
+        _hl_block_find_dimensions(ctx, node, ctx->root->box_values.w, ctx->root->box_values.h, 0, 0);
+        node->parent = op;
+    }
+    else {
         switch (node->layout_type)
         {
             case LAYOUT_BLOCK:
@@ -856,11 +862,12 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     {
         if (css_computed_position(child->computed_style) == CSS_POSITION_FIXED)
         {
-            _hl_computed_offsets(ctx, child, ctx->root, &top, &right, &bottom, &left);
             int x = ctx->root->box_values.x;
             int y = ctx->root->box_values.y;
             int w = ctx->root->box_values.w;
             int h = ctx->root->box_values.h;
+
+            _hl_computed_offsets(ctx, child, ctx->root, &top, &right, &bottom, &left);
             if (left == HL_AUTO)
                 left = 0;
 
