@@ -309,14 +309,16 @@ void _hl_layout_child_with_grid_rc_full(HLContext* ctx, HLDomElementNode* node, 
 
     node->box_values.x = grid_x;
     node->box_values.y = grid_y;
+    item->layout_done = 1;
     _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
     HL_LOGW("layout grid full|row_start=%d|row_count=%d|column_start=%d|column_count=%d"
-            "|tag=%s|id=%s|name=%s|(x,y,w,h)=(%f, %f, %f, %f)\n", 
+            "|tag=%s|id=%s|name=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
             item->row_start, grid_r_count,
             item->column_start, grid_c_count,
             node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
-            node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h);
+            node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+            item->layout_done);
 }
 
 void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, void* user_data)

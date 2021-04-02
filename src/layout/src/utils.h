@@ -106,6 +106,7 @@ typedef struct HLGridItem_ {
 
     int column_start;
     int column_end;
+    uint8_t layout_done;
 } HLGridItem;
 
 typedef struct HLGridTemplate_ {
