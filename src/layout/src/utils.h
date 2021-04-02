@@ -90,9 +90,17 @@ typedef struct HLContext_ {
     HLDomElementNode* root;
 } HLContext;
 
-typedef struct HLGridItem_ {
-    HLDomElementNode* node;
+typedef enum HLGridItemRowColumnE_ {
+    HL_GRID_ITEM_RC_NONE            = 0x00,
+    HL_GRID_ITEM_RC_FULL            = 0x0F,
+    HL_GRID_ITEM_RC_ROW_START       = (1<<3),
+    HL_GRID_ITEM_RC_ROW_END         = (1<<2),
+    HL_GRID_ITEM_RC_COLUMN_START    = (1<<1),
+    HL_GRID_ITEM_RC_COLUMN_END      = (1<<0),
+} HLGridItemRowColumnE;
 
+typedef struct HLGridItem_ {
+    HLGridItemRowColumnE rc_set;
     int row_start;
     int row_end;
 

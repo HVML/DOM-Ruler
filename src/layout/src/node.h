@@ -154,6 +154,9 @@ typedef struct HLDomElementNode_ {
     // for css select result
     css_select_results* select_styles;
     css_computed_style* computed_style;
+
+    // for layout
+    void* layout_attach;
 } HLDomElementNode;
 
 bool _hl_node_is_root(HLDomElementNode *n);

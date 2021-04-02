@@ -344,33 +344,37 @@ HLGridItem* _hl_grid_item_create(HLDomElementNode *node)
     }
 
     HLGridItem* item = calloc(1, sizeof(HLGridItem));
-    item->node = node;
 
     int value = 0;
     int8_t val = css_computed_grid_column_start(node->computed_style, &value);
     if (val == CSS_GRID_COLUMN_START_SET)
     {
+        item->rc_set = item->rc_set & HL_GRID_ITEM_RC_ROW_START;
         item->column_start = FIXTOINT(value);
     }
 
     val = css_computed_grid_column_start(node->computed_style, &value);
     if (val == CSS_GRID_COLUMN_END_SET)
     {
+        item->rc_set = item->rc_set & HL_GRID_ITEM_RC_ROW_END;
         item->column_end = FIXTOINT(value);
     }
 
     val = css_computed_grid_row_start(node->computed_style, &value);
     if (val == CSS_GRID_COLUMN_START_SET)
     {
+        item->rc_set = item->rc_set & HL_GRID_ITEM_RC_COLUMN_START;
         item->row_start = FIXTOINT(value);
     }
 
     val = css_computed_grid_row_start(node->computed_style, &value);
     if (val == CSS_GRID_COLUMN_END_SET)
     {
+        item->rc_set = item->rc_set & HL_GRID_ITEM_RC_COLUMN_END;
         item->row_end = FIXTOINT(value);
     }
 
+    node->layout_attach = item;
     return item;
 }
 
