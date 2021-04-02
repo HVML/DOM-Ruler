@@ -344,8 +344,11 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, v
     int n_row = grid_template->n_row;
     int n_column = grid_template->n_column;
 
+    int r_count = 0;
     int r_start = 0;
     int r_end = 0;
+
+    int c_count = 0;
     int c_start = 0;
     int c_end = 0;
 
@@ -355,39 +358,81 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, v
     switch(set_row)
     {
         case HL_GRID_ITEM_RC_ROW_START | HL_GRID_ITEM_RC_ROW_END:
-            fprintf(stderr, "..........................has r start and end\n");
+            r_start = item->row_start - 1;
+            r_count = max(abs(item->row_end - item->row_start), 1);
             break;
 
         case HL_GRID_ITEM_RC_ROW_START:
-            fprintf(stderr, ".........................only r has start \n");
+            r_start = item->row_start - 1;
+            r_count = 1;
             break;
 
         case HL_GRID_ITEM_RC_ROW_END:
-            fprintf(stderr, ".........................only r has end \n");
+            r_start = item->row_end - 2;
+            r_count = 1;
             break;
+    }
+    r_start = r_start >= 0? r_start : 0;
+    r_end = r_start + r_count;
+    // TODO: r_start > row count
+    // now as auto
+    if (r_start > n_row - 1)
+    {
+        item->rc_set = item->rc_set & (~set_row);
+        return;
     }
 
     switch(set_column)
     {
         case HL_GRID_ITEM_RC_COLUMN_START | HL_GRID_ITEM_RC_COLUMN_END:
-            fprintf(stderr, "..........................has c start and end\n");
+            c_start = item->column_start - 1;
+            c_count = max(abs(item->column_end - item->column_start), 1);
             break;
 
         case HL_GRID_ITEM_RC_COLUMN_START:
-            fprintf(stderr, ".........................only c has start \n");
+            c_start = item->column_start - 1;
+            c_count = 1;
             break;
 
         case HL_GRID_ITEM_RC_COLUMN_END:
-            fprintf(stderr, ".........................only c has end \n");
+            c_start = item->column_end - 2;
+            c_count = 1;
+            break;
+
+        default:
+            c_count = 0;
             break;
     }
 
+    bool found = true;
+    int column_pos = 0;
+    if (c_count = 0)
+    {
+        for (int i = 0; i < grid_template->n_column; i++)
+        {
+            found = true;
+            for (int j = r_start; j < r_end; j++)
+            {
+                if (grid_template->mask[j][i] == 1)
+                {
+                    found = false;
+                    break;
+                }
+            }
+            if (found)
+            {
+                column_pos = i;
+                break;
+            }
+        }
+    }
+    else
+    {
+    }
 
-    HL_LOGW("layout grid rc row|rc_set=0x%x|cc=%d|row_start&rc_set=%d|row_end&rc_set=%d"
+    HL_LOGW("layout grid rc row|r_start=%d|r_count=%d"
             "|tag=%s|id=%s|name=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
-            item->rc_set,
-            (item->rc_set & HL_GRID_ITEM_RC_ROW_START || item->rc_set & HL_GRID_ITEM_RC_ROW_END),
-            item->rc_set & HL_GRID_ITEM_RC_ROW_START, item->rc_set & HL_GRID_ITEM_RC_ROW_END,
+            r_start, r_count,
             node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
             node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
             item->layout_done);
