@@ -486,3 +486,18 @@ void _hl_grid_template_destroy(HLGridTemplate* p)
     free(p->mask);
     free(p);
 }
+
+void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node, each_child_callback callback, void* user_data)
+{
+    if (ctx == NULL || node == NULL || callback == NULL)
+    {
+        return;
+    }
+
+    HLDomElementNode* child = node->first_child;
+    while(child)
+    {
+        callback(ctx, child, user_data);
+        child = child->next;
+    }
+}
