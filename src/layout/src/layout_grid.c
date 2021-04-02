@@ -367,7 +367,7 @@ void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* 
         }
     }
 
-    HL_LOGW("layout grid full|row_start=%d|row_count=%d|column_start=%d|column_count=%d"
+    HL_LOGW("layout grid rc row column|row_start=%d|row_count=%d|column_start=%d|column_count=%d"
             "|tag=%s|id=%s|name=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
             item->row_start, r_count,
             item->column_start, c_count,
