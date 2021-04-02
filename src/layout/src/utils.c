@@ -353,7 +353,7 @@ HLGridItem* _hl_grid_item_create(HLDomElementNode *node)
         item->column_start = FIXTOINT(value);
     }
 
-    val = css_computed_grid_column_start(node->computed_style, &value);
+    val = css_computed_grid_column_end(node->computed_style, &value);
     if (val == CSS_GRID_COLUMN_END_SET)
     {
         item->rc_set = item->rc_set | HL_GRID_ITEM_RC_COLUMN_END;
@@ -367,7 +367,7 @@ HLGridItem* _hl_grid_item_create(HLDomElementNode *node)
         item->row_start = FIXTOINT(value);
     }
 
-    val = css_computed_grid_row_start(node->computed_style, &value);
+    val = css_computed_grid_row_end(node->computed_style, &value);
     if (val == CSS_GRID_ROW_END_SET)
     {
         item->rc_set = item->rc_set | HL_GRID_ITEM_RC_ROW_END;
