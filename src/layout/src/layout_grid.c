@@ -333,6 +333,64 @@ void _hl_layout_child_with_grid_rc_full(HLContext* ctx, HLDomElementNode* node, 
 
 void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, void* user_data)
 {
+    HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
+    HLGridItem* item = _hl_get_grid_item(node);
+    if (item->layout_done == 1 || !(item->rc_set & HL_GRID_ITEM_RC_ROW_START || item->rc_set & HL_GRID_ITEM_RC_ROW_END))
+    {
+        return;
+    }
+
+
+    int n_row = grid_template->n_row;
+    int n_column = grid_template->n_column;
+
+    int r_start = 0;
+    int r_end = 0;
+    int c_start = 0;
+    int c_end = 0;
+
+    int set_row = (item->rc_set & HL_GRID_ITEM_RC_ROW_START) | (item->rc_set & HL_GRID_ITEM_RC_ROW_END);
+    int set_column = (item->rc_set & HL_GRID_ITEM_RC_COLUMN_START) | (item->rc_set & HL_GRID_ITEM_RC_COLUMN_END);
+
+    switch(set_row)
+    {
+        case HL_GRID_ITEM_RC_ROW_START | HL_GRID_ITEM_RC_ROW_END:
+            fprintf(stderr, "..........................has r start and end\n");
+            break;
+
+        case HL_GRID_ITEM_RC_ROW_START:
+            fprintf(stderr, ".........................only r has start \n");
+            break;
+
+        case HL_GRID_ITEM_RC_ROW_END:
+            fprintf(stderr, ".........................only r has end \n");
+            break;
+    }
+
+    switch(set_column)
+    {
+        case HL_GRID_ITEM_RC_COLUMN_START | HL_GRID_ITEM_RC_COLUMN_END:
+            fprintf(stderr, "..........................has c start and end\n");
+            break;
+
+        case HL_GRID_ITEM_RC_COLUMN_START:
+            fprintf(stderr, ".........................only c has start \n");
+            break;
+
+        case HL_GRID_ITEM_RC_COLUMN_END:
+            fprintf(stderr, ".........................only c has end \n");
+            break;
+    }
+
+
+    HL_LOGW("layout grid rc row|rc_set=0x%x|cc=%d|row_start&rc_set=%d|row_end&rc_set=%d"
+            "|tag=%s|id=%s|name=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
+            item->rc_set,
+            (item->rc_set & HL_GRID_ITEM_RC_ROW_START || item->rc_set & HL_GRID_ITEM_RC_ROW_END),
+            item->rc_set & HL_GRID_ITEM_RC_ROW_START, item->rc_set & HL_GRID_ITEM_RC_ROW_END,
+            node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
+            node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+            item->layout_done);
 }
 
 void _hl_layout_child_with_grid_rc_none(HLContext* ctx, HLDomElementNode* node, void* user_data)
