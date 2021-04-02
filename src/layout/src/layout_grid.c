@@ -331,6 +331,135 @@ void _hl_layout_child_with_grid_rc_full(HLContext* ctx, HLDomElementNode* node, 
             item->layout_done);
 }
 
+void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* node, void* user_data)
+{
+    HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
+    HLGridItem* item = _hl_get_grid_item(node);
+    int set_row = (item->rc_set & HL_GRID_ITEM_RC_ROW_START) | (item->rc_set & HL_GRID_ITEM_RC_ROW_END);
+    int set_column = (item->rc_set & HL_GRID_ITEM_RC_COLUMN_START) | (item->rc_set & HL_GRID_ITEM_RC_COLUMN_END);
+
+    if (!(set_row && set_column))
+    {
+        return;
+    }
+
+    int n_row = grid_template->n_row;
+    int n_column = grid_template->n_column;
+
+    int r_count = 0;
+    int r_start = 0;
+    int r_end = 0;
+
+    int c_count = 0;
+    int c_start = 0;
+    int c_end = 0;
+
+    switch(set_row)
+    {
+        case HL_GRID_ITEM_RC_ROW_START | HL_GRID_ITEM_RC_ROW_END:
+            r_start = item->row_start - 1;
+            r_count = max(abs(item->row_end - item->row_start), 1);
+            break;
+
+        case HL_GRID_ITEM_RC_ROW_START:
+            r_start = item->row_start - 1;
+            r_count = 1;
+            break;
+
+        case HL_GRID_ITEM_RC_ROW_END:
+            r_start = item->row_end - 2;
+            r_count = 1;
+            break;
+    }
+    r_start = r_start >= 0 ? r_start : 0;
+    r_end = r_start + r_count;
+
+    // TODO: row_start, row_end > row count
+    // now as auto
+    if (r_start > n_row - 1)
+    {
+        item->rc_set = item->rc_set & (~set_row);
+        return;
+    }
+
+    switch(set_column)
+    {
+        case HL_GRID_ITEM_RC_COLUMN_START | HL_GRID_ITEM_RC_COLUMN_END:
+            c_start = item->column_start - 1;
+            c_count = max(abs(item->column_end - item->column_start), 1);
+            break;
+
+        case HL_GRID_ITEM_RC_COLUMN_START:
+            c_start = item->column_start - 1;
+            c_count = 1;
+            break;
+
+        case HL_GRID_ITEM_RC_COLUMN_END:
+            c_start = item->column_end - 2;
+            c_count = 1;
+            break;
+    }
+    c_start = c_start >= 0 ? c_start : 0;
+    c_end = c_start + c_count;
+
+    // TODO: column_start, column_end > column count
+    // now as auto
+    if (c_start > n_column - 1)
+    {
+        item->rc_set = item->rc_set & (~set_column);
+        return;
+    }
+
+    int grid_x = 0;
+    int grid_y = 0;
+    int grid_w = 0;
+    int grid_h = 0;
+
+    for (int i = 0; i < r_start; i++)
+    {
+        grid_y += grid_template->rows[i];
+    }
+
+    for (int j = 0; j < c_start; j++)
+    {
+        grid_x += grid_template->columns[j];
+    }
+
+    for (int i = r_start; i < r_end && i < n_row; i++)
+    {
+        grid_h += grid_template->rows[i];
+    }
+
+    for (int i = c_start; i < c_end && i < n_column; i++)
+    {
+        grid_w += grid_template->columns[i];
+    }
+
+    node->box_values.x = grid_x;
+    node->box_values.y = grid_y;
+    item->layout_done = 1;
+    _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
+
+
+    // mask
+    for (int i = r_start; i < r_end && i < n_row; i++)
+    {
+        for (int j = c_start; j < c_end && j < n_column; j++)
+        {
+            grid_template->mask[i][j] = 1;
+        }
+    }
+
+    HL_LOGW("layout grid full|row_start=%d|row_count=%d|column_start=%d|column_count=%d"
+            "|tag=%s|id=%s|name=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
+            item->row_start, r_count,
+            item->column_start, c_count,
+            node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
+            node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+            item->layout_done);
+
+}
+
 void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, void* user_data)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
@@ -454,11 +583,12 @@ int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level
     int cl = level + 1;
     // build grid item tree
     // layout with grid-row-start/end, grid-column-start/end
-    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_full, grid_template);
+//    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_full, grid_template);
+    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_row_column, grid_template);
     // layout with grid-row-start/end
-    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_row, grid_template);
+//    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_row, grid_template);
     // layout auto
-    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_none, grid_template);
+//    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_none, grid_template);
     // free grid tree
     _hl_for_each_child(ctx, node, _hl_free_grid_item, grid_template);
     // while for layout child call _hilayout_layout_node
