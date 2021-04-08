@@ -223,7 +223,7 @@ int _hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template, 
 
 int _hl_layout_grid_child(HLContext* ctx, HLGridTemplate* grid_template, HLDomElementNode *node, int level)
 {
-    HL_LOGW("layout grid item|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME] );
+    HL_LOGW("layout grid item|level=%d|tag=%s|id=%s|name=%s\n", level, node->tag, node->id, node->name );
 
     HLGridItem* node_row_column = _hl_grid_item_create(node);
     _hl_find_grid_child_position(ctx, grid_template, node, node_row_column);
@@ -371,7 +371,7 @@ void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* 
             "|tag=%s|id=%s|name=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
             item->row_start, r_count,
             item->column_start, c_count,
-            node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
+            node->tag, node->id, node->name, 
             node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
             item->layout_done);
 
@@ -495,7 +495,7 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, v
     HL_LOGW("layout grid rc row|r_start=%d|r_count=%d"
             "|tag=%s|id=%s|name=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
             r_start, r_count,
-            node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
+            node->tag, node->id, node->name, 
             node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
             item->layout_done);
 }
@@ -629,7 +629,7 @@ void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node, 
 
     HL_LOGW("layout grid rc auto|"
             "|tag=%s|id=%s|name=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
-            node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME], 
+            node->tag, node->id, node->name, 
             node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
             item->layout_done);
 }

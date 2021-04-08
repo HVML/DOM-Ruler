@@ -57,14 +57,6 @@
 #define AUTO INT_MIN
 
 
-char *HL_ATTR_NAME_ARRAY[HL_ATTR_NAME_COUNT] = {
-    "name",
-    "value",
-    "id",
-    "class",
-    "style"
-};
-
 lwc_string* _hilayout_lwc_string_dup(const char* str)
 {
     if (str == NULL)
@@ -209,75 +201,6 @@ void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
     free(value);
 }
 
-int hilayout_element_node_set_attr(HLDomElementNode* node, const char* name, const char* value)
-{
-    if (node == NULL || name == NULL)
-    {
-        HL_LOGE("set element attr|node=%p|name=%s|value=%s|param error\n", node, name, value);
-        return HILAYOUT_BADPARM;
-    }
-
-    int index = -1;
-    for (int i = 0; i < HL_ATTR_NAME_COUNT; i++) 
-    {
-        if (strcmp(name, HL_ATTR_NAME_ARRAY[i]) == 0)
-        {
-            index = i;
-            break;
-        }
-    }
-
-    if (index >= 0)
-    {
-        if (node->attr[index] != NULL)
-        {
-            free(node->attr[index]);
-        }
-        if (value)
-        {
-            node->attr[index] = strdup(value);
-            switch (index)
-            {
-                case HL_ATTR_NAME_ID:
-                    node->inner_id = _hilayout_lwc_string_dup(value);
-                    break;
-
-                case HL_ATTR_NAME_CLASSES:
-                    _hilayout_fill_inner_classes(node, value);
-                    break;
-            }
-        }
-        else
-        {
-            node->attr[index] = NULL;
-        }
-        return HILAYOUT_OK;
-    }
-    HL_LOGE("set element attr|node=%p|name=%s|value=%s|not support\n", node, name, value);
-    return HILAYOUT_NOT_SUPPORT;
-}
-
-const char* hilayout_element_node_get_attr(HLDomElementNode* node, const char* name)
-{
-    if (node == NULL || name == NULL)
-    {
-        HL_LOGE("get element attr|node=%p|name=%s|param error\n", node, name);
-        return NULL;
-    }
-
-    int index = -1;
-    for (int i = 0; i < HL_ATTR_NAME_COUNT; i++) 
-    {
-        if (strcmp(name, HL_ATTR_NAME_ARRAY[i]) == 0)
-        {
-            index = i;
-            break;
-        }
-    }
-
-    return index >= 0 ? node->attr[index] : NULL;
-}
-
 int hilayout_element_node_set_private_data(HLDomElementNode* node, void* data)
 {
     if (node)
@@ -318,12 +241,6 @@ void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE
     if (node->tag)
     {
         free(node->tag);
-    }
-
-    for (int i = 0; i < HL_ATTR_NAME_COUNT; i++)
-    {
-        if (node->attr[i])
-            free(node->attr[i]);
     }
 
     if (node->content)
@@ -387,9 +304,9 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
         parent->last_child = node;
         node->previous = NULL;
         node->next = NULL;
-        HL_LOGD("1|curr|tag=%s|id=%s|name=%s\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
-        HL_LOGD("1|parent->first_child|tag=%s|id=%s|name=%s\n", parent->first_child->tag, node->attr[HL_ATTR_NAME_ID], parent->first_child->attr[HL_ATTR_NAME_NAME]);
-        HL_LOGD("1|parent->last_child|tag=%s|id=%s|name=%s\n", parent->last_child->tag, node->attr[HL_ATTR_NAME_ID], parent->last_child->attr[HL_ATTR_NAME_NAME]);
+        HL_LOGD("1|curr|tag=%s|id=%s|name=%s\n", node->tag, node->id, node->name);
+        HL_LOGD("1|parent->first_child|tag=%s|id=%s|name=%s\n", parent->first_child->tag, node->id, parent->first_child->name);
+        HL_LOGD("1|parent->last_child|tag=%s|id=%s|name=%s\n", parent->last_child->tag, node->id, parent->last_child->name);
         return HILAYOUT_OK;
     }
 
@@ -400,9 +317,9 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
     node->previous = last;
     node->next = NULL;
 
-    HL_LOGD("2|curr|tag=%s|id=%s|name=%s\n", node->tag, node->attr[HL_ATTR_NAME_ID], node->attr[HL_ATTR_NAME_NAME]);
-    HL_LOGD("2|parent->first_child|tag=%s|id=%s|name=%s\n", parent->first_child->tag, node->attr[HL_ATTR_NAME_ID], parent->first_child->attr[HL_ATTR_NAME_NAME]);
-    HL_LOGD("2|parent->last_child|tag=%s|id=%s|name=%s\n", parent->last_child->tag, node->attr[HL_ATTR_NAME_ID], parent->last_child->attr[HL_ATTR_NAME_NAME]);
+    HL_LOGD("2|curr|tag=%s|id=%s|name=%s\n", node->tag, node->id, node->name);
+    HL_LOGD("2|parent->first_child|tag=%s|id=%s|name=%s\n", parent->first_child->tag, node->id, parent->first_child->name);
+    HL_LOGD("2|parent->last_child|tag=%s|id=%s|name=%s\n", parent->last_child->tag, node->id, parent->last_child->name);
 
     return HILAYOUT_OK;
 }

@@ -160,9 +160,6 @@ const char* hilayout_element_node_get_class_name(HLDomElementNode* node);
 void hilayout_element_node_set_style(HLDomElementNode* node, const char* style);
 const char* hilayout_element_node_get_style(HLDomElementNode* node);
 
-int hilayout_element_node_set_attr(HLDomElementNode* node, const char* name, const char* value);
-const char* hilayout_element_node_get_attr(HLDomElementNode* node, const char* name);
-
 int hilayout_element_node_set_private_data(HLDomElementNode* node, void* data);
 void* hilayout_element_node_get_private_data(HLDomElementNode* node);
 

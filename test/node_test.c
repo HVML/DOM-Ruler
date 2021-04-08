@@ -69,7 +69,6 @@ int main(int argc, char **argv)
     hilayout_element_node_set_id(root, "idAttribute");
     hilayout_element_node_set_class_name(root, "classA classB classC");
     hilayout_element_node_set_style(root, "color=#33333; width=10px;");
-    hilayout_element_node_set_attr(root, "xsm", "xsm attribute");
 
 
     // test get attribute
@@ -81,9 +80,6 @@ int main(int argc, char **argv)
 
     value = hilayout_element_node_get_style(root);
     HL_LOGW("test|get attribute|attr=style|value=%s\n", value);
-
-    value = hilayout_element_node_get_attr(root, "xsm");
-    HL_LOGW("test|get attribute|attr=%s|value=%s\n", "xsm", value);
 
     // test private data
     char buf[] = "xsm";

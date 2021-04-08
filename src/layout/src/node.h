@@ -94,17 +94,6 @@ typedef enum {
     LAYOUT_NONE
 } LayoutType;
 
-typedef enum {
-    HL_ATTR_NAME_NAME = 0,
-    HL_ATTR_NAME_VALUE,
-    HL_ATTR_NAME_ID,
-    HL_ATTR_NAME_CLASSES,
-    HL_ATTR_NAME_STYLE,
-
-    /* And a count of the number of node types */
-    HL_ATTR_NAME_COUNT
-} _HLAttrNameEnum;
-
 typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* parent;  /**< Parent node */
     struct HLDomElementNode_* first_child; /**< First child node */
@@ -112,12 +101,15 @@ typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* previous;    /**< Previous sibling */
     struct HLDomElementNode_* next;        /**< Next sibling */
 
+
+    char* name;  // dom nodeName
+    char* value; // dom nodeValue
+
     char* tag;
     char* id;
     char* class_name;
     char* style;
 
-    char* attr[HL_ATTR_NAME_COUNT];
     char* content;
 
     void* private_data;
