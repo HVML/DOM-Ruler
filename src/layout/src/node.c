@@ -246,11 +246,38 @@ const char* hilayout_element_node_get_content(HLDomElementNode* node)
 void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE_DESTROY_CALLBACK callback)
 {
     if (node == NULL)
+    {
         return;
+    }
+
+    if (node->name)
+    {
+        free(node->name);
+    }
+
+    if (node->value)
+    {
+        free(node->value);
+    }
 
     if (node->tag)
     {
         free(node->tag);
+    }
+
+    if (node->id)
+    {
+        free(node->id);
+    }
+
+    if (node->class_name)
+    {
+        free(node->class_name);
+    }
+
+    if (node->style)
+    {
+        free(node->style);
     }
 
     if (node->content)
