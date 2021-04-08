@@ -21,6 +21,7 @@ _deps
 output
 hiacejs_test
 hiacejs_run
+node_test
 *.pc
 
 

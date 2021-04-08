@@ -160,7 +160,17 @@ int hilayout_css_destroy(HLCSS* css);
 
 HLDomElementNode* hilayout_element_node_create(const char* tag_name);
 
+void hilayout_element_node_set_tag_name(HLDomElementNode* node, const char* tag_name);
 const char* hilayout_element_node_get_tag_name(HLDomElementNode* node);
+
+void hilayout_element_node_set_id(HLDomElementNode* node, const char* id);
+const char* hilayout_element_node_get_id(HLDomElementNode* node);
+
+void hilayout_element_node_set_class_name(HLDomElementNode* node, const char* v);
+const char* hilayout_element_node_get_class_name(HLDomElementNode* node);
+
+void hilayout_element_node_set_style(HLDomElementNode* node, const char* style);
+const char* hilayout_element_node_get_style(HLDomElementNode* node);
 
 int hilayout_element_node_set_attr(HLDomElementNode* node, const char* name, const char* value);
 const char* hilayout_element_node_get_attr(HLDomElementNode* node, const char* name);

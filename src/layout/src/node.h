@@ -113,6 +113,10 @@ typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* next;        /**< Next sibling */
 
     char* tag;
+    char* id;
+    char* class_name;
+    char* style;
+
     char* attr[HL_ATTR_NAME_COUNT];
     char* content;
 

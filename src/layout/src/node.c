@@ -114,10 +114,82 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     return node;
 }
 
+void hilayout_element_node_set_tag_name(HLDomElementNode* node, const char* tag)
+{
+    if (node == NULL)
+    {
+        return;
+    }
+
+    if (node->tag)
+    {
+        free(node->tag);
+    }
+    node->tag = strdup(tag);
+}
+
 const char* hilayout_element_node_get_tag_name(HLDomElementNode* node)
 {
     return node ? node->tag : NULL;
 }
+
+void hilayout_element_node_set_id(HLDomElementNode* node, const char* value)
+{
+    if (node == NULL)
+    {
+        return;
+    }
+
+    if (node->id)
+    {
+        free(node->id);
+    }
+    node->id = strdup(value);
+}
+
+const char* hilayout_element_node_get_id(HLDomElementNode* node)
+{
+    return node ? node->id : NULL;
+}
+
+void hilayout_element_node_set_class_name(HLDomElementNode* node, const char* value)
+{
+    if (node == NULL)
+    {
+        return;
+    }
+
+    if (node->class_name)
+    {
+        free(node->class_name);
+    }
+    node->class_name = strdup(value);
+}
+
+const char* hilayout_element_node_get_class_name(HLDomElementNode* node)
+{
+    return node ? node->class_name : NULL;
+}
+
+void hilayout_element_node_set_style(HLDomElementNode* node, const char* value)
+{
+    if (node == NULL)
+    {
+        return;
+    }
+
+    if (node->style)
+    {
+        free(node->style);
+    }
+    node->style = strdup(value);
+}
+
+const char* hilayout_element_node_get_style(HLDomElementNode* node)
+{
+    return node ? node->style : NULL;
+}
+
 
 static const char _HILAYOUT_WHITESPACE[] = " ";
 void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
