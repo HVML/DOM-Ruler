@@ -38,29 +38,35 @@
 }
 
 #hiweb { 
-    width: 100px; 
-    height: 25%; 
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
     font-size:10px;
-    width: 50px;
+    grid-row-start:1;
+    grid-row-end:2;
+    grid-column-start:2;
+    grid-column-end:5;
 }
 
 #hiweb2 { 
-    width: 30%; 
-    height: 50%; 
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
     font-size:10px;
+    grid-row-start:1;
+    grid-row-end:1;
+    grid-column-start:1;
 }
 
 #hijs { 
     color: #128; 
     background:red;
-    width:10%;
+    grid-column-start:1;
+    grid-column-end:1;
+    grid-row-end:1;
 }
 
 #hijs2 { 
     color: #128; 
     background:red;
+    grid-column-start:1;
+    grid-column-end:1;
 }
