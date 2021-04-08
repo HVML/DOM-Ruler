@@ -116,8 +116,10 @@ void hilayout_element_node_set_tag_name(HLDomElementNode* node, const char* tag)
     if (node->tag)
     {
         free(node->tag);
+        _hilayout_lwc_string_destroy(node->inner_tag);
     }
     node->tag = strdup(tag);
+    node->inner_tag = _hilayout_lwc_string_dup(tag);
 }
 
 const char* hilayout_element_node_get_tag_name(HLDomElementNode* node)
@@ -135,14 +137,35 @@ void hilayout_element_node_set_id(HLDomElementNode* node, const char* value)
     if (node->id)
     {
         free(node->id);
+        _hilayout_lwc_string_destroy(node->inner_id);
     }
     node->id = strdup(value);
+    node->inner_id = _hilayout_lwc_string_dup(value);
 }
 
 const char* hilayout_element_node_get_id(HLDomElementNode* node)
 {
     return node ? node->id : NULL;
 }
+
+static const char _HILAYOUT_WHITESPACE[] = " ";
+void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
+{
+    if (node == NULL || classes == NULL || strlen(classes) == 0)
+    {
+        node->inner_classes_count = 0;
+        return;
+    }
+    char* value = strdup(classes);
+    char* c = strtok(value, _HILAYOUT_WHITESPACE);
+    while (c != NULL) {
+        node->inner_classes[node->inner_classes_count]= _hilayout_lwc_string_dup(c);
+        node->inner_classes_count++;
+        c = strtok(NULL, _HILAYOUT_WHITESPACE);
+    }
+    free(value);
+}
+
 
 void hilayout_element_node_set_class_name(HLDomElementNode* node, const char* value)
 {
@@ -154,8 +177,13 @@ void hilayout_element_node_set_class_name(HLDomElementNode* node, const char* va
     if (node->class_name)
     {
         free(node->class_name);
+        for (int i = 0; i < node->inner_classes_count; i++)
+        {
+            _hilayout_lwc_string_destroy(node->inner_classes[i]);
+        }
     }
     node->class_name = strdup(value);
+    _hilayout_fill_inner_classes(node, value);
 }
 
 const char* hilayout_element_node_get_class_name(HLDomElementNode* node)
@@ -182,24 +210,6 @@ const char* hilayout_element_node_get_style(HLDomElementNode* node)
     return node ? node->style : NULL;
 }
 
-
-static const char _HILAYOUT_WHITESPACE[] = " ";
-void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
-{
-    if (node == NULL || classes == NULL || strlen(classes) == 0)
-    {
-        node->inner_classes_count = 0;
-        return;
-    }
-    char* value = strdup(classes);
-    char* c = strtok(value, _HILAYOUT_WHITESPACE);
-    while (c != NULL) {
-        node->inner_classes[node->inner_classes_count]= _hilayout_lwc_string_dup(c);
-        node->inner_classes_count++;
-        c = strtok(NULL, _HILAYOUT_WHITESPACE);
-    }
-    free(value);
-}
 
 int hilayout_element_node_set_private_data(HLDomElementNode* node, void* data)
 {
