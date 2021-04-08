@@ -66,29 +66,21 @@ int main(int argc, char **argv)
     HL_LOGW("test|get tag name|tag=%s\n", tag_name);
 
     // test set attribute
-    hilayout_element_node_set_attr(root, HL_ATTR_NAME, "name attribute");
-    hilayout_element_node_set_attr(root, HL_ATTR_VALUE, "value attribute");
-    hilayout_element_node_set_attr(root, HL_ATTR_ID, "idAttribute");
-    hilayout_element_node_set_attr(root, HL_ATTR_CLASS, "classA classB classC");
-    hilayout_element_node_set_attr(root, HL_ATTR_STYLE, "color=#33333; width=10px;");
+    hilayout_element_node_set_id(root, "idAttribute");
+    hilayout_element_node_set_class_name(root, "classA classB classC");
+    hilayout_element_node_set_style(root, "color=#33333; width=10px;");
     hilayout_element_node_set_attr(root, "xsm", "xsm attribute");
 
 
     // test get attribute
-    const char* value = hilayout_element_node_get_attr(root, HL_ATTR_NAME);
-    HL_LOGW("test|get attribute|attr=%s|value=%s\n", HL_ATTR_NAME, value);
+    const char* value = hilayout_element_node_get_id(root);
+    HL_LOGW("test|get attribute|attr=id|value=%s\n", value);
 
-    value = hilayout_element_node_get_attr(root, HL_ATTR_VALUE);
-    HL_LOGW("test|get attribute|attr=%s|value=%s\n", HL_ATTR_VALUE, value);
+    value = hilayout_element_node_get_class_name(root);
+    HL_LOGW("test|get attribute|attr=class|value=%s\n", value);
 
-    value = hilayout_element_node_get_attr(root, HL_ATTR_ID);
-    HL_LOGW("test|get attribute|attr=%s|value=%s\n", HL_ATTR_ID, value);
-
-    value = hilayout_element_node_get_attr(root, HL_ATTR_CLASS);
-    HL_LOGW("test|get attribute|attr=%s|value=%s\n", HL_ATTR_CLASS, value);
-
-    value = hilayout_element_node_get_attr(root, HL_ATTR_STYLE);
-    HL_LOGW("test|get attribute|attr=%s|value=%s\n", HL_ATTR_STYLE, value);
+    value = hilayout_element_node_get_style(root);
+    HL_LOGW("test|get attribute|attr=style|value=%s\n", value);
 
     value = hilayout_element_node_get_attr(root, "xsm");
     HL_LOGW("test|get attribute|attr=%s|value=%s\n", "xsm", value);
@@ -119,11 +111,9 @@ int main(int argc, char **argv)
     int index = 0;
     for (index = 0; index < 10; index++)
     {
-        snprintf(name, 20, "%d", index);
         HL_LOGW("\n");
-        HL_LOGW("test|add node|index=%d|name=%s\n", index, name);
+        HL_LOGW("test|add node|index=%d\n", index);
         HLDomElementNode* div = hilayout_element_node_create("div");
-        hilayout_element_node_set_attr(div, HL_ATTR_NAME, name);
         hilayout_element_node_append_as_last_child(div, root);
     }
 

@@ -129,35 +129,33 @@ int main(int argc, char **argv)
 
 
     HLDomElementNode* root = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(root, HL_ATTR_ID, "root");
+    hilayout_element_node_set_id(root, "root");
 
 //    char title_inline_style[] = "position:relative; left:0%; top:0%; width:100%; height:10%;";
     HLDomElementNode* title = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(title, HL_ATTR_ID, "title");
- //   hilayout_element_node_set_attr(title, HL_ATTR_STYLE, title_inline_style);
-//    fprintf(stderr, "title|inline-style=%s\n", title_inline_style);
+    hilayout_element_node_set_id(title, "title");
 
     HLDomElementNode* description = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(description, HL_ATTR_ID, "description");
+    hilayout_element_node_set_id(description, "description");
 
     HLDomElementNode* page = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(page, HL_ATTR_ID, "page");
+    hilayout_element_node_set_id(page, "page");
 
     HLDomElementNode* indicator = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(indicator, HL_ATTR_ID, "indicator");
+    hilayout_element_node_set_id(indicator, "indicator");
 
 
     HLDomElementNode* hiweb = hilayout_element_node_create("hiweb");
-    hilayout_element_node_set_attr(hiweb, HL_ATTR_ID, "hiweb");
+    hilayout_element_node_set_id(hiweb, "hiweb");
 
     HLDomElementNode* hiweb2 = hilayout_element_node_create("hiweb");
-    hilayout_element_node_set_attr(hiweb2, HL_ATTR_ID, "hiweb2");
+    hilayout_element_node_set_id(hiweb2, "hiweb2");
 
     HLDomElementNode* hijs = hilayout_element_node_create("hijs");
-    hilayout_element_node_set_attr(hijs, HL_ATTR_ID, "hijs");
+    hilayout_element_node_set_id(hijs, "hijs");
 
     HLDomElementNode* hijs2 = hilayout_element_node_create("hijs");
-    hilayout_element_node_set_attr(hijs2, HL_ATTR_ID, "hijs2");
+    hilayout_element_node_set_id(hijs2, "hijs2");
 
     hilayout_element_node_append_as_last_child(title, root);
     hilayout_element_node_append_as_last_child(page, root);

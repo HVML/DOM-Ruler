@@ -102,26 +102,26 @@ int main(int argc, char **argv)
 
 
     HLDomElementNode* root = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(root, HL_ATTR_ID, "root");
+    hilayout_element_node_set_id(root,  "root");
 
     HLDomElementNode* title = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(title, HL_ATTR_ID, "title");
+    hilayout_element_node_set_id(title, "title");
 
     HLDomElementNode* description = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(description, HL_ATTR_ID, "description");
+    hilayout_element_node_set_id(description, "description");
 
     HLDomElementNode* page = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(page, HL_ATTR_ID, "page");
+    hilayout_element_node_set_id(page, "page");
 
     HLDomElementNode* indicator = hilayout_element_node_create("div");
-    hilayout_element_node_set_attr(indicator, HL_ATTR_ID, "indicator");
+    hilayout_element_node_set_id(indicator, "indicator");
 
 
     HLDomElementNode* hiweb = hilayout_element_node_create("hiweb");
-    hilayout_element_node_set_attr(hiweb, HL_ATTR_ID, "hiweb");
+    hilayout_element_node_set_id(hiweb, "hiweb");
 
     HLDomElementNode* hijs = hilayout_element_node_create("hijs");
-    hilayout_element_node_set_attr(hijs, HL_ATTR_ID, "hijs");
+    hilayout_element_node_set_id(hijs, "hijs");
 
     hilayout_element_node_append_as_last_child(title, root);
     hilayout_element_node_append_as_last_child(description, root);
@@ -143,13 +143,13 @@ int main(int argc, char **argv)
     style = _hilayout_css_select_style(css, node_select, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     HL_LOGD("################################\n");
-    HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), color_shade);
+    HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select), color_shade);
 
     int position = css_computed_position(style->styles[CSS_PSEUDO_ELEMENT_NONE]);
-    HL_LOGW("tag=%s|id=%s|position=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), position);
+    HL_LOGW("tag=%s|id=%s|position=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select ), position);
 
     val = css_computed_width(style->styles[CSS_PSEUDO_ELEMENT_NONE], &len, &unit);
-    HL_LOGW("tag=%s|id=%s|len=%d|unit=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), len, unit);
+    HL_LOGW("tag=%s|id=%s|len=%d|unit=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select), len, unit);
 
     _hilayout_css_select_result_destroy(style);
 
@@ -157,7 +157,7 @@ int main(int argc, char **argv)
     node_select = title;
     style = _hilayout_css_select_style(css, node_select, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
-    HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_attr(node_select, HL_ATTR_ID), color_shade);
+    HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select), color_shade);
     _hilayout_css_select_result_destroy(style);
 
     HLMedia hl_media = {
