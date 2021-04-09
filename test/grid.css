@@ -4,36 +4,40 @@
 }
 
 #title { 
-    display: block; 
+    display: inline-block; 
     position: relative; 
-    width: 20%; 
-    height: 20%; 
+    left:0%;
+    top:0%;
+    width: 50%; 
+    height: 5%; 
     color: #123; 
 } 
 
 #description { 
-    display: block; 
+    display: inline-block; 
     position: relative; 
-    width: 20%; 
-    height: 10%; 
+    left:0%;
+    top:0%;
+    width: 50%; 
+    height: 5%; 
     color: #124; 
 }
 
 #page { 
-    display: grid; 
-    position: relative; 
-    width: 50%; 
-    height: 60%; 
-    color: #125; 
-    grid-template-columns: 10px 20px 30px 40%;
-    grid-template-rows: 20px 40px 60px 80%;
+    display:grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 25% 25% 25% 25%;
+    width: 100%; 
+    height: 85%; 
 }
 
 #indicator { 
-    display: block; 
+    display: inline-block; 
     position: relative; 
-    width: 10%; 
-    height: 10%; 
+    left:0%;
+    top:0%;
+    width: 100%; 
+    height: 5%; 
     color: #126; 
 }
 
@@ -41,32 +45,28 @@
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
     font-size:10px;
-    grid-row-start:1;
-    grid-row-end:2;
+    grid-row-start:2;
+    grid-row-end:3;
     grid-column-start:2;
-    grid-column-end:5;
+    grid-column-end:3;
 }
 
 #hiweb2 { 
     color: #127; 
     font-family: "Times New Roman", Times, serif; 
     font-size:10px;
-    grid-row-start:1;
-    grid-row-end:1;
-    grid-column-start:1;
+    grid-row-start:3;
+    grid-row-end:4;
+    grid-column-start:4;
+    grid-column-end:5;
 }
 
 #hijs { 
     color: #128; 
     background:red;
-    grid-column-start:1;
-    grid-column-end:1;
-    grid-row-end:1;
 }
 
 #hijs2 { 
     color: #128; 
     background:red;
-    grid-column-start:1;
-    grid-column-end:1;
 }

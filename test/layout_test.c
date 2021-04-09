@@ -131,15 +131,16 @@ int main(int argc, char **argv)
     HLDomElementNode* root = hilayout_element_node_create("div");
     hilayout_element_node_set_id(root, "root");
 
-//    char title_inline_style[] = "position:relative; left:0%; top:0%; width:100%; height:10%;";
     HLDomElementNode* title = hilayout_element_node_create("div");
     hilayout_element_node_set_id(title, "title");
 
     HLDomElementNode* description = hilayout_element_node_create("div");
     hilayout_element_node_set_id(description, "description");
 
+    char page_inline_style[] = "display:grid;";
     HLDomElementNode* page = hilayout_element_node_create("div");
     hilayout_element_node_set_id(page, "page");
+//    hilayout_element_node_set_style(page, page_inline_style);
 
     HLDomElementNode* indicator = hilayout_element_node_create("div");
     hilayout_element_node_set_id(indicator, "indicator");
@@ -158,8 +159,8 @@ int main(int argc, char **argv)
     hilayout_element_node_set_id(hijs2, "hijs2");
 
     hilayout_element_node_append_as_last_child(title, root);
-    hilayout_element_node_append_as_last_child(page, root);
     hilayout_element_node_append_as_last_child(description, root);
+    hilayout_element_node_append_as_last_child(page, root);
     hilayout_element_node_append_as_last_child(indicator, root);
 
     hilayout_element_node_append_as_last_child(hiweb, page);
@@ -168,7 +169,7 @@ int main(int argc, char **argv)
     hilayout_element_node_append_as_last_child(hijs2, page);
 
     HLMedia hl_media = {
-        .width = 1080,
+        .width = 1280,
         .height = 720,
         .dpi = 72,
         .density = 72
