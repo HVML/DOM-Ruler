@@ -177,6 +177,10 @@ int main(int argc, char **argv)
 
     fprintf(stderr, "####################################### layout ###########################\n");
     hilayout_do_layout(&hl_media, css, root);
+
+    const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(hijs);
+    fprintf(stderr, "############### txtVaule=%p|txt->family=%s\n", txtVaule, txtVaule->family);
+
     hilayout_css_destroy(css);
 
     hilayout_element_node_destroy(root, NULL);

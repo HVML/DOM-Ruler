@@ -43,7 +43,6 @@
 
 #hiweb { 
     color: #127; 
-    font-family: "Times New Roman", Times, serif; 
     font-size:10px;
     grid-row-start:2;
     grid-row-end:3;
@@ -53,7 +52,6 @@
 
 #hiweb2 { 
     color: #127; 
-    font-family: "Times New Roman", Times, serif; 
     font-size:10px;
     grid-row-start:3;
     grid-row-end:4;
