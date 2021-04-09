@@ -158,6 +158,8 @@ void _hl_grid_template_destroy(HLGridTemplate*);
 typedef void (*each_child_callback)(HLContext* ctx, HLDomElementNode* node, void* user_data);
 void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node, each_child_callback callback, void* user_data);
 
+int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node);
+int _hilayout_find_background(HLDomElementNode* node);
 
 #ifdef __cplusplus
 }

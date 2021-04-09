@@ -228,12 +228,15 @@ int _hl_layout_grid_child(HLContext* ctx, HLGridTemplate* grid_template, HLDomEl
     _hl_grid_item_destroy(node_row_column);
 }
 
-HLGridItem* _hl_get_grid_item(HLDomElementNode* node)
+HLGridItem* _hl_get_grid_item(HLContext* ctx, HLDomElementNode* node)
 {
     if (node->layout_attach)
     {
         return (HLGridItem*) node->layout_attach;
     }
+    _hi_computed_z_index(node);
+    _hilayout_find_background(node);
+    _hilayout_find_font(ctx, node);
     return _hl_grid_item_create(node);
 }
 
@@ -249,7 +252,7 @@ HLGridItem* _hl_destroy_grid_item(HLDomElementNode* node)
 void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* node, void* user_data)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
-    HLGridItem* item = _hl_get_grid_item(node);
+    HLGridItem* item = _hl_get_grid_item(ctx, node);
     int set_row = (item->rc_set & HL_GRID_ITEM_RC_ROW_START) | (item->rc_set & HL_GRID_ITEM_RC_ROW_END);
     int set_column = (item->rc_set & HL_GRID_ITEM_RC_COLUMN_START) | (item->rc_set & HL_GRID_ITEM_RC_COLUMN_END);
 
@@ -378,7 +381,7 @@ void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* 
 void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, void* user_data)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
-    HLGridItem* item = _hl_get_grid_item(node);
+    HLGridItem* item = _hl_get_grid_item(ctx, node);
     int set_row = (item->rc_set & HL_GRID_ITEM_RC_ROW_START) | (item->rc_set & HL_GRID_ITEM_RC_ROW_END);
 
     if (item->layout_done || !set_row)
@@ -501,7 +504,7 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, v
 void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node, void* user_data)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
-    HLGridItem* item = _hl_get_grid_item(node);
+    HLGridItem* item = _hl_get_grid_item(ctx, node);
 
     if (item->layout_done)
     {
