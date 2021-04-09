@@ -97,12 +97,34 @@
 
 typedef struct HLDomElementNode_ HLDomElementNode;
 typedef struct HLCSS_ HLCSS;
+typedef float hl_real_t;
 
 typedef struct HLUsedBoxValues_ {
-    double x;
-    double y;
-    double w;
-    double h;
+    hl_real_t x;
+    hl_real_t y;
+    hl_real_t w;
+    hl_real_t h;
+
+    hl_real_t margin_top;
+    hl_real_t margin_right;
+    hl_real_t margin_bottom;
+    hl_real_t margin_left;
+
+    hl_real_t padding_top;
+    hl_real_t padding_right;
+    hl_real_t padding_bottom;
+    hl_real_t padding_left;
+
+    hl_real_t border_top;
+    hl_real_t border_right;
+    hl_real_t border_bottom;
+    hl_real_t border_left;
+
+    hl_real_t border_top_left_radius;
+    hl_real_t border_top_right_radius;
+    hl_real_t border_bottom_left_radius;
+    hl_real_t border_bottom_right_radius;
+
     int z_index;
 } HLUsedBoxValues;
 
