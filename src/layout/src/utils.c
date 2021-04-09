@@ -431,7 +431,6 @@ HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode 
         } else {
             gt->rows[i] = FIXTOINT(_hl_css_len2px(ctx, row_values[i], row_units[i], node->computed_style));
         }
-        fprintf(stderr, ".............................................gt-h=%d|row[%d]=%d\n", gt->h, i, gt->rows[i]);
     }
 
     for (int i = 0; i < column_size; i++)
@@ -441,7 +440,6 @@ HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode 
         } else {
             gt->columns[i] = FIXTOINT(_hl_css_len2px(ctx, column_values[i], column_units[i], node->computed_style));
         }
-        fprintf(stderr, ".............................................gt-w=%d|column[%d]=%d\n", gt->w, i, gt->columns[i]);
     }
 
     free(row_values);
