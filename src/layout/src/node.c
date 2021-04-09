@@ -250,14 +250,14 @@ void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE
         return;
     }
 
-    if (node->name)
+    if (node->node_name)
     {
-        free(node->name);
+        free(node->node_name);
     }
 
-    if (node->value)
+    if (node->node_value)
     {
-        free(node->value);
+        free(node->node_value);
     }
 
     if (node->tag)
@@ -341,7 +341,7 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
         parent->last_child = node;
         node->previous = NULL;
         node->next = NULL;
-        HL_LOGD("1|curr|tag=%s|id=%s|name=%s\n", node->tag, node->id, node->name);
+        HL_LOGD("1|curr|tag=%s|id=%s\n", node->tag, node->id);
         HL_LOGD("1|parent->first_child|tag=%s|id=%s|name=%s\n", parent->first_child->tag, node->id, parent->first_child->name);
         HL_LOGD("1|parent->last_child|tag=%s|id=%s|name=%s\n", parent->last_child->tag, node->id, parent->last_child->name);
         return HILAYOUT_OK;
@@ -354,7 +354,7 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
     node->previous = last;
     node->next = NULL;
 
-    HL_LOGD("2|curr|tag=%s|id=%s|name=%s\n", node->tag, node->id, node->name);
+    HL_LOGD("2|curr|tag=%s|id=%s\n", node->tag, node->id);
     HL_LOGD("2|parent->first_child|tag=%s|id=%s|name=%s\n", parent->first_child->tag, node->id, parent->first_child->name);
     HL_LOGD("2|parent->last_child|tag=%s|id=%s|name=%s\n", parent->last_child->tag, node->id, parent->last_child->name);
 

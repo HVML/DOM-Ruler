@@ -101,9 +101,8 @@ typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* previous;    /**< Previous sibling */
     struct HLDomElementNode_* next;        /**< Next sibling */
 
-
-    char* name;  // dom nodeName
-    char* value; // dom nodeValue
+    char* node_name;  // dom nodeName
+    char* node_value; // dom nodeValue
 
     char* tag;
     char* id;

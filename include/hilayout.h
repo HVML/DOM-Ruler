@@ -160,11 +160,12 @@ const char* hilayout_element_node_get_class_name(HLDomElementNode* node);
 void hilayout_element_node_set_style(HLDomElementNode* node, const char* style);
 const char* hilayout_element_node_get_style(HLDomElementNode* node);
 
+int hilayout_element_node_set_content(HLDomElementNode* node, const char* content);
+const char* hilayout_element_node_get_content(HLDomElementNode* node);
+
 int hilayout_element_node_set_private_data(HLDomElementNode* node, void* data);
 void* hilayout_element_node_get_private_data(HLDomElementNode* node);
 
-int hilayout_element_node_set_content(HLDomElementNode* node, const char* content);
-const char* hilayout_element_node_get_content(HLDomElementNode* node);
 
 typedef void  (* HILAYOUT_ELEMENT_NODE_DESTROY_CALLBACK)(void* data);
 void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE_DESTROY_CALLBACK callback);
