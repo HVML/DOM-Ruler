@@ -1303,6 +1303,7 @@ css_select_results* _hilayout_get_node_style(const css_media* media, css_select_
     const char* style = node->style;
     if (style != NULL)
     {
+        HL_LOGW("node style |tag=%s|id=%s|style=%s\n", node->tag, node->id, node->style);
         inline_style = _hilayout_css_stylesheet_inline_style_create(style, strlen(style));
     }
 
