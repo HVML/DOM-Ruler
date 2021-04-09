@@ -120,13 +120,16 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
     type = css_computed_height(node->computed_style, &value, &unit);
     if (type == CSS_HEIGHT_SET) {
         if (unit == CSS_UNIT_PCT) {
+            fprintf(stderr, "........................................................set height pct\n");
             height = HL_FPCT_OF_INT_TOINT(value, grid_h);
         } else {
             height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->computed_style));
+            fprintf(stderr, "........................................................set height px\n");
         }
     }
     else
     {
+            fprintf(stderr, "........................................................not set height\n");
         height = grid_h;
     }
     fprintf(stderr, "%s:%d............................................grid_w=%d|grid_h=%d|width=%d|max_width=%d|min_width=%d|height=%d\n", __FILE__, __LINE__, grid_w, grid_h, width, max_width, min_width, height);
