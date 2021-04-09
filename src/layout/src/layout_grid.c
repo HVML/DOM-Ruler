@@ -352,8 +352,8 @@ void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* 
         grid_w += grid_template->columns[i];
     }
 
-    node->box_values.x = grid_x;
-    node->box_values.y = grid_y;
+    node->box_values.x = node->parent->box_values.x + grid_x;
+    node->box_values.y = node->parent->box_values.x + grid_y;
     item->layout_done = 1;
     _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
@@ -477,8 +477,8 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, v
         grid_w += grid_template->columns[i];
     }
 
-    node->box_values.x = grid_x;
-    node->box_values.y = grid_y;
+    node->box_values.x = node->parent->box_values.x + grid_x;
+    node->box_values.y = node->parent->box_values.x + grid_y;
     item->layout_done = 1;
     _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
@@ -613,8 +613,8 @@ void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node, 
         grid_w += grid_template->columns[i];
     }
 
-    node->box_values.x = grid_x;
-    node->box_values.y = grid_y;
+    node->box_values.x = node->parent->box_values.x + grid_x;
+    node->box_values.y = node->parent->box_values.x + grid_y;
     item->layout_done = 1;
     _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
