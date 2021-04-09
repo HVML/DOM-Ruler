@@ -885,6 +885,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         {
             case LAYOUT_BLOCK:
             case LAYOUT_GRID:
+                cx = x;
                 if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
@@ -915,6 +916,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 break;
 
             default:
+                cx = x;
                 if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
