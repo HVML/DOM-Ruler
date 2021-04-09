@@ -56,6 +56,7 @@
 
 int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, int grid_w, int grid_h)
 {
+    fprintf(stderr, "%s:%d............................................grid_w=%d|grid_h=%d\n", __FILE__, __LINE__, grid_w, grid_h);
     int width = 0;
     int max_width = 0;
     int min_width = 0;
@@ -81,6 +82,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
     {
         width = grid_w;
     }
+    fprintf(stderr, "%s:%d............................................grid_w=%d|grid_h=%d|width=%d\n", __FILE__, __LINE__, grid_w, grid_h, width);
 
     value = 0;
     unit = CSS_UNIT_PX;
@@ -95,6 +97,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
         /* Inadmissible */
         max_width = -1;
     }
+    fprintf(stderr, "%s:%d............................................grid_w=%d|grid_h=%d|width=%d|max_width=%d\n", __FILE__, __LINE__, grid_w, grid_h, width, max_width);
 
 
     value = 0;
@@ -110,6 +113,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
         /* Inadmissible */
         min_width = 0;
     }
+    fprintf(stderr, "%s:%d............................................grid_w=%d|grid_h=%d|width=%d|max_width=%d|min_width=%d\n", __FILE__, __LINE__, grid_w, grid_h, width, max_width, min_width);
     // end width
 
     // start height
@@ -125,6 +129,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
     {
         height = grid_h;
     }
+    fprintf(stderr, "%s:%d............................................grid_w=%d|grid_h=%d|width=%d|max_width=%d|min_width=%d|height=%d\n", __FILE__, __LINE__, grid_w, grid_h, width, max_width, min_width, height);
 
     value = 0;
     unit = CSS_UNIT_PX;
@@ -139,6 +144,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
         /* Inadmissible */
         max_height = -1;
     }
+    fprintf(stderr, "%s:%d............................................grid_w=%d|grid_h=%d|width=%d|max_width=%d|min_width=%d|height=%d|max_height=%d\n", __FILE__, __LINE__, grid_w, grid_h, width, max_width, min_width, height, max_height);
 
 
     value = 0;
@@ -155,6 +161,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
         min_height = 0;
     }
     // end height
+    fprintf(stderr, "%s:%d............................................grid_w=%d|grid_h=%d|width=%d|max_width=%d|min_width=%d|height=%d|max_height=%d|min_height=%d\n", __FILE__, __LINE__, grid_w, grid_h, width, max_width, min_width, height, max_height, min_height);
 
 	if (max_width >= 0 && width > max_width) {
 		width = max_width;
@@ -175,6 +182,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
     node->box_values.w = width;
     node->box_values.h = height;
 
+    fprintf(stderr, "%s:%d............................................grid_w=%d|grid_h=%d|width=%d|max_width=%d|min_width=%d|height=%d|max_height=%d|min_height=%d|end\n", __FILE__, __LINE__, grid_w, grid_h, width, max_width, min_width, height, max_height, min_height);
     return HILAYOUT_OK;
 }
 

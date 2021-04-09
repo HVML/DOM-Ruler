@@ -441,7 +441,7 @@ HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode 
         } else {
             gt->columns[i] = FIXTOINT(_hl_css_len2px(ctx, column_values[i], column_units[i], node->computed_style));
         }
-        fprintf(stderr, ".............................................gt-w=%d|column[%d]=%d\n", gt->h, i, gt->columns[i]);
+        fprintf(stderr, ".............................................gt-w=%d|column[%d]=%d\n", gt->w, i, gt->columns[i]);
     }
 
     free(row_values);
