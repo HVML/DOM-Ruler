@@ -262,6 +262,9 @@ const char* hilayout_element_node_get_private_attr (HLDomElementNode* node, uint
 int hilayout_element_node_set_user_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
 const char* hilayout_element_node_get_user_attr(HLDomElementNode* node, const char* attr_name);
 
+typedef void  (*HlDestroyCallback)(void* data);
+int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
+void* hilayout_element_node_get_user_data(HLDomElementNode* node, const char* key);
 
 int hilayout_element_node_set_private_data(HLDomElementNode* node, void* data);
 void* hilayout_element_node_get_private_data(HLDomElementNode* node);
