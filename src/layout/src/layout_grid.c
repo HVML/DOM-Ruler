@@ -230,9 +230,10 @@ int _hl_layout_grid_child(HLContext* ctx, HLGridTemplate* grid_template, HLDomEl
 
 HLGridItem* _hl_get_grid_item(HLContext* ctx, HLDomElementNode* node)
 {
-    if (node->layout_attach)
+    HLGridItem* item = (HLGridItem*)_hl_element_node_get_inner_data(node, HL_INNER_LAYOUT_ATTACH);
+    if (item)
     {
-        return (HLGridItem*) node->layout_attach;
+        return item;
     }
     _hi_computed_z_index(node);
     _hilayout_find_background(node);
@@ -242,10 +243,10 @@ HLGridItem* _hl_get_grid_item(HLContext* ctx, HLDomElementNode* node)
 
 HLGridItem* _hl_destroy_grid_item(HLDomElementNode* node)
 {
-    if (node->layout_attach)
+    HLGridItem* item = (HLGridItem*)_hl_element_node_get_inner_data(node, HL_INNER_LAYOUT_ATTACH);
+    if (item)
     {
-        free(node->layout_attach);
-        node->layout_attach = NULL;
+        free(item);
     }
 }
 

@@ -375,7 +375,7 @@ HLGridItem* _hl_grid_item_create(HLDomElementNode *node)
         item->row_end = FIXTOINT(value);
     }
 
-    node->layout_attach = item;
+    _hl_element_node_set_inner_data(node, HL_INNER_LAYOUT_ATTACH, item, NULL);
     return item;
 }
 
