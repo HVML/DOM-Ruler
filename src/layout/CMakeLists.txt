@@ -66,7 +66,7 @@ list(APPEND hilayout_SOURCES
 )
 
 include_directories(${hilayout_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
-link_directories(${HICSS_LIBRARY_DIRS} ${GLIB_LIBRARIES})
+link_directories(${GLIB_LIBRARIES})
 add_library(hilayout SHARED ${hilayout_SOURCES})
 target_link_libraries(hilayout css)
 

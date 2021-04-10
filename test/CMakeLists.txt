@@ -16,8 +16,8 @@ list(APPEND node_test_SOURCES
     ${CMAKE_SOURCE_DIR}/test/node_test.c
 )
 
-include_directories(${node_test_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})
-link_directories(${HICSS_LIBRARY_DIRS})
+include_directories(${node_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
+link_directories(${GLIB_LIBRARIES})
 add_executable(node_test ${node_test_SOURCES})
 target_link_libraries(node_test hilayout)
 
@@ -34,8 +34,8 @@ list(APPEND css_select_test_SOURCES
     ${CMAKE_SOURCE_DIR}/test/css_select.c
 )
 
-include_directories(${css_select_test_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})
-link_directories(${HICSS_LIBRARY_DIRS})
+include_directories(${css_select_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
+link_directories(${GLIB_LIBRARIES})
 add_executable(css_select_test ${css_select_test_SOURCES})
 target_link_libraries(css_select_test hilayout)
 
@@ -51,8 +51,8 @@ list(APPEND css_select_test2_SOURCES
     ${CMAKE_SOURCE_DIR}/test/css_select2.c
 )
 
-include_directories(${css_select_test2_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})
-link_directories(${HICSS_LIBRARY_DIRS})
+include_directories(${css_select_test2_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
+link_directories(${GLIB_LIBRARIES})
 add_executable(css_select_test2 ${css_select_test2_SOURCES})
 target_link_libraries(css_select_test2 hilayout)
 
@@ -66,7 +66,7 @@ list(APPEND layout_test_SOURCES
     ${CMAKE_SOURCE_DIR}/test/layout_test.c
 )
 
-include_directories(${layout_test_INCLUDE_DIRECTORIES} ${HICSS_INCLUDE_DIRS})
-link_directories(${HICSS_LIBRARY_DIRS})
+include_directories(${layout_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
+link_directories(${GLIB_LIBRARIES})
 add_executable(layout_test ${layout_test_SOURCES})
 target_link_libraries(layout_test hilayout)
