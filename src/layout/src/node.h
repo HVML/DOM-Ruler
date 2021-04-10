@@ -51,6 +51,7 @@
 
 #include "hilayout.h"
 #include <libcss/libcss.h>
+#include <glib.h>
 
 
 #ifdef __cplusplus
@@ -110,6 +111,11 @@ typedef struct HLDomElementNode_ {
     char* style;
 
     char* content;
+
+
+    GHashTable* user_attrs;     // user attrs key(string) -> value(string)
+    GHashTable* private_attrs;  // private attrs
+    GHashTable* inner_attrs;    // private attrs
 
     void* private_data;
 

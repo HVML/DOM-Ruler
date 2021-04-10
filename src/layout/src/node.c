@@ -50,6 +50,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <glib.h>
+#include <glib/ghash.h>
 
 #define UNKNOWN_WIDTH INT_MAX
 #define UNKNOWN_MAX_WIDTH INT_MAX
@@ -83,14 +85,13 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
         return NULL;
     }
 
-    HLDomElementNode* node = (HLDomElementNode*)malloc(sizeof(HLDomElementNode));
+    HLDomElementNode* node = (HLDomElementNode*)calloc(1, sizeof(HLDomElementNode));
     if (node == NULL)
     {
         HL_LOGE("create HLDomElementNode failed. %d\n", HILAYOUT_NOMEM);
         return NULL;
     }
 
-    memset(node, 0, sizeof(HLDomElementNode));
     node->tag = strdup(tag);
     node->inner_tag = _hilayout_lwc_string_dup(tag);
 
@@ -290,6 +291,11 @@ void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE
         callback(node->private_data);
     }
 
+    if (node->user_attrs)
+    {
+        g_hash_table_destroy(node->user_attrs);
+    }
+
     _hilayout_lwc_string_destroy(node->inner_tag);
     _hilayout_lwc_string_destroy(node->inner_id);
 
@@ -361,6 +367,39 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
     return HILAYOUT_OK;
 }
 
+void _hl_destory_user_attr_key (gpointer data)
+{
+    free(data);
+}
+
+void _hl_destory_user_attr_value (gpointer data)
+{
+    free(data);
+}
+
+int hilayout_element_node_set_user_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value)
+{
+    if (node == NULL || attr_name == NULL || attr_value == NULL)
+    {
+        return HILAYOUT_OK;
+    }
+
+    if (node->user_attrs == NULL)
+    {
+        node->user_attrs = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_user_attr_key, _hl_destory_user_attr_value);
+    }
+
+    return g_hash_table_insert(node->user_attrs, (gpointer)strdup(attr_name), (gpointer)strdup(attr_value));
+}
+
+const char* hilayout_element_node_get_user_attr(HLDomElementNode* node, const char* attr_name)
+{
+    if (node == NULL || attr_name == NULL || node->user_attrs == NULL)
+    {
+        return NULL;
+    }
+    return g_hash_table_lookup(node->user_attrs, (gpointer)attr_name);
+}
 
 bool _hl_node_is_root(HLDomElementNode *n)
 {
@@ -376,3 +415,4 @@ bool _hl_node_is_root(HLDomElementNode *n)
     }
     return true;
 }
+
