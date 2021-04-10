@@ -235,7 +235,7 @@ extern "C" {
 #endif
 
 
-HLCSS* hilayout_css_create(void);
+HLCSS* hilayout_css_create(uint64_t attrs_filter);
 int hilayout_css_append_data(HLCSS* css, const char* data, size_t len);
 int hilayout_css_destroy(HLCSS* css);
 

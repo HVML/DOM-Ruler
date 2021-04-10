@@ -122,7 +122,7 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "%s\n", css_data);
 
-    HLCSS* css = hilayout_css_create();
+    HLCSS* css = hilayout_css_create(HL_ATTR_GROUP_ALL);
     if (css == NULL)
     {
         HL_LOGE("create HLCSS failed.\n");
