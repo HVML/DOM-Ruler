@@ -873,11 +873,12 @@ css_error ua_default_for_property(void *pw, uint32_t property,
 	return CSS_OK;
 }
 
+#define HL_CSS_SELECT_CSS_ATTACH "hl_css_select_css_attach"
 css_error set_libcss_node_data(void *pw, void *node,
         void *libcss_node_data)
 {
     HLDomElementNode *n = node;
-    n->inner_attach = libcss_node_data;
+    _hl_element_node_set_inner_data(n, HL_CSS_SELECT_CSS_ATTACH, libcss_node_data, NULL);
     return CSS_OK;
 }
 
@@ -885,7 +886,7 @@ css_error get_libcss_node_data(void *pw, void *node,
         void **libcss_node_data)
 {
     HLDomElementNode* n = node;
-    *libcss_node_data = n->inner_attach;
+    *libcss_node_data = _hl_element_node_get_inner_data(n, HL_CSS_SELECT_CSS_ATTACH);
     return CSS_OK;
 }
 

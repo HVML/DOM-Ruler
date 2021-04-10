@@ -136,7 +136,6 @@ typedef struct HLDomElementNode_ {
     int inner_classes_count;
 
     HLDomElementNodeType inner_dom_type;;
-    void* inner_attach;
     // end for hicss inner
     
     // begin for layout output
