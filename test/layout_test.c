@@ -50,6 +50,7 @@
 #include <string.h>
 
 #include "hilayout.h"
+#include "node.h"
 /*
  
    <div id="root">
@@ -66,6 +67,9 @@
  */
  
 #define FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
+
+int _hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
+const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
 
 char* readCSS(char* filename)
 {
@@ -193,10 +197,8 @@ int main(int argc, char **argv)
 
     fprintf(stderr, "############### test get attr id=%ld | value =%s\n", HL_ATTR_ID_BACKGROUND_COLOR, hilayout_element_node_get_private_attr(hijs, HL_ATTR_ID_BACKGROUND_COLOR));
 
-#if 0
-    hilayout_element_node_set_private_attr(hijs, HL_ATTR_ID_WIDTH, "privateValue2222");
-    fprintf(stderr, "############### test get attr id=%ld | value =%s\n", HL_ATTR_ID_WIDTH, ,hilayout_element_node_get_private_attr(hijs, HL_ATTR_ID_WIDTH));
-#endif
+    _hl_element_node_set_inner_attr(hijs, "innerKey", "innerValue2222");
+    fprintf(stderr, "############### test get attr id=%ld | value =%s\n", HL_ATTR_ID_WIDTH, _hl_element_node_get_inner_attr(hijs, "innerKey2"));
 
     hilayout_css_destroy(css);
 

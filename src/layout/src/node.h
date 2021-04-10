@@ -161,6 +161,8 @@ typedef struct HLDomElementNode_ {
 } HLDomElementNode;
 
 bool _hl_node_is_root(HLDomElementNode *n);
+int _hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
+const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
 
 #ifdef __cplusplus
 }

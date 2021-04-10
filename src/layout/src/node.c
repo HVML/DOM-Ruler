@@ -301,6 +301,11 @@ void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE
         g_hash_table_destroy(node->private_attrs);
     }
 
+    if (node->inner_attrs)
+    {
+        g_hash_table_destroy(node->inner_attrs);
+    }
+
     _hilayout_lwc_string_destroy(node->inner_tag);
     _hilayout_lwc_string_destroy(node->inner_id);
 
@@ -450,6 +455,40 @@ const char* hilayout_element_node_get_user_attr(HLDomElementNode* node, const ch
         return NULL;
     }
     return g_hash_table_lookup(node->user_attrs, (gpointer)attr_name);
+}
+
+void _hl_destory_inner_attr_key (gpointer data)
+{
+    free(data);
+}
+
+void _hl_destory_inner_attr_value (gpointer data)
+{
+    free(data);
+}
+
+int _hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value)
+{
+    if (node == NULL || attr_name == NULL || attr_value == NULL)
+    {
+        return HILAYOUT_OK;
+    }
+
+    if (node->inner_attrs == NULL)
+    {
+        node->inner_attrs = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_inner_attr_key, _hl_destory_inner_attr_value);
+    }
+
+    return g_hash_table_insert(node->inner_attrs, (gpointer)strdup(attr_name), (gpointer)strdup(attr_value));
+}
+
+const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name)
+{
+    if (node == NULL || attr_name == NULL || node->inner_attrs == NULL)
+    {
+        return NULL;
+    }
+    return g_hash_table_lookup(node->inner_attrs, (gpointer)attr_name);
 }
 
 bool _hl_node_is_root(HLDomElementNode *n)
