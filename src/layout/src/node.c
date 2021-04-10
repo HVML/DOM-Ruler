@@ -274,14 +274,19 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         free(node->content);
     }
 
+    if (node->private_attrs)
+    {
+        g_hash_table_destroy(node->private_attrs);
+    }
+
     if (node->user_attrs)
     {
         g_hash_table_destroy(node->user_attrs);
     }
 
-    if (node->private_attrs)
+    if (node->user_data)
     {
-        g_hash_table_destroy(node->private_attrs);
+        g_hash_table_destroy(node->user_data);
     }
 
     if (node->inner_attrs)
@@ -289,9 +294,9 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         g_hash_table_destroy(node->inner_attrs);
     }
 
-    if (node->user_data)
+    if (node->inner_data)
     {
-        g_hash_table_destroy(node->user_data);
+        g_hash_table_destroy(node->inner_data);
     }
 
     _hilayout_lwc_string_destroy(node->inner_tag);
@@ -479,12 +484,12 @@ const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* 
     return g_hash_table_lookup(node->inner_attrs, (gpointer)attr_name);
 }
 
-void _hl_destory_user_data_key (gpointer data)
+void _hl_destory_attach_data_key (gpointer data)
 {
     free(data);
 }
 
-void _hl_destory_user_data_value (gpointer data)
+void _hl_destory_attach_data_value (gpointer data)
 {
     HLAttachData* attach = (HLAttachData*)data;
     if (attach->callback)
@@ -504,7 +509,7 @@ int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key,
 
     if (node->user_data == NULL)
     {
-        node->user_data = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_user_data_key, _hl_destory_user_data_value);
+        node->user_data = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_attach_data_key, _hl_destory_attach_data_value);
     }
 
     HLAttachData* attach = (HLAttachData*)calloc(1, sizeof(HLAttachData));
@@ -520,6 +525,34 @@ void* hilayout_element_node_get_user_data(HLDomElementNode* node, const char* ke
         return NULL;
     }
     HLAttachData* attach = (HLAttachData*) g_hash_table_lookup(node->user_data, (gpointer)key);
+    return attach ? attach->data : NULL;
+}
+
+int _hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback)
+{
+    if (node == NULL || key == NULL || data == NULL)
+    {
+        return HILAYOUT_OK;
+    }
+
+    if (node->inner_data == NULL)
+    {
+        node->inner_data = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_attach_data_key, _hl_destory_attach_data_value);
+    }
+
+    HLAttachData* attach = (HLAttachData*)calloc(1, sizeof(HLAttachData));
+    attach->data = data;
+    attach->callback = destroy_callback;
+    return g_hash_table_insert(node->inner_data, (gpointer)strdup(key), (gpointer)attach);
+}
+
+void* _hl_element_node_get_inner_data(HLDomElementNode* node, const char* key)
+{
+    if (node == NULL || key == NULL)
+    {
+        return NULL;
+    }
+    HLAttachData* attach = (HLAttachData*) g_hash_table_lookup(node->inner_data, (gpointer)key);
     return attach ? attach->data : NULL;
 }
 

@@ -210,11 +210,15 @@ int main(int argc, char **argv)
 
     char* buf = (char*)malloc(100);
     strcpy(buf, "this is test buf for userdata.\n");
-
     hilayout_element_node_set_user_data(hijs, "userData", buf, destory_user_data);
-
     void* udata = hilayout_element_node_get_user_data(hijs, "userData");
     fprintf(stderr, "############### test get user data key=userData | value =%s\n",  (char*)udata);
+
+    buf = (char*)malloc(100);
+    strcpy(buf, "this is test buf for inner data.\n");
+    _hl_element_node_set_inner_data(hijs, "innerData", buf, destory_user_data);
+    udata = _hl_element_node_get_inner_data(hijs, "innerData");
+    fprintf(stderr, "############### test get user data key=innerData | value =%s\n",  (char*)udata);
 
     hilayout_css_destroy(css);
 

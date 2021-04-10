@@ -123,6 +123,7 @@ typedef struct HLDomElementNode_ {
     GHashTable* user_data;     // user data key(string) -> value(HLAttachData)
 
     GHashTable* inner_attrs;    // inner attrs key(string) -> value(string)
+    GHashTable* inner_data;     // inner data key(string) -> value(HLAttachData)
 
 
     //inner layout
@@ -168,6 +169,8 @@ typedef struct HLDomElementNode_ {
 bool _hl_node_is_root(HLDomElementNode *n);
 int _hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
 const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
+int _hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
+void* _hl_element_node_get_inner_data(HLDomElementNode* node, const char* key);
 
 #ifdef __cplusplus
 }
