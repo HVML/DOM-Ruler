@@ -296,6 +296,11 @@ void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE
         g_hash_table_destroy(node->user_attrs);
     }
 
+    if (node->private_attrs)
+    {
+        g_hash_table_destroy(node->private_attrs);
+    }
+
     _hilayout_lwc_string_destroy(node->inner_tag);
     _hilayout_lwc_string_destroy(node->inner_id);
 
@@ -366,6 +371,52 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
 
     return HILAYOUT_OK;
 }
+
+void _hl_destory_private_attr_value (gpointer data)
+{
+    free(data);
+}
+
+int _hl_verify_private_attr_id(HLDomElementNode* node, uint64_t attr_id)
+{
+    return HILAYOUT_OK;
+}
+
+int hilayout_element_node_set_private_attr(HLDomElementNode* node, uint64_t attr_id, const char* attr_value)
+{
+    if (node == NULL || attr_value == NULL)
+    {
+        return HILAYOUT_OK;
+    }
+
+    if (HILAYOUT_OK != _hl_verify_private_attr_id(node, attr_id))
+    {
+        return HILAYOUT_BADPARM;
+    }
+    
+    if (node->private_attrs == NULL)
+    {
+        node->private_attrs = g_hash_table_new_full(g_int64_hash, g_str_equal, NULL, _hl_destory_private_attr_value);
+    }
+
+    return g_hash_table_insert(node->private_attrs, (gpointer)&attr_id, (gpointer)strdup(attr_value));
+}
+
+const char* hilayout_element_node_get_private_attr (HLDomElementNode* node, uint64_t attr_id)
+{
+    if (node == NULL || node->private_attrs == NULL)
+    {
+        return NULL;
+    }
+
+    if (HILAYOUT_OK != _hl_verify_private_attr_id(node, attr_id))
+    {
+        return NULL;
+    }
+
+    return g_hash_table_lookup(node->private_attrs, (gpointer)&attr_id);
+}
+
 
 void _hl_destory_user_attr_key (gpointer data)
 {

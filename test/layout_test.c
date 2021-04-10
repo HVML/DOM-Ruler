@@ -181,6 +181,18 @@ int main(int argc, char **argv)
     const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(hijs);
     fprintf(stderr, "############### txtVaule=%p|txt->family=%s\n", txtVaule, txtVaule->family);
 
+    hilayout_element_node_set_user_attr(hijs, "xsmKey", "xsmValue");
+    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_user_attr(hijs, "xsmKey"));
+
+    hilayout_element_node_set_user_attr(hijs, "xsmKey", "xsmValue2222222");
+    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_user_attr(hijs, "xsmKey"));
+    
+    hilayout_element_node_set_private_attr(hijs, 1, "privateValue1111");
+    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_private_attr(hijs, 1));
+
+    hilayout_element_node_set_private_attr(hijs, 1, "privateValue2222");
+    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_private_attr(hijs, 1));
+
     hilayout_css_destroy(css);
 
     hilayout_element_node_destroy(root, NULL);

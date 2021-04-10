@@ -114,8 +114,8 @@ typedef struct HLDomElementNode_ {
 
 
     GHashTable* user_attrs;     // user attrs key(string) -> value(string)
-    GHashTable* private_attrs;  // private attrs
-    GHashTable* inner_attrs;    // private attrs
+    GHashTable* private_attrs;  // private attrs key(uint64_t) -> value(string)
+    GHashTable* inner_attrs;    // inner attrs
 
     void* private_data;
 
