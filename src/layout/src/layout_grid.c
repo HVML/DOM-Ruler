@@ -248,6 +248,7 @@ HLGridItem* _hl_destroy_grid_item(HLDomElementNode* node)
     {
         free(item);
     }
+    _hl_element_node_set_inner_data(node, HL_INNER_LAYOUT_ATTACH, NULL, NULL);
 }
 
 void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* node, void* user_data)

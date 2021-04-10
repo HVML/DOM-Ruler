@@ -502,7 +502,7 @@ void _hl_destory_attach_data_value (gpointer data)
 
 int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback)
 {
-    if (node == NULL || key == NULL || data == NULL)
+    if (node == NULL || key == NULL)
     {
         return HILAYOUT_OK;
     }
@@ -510,6 +510,11 @@ int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key,
     if (node->user_data == NULL)
     {
         node->user_data = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_attach_data_key, _hl_destory_attach_data_value);
+    }
+
+    if (data == NULL)
+    {
+        return g_hash_table_remove(node->user_data, key);
     }
 
     HLAttachData* attach = (HLAttachData*)calloc(1, sizeof(HLAttachData));
@@ -530,7 +535,7 @@ void* hilayout_element_node_get_user_data(HLDomElementNode* node, const char* ke
 
 int _hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback)
 {
-    if (node == NULL || key == NULL || data == NULL)
+    if (node == NULL || key == NULL)
     {
         return HILAYOUT_OK;
     }
@@ -538,6 +543,11 @@ int _hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, voi
     if (node->inner_data == NULL)
     {
         node->inner_data = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_attach_data_key, _hl_destory_attach_data_value);
+    }
+
+    if (data == NULL)
+    {
+        return g_hash_table_remove(node->inner_data, key);
     }
 
     HLAttachData* attach = (HLAttachData*)calloc(1, sizeof(HLAttachData));
