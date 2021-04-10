@@ -95,6 +95,77 @@
 // error code end
 
 
+#define  HL_ATTR_GROUP_BOX                  (1 << 0)
+#define  HL_ATTR_GROUP_BACKGROUND           (1 << 1)
+#define  HL_ATTR_GROUP_TEXT                 (1 << 2)
+#define  HL_ATTR_GROUP_SVG                  (1 << 3)
+
+#define  HL_ATTR_GROUP_ALL                  (HL_ATTR_GROUP_BOX | HL_ATTR_GROUP_BACKGROUND | HL_ATTR_GROUP_TEXT | HL_ATTR_GROUP_SVG)
+
+#define HL_MAKE_ATTR_ID(gid, i)             (((uint64_t)gid << 32) | 1 << i)
+
+// box group begin
+// width
+#define HL_ATTR_ID_WIDTH                        HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 0)
+// height
+#define HL_ATTR_ID_HEIGHT                       HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 1)
+// margin-top
+#define HL_ATTR_ID_MARGIN_TOP                   HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 2)
+// margin-right
+#define HL_ATTR_ID_MARGIN_RIGHT                 HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 3)
+// margin-bottom
+#define HL_ATTR_ID_MARGIN_BOTTOM                HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 4)
+// margin-left
+#define HL_ATTR_ID_MARGIN_LEFT                  HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 5)
+// padding-top
+#define HL_ATTR_ID_PADDING_TOP                  HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 6)
+// padding-right
+#define HL_ATTR_ID_PADDING_RIGHT                HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 7)
+// padding-bottom
+#define HL_ATTR_ID_PADDING_BOTTOM               HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 8)
+// padding-left
+#define HL_ATTR_ID_PADDING_LEFT                 HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 9)
+// border-top-width
+#define HL_ATTR_ID_BORDER_TOP_WIDTH             HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 10)
+// border-right-width
+#define HL_ATTR_ID_BORDER_RIGHT_WIDTH           HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 11)
+// border-bottom-width
+#define HL_ATTR_ID_BORDER_BOTTOM_WIDTH          HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 12)
+// border-left-width
+#define HL_ATTR_ID_BORDER_LEFT_WIDTH            HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 13)
+// border-top-left-radius
+#define HL_ATTR_ID_BORDER_TOP_LEFT_RADIUS       HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 14)
+// border-top-right-radius
+#define HL_ATTR_ID_BORDER_TOP_RIGHT_RADIUS      HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 15)
+// border-bottom-left-radius
+#define HL_ATTR_ID_BORDER_BOTTOM_LEFT_RADIUS    HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 16)
+// border-bottom-right-radius
+#define HL_ATTR_ID_BORDER_BOTTOM_RIGHT_RADIUS   HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BOX, 17)
+
+// box group end
+
+// background begin
+// background-color
+#define HL_ATTR_ID_BACKGROUND_COLOR             HL_MAKE_ATTR_ID(HL_ATTR_GROUP_BACKGROUND, 0)
+
+// background end
+
+// text begin
+// color
+#define HL_ATTR_ID_COLOR                        HL_MAKE_ATTR_ID(HL_ATTR_GROUP_TEXT, 0)
+// font-family
+#define HL_ATTR_ID_FONT_FAMILY                  HL_MAKE_ATTR_ID(HL_ATTR_GROUP_TEXT, 1)
+// font-size
+#define HL_ATTR_ID_FONT_SIZE                    HL_MAKE_ATTR_ID(HL_ATTR_GROUP_TEXT, 2)
+// font-weight
+#define HL_ATTR_ID_FONT_WEIGHT                  HL_MAKE_ATTR_ID(HL_ATTR_GROUP_TEXT, 3)
+
+// text end
+
+// svg begin
+// svg end
+
+
 typedef struct HLDomElementNode_ HLDomElementNode;
 typedef struct HLCSS_ HLCSS;
 typedef float hl_real_t;

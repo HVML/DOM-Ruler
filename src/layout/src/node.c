@@ -396,10 +396,10 @@ int hilayout_element_node_set_private_attr(HLDomElementNode* node, uint64_t attr
     
     if (node->private_attrs == NULL)
     {
-        node->private_attrs = g_hash_table_new_full(g_int64_hash, g_str_equal, NULL, _hl_destory_private_attr_value);
+        node->private_attrs = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, _hl_destory_private_attr_value);
     }
 
-    return g_hash_table_insert(node->private_attrs, (gpointer)&attr_id, (gpointer)strdup(attr_value));
+    return g_hash_table_insert(node->private_attrs, (gpointer)attr_id, (gpointer)strdup(attr_value));
 }
 
 const char* hilayout_element_node_get_private_attr (HLDomElementNode* node, uint64_t attr_id)
@@ -414,7 +414,7 @@ const char* hilayout_element_node_get_private_attr (HLDomElementNode* node, uint
         return NULL;
     }
 
-    return g_hash_table_lookup(node->private_attrs, (gpointer)&attr_id);
+    return g_hash_table_lookup(node->private_attrs, (gpointer)attr_id);
 }
 
 
