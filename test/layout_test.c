@@ -218,7 +218,7 @@ int main(int argc, char **argv)
     strcpy(buf, "this is test buf for inner data.\n");
     _hl_element_node_set_inner_data(hijs, "innerData", buf, destory_user_data);
     udata = _hl_element_node_get_inner_data(hijs, "innerData");
-    fprintf(stderr, "############### test get user data key=innerData | value =%s\n",  (char*)udata);
+    fprintf(stderr, "############### test get inner data key=innerData | value =%s\n",  (char*)udata);
 
     hilayout_css_destroy(css);
 
