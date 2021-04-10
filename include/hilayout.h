@@ -266,12 +266,7 @@ typedef void  (*HlDestroyCallback)(void* data);
 int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
 void* hilayout_element_node_get_user_data(HLDomElementNode* node, const char* key);
 
-int hilayout_element_node_set_private_data(HLDomElementNode* node, void* data);
-void* hilayout_element_node_get_private_data(HLDomElementNode* node);
-
-
-typedef void  (* HILAYOUT_ELEMENT_NODE_DESTROY_CALLBACK)(void* data);
-void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE_DESTROY_CALLBACK callback);
+void hilayout_element_node_destroy(HLDomElementNode *node);
 
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node);
 const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node);

@@ -85,6 +85,14 @@ char* readCSS(char* filename)
     return text;
 }
 
+void destory_user_data(void* data)
+{
+    fprintf(stderr, "................................user data is callback\n");
+    fprintf(stderr, "data is %s\n", (char*)data);
+    free(data);
+
+}
+
 int main(int argc, char **argv)
 {
 	size_t size;
@@ -200,17 +208,25 @@ int main(int argc, char **argv)
     _hl_element_node_set_inner_attr(hijs, "innerKey", "innerValue2222");
     fprintf(stderr, "############### test get attr id=%ld | value =%s\n", HL_ATTR_ID_WIDTH, _hl_element_node_get_inner_attr(hijs, "innerKey2"));
 
+    char* buf = (char*)malloc(100);
+    strcpy(buf, "this is test buf for userdata.\n");
+
+    hilayout_element_node_set_user_data(hijs, "userData", buf, destory_user_data);
+
+    void* udata = hilayout_element_node_get_user_data(hijs, "userData");
+    fprintf(stderr, "############### test get user data key=userData | value =%s\n",  (char*)udata);
+
     hilayout_css_destroy(css);
 
-    hilayout_element_node_destroy(root, NULL);
-    hilayout_element_node_destroy(title, NULL);
-    hilayout_element_node_destroy(page, NULL);
-    hilayout_element_node_destroy(description, NULL);
-    hilayout_element_node_destroy(indicator, NULL);
-    hilayout_element_node_destroy(hiweb, NULL);
-    hilayout_element_node_destroy(hiweb2, NULL);
-    hilayout_element_node_destroy(hijs, NULL);
-    hilayout_element_node_destroy(hijs2, NULL);
+    hilayout_element_node_destroy(root);
+    hilayout_element_node_destroy(title);
+    hilayout_element_node_destroy(page);
+    hilayout_element_node_destroy(description);
+    hilayout_element_node_destroy(indicator);
+    hilayout_element_node_destroy(hiweb);
+    hilayout_element_node_destroy(hiweb2);
+    hilayout_element_node_destroy(hijs);
+    hilayout_element_node_destroy(hijs2);
 
 	return 0;
 }

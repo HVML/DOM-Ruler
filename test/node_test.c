@@ -51,11 +51,6 @@
 
 #include "hilayout.h"
 
-void clear_private(void* data)
-{
-    HL_LOGW("clear_private is called|data=%p\n", data);
-}
-
 int main(int argc, char **argv)
 {
 
@@ -80,12 +75,6 @@ int main(int argc, char **argv)
 
     value = hilayout_element_node_get_style(root);
     HL_LOGW("test|get attribute|attr=style|value=%s\n", value);
-
-    // test private data
-    char buf[] = "xsm";
-    hilayout_element_node_set_private_data(root, buf);
-    void* data = hilayout_element_node_get_private_data(root);
-    HL_LOGW("test|get private data|data=%p\n", data);
 
     // test content
     hilayout_element_node_set_content(root, "this is content for test.");
@@ -114,7 +103,7 @@ int main(int argc, char **argv)
     }
 
 
-    hilayout_element_node_destroy(root, clear_private);
+    hilayout_element_node_destroy(root);
 	return 0;
 }
 

@@ -118,8 +118,6 @@ typedef struct HLDomElementNode_ {
     GHashTable* inner_attrs;    // inner attrs
 
     GHashTable* user_data;     // user data key(string) -> value(struct)
-    void* private_data;
-
 
     //inner layout
     LayoutType layout_type;

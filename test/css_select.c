@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 			HL_LOGW("color of h%i is %x\n", hh, color_shade);
 
         _hilayout_css_select_result_destroy(style);
-        hilayout_element_node_destroy(domNode, NULL);
+        hilayout_element_node_destroy(domNode);
 	}
 
 

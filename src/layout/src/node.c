@@ -211,18 +211,6 @@ const char* hilayout_element_node_get_style(HLDomElementNode* node)
     return node ? node->style : NULL;
 }
 
-
-int hilayout_element_node_set_private_data(HLDomElementNode* node, void* data)
-{
-    if (node)
-        node->private_data = data;
-}
-
-void* hilayout_element_node_get_private_data(HLDomElementNode* node)
-{
-    return node ? node->private_data : NULL;
-}
-
 int hilayout_element_node_set_content(HLDomElementNode* node, const char* content)
 {
     if (node == NULL)
@@ -244,7 +232,7 @@ const char* hilayout_element_node_get_content(HLDomElementNode* node)
     return node ? node->content : NULL;
 }
 
-void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE_DESTROY_CALLBACK callback)
+void hilayout_element_node_destroy(HLDomElementNode *node)
 {
     if (node == NULL)
     {
@@ -284,11 +272,6 @@ void hilayout_element_node_destroy(HLDomElementNode *node, HILAYOUT_ELEMENT_NODE
     if (node->content)
     {
         free(node->content);
-    }
-
-    if (node->private_data && callback)
-    {
-        callback(node->private_data);
     }
 
     if (node->user_attrs)
