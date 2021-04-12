@@ -252,20 +252,50 @@ int hilayout_css_append_data(HLCSS* css, const char* data, size_t len);
 int hilayout_css_destroy(HLCSS* css);
 
 HLDomElementNode* hilayout_element_node_create(const char* tag_name);
-
 const char* hilayout_element_node_get_tag_name(HLDomElementNode* node);
-
-void hilayout_element_node_set_id(HLDomElementNode* node, const char* id);
-const char* hilayout_element_node_get_id(HLDomElementNode* node);
-
-void hilayout_element_node_set_class_name(HLDomElementNode* node, const char* v);
-const char* hilayout_element_node_get_class_name(HLDomElementNode* node);
-
-void hilayout_element_node_set_style(HLDomElementNode* node, const char* style);
-const char* hilayout_element_node_get_style(HLDomElementNode* node);
 
 int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttribute attr_id, const char* value);
 const char* hilayout_element_node_get_common_attr (HLDomElementNode* node, HLCommonAttribute attr_id);
+
+static inline void hilayout_element_node_set_id(HLDomElementNode* node, const char* id)
+{
+    hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_ID, id);
+}
+
+static inline const char* hilayout_element_node_get_id(HLDomElementNode* node)
+{
+    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_ID);
+}
+
+static inline void hilayout_element_node_set_class_name(HLDomElementNode* node, const char* class_name)
+{
+    hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_CLASS_NAME, class_name);
+}
+
+static inline const char* hilayout_element_node_get_class_name(HLDomElementNode* node)
+{
+    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_CLASS_NAME);
+}
+
+static inline void hilayout_element_node_set_style(HLDomElementNode* node, const char* style)
+{
+    hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_STYLE, style);
+}
+
+static inline const char* hilayout_element_node_get_style(HLDomElementNode* node)
+{
+    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_STYLE);
+}
+
+static inline void hilayout_element_node_set_name(HLDomElementNode* node, const char* name)
+{
+    hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_NAME, name);
+}
+
+static inline const char* hilayout_element_node_get_name(HLDomElementNode* node)
+{
+    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_NAME);
+}
 
 int hilayout_element_node_set_general_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
 const char* hilayout_element_node_get_general_attr(HLDomElementNode* node, const char* attr_name);

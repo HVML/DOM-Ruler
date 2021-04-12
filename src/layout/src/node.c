@@ -112,27 +112,6 @@ const char* hilayout_element_node_get_tag_name(HLDomElementNode* node)
     return node ? node->tag : NULL;
 }
 
-void hilayout_element_node_set_id(HLDomElementNode* node, const char* value)
-{
-    if (node == NULL)
-    {
-        return;
-    }
-
-    if (node->id)
-    {
-        free(node->id);
-        _hilayout_lwc_string_destroy(node->inner_id);
-    }
-    node->id = strdup(value);
-    node->inner_id = _hilayout_lwc_string_dup(value);
-}
-
-const char* hilayout_element_node_get_id(HLDomElementNode* node)
-{
-    return node ? node->id : NULL;
-}
-
 static const char _HILAYOUT_WHITESPACE[] = " ";
 void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
 {
@@ -149,50 +128,6 @@ void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
         c = strtok(NULL, _HILAYOUT_WHITESPACE);
     }
     free(value);
-}
-
-
-void hilayout_element_node_set_class_name(HLDomElementNode* node, const char* value)
-{
-    if (node == NULL)
-    {
-        return;
-    }
-
-    if (node->class_name)
-    {
-        free(node->class_name);
-        for (int i = 0; i < node->inner_classes_count; i++)
-        {
-            _hilayout_lwc_string_destroy(node->inner_classes[i]);
-        }
-    }
-    node->class_name = strdup(value);
-    _hilayout_fill_inner_classes(node, value);
-}
-
-const char* hilayout_element_node_get_class_name(HLDomElementNode* node)
-{
-    return node ? node->class_name : NULL;
-}
-
-void hilayout_element_node_set_style(HLDomElementNode* node, const char* value)
-{
-    if (node == NULL)
-    {
-        return;
-    }
-
-    if (node->style)
-    {
-        free(node->style);
-    }
-    node->style = strdup(value);
-}
-
-const char* hilayout_element_node_get_style(HLDomElementNode* node)
-{
-    return node ? node->style : NULL;
 }
 
 void hilayout_element_node_destroy(HLDomElementNode *node)
@@ -357,6 +292,11 @@ int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttrib
     if (node->common_attrs == NULL)
     {
         node->common_attrs = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, _hl_destory_common_attr_value);
+    }
+
+    if (attr_id == HL_COMMON_ATTR_CLASS_NAME)
+    {
+        _hilayout_fill_inner_classes(node, attr_value);
     }
 
     return g_hash_table_insert(node->common_attrs, (gpointer)attr_id, (gpointer)strdup(attr_value));
