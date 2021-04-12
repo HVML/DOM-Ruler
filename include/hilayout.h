@@ -100,7 +100,9 @@ typedef enum HLCommonAttribute_ {
     HL_COMMON_ATTR_ID           = 0,
     HL_COMMON_ATTR_CLASS_NAME   = 1,
     HL_COMMON_ATTR_STYLE        = 2,
-    HL_COMMON_ATTR_NAME         = 3
+    HL_COMMON_ATTR_NAME         = 3,
+
+    HL_COMMON_ATTR_COUNT
 } HLCommonAttribute;
 
 // property

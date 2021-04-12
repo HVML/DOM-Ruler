@@ -335,7 +335,11 @@ void _hl_destory_common_attr_value (gpointer data)
 
 int _hl_verify_common_attr_id(HLDomElementNode* node, HLCommonAttribute attr_id)
 {
-    return HILAYOUT_OK;
+    if (attr_id >= 0 && attr_id < HL_COMMON_ATTR_COUNT)
+    {
+        return HILAYOUT_OK;
+    }
+    return HILAYOUT_BADPARM;
 }
 
 int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttribute attr_id, const char* attr_value)
