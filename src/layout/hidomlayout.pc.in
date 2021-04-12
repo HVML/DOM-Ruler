@@ -3,9 +3,9 @@ exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
 
-Name: libhilayout
-Description: hilayout library
+Name: libhidomlayout
+Description: hidomlayout library
 Version: 0.1
 Requires: glib-2.0
-Libs: -L${libdir} -lhilayout
+Libs: -L${libdir} -lhidomlayout
 Cflags: -I${includedir}

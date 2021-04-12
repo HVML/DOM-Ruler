@@ -43,11 +43,11 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-project(hilayout)
+project(hidomlayout)
 
 #add_definitions(-D_DEBUG)
 
-list(APPEND hilayout_INCLUDE_DIRECTORIES
+list(APPEND hidomlayout_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
@@ -55,7 +55,7 @@ list(APPEND hilayout_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
-list(APPEND hilayout_SOURCES
+list(APPEND hidomlayout_SOURCES
     src/node.c
     src/select.c
     src/utils.c
@@ -65,12 +65,12 @@ list(APPEND hilayout_SOURCES
     src/layout_grid.c
 )
 
-include_directories(${hilayout_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
+include_directories(${hidomlayout_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 link_directories(${GLIB_LIBRARIES})
-add_library(hilayout SHARED ${hilayout_SOURCES})
-target_link_libraries(hilayout css)
+add_library(hidomlayout SHARED ${hidomlayout_SOURCES})
+target_link_libraries(hidomlayout css)
 
-configure_file(hilayout.pc.in hilayout.pc @ONLY)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hilayout.pc DESTINATION lib/pkgconfig)
+configure_file(hidomlayout.pc.in hidomlayout.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hidomlayout.pc DESTINATION lib/pkgconfig)
 install(FILES ${CMAKE_SOURCE_DIR}/include/hilayout.h DESTINATION include)
-install(TARGETS hilayout DESTINATION lib)
+install(TARGETS hidomlayout DESTINATION lib)
