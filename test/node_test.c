@@ -76,11 +76,6 @@ int main(int argc, char **argv)
     value = hilayout_element_node_get_style(root);
     HL_LOGW("test|get attribute|attr=style|value=%s\n", value);
 
-    // test content
-    hilayout_element_node_set_content(root, "this is content for test.");
-    value = hilayout_element_node_get_content(root);
-    HL_LOGW("test|get content|content=%s\n", value);
-
     // output test
     const HLUsedBoxValues* box = hilayout_element_node_get_used_box_value(root);
     HL_LOGW("test|get box value|ret=%p\n", box);

@@ -200,10 +200,10 @@ int main(int argc, char **argv)
     fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_user_attr(hijs, "xsmKey"));
     
     fprintf(stderr, ".......................HL_PROP_CATEGORY_BOX=%d\n", HL_PROP_CATEGORY_BOX);
-    hilayout_element_node_set_private_attr(hijs, HL_PROP_ID_WIDTH, "privateValue1111");
-    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, hilayout_element_node_get_private_attr(hijs, HL_PROP_ID_WIDTH));
+    hilayout_element_node_set_common_attr(hijs, HL_PROP_ID_WIDTH, "privateValue1111");
+    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, hilayout_element_node_get_common_attr(hijs, HL_PROP_ID_WIDTH));
 
-    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_BACKGROUND_COLOR, hilayout_element_node_get_private_attr(hijs, HL_PROP_ID_BACKGROUND_COLOR));
+    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_BACKGROUND_COLOR, hilayout_element_node_get_common_attr(hijs, HL_PROP_ID_BACKGROUND_COLOR));
 
     _hl_element_node_set_inner_attr(hijs, "innerKey", "innerValue2222");
     fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, _hl_element_node_get_inner_attr(hijs, "innerKey2"));

@@ -211,27 +211,6 @@ const char* hilayout_element_node_get_style(HLDomElementNode* node)
     return node ? node->style : NULL;
 }
 
-int hilayout_element_node_set_content(HLDomElementNode* node, const char* content)
-{
-    if (node == NULL)
-    {
-        HL_LOGE("set content|node=%p|content=%s|param error\n", node, content);
-        return HILAYOUT_BADPARM;
-    }
-
-    if (node->content)
-    {
-        free(node->content);
-    }
-    node->content = strdup(content);
-    return HILAYOUT_OK;
-}
-
-const char* hilayout_element_node_get_content(HLDomElementNode* node)
-{
-    return node ? node->content : NULL;
-}
-
 void hilayout_element_node_destroy(HLDomElementNode *node)
 {
     if (node == NULL)
@@ -269,14 +248,9 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         free(node->style);
     }
 
-    if (node->content)
+    if (node->common_attrs)
     {
-        free(node->content);
-    }
-
-    if (node->private_attrs)
-    {
-        g_hash_table_destroy(node->private_attrs);
+        g_hash_table_destroy(node->common_attrs);
     }
 
     if (node->user_attrs)
@@ -370,49 +344,49 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
     return HILAYOUT_OK;
 }
 
-void _hl_destory_private_attr_value (gpointer data)
+void _hl_destory_common_attr_value (gpointer data)
 {
     free(data);
 }
 
-int _hl_verify_private_attr_id(HLDomElementNode* node, uint64_t attr_id)
+int _hl_verify_common_attr_id(HLDomElementNode* node, uint64_t attr_id)
 {
     return HILAYOUT_OK;
 }
 
-int hilayout_element_node_set_private_attr(HLDomElementNode* node, uint64_t attr_id, const char* attr_value)
+int hilayout_element_node_set_common_attr(HLDomElementNode* node, uint64_t attr_id, const char* attr_value)
 {
     if (node == NULL || attr_value == NULL)
     {
         return HILAYOUT_OK;
     }
 
-    if (HILAYOUT_OK != _hl_verify_private_attr_id(node, attr_id))
+    if (HILAYOUT_OK != _hl_verify_common_attr_id(node, attr_id))
     {
         return HILAYOUT_BADPARM;
     }
     
-    if (node->private_attrs == NULL)
+    if (node->common_attrs == NULL)
     {
-        node->private_attrs = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, _hl_destory_private_attr_value);
+        node->common_attrs = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, _hl_destory_common_attr_value);
     }
 
-    return g_hash_table_insert(node->private_attrs, (gpointer)attr_id, (gpointer)strdup(attr_value));
+    return g_hash_table_insert(node->common_attrs, (gpointer)attr_id, (gpointer)strdup(attr_value));
 }
 
-const char* hilayout_element_node_get_private_attr (HLDomElementNode* node, uint64_t attr_id)
+const char* hilayout_element_node_get_common_attr (HLDomElementNode* node, uint64_t attr_id)
 {
-    if (node == NULL || node->private_attrs == NULL)
+    if (node == NULL || node->common_attrs == NULL)
     {
         return NULL;
     }
 
-    if (HILAYOUT_OK != _hl_verify_private_attr_id(node, attr_id))
+    if (HILAYOUT_OK != _hl_verify_common_attr_id(node, attr_id))
     {
         return NULL;
     }
 
-    return g_hash_table_lookup(node->private_attrs, (gpointer)attr_id);
+    return g_hash_table_lookup(node->common_attrs, (gpointer)attr_id);
 }
 
 

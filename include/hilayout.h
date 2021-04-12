@@ -253,11 +253,8 @@ const char* hilayout_element_node_get_class_name(HLDomElementNode* node);
 void hilayout_element_node_set_style(HLDomElementNode* node, const char* style);
 const char* hilayout_element_node_get_style(HLDomElementNode* node);
 
-int hilayout_element_node_set_content(HLDomElementNode* node, const char* content);
-const char* hilayout_element_node_get_content(HLDomElementNode* node);
-
-int hilayout_element_node_set_private_attr(HLDomElementNode* node, uint64_t attr_id, const char* value);
-const char* hilayout_element_node_get_private_attr (HLDomElementNode* node, uint64_t attr_id);
+int hilayout_element_node_set_common_attr(HLDomElementNode* node, uint64_t attr_id, const char* value);
+const char* hilayout_element_node_get_common_attr (HLDomElementNode* node, uint64_t attr_id);
 
 int hilayout_element_node_set_user_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
 const char* hilayout_element_node_get_user_attr(HLDomElementNode* node, const char* attr_name);
