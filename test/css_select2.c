@@ -53,7 +53,7 @@
 #include "node.h"
 #include "select.h"
 #include "layout.h"
-#include "hilayout.h"
+#include "hidomlayout.h"
 /*
  
    <div id="root">

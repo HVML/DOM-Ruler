@@ -49,7 +49,7 @@
 #ifndef _HL_NODE_H
 #define _HL_NODE_H
 
-#include "hilayout.h"
+#include "hidomlayout.h"
 #include <libcss/libcss.h>
 #include <glib.h>
 

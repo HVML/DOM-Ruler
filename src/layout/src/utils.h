@@ -48,7 +48,7 @@
 #ifndef _HL_UTILS_H_
 #define _HL_UTILS_H_
 
-#include "hilayout.h"
+#include "hidomlayout.h"
 #include <libcss/libcss.h>
 
 // top, right, bottom, left

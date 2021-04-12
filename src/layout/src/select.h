@@ -51,7 +51,7 @@
 
 #include <libcss/libcss.h>
 
-#include "hilayout.h"
+#include "hidomlayout.h"
 
 #include "node.h"
 

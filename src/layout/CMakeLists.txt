@@ -72,5 +72,5 @@ target_link_libraries(hidomlayout css)
 
 configure_file(hidomlayout.pc.in hidomlayout.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hidomlayout.pc DESTINATION lib/pkgconfig)
-install(FILES ${CMAKE_SOURCE_DIR}/include/hilayout.h DESTINATION include)
+install(FILES ${CMAKE_SOURCE_DIR}/include/hidomlayout.h DESTINATION include)
 install(TARGETS hidomlayout DESTINATION lib)
