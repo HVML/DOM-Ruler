@@ -107,22 +107,6 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     return node;
 }
 
-void hilayout_element_node_set_tag_name(HLDomElementNode* node, const char* tag)
-{
-    if (node == NULL)
-    {
-        return;
-    }
-
-    if (node->tag)
-    {
-        free(node->tag);
-        _hilayout_lwc_string_destroy(node->inner_tag);
-    }
-    node->tag = strdup(tag);
-    node->inner_tag = _hilayout_lwc_string_dup(tag);
-}
-
 const char* hilayout_element_node_get_tag_name(HLDomElementNode* node)
 {
     return node ? node->tag : NULL;
@@ -253,9 +237,9 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         g_hash_table_destroy(node->common_attrs);
     }
 
-    if (node->user_attrs)
+    if (node->general_attrs)
     {
-        g_hash_table_destroy(node->user_attrs);
+        g_hash_table_destroy(node->general_attrs);
     }
 
     if (node->user_data)
@@ -349,12 +333,12 @@ void _hl_destory_common_attr_value (gpointer data)
     free(data);
 }
 
-int _hl_verify_common_attr_id(HLDomElementNode* node, uint64_t attr_id)
+int _hl_verify_common_attr_id(HLDomElementNode* node, HLCommonAttribute attr_id)
 {
     return HILAYOUT_OK;
 }
 
-int hilayout_element_node_set_common_attr(HLDomElementNode* node, uint64_t attr_id, const char* attr_value)
+int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttribute attr_id, const char* attr_value)
 {
     if (node == NULL || attr_value == NULL)
     {
@@ -374,7 +358,7 @@ int hilayout_element_node_set_common_attr(HLDomElementNode* node, uint64_t attr_
     return g_hash_table_insert(node->common_attrs, (gpointer)attr_id, (gpointer)strdup(attr_value));
 }
 
-const char* hilayout_element_node_get_common_attr (HLDomElementNode* node, uint64_t attr_id)
+const char* hilayout_element_node_get_common_attr (HLDomElementNode* node, HLCommonAttribute attr_id)
 {
     if (node == NULL || node->common_attrs == NULL)
     {
@@ -390,38 +374,38 @@ const char* hilayout_element_node_get_common_attr (HLDomElementNode* node, uint6
 }
 
 
-void _hl_destory_user_attr_key (gpointer data)
+void _hl_destory_general_attr_key (gpointer data)
 {
     free(data);
 }
 
-void _hl_destory_user_attr_value (gpointer data)
+void _hl_destory_general_attr_value (gpointer data)
 {
     free(data);
 }
 
-int hilayout_element_node_set_user_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value)
+int hilayout_element_node_set_general_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value)
 {
     if (node == NULL || attr_name == NULL || attr_value == NULL)
     {
         return HILAYOUT_OK;
     }
 
-    if (node->user_attrs == NULL)
+    if (node->general_attrs == NULL)
     {
-        node->user_attrs = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_user_attr_key, _hl_destory_user_attr_value);
+        node->general_attrs = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_general_attr_key, _hl_destory_general_attr_value);
     }
 
-    return g_hash_table_insert(node->user_attrs, (gpointer)strdup(attr_name), (gpointer)strdup(attr_value));
+    return g_hash_table_insert(node->general_attrs, (gpointer)strdup(attr_name), (gpointer)strdup(attr_value));
 }
 
-const char* hilayout_element_node_get_user_attr(HLDomElementNode* node, const char* attr_name)
+const char* hilayout_element_node_get_general_attr(HLDomElementNode* node, const char* attr_name)
 {
-    if (node == NULL || attr_name == NULL || node->user_attrs == NULL)
+    if (node == NULL || attr_name == NULL || node->general_attrs == NULL)
     {
         return NULL;
     }
-    return g_hash_table_lookup(node->user_attrs, (gpointer)attr_name);
+    return g_hash_table_lookup(node->general_attrs, (gpointer)attr_name);
 }
 
 void _hl_destory_inner_attr_key (gpointer data)

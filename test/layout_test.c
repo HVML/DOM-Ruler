@@ -193,11 +193,11 @@ int main(int argc, char **argv)
     const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(hijs);
     fprintf(stderr, "############### txtVaule=%p|txt->family=%s\n", txtVaule, txtVaule->family);
 
-    hilayout_element_node_set_user_attr(hijs, "xsmKey", "xsmValue");
-    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_user_attr(hijs, "xsmKey"));
+    hilayout_element_node_set_general_attr(hijs, "xsmKey", "xsmValue");
+    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_general_attr(hijs, "xsmKey"));
 
-    hilayout_element_node_set_user_attr(hijs, "xsmKey", "xsmValue2222222");
-    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_user_attr(hijs, "xsmKey"));
+    hilayout_element_node_set_general_attr(hijs, "xsmKey", "xsmValue2222222");
+    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_general_attr(hijs, "xsmKey"));
     
     fprintf(stderr, ".......................HL_PROP_CATEGORY_BOX=%d\n", HL_PROP_CATEGORY_BOX);
     hilayout_element_node_set_common_attr(hijs, HL_PROP_ID_WIDTH, "privateValue1111");

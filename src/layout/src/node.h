@@ -119,7 +119,7 @@ typedef struct HLDomElementNode_ {
 
     GHashTable* common_attrs;  // common attrs key(uint64_t) -> value(string)
 
-    GHashTable* user_attrs;     // user attrs key(string) -> value(string)
+    GHashTable* general_attrs;     // user attrs key(string) -> value(string)
     GHashTable* user_data;     // user data key(string) -> value(HLAttachData)
 
     GHashTable* inner_attrs;    // inner attrs key(string) -> value(string)
