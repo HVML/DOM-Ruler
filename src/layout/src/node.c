@@ -137,34 +137,9 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         return;
     }
 
-    if (node->node_name)
-    {
-        free(node->node_name);
-    }
-
-    if (node->node_value)
-    {
-        free(node->node_value);
-    }
-
     if (node->tag)
     {
         free(node->tag);
-    }
-
-    if (node->id)
-    {
-        free(node->id);
-    }
-
-    if (node->class_name)
-    {
-        free(node->class_name);
-    }
-
-    if (node->style)
-    {
-        free(node->style);
     }
 
     if (node->common_attrs)
@@ -294,10 +269,26 @@ int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttrib
         node->common_attrs = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, _hl_destory_common_attr_value);
     }
 
+    switch (attr_id)
+    {
+        case HL_COMMON_ATTR_ID:
+            {
+                if (node->inner_id)
+                {
+                    _hilayout_lwc_string_destroy(node->inner_id);
+                }
+                node->inner_id = _hilayout_lwc_string_dup(attr_value);
+            }
+            break;
+
+        case HL_COMMON_ATTR_CLASS_NAME:
+            _hilayout_fill_inner_classes(node, attr_value);
+            break;
+    }
     if (attr_id == HL_COMMON_ATTR_CLASS_NAME)
     {
-        _hilayout_fill_inner_classes(node, attr_value);
     }
+
 
     return g_hash_table_insert(node->common_attrs, (gpointer)attr_id, (gpointer)strdup(attr_value));
 }

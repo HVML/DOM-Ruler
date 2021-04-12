@@ -1284,7 +1284,8 @@ int _hilayout_select_node_style(const css_media* media, css_select_ctx* select_c
         node->select_styles = result;
         node->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
         node->layout_type = _hl_computed_display(node->computed_style, _hl_node_is_root(node));
-        HL_LOGD("select node style|tag=%s|id=%s|name=%s|layout_type=%d\n", node->tag, node->id, node->name, node->layout_type);
+        HL_LOGD("select node style|tag=%s|id=%s|name=%s|layout_type=%d\n", 
+                node->tag, hilayout_element_node_get_id(node), hilayout_element_node_get_name(node), node->layout_type);
         return HILAYOUT_OK;
     }
     return HILAYOUT_SELECT_STYLE_ERR;
@@ -1300,10 +1301,10 @@ css_select_results* _hilayout_get_node_style(const css_media* media, css_select_
 
     // prepare inline style
     css_stylesheet* inline_style = NULL;
-    const char* style = node->style;
+    const char* style = hilayout_element_node_get_style(node);
     if (style != NULL)
     {
-        HL_LOGW("node style |tag=%s|id=%s|style=%s\n", node->tag, node->id, node->style);
+        HL_LOGW("node style |tag=%s|id=%s|style=%s\n", node->tag, hilayout_element_node_get_id(node), style);
         inline_style = _hilayout_css_stylesheet_inline_style_create(style, strlen(style));
     }
 

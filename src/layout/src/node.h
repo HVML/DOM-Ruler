@@ -109,13 +109,7 @@ typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* previous;    /**< Previous sibling */
     struct HLDomElementNode_* next;        /**< Next sibling */
 
-    char* node_name;  // dom nodeName
-    char* node_value; // dom nodeValue
-
     char* tag;
-    char* id;
-    char* class_name;
-    char* style;
 
     GHashTable* common_attrs;  // common attrs key(uint64_t) -> value(string)
 

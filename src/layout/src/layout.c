@@ -554,7 +554,7 @@ int _hl_block_find_dimensions(HLContext* ctx,
     int sw = _hl_solve_width(node, container_width, width, 0, 0, max_width, min_width);
     int sh = height;
     HL_LOGD("block node dimension|tag=%s|id=%s|nw=%d|max_width=%d|min_width=%d|nh=%d|max_height=%d|min_height=%d|sw=%d|sh=%d\n",
-            node->tag, node->id,
+            node->tag, hilayout_element_node_get_id(node),
             width, max_width, min_width,
             height, max_height, min_height,
             sw, sh
@@ -647,7 +647,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     }
 
     HL_LOGD("layout node|level=%d|tag=%s|id=%s|in x=%d|y=%d|container_width=%d|container_height=%d\n",
-            level, node->tag, node->id, x, y, container_width, container_height);
+            level, node->tag, hilayout_element_node_get_id(node), x, y, container_width, container_height);
     node->box_values.x = x;
     node->box_values.y = y;
 
@@ -696,7 +696,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     {
         HL_LOGW("layout node|level=%d|tag=%s|id=%s|(%f, %f, %f, %f)"
                 "|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%d\n",
-                level, node->tag, node->id,
+                level, node->tag, hilayout_element_node_get_id(node),
                 node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
                 node->background_values.color,
                 node->text_values.family, node->text_values.color, node->text_values.weight,
@@ -711,7 +711,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         case LAYOUT_INLINE_GRID:
             {
                 HL_LOGW("layout node|level=%d|tag=%s|id=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%d\n",
-                        level, node->tag, node->id,
+                        level, node->tag, hilayout_element_node_get_id(node),
                         node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
                         node->background_values.color,
                         node->text_values.family, node->text_values.color, node->text_values.weight,
@@ -805,7 +805,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 
     HL_LOGW("layout node|level=%d|tag=%s|id=%s|"
             "(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%d\n",
-            level, node->tag, node->id,
+            level, node->tag, hilayout_element_node_get_id(node),
             node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
             node->background_values.color,
             node->text_values.family, node->text_values.color, node->text_values.weight,
