@@ -59,7 +59,6 @@ typedef struct HLCSS_ {
     css_stylesheet* sheet;
     css_stylesheet* ua_sheet;
     int done;
-    uint64_t attrs_filter;
 } HLCSS;
 
 #ifdef __cplusplus

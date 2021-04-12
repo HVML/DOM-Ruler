@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 		.type = CSS_MEDIA_SCREEN,
 	};
 
-    HLCSS* css = hilayout_css_create(HL_ATTR_GROUP_ALL);
+    HLCSS* css = hilayout_css_create();
     if (css == NULL)
     {
         HL_LOGE("create HLCSS failed.\n");

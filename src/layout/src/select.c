@@ -1187,7 +1187,7 @@ css_stylesheet* _hilayout_css_stylesheet_inline_style_create(const uint8_t *data
 }
 
 
-HLCSS* hilayout_css_create(uint64_t attrs_filter)
+HLCSS* hilayout_css_create()
 {
     css_stylesheet *sheet = _hilayout_css_stylesheet_create(DEFAULT_CHARSET, DEFAULT_URL, true, false);
     if (sheet == NULL)
@@ -1199,7 +1199,6 @@ HLCSS* hilayout_css_create(uint64_t attrs_filter)
     css->ua_sheet = _hilayout_css_stylesheet_create_ua_css();
     css->sheet = sheet;
     css->done = 0;
-    css->attrs_filter = attrs_filter;
 
     return css;
 }

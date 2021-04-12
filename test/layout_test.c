@@ -130,7 +130,7 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "%s\n", css_data);
 
-    HLCSS* css = hilayout_css_create(HL_ATTR_GROUP_ALL);
+    HLCSS* css = hilayout_css_create();
     if (css == NULL)
     {
         HL_LOGE("create HLCSS failed.\n");
@@ -199,14 +199,14 @@ int main(int argc, char **argv)
     hilayout_element_node_set_user_attr(hijs, "xsmKey", "xsmValue2222222");
     fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_user_attr(hijs, "xsmKey"));
     
-    fprintf(stderr, ".......................HL_ATTR_GROUP_BOX=%d\n", HL_ATTR_GROUP_BOX);
-    hilayout_element_node_set_private_attr(hijs, HL_ATTR_ID_WIDTH, "privateValue1111");
-    fprintf(stderr, "############### test get attr id=%ld | value =%s\n", HL_ATTR_ID_WIDTH, hilayout_element_node_get_private_attr(hijs, HL_ATTR_ID_WIDTH));
+    fprintf(stderr, ".......................HL_PROP_CATEGORY_BOX=%d\n", HL_PROP_CATEGORY_BOX);
+    hilayout_element_node_set_private_attr(hijs, HL_PROP_ID_WIDTH, "privateValue1111");
+    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, hilayout_element_node_get_private_attr(hijs, HL_PROP_ID_WIDTH));
 
-    fprintf(stderr, "############### test get attr id=%ld | value =%s\n", HL_ATTR_ID_BACKGROUND_COLOR, hilayout_element_node_get_private_attr(hijs, HL_ATTR_ID_BACKGROUND_COLOR));
+    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_BACKGROUND_COLOR, hilayout_element_node_get_private_attr(hijs, HL_PROP_ID_BACKGROUND_COLOR));
 
     _hl_element_node_set_inner_attr(hijs, "innerKey", "innerValue2222");
-    fprintf(stderr, "############### test get attr id=%ld | value =%s\n", HL_ATTR_ID_WIDTH, _hl_element_node_get_inner_attr(hijs, "innerKey2"));
+    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, _hl_element_node_get_inner_attr(hijs, "innerKey2"));
 
     char* buf = (char*)malloc(100);
     strcpy(buf, "this is test buf for userdata.\n");
