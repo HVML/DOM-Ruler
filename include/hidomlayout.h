@@ -267,12 +267,12 @@ static inline const char* hilayout_element_node_get_id(HLDomElementNode* node)
     return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_ID);
 }
 
-static inline void hilayout_element_node_set_class_name(HLDomElementNode* node, const char* class_name)
+static inline void hilayout_element_node_set_class(HLDomElementNode* node, const char* class_name)
 {
     hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_CLASS_NAME, class_name);
 }
 
-static inline const char* hilayout_element_node_get_class_name(HLDomElementNode* node)
+static inline const char* hilayout_element_node_get_class(HLDomElementNode* node)
 {
     return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_CLASS_NAME);
 }

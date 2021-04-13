@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 
     // test set attribute
     hilayout_element_node_set_id(root, "idAttribute");
-    hilayout_element_node_set_class_name(root, "classA classB classC");
+    hilayout_element_node_set_class(root, "classA classB classC");
     hilayout_element_node_set_style(root, "color=#33333; width=10px;");
 
 
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     const char* value = hilayout_element_node_get_id(root);
     HL_LOGW("test|get attribute|attr=id|value=%s\n", value);
 
-    value = hilayout_element_node_get_class_name(root);
+    value = hilayout_element_node_get_class(root);
     HL_LOGW("test|get attribute|attr=class|value=%s\n", value);
 
     value = hilayout_element_node_get_style(root);
