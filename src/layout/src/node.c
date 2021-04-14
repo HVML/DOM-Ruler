@@ -175,9 +175,9 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         _hilayout_lwc_string_destroy(node->inner_classes[i]);
     }
 
-    if (node->text_values.family)
+    if (node->text_values.font_family)
     {
-        free(node->text_values.family);
+        free(node->text_values.font_family);
     }
 
     if (node->select_styles)

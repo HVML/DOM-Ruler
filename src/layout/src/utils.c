@@ -513,9 +513,9 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
     if (val == CSS_FONT_FAMILY_INHERIT)
     {
         HL_LOGD("layout node|tag=%s|id=%s|font inherit\n", node->tag, node->id);
-        if (node->parent && node->parent->text_values.family)
+        if (node->parent && node->parent->text_values.font_family)
         {
-            node->text_values.family = strdup(node->parent->text_values.family);
+            node->text_values.font_family = strdup(node->parent->text_values.font_family);
         }
     }
     else
@@ -569,12 +569,12 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
             free(buf[i]);
         }
         result[strlen(result) - 1 ] = 0;
-        node->text_values.family = result;
+        node->text_values.font_family = result;
     }
 
     css_computed_font_size(node->computed_style, &length, &unit);
     int text_height = _hl_css_len2px(ctx, length, unit, node->computed_style);
-    node->text_values.size = FIXTOINT(text_height * 3 / 4);
+    node->text_values.font_size = FIXTOINT(text_height * 3 / 4);
 
     css_color color;
     val = css_computed_color(node->computed_style, &color);
@@ -590,34 +590,34 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
     val = css_computed_font_weight(node->computed_style);
 	switch (val) {
 	case CSS_FONT_WEIGHT_100:
-        node->text_values.weight = HLFONT_WEIGHT_THIN;
+        node->text_values.font_weight = HLFONT_WEIGHT_THIN;
 		break;
 	case CSS_FONT_WEIGHT_200:
-        node->text_values.weight = HLFONT_WEIGHT_EXTRA_LIGHT;
+        node->text_values.font_weight = HLFONT_WEIGHT_EXTRA_LIGHT;
 		break;
 	case CSS_FONT_WEIGHT_300:
-        node->text_values.weight = HLFONT_WEIGHT_LIGHT;
+        node->text_values.font_weight = HLFONT_WEIGHT_LIGHT;
 		break;
 	case CSS_FONT_WEIGHT_400:
 	case CSS_FONT_WEIGHT_NORMAL:
 	default:
-        node->text_values.weight = HLFONT_WEIGHT_NORMAL;
+        node->text_values.font_weight = HLFONT_WEIGHT_NORMAL;
 		break;
 	case CSS_FONT_WEIGHT_500:
-        node->text_values.weight = HLFONT_WEIGHT_MEDIUM;
+        node->text_values.font_weight = HLFONT_WEIGHT_MEDIUM;
 		break;
 	case CSS_FONT_WEIGHT_600:
-        node->text_values.weight = HLFONT_WEIGHT_DEMIBOLD;
+        node->text_values.font_weight = HLFONT_WEIGHT_DEMIBOLD;
 		break;
 	case CSS_FONT_WEIGHT_700:
 	case CSS_FONT_WEIGHT_BOLD:
-        node->text_values.weight = HLFONT_WEIGHT_BOLD;
+        node->text_values.font_weight = HLFONT_WEIGHT_BOLD;
 		break;
 	case CSS_FONT_WEIGHT_800:
-        node->text_values.weight = HLFONT_WEIGHT_EXTRA_BOLD;
+        node->text_values.font_weight = HLFONT_WEIGHT_EXTRA_BOLD;
 		break;
 	case CSS_FONT_WEIGHT_900:
-        node->text_values.weight = HLFONT_WEIGHT_BLACK;
+        node->text_values.font_weight = HLFONT_WEIGHT_BLACK;
 		break;
 	}
 }

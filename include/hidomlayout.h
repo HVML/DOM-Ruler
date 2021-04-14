@@ -229,10 +229,11 @@ typedef enum {
 
 
 typedef struct HLUsedTextValues_ {
-    char* family;
-    int size;
     uint32_t color;
-    HLFontWeight weight;
+
+    char* font_family;
+    hl_real_t font_size;
+    HLFontWeight font_weight;
 } HLUsedTextValues;
 
 typedef struct HLMedia_ {
