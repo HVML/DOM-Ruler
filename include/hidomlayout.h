@@ -227,6 +227,63 @@ typedef enum {
     HLFONT_WEIGHT_BLACK           // 900
 } HLFontWeight;
 
+typedef enum {
+    HLTEXT_ALIGN_LEFT,
+    HLTEXT_ALIGN_RIGHT,
+    HLTEXT_ALIGN_CENTER,
+    HLTEXT_ALIGN_JUSTIFY
+} HLTextAlign;
+
+typedef enum {
+    HLTEXT_ALIGN_LAST_AUTO,
+    HLTEXT_ALIGN_LAST_LEFT,
+    HLTEXT_ALIGN_LAST_RIGHT,
+    HLTEXT_ALIGN_LAST_CENTER,
+    HLTEXT_ALIGN_LAST_JUSTIFY,
+    HLTEXT_ALIGN_LAST_START,
+    HLTEXT_ALIGN_LAST_END
+} HLTextAlignLast;
+
+typedef enum {
+    HLTEXT_JUSTIFY_AUTO,
+    HLTEXT_JUSTIFY_NONE,
+    HLTEXT_JUSTIFY_INTER_WORD,
+    HLTEXT_JUSTIFY_INTER_IDEOGRAPH,
+    HLTEXT_JUSTIFY_INTER_CLUSTER,
+    HLTEXT_JUSTIFY_DISTRIBUTE,
+    HLTEXT_JUSTIFY_KASHIDA
+} HLTextJustify;
+
+
+typedef enum {
+    HLTEXT_OVERFLOW_CLIP,
+    HLTEXT_OVERFLOW_ELLIPSIS,
+    HLTEXT_OVERFLOW_STRING
+} HLTextOverflow;
+
+typedef enum {
+    HLTEXT_TRANSFORM_NONE,
+    HLTEXT_TRANSFORM_CAPITALIZE,
+    HLTEXT_TRANSFORM_UPPERCASE,
+    HLTEXT_TRANSFORM_LOWERCASE
+} HLTextTransform;
+
+typedef enum {
+    HLWORD_BREAK_NORMAL,
+    HLWORD_BREAK_BREAK_ALL,
+    HLWORD_BREAK_KEEP_ALL
+} HLWordBreak;
+
+typedef enum {
+    HLWORD_WRAP_NORMAL,
+    HLWORD_WRAP_BREAK_WORD
+} HLWordWrap;
+
+typedef enum {
+    HLWORDWRAP_HORIZONTAL_TB,
+    HLWORDWRAP_VERTICAL_RL,
+    HLWORDWRAP_VERTICAL_LR
+} HLWritingMode;
 
 typedef struct HLUsedTextValues_ {
     uint32_t color;
@@ -234,6 +291,24 @@ typedef struct HLUsedTextValues_ {
     char* font_family;
     hl_real_t font_size;
     HLFontWeight font_weight;
+
+    HLTextAlign text_align;
+    HLTextAlignLast text_align_last;
+    hl_real_t text_indent;
+    HLTextJustify text_justify;
+    HLTextOverflow text_overflow;
+    char* text_overflow_string;
+    hl_real_t text_shadow_h;
+    hl_real_t text_shadow_v;
+    hl_real_t text_shadow_blur;
+    uint32_t text_shadow_color;
+    HLTextTransform text_transform;
+
+    HLWordBreak word_break;
+    hl_real_t word_spacing;
+    HLWordWrap word_wrap;
+
+    HLWritingMode writing_mode;
 } HLUsedTextValues;
 
 typedef struct HLMedia_ {
