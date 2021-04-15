@@ -775,8 +775,10 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                             || child->previous->layout_type == LAYOUT_GRID)
                         )
                 {
+                    fprintf(stderr, "..............................block/grid ----> inline-block modify before cx=%d|cy=%d\n", cx, cy);
                     cx = x;
                     cy = cy + line_height;
+                    fprintf(stderr, "..............................block/grid ----> inline-block modify after cx=%d|cy=%d|line_height=%d\n", cx, cy, line_height);
                 }
                 if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
@@ -785,12 +787,16 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 _hl_block_find_dimensions(ctx, child, cw, ch, 0, 0);
                 if (cx + prev_width + child->box_values.w + left > cw)
                 {
+                    fprintf(stderr, "..............................%s:%d cx=%d|cy=%d\n", __FILE__, __LINE__, cx, cy);
                     cx = x;
                     cy = cy + line_height;
+                    fprintf(stderr, "..............................%s:%d cx=%d|cy=%d\n", __FILE__, __LINE__, cx, cy);
                 }
                 else
                 {
+                    fprintf(stderr, "..............................%s:%d cx=%d|cy=%d\n", __FILE__, __LINE__, cx, cy);
                     cx = cx + prev_width;
+                    fprintf(stderr, "..............................%s:%d cx=%d|cy=%d\n", __FILE__, __LINE__, cx, cy);
                 }
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl);
                 prev_width = child->box_values.w;
