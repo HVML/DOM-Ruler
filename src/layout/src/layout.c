@@ -770,6 +770,11 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 
             case LAYOUT_INLINE_BLOCK:
             case LAYOUT_INLINE_GRID:
+                if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
+                {
+                    _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
+                }
+                _hl_block_find_dimensions(ctx, child, cw, ch, 0, 0);
                 if (child->previous != NULL
                         && (child->previous->layout_type == LAYOUT_BLOCK
                             || child->previous->layout_type == LAYOUT_GRID)
@@ -780,14 +785,9 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                     cy = cy + line_height;
                     fprintf(stderr, "..............................block/grid ----> inline-block modify after cx=%d|cy=%d|line_height=%d\n", cx, cy, line_height);
                 }
-                if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
+                else if (cx + prev_width + child->box_values.w + left > cw)
                 {
-                    _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
-                }
-                _hl_block_find_dimensions(ctx, child, cw, ch, 0, 0);
-                if (cx + prev_width + child->box_values.w + left > cw)
-                {
-                    fprintf(stderr, "..............................%s:%d cx=%d|cy=%d\n", __FILE__, __LINE__, cx, cy);
+                    fprintf(stderr, "..............................%s:%d cx=%d|cy=%d|prev_width=%d|w=%f|left=%d\n", __FILE__, __LINE__, cx, cy, prev_width, child->box_values.w, left);
                     cx = x;
                     cy = cy + line_height;
                     fprintf(stderr, "..............................%s:%d cx=%d|cy=%d\n", __FILE__, __LINE__, cx, cy);
