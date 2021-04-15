@@ -770,6 +770,14 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 
             case LAYOUT_INLINE_BLOCK:
             case LAYOUT_INLINE_GRID:
+                if (child->previous != NULL
+                        && (child->previous->layout_type == LAYOUT_BLOCK
+                            || child->previous->layout_type == LAYOUT_GRID)
+                        )
+                {
+                    cx = x;
+                    cy = cy + line_height;
+                }
                 if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left);
