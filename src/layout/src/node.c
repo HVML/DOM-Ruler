@@ -238,6 +238,11 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
     return HILAYOUT_OK;
 }
 
+HLDomElementNode* hilayout_element_node_get_parent(HLDomElementNode* node)
+{
+    return node ? node->parent : NULL;
+}
+
 void _hl_destory_common_attr_value (gpointer data)
 {
     free(data);
