@@ -243,6 +243,26 @@ HLDomElementNode* hilayout_element_node_get_parent(HLDomElementNode* node)
     return node ? node->parent : NULL;
 }
 
+HLDomElementNode* hilayout_element_node_get_first_child(HLDomElementNode* node)
+{
+    return node ? node->first_child: NULL;
+}
+
+HLDomElementNode* hilayout_element_node_get_last_child(HLDomElementNode* node)
+{
+    return node ? node->last_child : NULL;
+}
+
+HLDomElementNode* hilayout_element_node_get_prev(HLDomElementNode* node)
+{
+    return node ? node->previous : NULL;
+}
+
+HLDomElementNode* hilayout_element_node_get_next(HLDomElementNode* node)
+{
+    return node ? node->next : NULL;
+}
+
 void _hl_destory_common_attr_value (gpointer data)
 {
     free(data);

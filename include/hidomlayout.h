@@ -388,6 +388,10 @@ const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNo
 
 int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent);
 HLDomElementNode* hilayout_element_node_get_parent(HLDomElementNode* node);
+HLDomElementNode* hilayout_element_node_get_first_child(HLDomElementNode* node);
+HLDomElementNode* hilayout_element_node_get_last_child(HLDomElementNode* node);
+HLDomElementNode* hilayout_element_node_get_prev(HLDomElementNode* node);
+HLDomElementNode* hilayout_element_node_get_next(HLDomElementNode* node);
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 
