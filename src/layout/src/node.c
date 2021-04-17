@@ -479,3 +479,17 @@ bool _hl_node_is_root(HLDomElementNode *n)
     return true;
 }
 
+void hilayout_element_node_for_each_child(HLDomElementNode* node, ForEachCallback callback, void* user_data)
+{
+    if (node == NULL || callback == NULL)
+    {
+        return;
+    }
+
+    HLDomElementNode* child = node->first_child;
+    while(child)
+    {
+        callback(child, user_data);
+        child = child->next;
+    }
+}

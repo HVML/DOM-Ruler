@@ -391,6 +391,9 @@ HLDomElementNode* hilayout_element_node_get_parent(HLDomElementNode* node);
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 
+typedef void (*ForEachCallback)(HLDomElementNode* node, void* user_data);
+void hilayout_element_node_for_each_child(HLDomElementNode* node, ForEachCallback callback, void* user_data);
+
 #ifdef __cplusplus
 }
 #endif
