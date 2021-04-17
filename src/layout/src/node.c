@@ -423,7 +423,7 @@ int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key,
 
 void* hilayout_element_node_get_user_data(HLDomElementNode* node, const char* key)
 {
-    if (node == NULL || key == NULL)
+    if (node == NULL || key == NULL || node->user_data == NULL)
     {
         return NULL;
     }
