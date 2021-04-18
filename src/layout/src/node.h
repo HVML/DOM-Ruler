@@ -108,6 +108,7 @@ typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* last_child;  /**< Last child node */
     struct HLDomElementNode_* previous;    /**< Previous sibling */
     struct HLDomElementNode_* next;        /**< Next sibling */
+    uint32_t n_children;        // child count;
 
     char* tag;
 

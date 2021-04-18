@@ -392,6 +392,7 @@ HLDomElementNode* hilayout_element_node_get_first_child(HLDomElementNode* node);
 HLDomElementNode* hilayout_element_node_get_last_child(HLDomElementNode* node);
 HLDomElementNode* hilayout_element_node_get_prev(HLDomElementNode* node);
 HLDomElementNode* hilayout_element_node_get_next(HLDomElementNode* node);
+uint32_t hilayout_element_node_get_children_count(HLDomElementNode* node);
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 

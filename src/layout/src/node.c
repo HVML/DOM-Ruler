@@ -211,6 +211,7 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
     }
 
 
+    parent->n_children++;
     node->parent = parent;
     if (parent->first_child == NULL)
     {
@@ -261,6 +262,11 @@ HLDomElementNode* hilayout_element_node_get_prev(HLDomElementNode* node)
 HLDomElementNode* hilayout_element_node_get_next(HLDomElementNode* node)
 {
     return node ? node->next : NULL;
+}
+
+uint32_t hilayout_element_node_get_children_count(HLDomElementNode* node)
+{
+    return node ? node->n_children: 0;
 }
 
 void _hl_destory_common_attr_value (gpointer data)
