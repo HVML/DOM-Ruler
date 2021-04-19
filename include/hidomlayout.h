@@ -330,59 +330,59 @@ int hilayout_css_destroy(HLCSS* css);
 HLDomElementNode* hilayout_element_node_create(const char* tag_name);
 const char* hilayout_element_node_get_tag_name(HLDomElementNode* node);
 
-int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttribute attr_id, const char* value);
-const char* hilayout_element_node_get_common_attr (HLDomElementNode* node, HLCommonAttribute attr_id);
+int hilayout_element_node_set_common_attr (HLDomElementNode* node, HLCommonAttribute attr_id, const char* value);
+const char* hilayout_element_node_get_common_attr (const HLDomElementNode* node, HLCommonAttribute attr_id);
 
-static inline void hilayout_element_node_set_id(HLDomElementNode* node, const char* id)
+static inline int hilayout_element_node_set_id (HLDomElementNode* node, const char* id)
 {
-    hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_ID, id);
+    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_ID, id);
 }
 
-static inline const char* hilayout_element_node_get_id(HLDomElementNode* node)
+static inline const char* hilayout_element_node_get_id (const HLDomElementNode* node)
 {
-    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_ID);
+    return hilayout_element_node_get_common_attr (node, HL_COMMON_ATTR_ID);
 }
 
-static inline void hilayout_element_node_set_class(HLDomElementNode* node, const char* class_name)
+static inline int hilayout_element_node_set_class (HLDomElementNode* node, const char* class_name)
 {
-    hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_CLASS_NAME, class_name);
+    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_CLASS_NAME, class_name);
 }
 
-static inline const char* hilayout_element_node_get_class(HLDomElementNode* node)
+static inline const char* hilayout_element_node_get_class (const HLDomElementNode* node)
 {
-    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_CLASS_NAME);
+    return hilayout_element_node_get_common_attr (node, HL_COMMON_ATTR_CLASS_NAME);
 }
 
-static inline void hilayout_element_node_set_style(HLDomElementNode* node, const char* style)
+static inline int hilayout_element_node_set_style (HLDomElementNode* node, const char* style)
 {
-    hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_STYLE, style);
+    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_STYLE, style);
 }
 
-static inline const char* hilayout_element_node_get_style(HLDomElementNode* node)
+static inline const char* hilayout_element_node_get_style (const HLDomElementNode* node)
 {
-    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_STYLE);
+    return hilayout_element_node_get_common_attr (node, HL_COMMON_ATTR_STYLE);
 }
 
-static inline void hilayout_element_node_set_name(HLDomElementNode* node, const char* name)
+static inline int hilayout_element_node_set_name (HLDomElementNode* node, const char* name)
 {
-    hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_NAME, name);
+    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_NAME, name);
 }
 
-static inline const char* hilayout_element_node_get_name(HLDomElementNode* node)
+static inline const char* hilayout_element_node_get_name (const HLDomElementNode* node)
 {
     return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_NAME);
 }
 
-int hilayout_element_node_set_general_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
-const char* hilayout_element_node_get_general_attr(HLDomElementNode* node, const char* attr_name);
+int hilayout_element_node_set_general_attr (HLDomElementNode* node, const char* attr_name, const char* attr_value);
+const char* hilayout_element_node_get_general_attr (const HLDomElementNode* node, const char* attr_name);
 
 typedef void  (*HlDestroyCallback)(void* data);
 int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
-void* hilayout_element_node_get_user_data(HLDomElementNode* node, const char* key);
+void* hilayout_element_node_get_user_data(const HLDomElementNode* node, const char* key);
 
 extern const uint32_t MAX_ATTACH_DATA_SIZE;
 int hilayout_element_node_set_attach_data(HLDomElementNode* node, uint32_t index, void* data, HlDestroyCallback destroy_callback);
-void* hilayout_element_node_get_attach_data(HLDomElementNode* node, uint32_t index);
+void* hilayout_element_node_get_attach_data(const HLDomElementNode* node, uint32_t index);
 
 void hilayout_element_node_destroy(HLDomElementNode *node);
 

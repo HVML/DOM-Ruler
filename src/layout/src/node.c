@@ -104,6 +104,7 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     node->min_h = 0;
     node->max_h = UNKNOWN_MAX_HEIGHT;
 
+    fprintf(stderr, "##############hilayout_element_node_create element=%p|tag=%s\n", node, tag);
     return node;
 }
 
@@ -132,6 +133,7 @@ void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
 
 void hilayout_element_node_destroy(HLDomElementNode *node)
 {
+    fprintf(stderr, "##############hilayout_element_node_destroy element=%p\n", node);
     if (node == NULL)
     {
         return;
@@ -287,7 +289,7 @@ void _hl_destory_common_attr_value (gpointer data)
     free(data);
 }
 
-int _hl_verify_common_attr_id(HLDomElementNode* node, HLCommonAttribute attr_id)
+int _hl_verify_common_attr_id(const HLDomElementNode* node, HLCommonAttribute attr_id)
 {
     if (attr_id >= 0 && attr_id < HL_COMMON_ATTR_COUNT)
     {
@@ -337,7 +339,7 @@ int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttrib
     return g_hash_table_insert(node->common_attrs, (gpointer)attr_id, (gpointer)strdup(attr_value));
 }
 
-const char* hilayout_element_node_get_common_attr (HLDomElementNode* node, HLCommonAttribute attr_id)
+const char* hilayout_element_node_get_common_attr (const HLDomElementNode* node, HLCommonAttribute attr_id)
 {
     if (node == NULL || node->common_attrs == NULL)
     {
@@ -378,7 +380,7 @@ int hilayout_element_node_set_general_attr(HLDomElementNode* node, const char* a
     return g_hash_table_insert(node->general_attrs, (gpointer)strdup(attr_name), (gpointer)strdup(attr_value));
 }
 
-const char* hilayout_element_node_get_general_attr(HLDomElementNode* node, const char* attr_name)
+const char* hilayout_element_node_get_general_attr(const HLDomElementNode* node, const char* attr_name)
 {
     if (node == NULL || attr_name == NULL || node->general_attrs == NULL)
     {
@@ -460,7 +462,7 @@ int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key,
     return g_hash_table_insert(node->user_data, (gpointer)strdup(key), (gpointer)attach);
 }
 
-void* hilayout_element_node_get_user_data(HLDomElementNode* node, const char* key)
+void* hilayout_element_node_get_user_data(const HLDomElementNode* node, const char* key)
 {
     if (node == NULL || key == NULL || node->user_data == NULL)
     {
@@ -557,7 +559,7 @@ int hilayout_element_node_set_attach_data(HLDomElementNode* node, uint32_t index
     return HILAYOUT_OK;
 }
 
-void* hilayout_element_node_get_attach_data(HLDomElementNode* node, uint32_t index)
+void* hilayout_element_node_get_attach_data(const HLDomElementNode* node, uint32_t index)
 {
     if (node == NULL || index >= MAX_ATTACH_DATA_SIZE)
     {
