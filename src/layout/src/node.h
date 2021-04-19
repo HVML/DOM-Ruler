@@ -120,6 +120,7 @@ typedef struct HLDomElementNode_ {
     GHashTable* inner_attrs;    // inner attrs key(string) -> value(string)
     GHashTable* inner_data;     // inner data key(string) -> value(HLAttachData)
 
+    HLAttachData* attach_data; // attach data
 
     //inner layout
     LayoutType layout_type;

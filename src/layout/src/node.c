@@ -167,6 +167,19 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         g_hash_table_destroy(node->inner_data);
     }
 
+    if (node->attach_data)
+    {
+        for (int i = 0; i < MAX_ATTACH_DATA_SIZE; i++)
+        {
+            HLAttachData* attach = node->attach_data + i;
+            if (attach->data && attach->callback)
+            {
+                attach->callback(attach->data);
+            }
+        }
+        free(node->attach_data);
+    }
+
     _hilayout_lwc_string_destroy(node->inner_tag);
     _hilayout_lwc_string_destroy(node->inner_id);
 
@@ -519,3 +532,38 @@ void hilayout_element_node_for_each_child(HLDomElementNode* node, ForEachCallbac
         child = child->next;
     }
 }
+
+const uint32_t MAX_ATTACH_DATA_SIZE = 10;
+int hilayout_element_node_set_attach_data(HLDomElementNode* node, uint32_t index, void* data, HlDestroyCallback destroy_callback)
+{
+    if (node == NULL || index >= MAX_ATTACH_DATA_SIZE)
+    {
+        return HILAYOUT_BADPARM;
+    }
+
+    if (node->attach_data == NULL)
+    {
+        node->attach_data = (HLAttachData*)calloc(MAX_ATTACH_DATA_SIZE, sizeof(HLAttachData));
+    }
+
+    HLAttachData* attach = node->attach_data + index;
+    if (attach->data != NULL && attach->callback != NULL)
+    {
+        attach->callback(attach->data);
+    }
+
+    attach->data = data;
+    attach->callback = destroy_callback;
+    return HILAYOUT_OK;
+}
+
+void* hilayout_element_node_get_attach_data(HLDomElementNode* node, uint32_t index)
+{
+    if (node == NULL || index >= MAX_ATTACH_DATA_SIZE)
+    {
+        return NULL;
+    }
+    HLAttachData* attach = node->attach_data + index;
+    return attach->data;
+}
+

@@ -380,6 +380,10 @@ typedef void  (*HlDestroyCallback)(void* data);
 int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
 void* hilayout_element_node_get_user_data(HLDomElementNode* node, const char* key);
 
+extern const uint32_t MAX_ATTACH_DATA_SIZE;
+int hilayout_element_node_set_attach_data(HLDomElementNode* node, uint32_t index, void* data, HlDestroyCallback destroy_callback);
+void* hilayout_element_node_get_attach_data(HLDomElementNode* node, uint32_t index);
+
 void hilayout_element_node_destroy(HLDomElementNode *node);
 
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node);
