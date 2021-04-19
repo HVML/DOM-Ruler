@@ -104,7 +104,6 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     node->min_h = 0;
     node->max_h = UNKNOWN_MAX_HEIGHT;
 
-    fprintf(stderr, "##############hilayout_element_node_create element=%p|tag=%s\n", node, tag);
     return node;
 }
 
@@ -133,7 +132,6 @@ void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
 
 void hilayout_element_node_destroy(HLDomElementNode *node)
 {
-    fprintf(stderr, "##############hilayout_element_node_destroy element=%p\n", node);
     if (node == NULL)
     {
         return;
