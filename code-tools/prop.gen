@@ -16,3 +16,53 @@ grid_column_end:CSS_PROP_GRID_COLUMN_END IDENT:( INHERIT: AUTO:0,GRID_COLUMN_END
 grid_row_start:CSS_PROP_GRID_ROW_START IDENT:( INHERIT: AUTO:0,GRID_ROW_START_AUTO IDENT:) LENGTH_UNIT:( UNIT_PX:GRID_ROW_START_SET DISALLOW:unit&UNIT_ANGLE||unit&UNIT_TIME||unit&UNIT_FREQ RANGE:<0 LENGTH_UNIT:)
 
 grid_row_end:CSS_PROP_GRID_ROW_END IDENT:( INHERIT: AUTO:0,GRID_ROW_END_AUTO IDENT:) LENGTH_UNIT:( UNIT_PX:GRID_ROW_END_SET DISALLOW:unit&UNIT_ANGLE||unit&UNIT_TIME||unit&UNIT_FREQ RANGE:<0 LENGTH_UNIT:)
+
+border_top_left_radius:CSS_PROP_BORDER_TOP_LEFT_RADIUS IDENT:( INHERIT: AUTO:0,BORDER_TOP_LEFT_RADIUS_AUTO IDENT:) LENGTH_UNIT:( UNIT_PX:BORDER_TOP_LEFT_RADIUS_SET DISALLOW:unit&UNIT_ANGLE||unit&UNIT_TIME||unit&UNIT_FREQ RANGE:<0 LENGTH_UNIT:)
+
+border_top_right_radius:CSS_PROP_BORDER_TOP_RIGHT_RADIUS IDENT:( INHERIT: AUTO:0,BORDER_TOP_RIGHT_RADIUS_AUTO IDENT:) LENGTH_UNIT:( UNIT_PX:BORDER_TOP_RIGHT_RADIUS_SET DISALLOW:unit&UNIT_ANGLE||unit&UNIT_TIME||unit&UNIT_FREQ RANGE:<0 LENGTH_UNIT:)
+
+border_bottom_left_radius:CSS_PROP_BORDER_BOTTOM_LEFT_RADIUS IDENT:( INHERIT: AUTO:0,BORDER_BOTTOM_LEFT_RADIUS_AUTO IDENT:) LENGTH_UNIT:( UNIT_PX:BORDER_BOTTOM_LEFT_RADIUS_SET DISALLOW:unit&UNIT_ANGLE||unit&UNIT_TIME||unit&UNIT_FREQ RANGE:<0 LENGTH_UNIT:)
+
+border_bottom_right_radius:CSS_PROP_BORDER_BOTTOM_RIGHT_RADIUS IDENT:( INHERIT: AUTO:0,BORDER_BOTTOM_RIGHT_RADIUS_AUTO IDENT:) LENGTH_UNIT:( UNIT_PX:BORDER_BOTTOM_RIGHT_RADIUS_SET DISALLOW:unit&UNIT_ANGLE||unit&UNIT_TIME||unit&UNIT_FREQ RANGE:<0 LENGTH_UNIT:)
+
+#text_align_last
+#text_justify
+#text_overflow
+#text_shadow
+#word_break
+#word_wrap
+#
+## svg
+#baseline-shift
+#clip-path
+#clip-rule
+#comp-op
+#enable-background
+#fill
+#fill_opacity
+#fill_rule
+#filter
+#flood_color
+#flood_opacity
+#font_stretch
+#marker_end
+#marker_mid
+#marker_start
+#mask
+#unicode_bidi
+#opacity
+#overflow
+#shape_rendering
+#stop_color
+#stop_opacity
+#stroke
+#stroke_dasharray
+#stroke_dashoffset
+#stroke_linecap
+#stroke_linejoin
+#stroke_miterlimit
+#stroke_opacity
+#stroke_width
+#text_anchor
+#text_decoration
+#text_rendering
