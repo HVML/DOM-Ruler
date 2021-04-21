@@ -1,6 +1,7 @@
 #!/bin/bash
 
-gcc src/css/libcss/src/parse/properties/css_property_parser_gen.c  -o gen_parser
+gcc code-tools/css_property_parser_gen.c  -o gen_parser
+
 
 cat src/css/libcss/src/parse/properties/properties.gen | grep -v "^#" | grep -v "^$" | while read line
 do
