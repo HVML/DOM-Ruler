@@ -57,53 +57,32 @@
 css_error css__cascade_grid_column_end(uint32_t opv, css_style *style,
 		css_select_state *state)
 {
-	uint16_t value = CSS_GRID_COLUMN_END_INHERIT;
-	css_fixed index = 0;
-
-	if (isInherit(opv) == false) {
-		switch (getValue(opv)) {
-		case GRID_COLUMN_END_SET:
-			value = CSS_GRID_COLUMN_END_SET;
-
-			index = *((css_fixed *) style->bytecode);
-			advance_bytecode(style, sizeof(index));
-			break;
-		case GRID_COLUMN_END_AUTO:
-			value = CSS_GRID_COLUMN_END_AUTO;
-			break;
-		}
-	}
-
-	if (css__outranks_existing(getOpcode(opv), isImportant(opv), state,
-			isInherit(opv))) {
-		return set_grid_column_end(state->computed, value, index);
-	}
-
-	return CSS_OK;
+	return css__cascade_length_auto(opv, style, state, set_grid_column_end);
 }
 
 css_error css__set_grid_column_end_from_hint(const css_hint *hint,
 		css_computed_style *style)
 {
-	return set_grid_column_end(style, hint->status, hint->data.integer);
+	return set_grid_column_end(style, hint->status,
+			hint->data.length.value, hint->data.length.unit);
 }
 
 css_error css__initial_grid_column_end(css_select_state *state)
 {
-	return set_grid_column_end(state->computed, CSS_GRID_COLUMN_END_AUTO, 0);
+	return set_grid_column_end(state->computed, CSS_WIDTH_AUTO, 0, CSS_UNIT_PX);
 }
 
 css_error css__compose_grid_column_end(const css_computed_style *parent,
 		const css_computed_style *child,
 		css_computed_style *result)
 {
-	int32_t index = 0;
-	uint8_t type = get_grid_column_end(child, &index);
+	css_fixed length = 0;
+	css_unit unit = CSS_UNIT_PX;
+	uint8_t type = get_grid_column_end(child, &length, &unit);
 
-	if (type == CSS_GRID_COLUMN_END_INHERIT) {
-		type = get_grid_column_end(parent, &index);
+	if (type == CSS_WIDTH_INHERIT) {
+		type = get_grid_column_end(parent, &length, &unit);
 	}
 
-	return set_grid_column_end(result, type, index);
+	return set_grid_column_end(result, type, length, unit);
 }
-

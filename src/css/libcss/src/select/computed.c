@@ -1770,32 +1770,29 @@ css_error compute_absolute_length_pair(css_computed_style *style,
 	return set(style, type, length1, unit1, length2, unit2);
 }
 
-uint8_t css_computed_grid_column_start(
-		const css_computed_style *style,
-		int32_t *value)
+uint8_t css_computed_grid_column_start(const css_computed_style *style,
+		css_fixed *length, css_unit *unit)
 {
-	return get_grid_column_start(style, value);
+	return get_grid_column_start(style, length, unit);
 }
 
-uint8_t css_computed_grid_column_end(
-		const css_computed_style *style,
-		int32_t *value)
+uint8_t css_computed_grid_column_end(const css_computed_style *style,
+		css_fixed *length, css_unit *unit)
 {
-	return get_grid_column_end(style, value);
+	return get_grid_column_end(style, length, unit);
 }
 
-uint8_t css_computed_grid_row_start(
-		const css_computed_style *style,
-		int32_t *value)
+
+uint8_t css_computed_grid_row_start(const css_computed_style *style,
+		css_fixed *length, css_unit *unit)
 {
-	return get_grid_row_start(style, value);
+	return get_grid_row_start(style, length, unit);
 }
 
-uint8_t css_computed_grid_row_end(
-		const css_computed_style *style,
-		int32_t *value)
+uint8_t css_computed_grid_row_end(const css_computed_style *style,
+		css_fixed *length, css_unit *unit)
 {
-	return get_grid_row_end(style, value);
+	return get_grid_row_end(style, length, unit);
 }
 
 uint8_t css_computed_grid_template_columns(

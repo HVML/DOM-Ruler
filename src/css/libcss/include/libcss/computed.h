@@ -476,19 +476,19 @@ uint8_t css_computed_order(
 
 uint8_t css_computed_grid_column_start(
 		const css_computed_style *style,
-		int32_t *value);
+		css_fixed *length, css_unit *unit);
 
 uint8_t css_computed_grid_column_end(
 		const css_computed_style *style,
-		int32_t *value);
+		css_fixed *length, css_unit *unit);
 
 uint8_t css_computed_grid_row_start(
 		const css_computed_style *style,
-		int32_t *value);
+		css_fixed *length, css_unit *unit);
 
 uint8_t css_computed_grid_row_end(
 		const css_computed_style *style,
-		int32_t *value);
+		css_fixed *length, css_unit *unit);
 
 uint8_t css_computed_grid_template_columns(
 		const css_computed_style *style,

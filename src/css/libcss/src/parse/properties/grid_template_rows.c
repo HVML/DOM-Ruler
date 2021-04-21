@@ -53,9 +53,9 @@
 #include "parse/properties/properties.h"
 #include "parse/properties/utils.h"
 
-css_error css__parse_grid_template_rows(css_language *c,
+css_error css__parse_grid_template_rows_impl(css_language *c,
         const parserutils_vector *vector, int *ctx,
-        css_style *result)
+        css_style *result, int np)
 {
     int orig_ctx = *ctx;
     int last_ctx = *ctx;
