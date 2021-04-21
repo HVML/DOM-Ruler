@@ -325,7 +325,4 @@ include_directories(${css_INCLUDE_DIRECTORIES})
 add_library(css ${css_SOURCES})
 target_link_libraries(css parserutils wapcaplet)
 
-list(APPEND gen_parser_SOURCES
-    src/parse/properties/css_property_parser_gen.c
-)
-add_executable(gen_parser ${gen_parser_SOURCES})
+
