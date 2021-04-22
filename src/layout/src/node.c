@@ -128,10 +128,14 @@ void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
         return;
     }
 
-    for (int i = 0; i < node->inner_classes_count; i++)
+    if (node->inner_classes)
     {
-        _hilayout_lwc_string_destroy(node->inner_classes[i]);
-        node->inner_classes[i] = NULL;
+        for (int i = 0; i < node->inner_classes_count; i++)
+        {
+            _hilayout_lwc_string_destroy(node->inner_classes[i]);
+        }
+        node->inner_classes_count = 0;
+        free(node->inner_classes);
     }
 
     g_list_free_full(node->class_list, _hl_destory_class_list_item);
@@ -141,11 +145,17 @@ void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
     char* c = strtok(value, _HILAYOUT_WHITESPACE);
     while (c != NULL) {
         node->class_list = g_list_append(node->class_list, strdup(c));
-        node->inner_classes[node->inner_classes_count]= _hilayout_lwc_string_dup(c);
         node->inner_classes_count++;
         c = strtok(NULL, _HILAYOUT_WHITESPACE);
     }
     free(value);
+
+    node->inner_classes = (lwc_string**)calloc(node->inner_classes_count, sizeof(lwc_string*));
+    int i = 0;
+    for (GList* it = node->class_list; it; it = it->next)
+    {
+        node->inner_classes[i++]= _hilayout_lwc_string_dup((const char*)it->data);
+    }
 }
 
 void hilayout_element_node_destroy(HLDomElementNode *node)
@@ -206,9 +216,13 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
     _hilayout_lwc_string_destroy(node->inner_tag);
     _hilayout_lwc_string_destroy(node->inner_id);
 
-    for (int i = 0; i < node->inner_classes_count; i++)
+    if (node->inner_classes)
     {
-        _hilayout_lwc_string_destroy(node->inner_classes[i]);
+        for (int i = 0; i < node->inner_classes_count; i++)
+        {
+            _hilayout_lwc_string_destroy(node->inner_classes[i]);
+        }
+        free(node->inner_classes);
     }
 
     if (node->text_values.font_family)

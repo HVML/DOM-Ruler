@@ -76,8 +76,6 @@
 
 // log end
 
-#define HILAYOUT_MAX_CLASS_COUNT   1024
-
 // error code begin
 #define HILAYOUT_OK                 0
 #define HILAYOUT_NOMEM              1
