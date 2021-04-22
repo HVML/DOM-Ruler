@@ -95,8 +95,11 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     node->tag = strdup(tag);
     node->inner_tag = _hilayout_lwc_string_dup(tag);
 
-
     node->box_values.w = UNKNOWN_WIDTH;
+    node->box_values.display = HL_DISPLAY_BLOCK;
+    node->box_values.position = HL_POSITION_RELATIVE;
+    node->box_values.visibility = HL_VISIBILITY_VISIBLE;
+    node->box_values.opacity = 1.0f;
 
     node->min_w = 0;
     node->max_w = UNKNOWN_MAX_WIDTH;
