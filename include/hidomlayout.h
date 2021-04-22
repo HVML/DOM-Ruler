@@ -177,6 +177,27 @@ typedef enum HLCommonAttribute_ {
 // svg begin
 // svg end
 
+typedef enum HLDisplayEnum_ {
+    HL_DISPLAY_BLOCK            = 0x02,
+    HL_DISPLAY_INLINE_BLOCK     = 0x05,
+    HL_DISPLAY_NONE             = 0x10,
+    HL_DISPLAY_FLEX             = 0x11,
+    HL_DISPLAY_INLINE_FLEX      = 0x12,
+    HL_DISPLAY_GRID             = 0x13,
+    HL_DISPLAY_INLINE_GRID      = 0x14
+} HLDisplayEnum;
+
+typedef enum HLPositionEnum_ {
+    HL_POSITION_STATIC          = 0x1,
+    HL_POSITION_RELATIVE        = 0x2,
+    HL_POSITION_ABSOLUTE        = 0x3,
+    HL_POSITION_FIXED           = 0x4
+} HLPositionEnum;
+
+typedef enum HLVisibilityEnum_ {
+    HL_VISIBILITY_VISIBLE           = 0x1,
+    HL_VISIBILITY_HIDDEN            = 0x2
+} HLVisibilityEnum;
 
 typedef struct HLDomElementNode_ HLDomElementNode;
 typedef struct HLCSS_ HLCSS;
@@ -209,6 +230,11 @@ typedef struct HLUsedBoxValues_ {
     hl_real_t border_bottom_right_radius;
 
     int z_index;
+
+    HLDisplayEnum display;
+    HLPositionEnum position;
+    HLVisibilityEnum visibility;
+    hl_real_t opacity;
 } HLUsedBoxValues;
 
 typedef struct HLUsedBackgroundValues_ {
