@@ -379,6 +379,10 @@ static inline const char* hilayout_element_node_get_class (const HLDomElementNod
     return hilayout_element_node_get_common_attr (node, HL_COMMON_ATTR_CLASS_NAME);
 }
 
+int hilayout_element_node_has_class (HLDomElementNode* node, const char* class_name);
+int hilayout_element_node_include_class (HLDomElementNode* node, const char* class_name);
+int hilayout_element_node_exclude_class (HLDomElementNode* node, const char* class_name);
+
 static inline int hilayout_element_node_set_style (HLDomElementNode* node, const char* style)
 {
     return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_STYLE, style);

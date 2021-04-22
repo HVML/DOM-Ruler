@@ -122,6 +122,10 @@ typedef struct HLDomElementNode_ {
 
     HLAttachData* attach_data; // attach data
 
+
+    // class name
+    GList* class_list;
+
     //inner layout
     LayoutType layout_type;
 
