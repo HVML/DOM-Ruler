@@ -58,7 +58,7 @@ style = {
     ('text_align', 4),
     ('text_decoration', 5),
     ('text_transform', 3),
-    ('unicode_bidi', 2),
+    ('unicode_bidi', 5),
     ('visibility', 2),
     ('white_space', 3),
     # Style group, with additional value
@@ -178,7 +178,6 @@ style = {
     ('marker_mid', 1, 'string'),
     ('marker_end', 1, 'string'),
     ('mask', 1, 'string'),
-    ('unicode_bidi', 5),
     ('shape_rendering', 5),
     ('stop_color', 1, 'color'),
     ('stop_opacity', 1, 'fixed', 'CSS_FLOOD_OPACITY_SET'),
