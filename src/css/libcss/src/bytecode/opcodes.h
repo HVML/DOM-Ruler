@@ -889,9 +889,9 @@ enum op_text_justify {
 };
 
 enum op_text_overflow {
-    TEXT_OVERFLOW_SET         = 0x0080,
-
-    TEXT_OVERFLOW_AUTO        = 0x0000
+    TEXT_OVERFLOW_CLIP        = 0x0000,
+    TEXT_OVERFLOW_ELLIPSIS    = 0x0001,
+    TEXT_OVERFLOW_STRING      = 0x0002
 };
 
 enum op_text_shadow {

@@ -157,6 +157,7 @@ PROPERTY_FUNCS(border_bottom_left_radius);
 PROPERTY_FUNCS(border_bottom_right_radius);
 PROPERTY_FUNCS(text_align_last);
 PROPERTY_FUNCS(text_justify);
+PROPERTY_FUNCS(text_overflow);
 
 #undef PROPERTY_FUNCS
 

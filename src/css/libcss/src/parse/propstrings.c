@@ -524,6 +524,7 @@ const stringmap_entry stringmap[LAST_KNOWN] = {
 	{ "miter", SLEN("miter") },
 	{ "bevel", SLEN("bevel") },
 	{ "optimizelegibility", SLEN("optimizelegibility") },
+	{ "ellipsis", SLEN("ellipsis") },
 
 
 	{ "aliceblue", SLEN("aliceblue") },

@@ -983,9 +983,10 @@ enum css_text_justify_e {
 };
 
 enum css_text_overflow_e {
-    CSS_TEXT_OVERFLOW_INHERIT        = 0x0,
-    CSS_TEXT_OVERFLOW_SET            = 0X1,
-    CSS_TEXT_OVERFLOW_AUTO           = 0x2
+    CSS_TEXT_OVERFLOW_INHERIT     = 0x0,
+    CSS_TEXT_OVERFLOW_CLIP        = 0x1,
+    CSS_TEXT_OVERFLOW_ELLIPSIS    = 0x2,
+    CSS_TEXT_OVERFLOW_STRING      = 0x3
 };
 
 enum css_text_shadow_e {

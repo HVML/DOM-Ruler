@@ -483,5 +483,29 @@ css_error css__parse_grid_row_start(css_language *c,
 css_error css__parse_grid_row_end(css_language *c,
 		const parserutils_vector *vector, int *ctx,
 		css_style *result);
-// grid end
+
+css_error css__parse_border_top_left_radius(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_border_top_right_radius(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_border_bottom_left_radius(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_border_bottom_right_radius(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_text_align_last(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_text_justify(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_text_overflow(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_text_overflow_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
 #endif
