@@ -314,6 +314,7 @@ list(APPEND css_SOURCES
     src/select/properties/grid_row_start.c
     src/select/properties/grid_row_end.c
     src/select/properties/border_top_left_radius.c
+    src/select/properties/border_top_right_radius.c
     src/select/computed.c
     src/select/hash.c
     src/select/select.c
