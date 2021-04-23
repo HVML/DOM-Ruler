@@ -962,8 +962,13 @@ enum css_border_bottom_right_radius_e {
 
 enum css_text_align_last_e {
     CSS_TEXT_ALIGN_LAST_INHERIT        = 0x0,
-    CSS_TEXT_ALIGN_LAST_SET            = 0X1,
-    CSS_TEXT_ALIGN_LAST_AUTO           = 0x2
+    CSS_TEXT_ALIGN_LAST_AUTO           = 0x1,
+    CSS_TEXT_ALIGN_LAST_LEFT           = 0x2,
+    CSS_TEXT_ALIGN_LAST_RIGHT          = 0x3,
+    CSS_TEXT_ALIGN_LAST_CENTER         = 0x4,
+    CSS_TEXT_ALIGN_LAST_JUSTIFY        = 0x5,
+    CSS_TEXT_ALIGN_LAST_START          = 0x6,
+    CSS_TEXT_ALIGN_LAST_END            = 0x6
 };
 
 enum css_text_justify_e {

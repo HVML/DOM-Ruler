@@ -158,7 +158,7 @@ style = {
     ('border_top_right_radius', 2, 'length', 'CSS_BORDER_TOP_RIGHT_RADIUS_SET'),
     ('border_bottom_left_radius', 2, 'length', 'CSS_BORDER_BOTTOM_LEFT_RADIUS_SET'),
     ('border_bottom_right_radius', 2, 'length', 'CSS_BORDER_BOTTOM_RIGHT_RADIUS_SET'),
-    ('text_align_last', 2, 'length', 'CSS_TEXT_ALIGN_LAST_SET'),
+    ('text_align_last', 4),
     ('text_justify', 2, None, None, 'CSS_TEXT_JUSTIFY_SET', None, ('get', 'set')),
     ('text_shadow', 2, None, None, 'CSS_TEXT_SHADOW_SET', None, ('get', 'set')),
     ('word_break', 4),

@@ -517,8 +517,7 @@ uint8_t css_computed_border_bottom_right_radius(
         css_fixed *length, css_unit *unit);
 
 uint8_t css_computed_text_align_last(
-        const css_computed_style *style,
-        css_fixed *length, css_unit *unit);
+        const css_computed_style *style);
 
 uint8_t css_computed_text_justify(
         const css_computed_style *style,
