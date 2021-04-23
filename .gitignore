@@ -36,3 +36,4 @@ test/layout_test
 *.a
 #bin
 gen_parser
+*.pyc
