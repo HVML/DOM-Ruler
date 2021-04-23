@@ -190,7 +190,6 @@ style = {
     ('stroke_linejoin', 4),
     ('stroke_miterlimit', 1, 'fixed', 'CSS_STROKE_MITERLIMIT_SET'),
     ('text_anchor', 4),
-    ('text_decoration', 4),
     ('text_rendering', 4),
     # Uncommon group, arrays
     ('counter_increment', 1, 'counter_arr', None, 'CSS_COUNTER_INCREMENT_NONE',
