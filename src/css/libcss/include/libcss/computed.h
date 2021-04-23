@@ -501,8 +501,148 @@ uint8_t css_computed_grid_template_rows(
 		css_fixed** values, css_unit** units);
 
 uint8_t css_computed_border_top_left_radius(
-		const css_computed_style *style,
-		css_fixed *length, css_unit *unit);
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_border_top_right_radius(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_border_bottom_left_radius(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_border_bottom_right_radius(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_text_align_last(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_text_justify(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_text_shadow(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_word_break(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_word_wrap(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_baseline_shift(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_clip_path(const css_computed_style *style,
+        lwc_string **string);
+
+uint8_t css_computed_clip_rule(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_comp_op(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_enable_background(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_fill(
+        const css_computed_style *style,
+        lwc_string **string);
+
+uint8_t css_computed_fill_opacity(
+        const css_computed_style *style,
+        css_fixed *length);
+
+uint8_t css_computed_filter(
+        const css_computed_style *style,
+        lwc_string **string);
+
+uint8_t css_computed_flood_color(
+        const css_computed_style *style,
+        css_color *color);
+
+uint8_t css_computed_flood_opacity(
+        const css_computed_style *style,
+        css_fixed *length);
+
+uint8_t css_computed_font_stretch(
+        const css_computed_style *style);
+
+uint8_t css_computed_marker_start(
+        const css_computed_style *style,
+        lwc_string **string);
+
+uint8_t css_computed_marker_mid(
+        const css_computed_style *style,
+        lwc_string **string);
+
+uint8_t css_computed_marker_end(
+        const css_computed_style *style,
+        lwc_string **string);
+
+uint8_t css_computed_mask(
+        const css_computed_style *style,
+        lwc_string **string);
+
+uint8_t css_computed_shape_rendering(
+        const css_computed_style *style);
+
+uint8_t css_computed_stop_color(
+        const css_computed_style *style,
+        css_color *color);
+
+uint8_t css_computed_stop_opacity(
+        const css_computed_style *style,
+        css_fixed *length);
+
+uint8_t css_computed_stroke(
+        const css_computed_style *style,
+        lwc_string **string);
+
+uint8_t css_computed_stroke_width(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_stroke_opacity(
+        const css_computed_style *style,
+        css_fixed *length);
+
+uint8_t css_computed_stroke_dasharray(
+        const css_computed_style *style
+        );
+
+uint8_t css_computed_stroke_dashoffset(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_stroke_linecap(
+        const css_computed_style *style);
+
+uint8_t css_computed_stroke_linejoin(
+        const css_computed_style *style);
+
+uint8_t css_computed_stroke_miterlimit(
+        const css_computed_style *style,
+        css_fixed *length);
+
+uint8_t css_computed_text_anchor(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_text_rendering(
+        const css_computed_style *style,
+        css_fixed *length, css_unit *unit);
+
 
 #ifdef __cplusplus
 }

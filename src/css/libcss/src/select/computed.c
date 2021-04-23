@@ -1812,8 +1812,219 @@ uint8_t css_computed_grid_template_rows(
 }
 
 uint8_t css_computed_border_top_left_radius(const css_computed_style *style,
-		css_fixed *length, css_unit *unit)
+        css_fixed *length, css_unit *unit)
 {
-	return get_border_top_left_radius(style, length, unit);
+    return get_border_top_left_radius(style, length, unit);
+}
+
+uint8_t css_computed_border_top_right_radius(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_border_top_right_radius(style, length, unit);
+}
+
+uint8_t css_computed_border_bottom_left_radius(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_border_bottom_left_radius(style, length, unit);
+}
+
+uint8_t css_computed_border_bottom_right_radius(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_border_bottom_right_radius(style, length, unit);
+}
+
+uint8_t css_computed_text_align_last(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_text_align_last(style, length, unit);
+}
+
+uint8_t css_computed_text_justify(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_text_justify(style);
+}
+
+uint8_t css_computed_text_shadow(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_text_shadow(style);
+}
+
+uint8_t css_computed_word_break(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_word_break(style);
+}
+
+uint8_t css_computed_word_wrap(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_word_wrap(style);
+}
+
+uint8_t css_computed_baseline_shift(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_baseline_shift(style);
+}
+
+uint8_t css_computed_clip_path(const css_computed_style *style,
+        lwc_string **string)
+{
+    return get_clip_path(style, string);
+}
+
+uint8_t css_computed_clip_rule(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_clip_rule(style);
+}
+
+uint8_t css_computed_comp_op(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_comp_op(style);
+}
+
+uint8_t css_computed_enable_background(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_enable_background(style);
+}
+
+uint8_t css_computed_fill(const css_computed_style *style,
+        lwc_string **string)
+{
+    return get_fill(style, string);
+}
+
+uint8_t css_computed_fill_opacity(const css_computed_style *style,
+        css_fixed *length)
+{
+    return get_fill_opacity(style, length);
+}
+
+uint8_t css_computed_filter(const css_computed_style *style,
+        lwc_string **string)
+{
+    return get_filter(style, string);
+}
+
+uint8_t css_computed_flood_color(const css_computed_style *style,
+        css_color *color)
+{
+    return get_flood_color(style, color);
+}
+
+uint8_t css_computed_flood_opacity(const css_computed_style *style,
+        css_fixed *length)
+{
+    return get_flood_opacity(style, length);
+}
+
+uint8_t css_computed_font_stretch(const css_computed_style *style)
+{
+    return get_font_stretch(style);
+}
+
+uint8_t css_computed_marker_start(const css_computed_style *style,
+        lwc_string **string)
+{
+    return get_marker_start(style, string);
+}
+
+uint8_t css_computed_marker_mid(const css_computed_style *style,
+        lwc_string **string)
+{
+    return get_marker_mid(style, string);
+}
+
+uint8_t css_computed_marker_end(const css_computed_style *style,
+        lwc_string **string)
+{
+    return get_marker_end(style, string);
+}
+
+uint8_t css_computed_mask(const css_computed_style *style,
+        lwc_string **string)
+{
+    return get_mask(style, string);
+}
+
+uint8_t css_computed_shape_rendering(const css_computed_style *style)
+{
+    return get_shape_rendering(style);
+}
+
+uint8_t css_computed_stop_color(const css_computed_style *style,
+        css_color *color)
+{
+    return get_stop_color(style, color);
+}
+
+uint8_t css_computed_stop_opacity(const css_computed_style *style,
+        css_fixed *length)
+{
+    return get_stop_opacity(style, length);
+}
+
+uint8_t css_computed_stroke(const css_computed_style *style,
+        lwc_string **string)
+{
+    return get_stroke(style, string);
+}
+
+uint8_t css_computed_stroke_width(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_stroke_width(style, length, unit);
+}
+
+uint8_t css_computed_stroke_opacity(const css_computed_style *style,
+        css_fixed *length)
+{
+    return get_stroke_opacity(style, length);
+}
+
+uint8_t css_computed_stroke_dasharray(const css_computed_style *style)
+{
+    return get_stroke_dasharray(style);
+}
+
+uint8_t css_computed_stroke_dashoffset(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_stroke_dashoffset(style, length, unit);
+}
+
+uint8_t css_computed_stroke_linecap(const css_computed_style *style)
+{
+    return get_stroke_linecap(style);
+}
+
+uint8_t css_computed_stroke_linejoin(const css_computed_style *style)
+{
+    return get_stroke_linejoin(style);
+}
+
+uint8_t css_computed_stroke_miterlimit(const css_computed_style *style,
+        css_fixed *length)
+{
+    return get_stroke_miterlimit(style, length);
+}
+
+uint8_t css_computed_text_anchor(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_text_anchor(style);
+}
+
+uint8_t css_computed_text_rendering(const css_computed_style *style,
+        css_fixed *length, css_unit *unit)
+{
+    return get_text_rendering(style);
 }
 
