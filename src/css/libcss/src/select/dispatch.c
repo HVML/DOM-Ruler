@@ -537,6 +537,10 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
 	{
 		PROPERTY_FUNCS(grid_row_end),
 		0,
+	},
+	{
+		PROPERTY_FUNCS(border_top_left_radius),
+		0,
 	}
 
 };
