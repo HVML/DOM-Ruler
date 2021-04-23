@@ -545,6 +545,14 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
 	{
 		PROPERTY_FUNCS(border_top_right_radius),
 		0,
+	},
+	{
+		PROPERTY_FUNCS(border_bottom_left_radius),
+		0,
+	},
+	{
+		PROPERTY_FUNCS(border_bottom_right_radius),
+		0,
 	}
 
 };

@@ -153,6 +153,8 @@ PROPERTY_FUNCS(grid_row_start);
 PROPERTY_FUNCS(grid_row_end);
 PROPERTY_FUNCS(border_top_left_radius);
 PROPERTY_FUNCS(border_top_right_radius);
+PROPERTY_FUNCS(border_bottom_left_radius);
+PROPERTY_FUNCS(border_bottom_right_radius);
 
 #undef PROPERTY_FUNCS
 
