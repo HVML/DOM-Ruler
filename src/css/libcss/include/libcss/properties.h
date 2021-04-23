@@ -144,6 +144,45 @@ enum css_properties_e {
 	CSS_PROP_GRID_COLUMN_END	    = 0x7f,
 	CSS_PROP_GRID_ROW_START	    = 0x80,
 	CSS_PROP_GRID_ROW_END	    = 0x81,
+	CSS_PROP_BORDER_TOP_LEFT_RADIUS =  0x82,
+	CSS_PROP_BORDER_TOP_RIGHT_RADIUS = 0x83,
+	CSS_PROP_BORDER_BOTTOM_LEFT_RADIUS = 0x84,
+	CSS_PROP_BORDER_BOTTOM_RIGHT_RADIUS = 0x85,
+	CSS_PROP_TEXT_ALIGN_LAST = 0x86,
+	CSS_PROP_TEXT_JUSTIFY = 0x87,
+	CSS_PROP_TEXT_OVERFLOW = 0x88,
+	CSS_PROP_TEXT_SHADOW = 0x89,
+	CSS_PROP_WORD_BREAK = 0x8a,
+	CSS_PROP_WORD_WRAP = 0x8b,
+	CSS_PROP_BASELINE_SHIFT = 0x8c,
+	CSS_PROP_CLIP_PATH = 0x8d,
+	CSS_PROP_CLIP_RULE = 0x8e,
+	CSS_PROP_COMP_OP = 0x8f,
+	CSS_PROP_ENABLE_BACKGROUND = 0x90,
+	CSS_PROP_FILL = 0x91,
+	CSS_PROP_FILL_OPACITY = 0x92,
+	CSS_PROP_FILL_RULE = 0x93,
+	CSS_PROP_FILTER = 0x94,
+	CSS_PROP_FLOOD_COLOR = 0x95,
+	CSS_PROP_FLOOD_OPACITY = 0x96,
+	CSS_PROP_FONT_STRETCH = 0x97,
+	CSS_PROP_MARKER_START = 0x98,
+	CSS_PROP_MARKER_MID = 0x99,
+	CSS_PROP_MARKER_END = 0x9a,
+	CSS_PROP_MASK = 0x9b,
+	CSS_PROP_SHAPE_RENDERING = 0x9c,
+	CSS_PROP_STOP_COLOR = 0x9d,
+	CSS_PROP_STOP_OPACITY = 0x9e,
+	CSS_PROP_STROKE = 0x9f,
+	CSS_PROP_STROKE_WIDTH = 0xa0,
+	CSS_PROP_STROKE_OPACITY = 0xa1,
+	CSS_PROP_STROKE_DASHARRAY = 0xa2,
+	CSS_PROP_STROKE_DASHOFFSET = 0xa3,
+	CSS_PROP_STROKE_LINECAP = 0xa4,
+	CSS_PROP_STROKE_LINEJOIN = 0xa5,
+	CSS_PROP_STROKE_MITERLIMIT = 0xa6,
+	CSS_PROP_TEXT_ANCHOR = 0xa7,
+	CSS_PROP_TEXT_RENDERING = 0xa8,
 
 	CSS_N_PROPERTIES
 };
@@ -896,6 +935,242 @@ enum css_grid_row_end_e {
 	CSS_GRID_ROW_END_SET				= 0x1,
 	CSS_GRID_ROW_END_AUTO				= 0x2
 };
+
+enum css_border_top_left_radius_e {
+    CSS_BORDER_TOP_LEFT_RADIUS_INHERIT        = 0x0,
+    css_BORDER_TOP_LEFT_RADIUS_SET            = 0X1,
+    CSS_BORDER_TOP_LEFT_RADIUS_AUTO           = 0x2
+};
+
+enum css_border_top_right_radius_e {
+    CSS_BORDER_TOP_RIGHT_RADIUS_INHERIT        = 0x0,
+    css_BORDER_TOP_RIGHT_RADIUS_SET            = 0X1,
+    CSS_BORDER_TOP_RIGHT_RADIUS_AUTO           = 0x2
+};
+
+enum css_border_bottom_left_radius_e {
+    CSS_BORDER_BOTTOM_LEFT_RADIUS_INHERIT        = 0x0,
+    css_BORDER_BOTTOM_LEFT_RADIUS_SET            = 0X1,
+    CSS_BORDER_BOTTOM_LEFT_RADIUS_AUTO           = 0x2
+};
+
+enum css_border_bottom_right_radius_e {
+    CSS_BORDER_BOTTOM_RIGHT_RADIUS_INHERIT        = 0x0,
+    css_BORDER_BOTTOM_RIGHT_RADIUS_SET            = 0X1,
+    CSS_BORDER_BOTTOM_RIGHT_RADIUS_AUTO           = 0x2
+};
+
+enum css_text_align_last_e {
+    CSS_TEXT_ALIGN_LAST_INHERIT        = 0x0,
+    css_TEXT_ALIGN_LAST_SET            = 0X1,
+    CSS_TEXT_ALIGN_LAST_AUTO           = 0x2
+};
+
+enum css_text_justify_e {
+    CSS_TEXT_JUSTIFY_INHERIT        = 0x0,
+    css_TEXT_JUSTIFY_SET            = 0X1,
+    CSS_TEXT_JUSTIFY_AUTO           = 0x2
+};
+
+enum css_text_overflow_e {
+    CSS_TEXT_OVERFLOW_INHERIT        = 0x0,
+    css_TEXT_OVERFLOW_SET            = 0X1,
+    CSS_TEXT_OVERFLOW_AUTO           = 0x2
+};
+
+enum css_text_shadow_e {
+    CSS_TEXT_SHADOW_INHERIT        = 0x0,
+    css_TEXT_SHADOW_SET            = 0X1,
+    CSS_TEXT_SHADOW_AUTO           = 0x2
+};
+
+enum css_word_break_e {
+    CSS_WORD_BREAK_INHERIT        = 0x0,
+    css_WORD_BREAK_SET            = 0X1,
+    CSS_WORD_BREAK_AUTO           = 0x2
+};
+
+enum css_word_wrap_e {
+    CSS_WORD_WRAP_INHERIT        = 0x0,
+    css_WORD_WRAP_SET            = 0X1,
+    CSS_WORD_WRAP_AUTO           = 0x2
+};
+
+enum css_baseline_shift_e {
+    CSS_BASELINE_SHIFT_INHERIT        = 0x0,
+    css_BASELINE_SHIFT_SET            = 0X1,
+    CSS_BASELINE_SHIFT_AUTO           = 0x2
+};
+
+enum css_clip_path_e {
+    CSS_CLIP_PATH_INHERIT        = 0x0,
+    css_CLIP_PATH_SET            = 0X1,
+    CSS_CLIP_PATH_AUTO           = 0x2
+};
+
+enum css_clip_rule_e {
+    CSS_CLIP_RULE_INHERIT        = 0x0,
+    css_CLIP_RULE_SET            = 0X1,
+    CSS_CLIP_RULE_AUTO           = 0x2
+};
+
+enum css_comp_op_e {
+    CSS_COMP_OP_INHERIT        = 0x0,
+    css_COMP_OP_SET            = 0X1,
+    CSS_COMP_OP_AUTO           = 0x2
+};
+
+enum css_enable_background_e {
+    CSS_ENABLE_BACKGROUND_INHERIT        = 0x0,
+    css_ENABLE_BACKGROUND_SET            = 0X1,
+    CSS_ENABLE_BACKGROUND_AUTO           = 0x2
+};
+
+enum css_fill_e {
+    CSS_FILL_INHERIT        = 0x0,
+    css_FILL_SET            = 0X1,
+    CSS_FILL_AUTO           = 0x2
+};
+
+enum css_fill_opacity_e {
+    CSS_FILL_OPACITY_INHERIT        = 0x0,
+    css_FILL_OPACITY_SET            = 0X1,
+    CSS_FILL_OPACITY_AUTO           = 0x2
+};
+
+enum css_fill_rule_e {
+    CSS_FILL_RULE_INHERIT        = 0x0,
+    css_FILL_RULE_SET            = 0X1,
+    CSS_FILL_RULE_AUTO           = 0x2
+};
+
+enum css_filter_e {
+    CSS_FILTER_INHERIT        = 0x0,
+    css_FILTER_SET            = 0X1,
+    CSS_FILTER_AUTO           = 0x2
+};
+
+enum css_flood_color_e {
+    CSS_FLOOD_COLOR_INHERIT        = 0x0,
+    css_FLOOD_COLOR_SET            = 0X1,
+    CSS_FLOOD_COLOR_AUTO           = 0x2
+};
+
+enum css_flood_opacity_e {
+    CSS_FLOOD_OPACITY_INHERIT        = 0x0,
+    css_FLOOD_OPACITY_SET            = 0X1,
+    CSS_FLOOD_OPACITY_AUTO           = 0x2
+};
+
+enum css_font_stretch_e {
+    CSS_FONT_STRETCH_INHERIT        = 0x0,
+    css_FONT_STRETCH_SET            = 0X1,
+    CSS_FONT_STRETCH_AUTO           = 0x2
+};
+
+enum css_marker_start_e {
+    CSS_MARKER_START_INHERIT        = 0x0,
+    css_MARKER_START_SET            = 0X1,
+    CSS_MARKER_START_AUTO           = 0x2
+};
+
+enum css_marker_mid_e {
+    CSS_MARKER_MID_INHERIT        = 0x0,
+    css_MARKER_MID_SET            = 0X1,
+    CSS_MARKER_MID_AUTO           = 0x2
+};
+
+enum css_marker_end_e {
+    CSS_MARKER_END_INHERIT        = 0x0,
+    css_MARKER_END_SET            = 0X1,
+    CSS_MARKER_END_AUTO           = 0x2
+};
+
+enum css_mask_e {
+    CSS_MASK_INHERIT        = 0x0,
+    css_MASK_SET            = 0X1,
+    CSS_MASK_AUTO           = 0x2
+};
+
+enum css_shape_rendering_e {
+    CSS_SHAPE_RENDERING_INHERIT        = 0x0,
+    css_SHAPE_RENDERING_SET            = 0X1,
+    CSS_SHAPE_RENDERING_AUTO           = 0x2
+};
+
+enum css_stop_color_e {
+    CSS_STOP_COLOR_INHERIT        = 0x0,
+    css_STOP_COLOR_SET            = 0X1,
+    CSS_STOP_COLOR_AUTO           = 0x2
+};
+
+enum css_stop_opacity_e {
+    CSS_STOP_OPACITY_INHERIT        = 0x0,
+    css_STOP_OPACITY_SET            = 0X1,
+    CSS_STOP_OPACITY_AUTO           = 0x2
+};
+
+enum css_stroke_e {
+    CSS_STROKE_INHERIT        = 0x0,
+    css_STROKE_SET            = 0X1,
+    CSS_STROKE_AUTO           = 0x2
+};
+
+enum css_stroke_width_e {
+    CSS_STROKE_WIDTH_INHERIT        = 0x0,
+    css_STROKE_WIDTH_SET            = 0X1,
+    CSS_STROKE_WIDTH_AUTO           = 0x2
+};
+
+enum css_stroke_opacity_e {
+    CSS_STROKE_OPACITY_INHERIT        = 0x0,
+    css_STROKE_OPACITY_SET            = 0X1,
+    CSS_STROKE_OPACITY_AUTO           = 0x2
+};
+
+enum css_stroke_dasharray_e {
+    CSS_STROKE_DASHARRAY_INHERIT        = 0x0,
+    css_STROKE_DASHARRAY_SET            = 0X1,
+    CSS_STROKE_DASHARRAY_AUTO           = 0x2
+};
+
+enum css_stroke_dashoffset_e {
+    CSS_STROKE_DASHOFFSET_INHERIT        = 0x0,
+    css_STROKE_DASHOFFSET_SET            = 0X1,
+    CSS_STROKE_DASHOFFSET_AUTO           = 0x2
+};
+
+enum css_stroke_linecap_e {
+    CSS_STROKE_LINECAP_INHERIT        = 0x0,
+    css_STROKE_LINECAP_SET            = 0X1,
+    CSS_STROKE_LINECAP_AUTO           = 0x2
+};
+
+enum css_stroke_linejoin_e {
+    CSS_STROKE_LINEJOIN_INHERIT        = 0x0,
+    css_STROKE_LINEJOIN_SET            = 0X1,
+    CSS_STROKE_LINEJOIN_AUTO           = 0x2
+};
+
+enum css_stroke_miterlimit_e {
+    CSS_STROKE_MITERLIMIT_INHERIT        = 0x0,
+    css_STROKE_MITERLIMIT_SET            = 0X1,
+    CSS_STROKE_MITERLIMIT_AUTO           = 0x2
+};
+
+enum css_text_anchor_e {
+    CSS_TEXT_ANCHOR_INHERIT        = 0x0,
+    css_TEXT_ANCHOR_SET            = 0X1,
+    CSS_TEXT_ANCHOR_AUTO           = 0x2
+};
+
+enum css_text_rendering_e {
+    CSS_TEXT_RENDERING_INHERIT        = 0x0,
+    css_TEXT_RENDERING_SET            = 0X1,
+    CSS_TEXT_RENDERING_AUTO           = 0x2
+};
+
+
 
 #ifdef __cplusplus
 }
