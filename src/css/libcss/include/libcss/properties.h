@@ -972,9 +972,14 @@ enum css_text_align_last_e {
 };
 
 enum css_text_justify_e {
-    CSS_TEXT_JUSTIFY_INHERIT        = 0x0,
-    CSS_TEXT_JUSTIFY_SET            = 0X1,
-    CSS_TEXT_JUSTIFY_AUTO           = 0x2
+    CSS_TEXT_JUSTIFY_INHERIT          = 0x0,
+    CSS_TEXT_JUSTIFY_AUTO             = 0x1,
+    CSS_TEXT_JUSTIFY_NONE             = 0x2,
+    CSS_TEXT_JUSTIFY_INTER_WORD       = 0x3,
+    CSS_TEXT_JUSTIFY_INTER_IDEOGRAPH  = 0x4,
+    CSS_TEXT_JUSTIFY_INTER_CLUSTER    = 0x5,
+    CSS_TEXT_JUSTIFY_DISTRIBUTE       = 0x6,
+    CSS_TEXT_JUSTIFY_KASHIDA          = 0x7
 };
 
 enum css_text_overflow_e {

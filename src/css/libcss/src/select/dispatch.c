@@ -553,6 +553,14 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
 	{
 		PROPERTY_FUNCS(border_bottom_right_radius),
 		0,
+	},
+	{
+        PROPERTY_FUNCS(text_align_last),
+		1,
+	},
+	{
+        PROPERTY_FUNCS(text_justify),
+		1,
 	}
 
 };

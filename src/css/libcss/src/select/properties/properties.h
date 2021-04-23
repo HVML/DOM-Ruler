@@ -155,6 +155,8 @@ PROPERTY_FUNCS(border_top_left_radius);
 PROPERTY_FUNCS(border_top_right_radius);
 PROPERTY_FUNCS(border_bottom_left_radius);
 PROPERTY_FUNCS(border_bottom_right_radius);
+PROPERTY_FUNCS(text_align_last);
+PROPERTY_FUNCS(text_justify);
 
 #undef PROPERTY_FUNCS
 

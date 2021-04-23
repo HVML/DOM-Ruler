@@ -137,7 +137,7 @@ struct css_computed_style_i {
  * text_anchor                      4             
  * text_decoration                  5             
  * text_indent                      1 + 5           4
- * text_justify                     2             
+ * text_justify                     4             
  * text_rendering                   4             
  * text_shadow                      2             
  * text_transform                   3             
@@ -183,88 +183,89 @@ struct css_computed_style_i {
  * quotes                           1             sizeof(ptr)
  * 
  * ---                            ---             ---
- *                                614 bits        296 + 16sizeof(ptr) bytes
+ *                                616 bits        296 + 16sizeof(ptr) bytes
  *                                ===================
  *                                373 + 16sizeof(ptr) bytes
  * 
  * Bit allocations:
  * 
- * 0  oooooooobbbbbbbbrrrrrrrrdddddddd
- * outline_width; border_top_width; border_right_width; border_bottom_width
+ * 0  bbbbbbbbccccccccoooooooorrrrrrrr
+ * border_bottom_width; column_rule_width; border_right_width; border_top_width
  * 
- * 1  fffffffffccccccccbbbbbbbbooooooo
- * font_size; column_rule_width; border_left_width; column_width
+ * 1  fffffffffoooooooobbbbbbbbhhhhhhh
+ * font_size; outline_width; border_left_width; height
  * 
  * 2  ccccccccccccccccccccccccccpppppp
- * clip; padding_top
+ * clip; padding_bottom
  * 
- * 3  wwwwwwwlllllllbbbbbbbgggggggtttt
- * width; line_height; bottom; grid_row_start; text_rendering
- * 
- * 4  bbbbbbbgggggggwwwwwwwmmmmmmmrrrr
- * border_top_left_radius; grid_column_end; word_spacing; min_width;
+ * 3  bbbbbbbmmmmmmmfffffffgggggggrrrr
+ * border_bottom_left_radius; margin_bottom; flex_basis; grid_row_start;
  * break_inside
  * 
- * 5  bbbbbbbsssssssmmmmmmmaaaaaaawwww
- * border_top_right_radius; stroke_dashoffset; margin_right; margin_top;
- * word_wrap
+ * 4  bbbbbbbgggggggmmmmmmmlllllllaaaa
+ * border_bottom_right_radius; grid_column_start; margin_top; line_height;
+ * baseline_shift
  * 
- * 6  mmmmmmmbbbbbbbooooooolllllllrrrr
- * margin_left; border_bottom_left_radius; border_bottom_right_radius;
- * letter_spacing; break_after
+ * 5  bbbbbbbmmmmmmmsssssssttttttteeee
+ * border_top_left_radius; max_width; stroke_width; stroke_dashoffset;
+ * text_align_last
  * 
- * 7  mmmmmmmfffffffaaaaaaacccccccllll
- * max_height; flex_basis; margin_bottom; column_gap; list_style_type
+ * 6  llllllltttttttmmmmmmmrrrrrrreeee
+ * left; top; min_width; right; text_justify
  * 
- * 8  gggggggmmmmmmmrrrrrrrlllllllwwww
- * grid_column_start; max_width; grid_row_end; left; word_break
+ * 7  bbbbbbbwwwwwwwcccccccoooooootttt
+ * border_top_right_radius; width; column_width; column_gap; text_align
  * 
- * 9  mmmmmmmttttttthhhhhhhssssssscccc
- * min_height; top; height; stroke_width; clip_rule
+ * 8  mmmmmmmgggggggaaaaaaabbbbbbboooo
+ * max_height; grid_column_end; margin_left; bottom; border_right_style
  * 
- * 10 bbbbttttrrrrsssseeeeoooouuuuxxxx
- * border_left_style; text_align; break_before; stroke_linecap; text_anchor;
- * border_right_style; outline_style; text_align_last
+ * 9  gggggggmmmmmmmaaaaaaalllllllcccc
+ * grid_row_end; min_height; margin_right; letter_spacing; column_rule_style
  * 
- * 11 cccccuuuuudddddnnnnneeeeefffffbb
- * comp_op; cursor; display; unicode_bidi; enable_background; font_stretch;
- * border_right_color
+ * 10 bbbbwwwwssssoooorrrreeeelllldddd
+ * break_before; word_break; stroke_linejoin; border_left_style;
+ * border_bottom_style; break_after; list_style_type; word_wrap
  * 
- * 12 ssssstttttccccffffbbbbooooaaaann
- * shape_rendering; text_decoration; column_rule_style; font_weight;
- * border_bottom_style; border_top_style; baseline_shift; content
+ * 11 ffffssssaaatttlllpppiiigggooojjj
+ * font_weight; stroke_linecap; align_items; text_transform; flex_direction;
+ * position; align_self; page_break_before; overflow_x; justify_content
  * 
- * 13 fffaaatttpppwwwooobbllccrrxxiigg
- * flex_direction; align_items; text_transform; page_break_before; white_space;
- * position; border_top_color; flex_wrap; column_fill; writing_mode;
- * box_sizing; list_style_position; page_break_inside
+ * 12 cccccddddduuuuusssssfffffooooopp
+ * cursor; display; unicode_bidi; shape_rendering; font_stretch; comp_op;
+ * page_break_inside
  * 
- * 14 vvttbbeeddoorrffssggaacckkllxxBB
- * visibility; text_justify; border_collapse; empty_cells; direction;
- * outline_color; border_bottom_color; font_style; stroke_dasharray;
- * grid_template_rows; table_layout; background_color; background_attachment;
- * column_span; text_shadow; border_left_color
+ * 13 ttttteeeeexxxxbbbbaaaaooooccccll
+ * text_decoration; enable_background; text_rendering; border_top_style;
+ * text_anchor; outline_style; clip_rule; column_count
  * 
- * 15 bbbbbbbbbbbaaaaaaaaaaavvvvvvvvvf
- * border_spacing; background_position; vertical_align; flood_opacity
+ * 14 vvffbbggrroollddccuueezzsswwmmnn
+ * visibility; font_style; box_sizing; grid_template_columns;
+ * grid_template_rows; border_top_color; list_style_position;
+ * border_right_color; column_rule_color; column_span; border_collapse;
+ * z_index; stroke_dasharray; writing_mode; empty_cells; column_fill
  * 
- * 16 rrrrrrrttttttppppppaaaaaaddddddo
- * right; text_indent; padding_bottom; padding_left; padding_right; opacity
+ * 15 bbbbbbbbbbbaaaaaaaaaaavvvvvvvvvc
+ * border_spacing; background_position; vertical_align; background_image
  * 
- * 17 sssspppaaajjjooocccbbbfffvvvlllm
- * stroke_linejoin; page_break_after; align_content; justify_content;
- * overflow_y; clear; background_repeat; font_family; overflow_x; align_self;
- * mask
+ * 16 wwwwwwwppppppaaaaaaddddddtttttts
+ * word_spacing; padding_top; padding_right; padding_left; text_indent;
+ * stop_color
  * 
- * 18 ccooggffaallzzeumrnksiqtphwFybId
- * column_rule_color; column_count; grid_template_columns; font_variant;
- * caption_side; float; z_index; flex_grow; counter_increment; marker_start;
- * color; counter_reset; marker_mid; stroke_miterlimit; clip_path; quotes;
- * stop_color; stop_opacity; orphans; widows; fill; stroke_opacity;
- * background_image; filter; flood_color
+ * 17 aaabbbcccooopppfffwwwuukkrrttlli
+ * align_content; background_repeat; clear; overflow_y; page_break_after;
+ * font_family; white_space; outline_color; background_color;
+ * border_bottom_color; caption_side; float; fill
  * 
- * 19 olmfse..........................
- * order; list_style_image; marker_end; fill_opacity; stroke; flex_shrink
+ * 18 ffbbttddccllaaoorsmpeCiwqxuhknyF
+ * font_variant; background_attachment; text_shadow; direction; content;
+ * flex_wrap; table_layout; border_left_color; order; stroke; marker_mid;
+ * stop_opacity; flex_shrink; color; list_style_image; widows; quotes;
+ * flex_grow; counter_increment; orphans; stroke_miterlimit; counter_reset;
+ * opacity; fill_opacity
+ * 
+ * 19 flscomar........................
+ * filter; flood_opacity; stroke_opacity; clip_path; flood_color; mask;
+ * marker_start; marker_end
  */
 	uint32_t bits[20];
 	

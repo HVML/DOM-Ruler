@@ -879,9 +879,13 @@ enum op_text_align_last {
 };
 
 enum op_text_justify {
-    TEXT_JUSTIFY_SET         = 0x0080,
-
-    TEXT_JUSTIFY_AUTO        = 0x0000
+    TEXT_JUSTIFY_AUTO             = 0x0000,
+    TEXT_JUSTIFY_NONE             = 0x0001,
+    TEXT_JUSTIFY_INTER_WORD       = 0x0002,
+    TEXT_JUSTIFY_INTER_IDEOGRAPH  = 0x0003,
+    TEXT_JUSTIFY_INTER_CLUSTER    = 0x0004,
+    TEXT_JUSTIFY_DISTRIBUTE       = 0x0005,
+    TEXT_JUSTIFY_KASHIDA          = 0x0006
 };
 
 enum op_text_overflow {
