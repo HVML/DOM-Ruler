@@ -1074,7 +1074,6 @@ enum css_fill_e {
 enum css_fill_opacity_e {
     CSS_FILL_OPACITY_INHERIT        = 0x0,
     CSS_FILL_OPACITY_SET            = 0X1,
-    CSS_FILL_OPACITY_AUTO           = 0x2
 };
 
 enum css_fill_rule_e {

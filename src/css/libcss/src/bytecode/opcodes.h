@@ -970,9 +970,7 @@ enum op_fill {
 };
 
 enum op_fill_opacity {
-    FILL_OPACITY_SET         = 0x0080,
-
-    FILL_OPACITY_AUTO        = 0x0000
+    FILL_OPACITY_SET         = 0x0080
 };
 
 enum op_fill_rule {
