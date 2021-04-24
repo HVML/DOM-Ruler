@@ -1192,9 +1192,10 @@ enum css_stroke_dashoffset_e {
 };
 
 enum css_stroke_linecap_e {
-    CSS_STROKE_LINECAP_INHERIT        = 0x0,
-    CSS_STROKE_LINECAP_SET            = 0X1,
-    CSS_STROKE_LINECAP_AUTO           = 0x2
+    CSS_STROKE_LINECAP_INHERIT     = 0x0,
+    CSS_STROKE_LINECAP_BUTT        = 0x1,
+    CSS_STROKE_LINECAP_ROUND       = 0x2,
+    CSS_STROKE_LINECAP_SQUARE      = 0x3
 };
 
 enum css_stroke_linejoin_e {

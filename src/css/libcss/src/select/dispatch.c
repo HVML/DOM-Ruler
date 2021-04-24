@@ -672,7 +672,7 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
     },
     {
         PROPERTY_FUNCS(stroke_linecap),
-        0,
+        1,
     },
     {
         PROPERTY_FUNCS(stroke_linejoin),

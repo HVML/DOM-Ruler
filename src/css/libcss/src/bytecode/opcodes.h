@@ -1095,12 +1095,9 @@ enum op_stroke_dashoffset {
 };
 
 enum op_stroke_linecap {
-    STROKE_LINECAP_SET         = 0x0080,
-
-    STROKE_LINECAP_AUTO        = 0x0000,
-    STROKE_LINECAP_BUTT,
-    STROKE_LINECAP_ROUND,
-    STROKE_LINECAP_SQUARE
+    STROKE_LINECAP_BUTT        = 0x0000,
+    STROKE_LINECAP_ROUND       = 0x0001,
+    STROKE_LINECAP_SQUARE      = 0x0002
 };
 
 enum op_stroke_linejoin {
