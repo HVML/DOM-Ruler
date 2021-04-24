@@ -2014,8 +2014,7 @@ uint8_t css_computed_stroke_miterlimit(const css_computed_style *style,
     return get_stroke_miterlimit(style, length);
 }
 
-uint8_t css_computed_text_anchor(const css_computed_style *style,
-        css_fixed *length, css_unit *unit)
+uint8_t css_computed_text_anchor(const css_computed_style *style)
 {
     return get_text_anchor(style);
 }

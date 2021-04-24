@@ -1212,9 +1212,10 @@ enum css_stroke_miterlimit_e {
 };
 
 enum css_text_anchor_e {
-    CSS_TEXT_ANCHOR_INHERIT        = 0x0,
-    CSS_TEXT_ANCHOR_SET            = 0X1,
-    CSS_TEXT_ANCHOR_AUTO           = 0x2
+    CSS_TEXT_ANCHOR_INHERIT     = 0x0,
+    CSS_TEXT_ANCHOR_START       = 0x1,
+    CSS_TEXT_ANCHOR_MIDDLE      = 0x2,
+    CSS_TEXT_ANCHOR_END         = 0x3
 };
 
 enum css_text_rendering_e {
