@@ -565,6 +565,9 @@ css_error css__parse_flood_color(css_language *c,
 css_error css__parse_flood_opacity(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
+css_error css__parse_flood_opacity_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
 css_error css__parse_font_stretch(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);

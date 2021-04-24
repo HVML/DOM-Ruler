@@ -3,7 +3,7 @@
  * 
  * Generated from:
  *
- * flood_opacity:CSS_PROP_FLOOD_OPACITY WRAP:css__parse_fill_opacity_impl
+ * flood_opacity:CSS_PROP_FLOOD_OPACITY WRAP:css__parse_flood_opacity_impl
  * 
  * Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
  */
@@ -34,5 +34,5 @@ css_error css__parse_flood_opacity(css_language *c,
 		const parserutils_vector *vector, int *ctx,
 		css_style *result)
 {
-	return css__parse_fill_opacity_impl(c, vector, ctx, result, CSS_PROP_FLOOD_OPACITY);
+	return css__parse_flood_opacity_impl(c, vector, ctx, result, CSS_PROP_FLOOD_OPACITY);
 }
