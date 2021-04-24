@@ -921,9 +921,8 @@ enum op_baseline_shift {
 };
 
 enum op_clip_path {
-    CLIP_PATH_SET         = 0x0080,
-
-    CLIP_PATH_AUTO        = 0x0000
+	CLIP_PATH_URI		= 0x0080,
+	CLIP_PATH_NONE		= 0x0000
 };
 
 enum op_clip_rule {

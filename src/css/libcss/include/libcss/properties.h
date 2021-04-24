@@ -1021,8 +1021,9 @@ enum css_baseline_shift_e {
 
 enum css_clip_path_e {
     CSS_CLIP_PATH_INHERIT        = 0x0,
-    CSS_CLIP_PATH_SET            = 0X1,
-    CSS_CLIP_PATH_AUTO           = 0x2
+    /* Consult pointer in struct to determine which */
+    CSS_CLIP_PATH_URI            = 0x1,
+    CSS_CLIP_PATH_NONE           = 0x1
 };
 
 enum css_clip_rule_e {

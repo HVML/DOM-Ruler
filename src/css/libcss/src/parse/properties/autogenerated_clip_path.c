@@ -3,7 +3,7 @@
  * 
  * Generated from:
  *
- * clip_path:CSS_PROP_CLIP_PATH WRAP:css__parse_clip_path_impl
+ * clip_path:CSS_PROP_CLIP_PATH IDENT:( INHERIT: NONE:0,CLIP_PATH_NONE IDENT:) URI:CLIP_PATH_URI
  * 
  * Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
  */
@@ -34,5 +34,53 @@ css_error css__parse_clip_path(css_language *c,
 		const parserutils_vector *vector, int *ctx,
 		css_style *result)
 {
-	return css__parse_clip_path_impl(c, vector, ctx, result, CSS_PROP_CLIP_PATH);
+	int orig_ctx = *ctx;
+	css_error error;
+	const css_token *token;
+	bool match;
+
+	token = parserutils_vector_iterate(vector, ctx);
+	if ((token == NULL) || ((token->type != CSS_TOKEN_IDENT) && (token->type != CSS_TOKEN_URI))) {
+		*ctx = orig_ctx;
+		return CSS_INVALID;
+	}
+
+	if ((token->type == CSS_TOKEN_IDENT) && (lwc_string_caseless_isequal(token->idata, c->strings[INHERIT], &match) == lwc_error_ok && match)) {
+			error = css_stylesheet_style_inherit(result, CSS_PROP_CLIP_PATH);
+	} else if ((token->type == CSS_TOKEN_IDENT) && (lwc_string_caseless_isequal(token->idata, c->strings[NONE], &match) == lwc_error_ok && match)) {
+			error = css__stylesheet_style_appendOPV(result, CSS_PROP_CLIP_PATH, 0,CLIP_PATH_NONE);
+	} else if (token->type == CSS_TOKEN_URI) {
+		lwc_string *uri = NULL;
+		uint32_t uri_snumber;
+
+		error = c->sheet->resolve(c->sheet->resolve_pw,
+				c->sheet->url,
+				token->idata, &uri);
+		if (error != CSS_OK) {
+			*ctx = orig_ctx;
+			return error;
+		}
+
+		error = css__stylesheet_string_add(c->sheet, uri, &uri_snumber);
+		if (error != CSS_OK) {
+			*ctx = orig_ctx;
+			return error;
+		}
+
+		error = css__stylesheet_style_appendOPV(result, CSS_PROP_CLIP_PATH, 0, CLIP_PATH_URI);
+		if (error != CSS_OK) {
+			*ctx = orig_ctx;
+			return error;
+		}
+
+		error = css__stylesheet_style_append(result, uri_snumber);
+	} else {
+		error = CSS_INVALID;
+	}
+
+	if (error != CSS_OK)
+		*ctx = orig_ctx;
+	
+	return error;
 }
+
