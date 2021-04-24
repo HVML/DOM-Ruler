@@ -991,9 +991,7 @@ enum op_flood_color {
 };
 
 enum op_flood_opacity {
-    FLOOD_OPACITY_SET         = 0x0080,
-
-    FLOOD_OPACITY_AUTO        = 0x0000
+    FLOOD_OPACITY_SET         = 0x0080
 };
 
 enum op_font_stretch {
@@ -1057,9 +1055,7 @@ enum op_stop_color {
 };
 
 enum op_stop_opacity {
-    STOP_OPACITY_SET         = 0x0080,
-
-    STOP_OPACITY_AUTO        = 0x0000
+    STOP_OPACITY_SET         = 0x0080
 };
 
 enum op_stroke {

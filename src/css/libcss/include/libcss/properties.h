@@ -1097,7 +1097,6 @@ enum css_flood_color_e {
 enum css_flood_opacity_e {
     CSS_FLOOD_OPACITY_INHERIT        = 0x0,
     CSS_FLOOD_OPACITY_SET            = 0X1,
-    CSS_FLOOD_OPACITY_AUTO           = 0x2
 };
 
 enum css_font_stretch_e {
@@ -1157,7 +1156,6 @@ enum css_stop_color_e {
 enum css_stop_opacity_e {
     CSS_STOP_OPACITY_INHERIT        = 0x0,
     CSS_STOP_OPACITY_SET            = 0X1,
-    CSS_STOP_OPACITY_AUTO           = 0x2
 };
 
 enum css_stroke_e {
