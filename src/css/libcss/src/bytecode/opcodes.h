@@ -903,19 +903,27 @@ enum op_text_shadow {
 enum op_word_break {
     WORD_BREAK_SET         = 0x0080,
 
-    WORD_BREAK_AUTO        = 0x0000
+    WORD_BREAK_AUTO        = 0x0000,
+    WORD_BREAK_NORMAL,
+    WORD_BREAK_BREAK_ALL,
+    WORD_BREAK_KEEP_ALL
 };
 
 enum op_word_wrap {
     WORD_WRAP_SET         = 0x0080,
 
-    WORD_WRAP_AUTO        = 0x0000
+    WORD_WRAP_AUTO        = 0x0000,
+    WORD_WRAP_NORMAL,
+    WORD_WRAP_BREAK_WORD
 };
 
 enum op_baseline_shift {
     BASELINE_SHIFT_SET         = 0x0080,
 
-    BASELINE_SHIFT_AUTO        = 0x0000
+    BASELINE_SHIFT_AUTO        = 0x0000,
+    BASELINE_SHIFT_BASELINE    = 0x0001,
+    BASELINE_SHIFT_SUB         = 0x0002,
+    BASELINE_SHIFT_SUPER       = 0x0003
 };
 
 enum op_clip_path {
@@ -927,19 +935,47 @@ enum op_clip_path {
 enum op_clip_rule {
     CLIP_RULE_SET         = 0x0080,
 
-    CLIP_RULE_AUTO        = 0x0000
+    CLIP_RULE_AUTO        = 0x0000,
+    CLIP_RULE_NONZERO,
+    CLIP_RULE_EVENODD,
 };
 
 enum op_comp_op {
     COMP_OP_SET         = 0x0080,
 
-    COMP_OP_AUTO        = 0x0000
+    COMP_OP_AUTO        = 0x0000,
+    COMP_OP_CLEAR,
+    COMP_OP_SRC,
+    COMP_OP_DST,
+    COMP_OP_SRC_OVER,
+    COMP_OP_DST_OVER,
+    COMP_OP_SRC_IN,
+    COMP_OP_DST_IN,
+    COMP_OP_SRC_OUT,
+    COMP_OP_DST_OUT,
+    COMP_OP_SRC_ATOP,
+    COMP_OP_DST_ATOP,
+    COMP_OP_XOR,
+    COMP_OP_PLUS,
+    COMP_OP_MULTIPLY,
+    COMP_OP_SCREEN,
+    COMP_OP_OVERLAY,
+    COMP_OP_DARKEN,
+    COMP_OP_LIGHTEN,
+    COMP_OP_COLOR_DODGE,
+    COMP_OP_COLOR_BURN,
+    COMP_OP_HARD_LIGHT,
+    COMP_OP_SOFT_LIGHT,
+    COMP_OP_DIFFERENCE,
+    COMP_OP_EXCLUSION
 };
 
 enum op_enable_background {
     ENABLE_BACKGROUND_SET         = 0x0080,
 
-    ENABLE_BACKGROUND_AUTO        = 0x0000
+    ENABLE_BACKGROUND_AUTO        = 0x0000,
+    ENABLE_BACKGROUND_ACCUMULATE,
+    ENABLE_BACKGROUND_NEW
 };
 
 enum op_fill {
@@ -957,7 +993,9 @@ enum op_fill_opacity {
 enum op_fill_rule {
     FILL_RULE_SET         = 0x0080,
 
-    FILL_RULE_AUTO        = 0x0000
+    FILL_RULE_AUTO        = 0x0000,
+    FILL_RULE_NONZERO, 
+    FILL_RULE_EVENODD
 };
 
 enum op_filter {
@@ -981,37 +1019,60 @@ enum op_flood_opacity {
 enum op_font_stretch {
     FONT_STRETCH_SET         = 0x0080,
 
-    FONT_STRETCH_AUTO        = 0x0000
+    FONT_STRETCH_AUTO        = 0x0000,
+    FONT_STRETCH_NORMAL,
+    FONT_STRETCH_WIDER,
+    FONT_STRETCH_NARROWER,
+    FONT_STRETCH_ULTRA_CONDENSED,
+    FONT_STRETCH_EXTRA_CONDENSED,
+    FONT_STRETCH_CONDENSED,
+    FONT_STRETCH_SEMI_CONDENSED,
+    FONT_STRETCH_SEMI_EXPANDED,
+    FONT_STRETCH_EXPANDED,
+FONT_STRETCH_EXTRA_EXPANDED,
+FONT_STRETCH_ULTRA_EXPANDED
 };
 
 enum op_marker_start {
     MARKER_START_SET         = 0x0080,
 
-    MARKER_START_AUTO        = 0x0000
+    MARKER_START_AUTO        = 0x0000,
+    MARKER_START_NONE,
+    MARKER_START_URI
 };
 
 enum op_marker_mid {
     MARKER_MID_SET         = 0x0080,
 
-    MARKER_MID_AUTO        = 0x0000
+    MARKER_MID_AUTO        = 0x0000,
+    MARKER_MID_NONE,
+    MARKER_MID_URI
 };
 
 enum op_marker_end {
     MARKER_END_SET         = 0x0080,
 
-    MARKER_END_AUTO        = 0x0000
+    MARKER_END_AUTO        = 0x0000,
+    MARKER_END_NONE,
+    MARKER_END_URI
 };
 
 enum op_mask {
     MASK_SET         = 0x0080,
 
-    MASK_AUTO        = 0x0000
+    MASK_AUTO        = 0x0000,
+    MASK_NONE,
+    MASK_URI
 };
 
 enum op_shape_rendering {
     SHAPE_RENDERING_SET         = 0x0080,
 
-    SHAPE_RENDERING_AUTO        = 0x0000
+    SHAPE_RENDERING_AUTO        = 0x0000,
+    SHAPE_RENDERING_OPTIMIZESPEED,
+    SHAPE_RENDERING_CRISPEDGES,
+    SHAPE_RENDERING_GEOMETRICPRECISION,
+    SHAPE_RENDERING_DEFAULT
 };
 
 enum op_stop_color {
@@ -1059,13 +1120,19 @@ enum op_stroke_dashoffset {
 enum op_stroke_linecap {
     STROKE_LINECAP_SET         = 0x0080,
 
-    STROKE_LINECAP_AUTO        = 0x0000
+    STROKE_LINECAP_AUTO        = 0x0000,
+    STROKE_LINECAP_BUTT,
+    STROKE_LINECAP_ROUND,
+    STROKE_LINECAP_SQUARE
 };
 
 enum op_stroke_linejoin {
     STROKE_LINEJOIN_SET         = 0x0080,
 
-    STROKE_LINEJOIN_AUTO        = 0x0000
+    STROKE_LINEJOIN_AUTO        = 0x0000,
+    STROKE_LINEJOIN_MITER,
+    STROKE_LINEJOIN_ROUND,
+    STROKE_LINEJOIN_BEVEL
 };
 
 enum op_stroke_miterlimit {
@@ -1077,13 +1144,20 @@ enum op_stroke_miterlimit {
 enum op_text_anchor {
     TEXT_ANCHOR_SET         = 0x0080,
 
-    TEXT_ANCHOR_AUTO        = 0x0000
+    TEXT_ANCHOR_AUTO        = 0x0000,
+    TEXT_ANCHOR_START,
+    TEXT_ANCHOR_MIDDLE,
+    TEXT_ANCHOR_END
 };
 
 enum op_text_rendering {
     TEXT_RENDERING_SET         = 0x0080,
 
-    TEXT_RENDERING_AUTO        = 0x0000
+    TEXT_RENDERING_AUTO        = 0x0000,
+    TEXT_RENDERING_OPTIMIZESPEED,
+    TEXT_RENDERING_GEOMETRICPRECISION,
+    TEXT_RENDERING_OPTIMIZELEGIBILITY,
+    TEXT_RENDERING_DEFAULT
 };
 
 
