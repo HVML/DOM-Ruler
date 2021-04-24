@@ -1059,9 +1059,9 @@ enum op_stop_opacity {
 };
 
 enum op_stroke {
-    STROKE_SET         = 0x0080,
-
-    STROKE_AUTO        = 0x0000
+    STROKE_SET             = 0x0080,
+    STROKE_TRANSPARENT     = 0x0000,
+    STROKE_CURRENT_COLOR   = 0x0001
 };
 
 enum op_stroke_width {

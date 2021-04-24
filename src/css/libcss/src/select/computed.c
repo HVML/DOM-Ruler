@@ -1970,9 +1970,9 @@ uint8_t css_computed_stop_opacity(const css_computed_style *style,
 }
 
 uint8_t css_computed_stroke(const css_computed_style *style,
-        lwc_string **string)
+        css_color *color)
 {
-    return get_stroke(style, string);
+    return get_stroke(style, color);
 }
 
 uint8_t css_computed_stroke_width(const css_computed_style *style,

@@ -1157,9 +1157,8 @@ enum css_stop_opacity_e {
 };
 
 enum css_stroke_e {
-    CSS_STROKE_INHERIT        = 0x0,
-    CSS_STROKE_SET            = 0X1,
-    CSS_STROKE_AUTO           = 0x2
+    CSS_STROKE_INHERIT         = 0x0,
+    CSS_STROKE_COLOR           = 0x1
 };
 
 enum css_stroke_width_e {
