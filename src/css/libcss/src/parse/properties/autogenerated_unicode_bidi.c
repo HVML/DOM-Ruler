@@ -8,6 +8,7 @@
  * Licensed under the MIT License,
  *		  http://www.opensource.org/licenses/mit-license.php
  * Copyright 2010 The NetSurf Browser Project.
+ * Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
  */
 
 #include <assert.h>
@@ -55,6 +56,12 @@ css_error css__parse_unicode_bidi(css_language *c,
 			error = css__stylesheet_style_appendOPV(result, CSS_PROP_UNICODE_BIDI, 0,UNICODE_BIDI_EMBED);
 	} else if ((lwc_string_caseless_isequal(token->idata, c->strings[BIDI_OVERRIDE], &match) == lwc_error_ok && match)) {
 			error = css__stylesheet_style_appendOPV(result, CSS_PROP_UNICODE_BIDI, 0,UNICODE_BIDI_BIDI_OVERRIDE);
+	} else if ((lwc_string_caseless_isequal(token->idata, c->strings[ISOLATE], &match) == lwc_error_ok && match)) {
+			error = css__stylesheet_style_appendOPV(result, CSS_PROP_UNICODE_BIDI, 0,UNICODE_BIDI_ISOLATE);
+	} else if ((lwc_string_caseless_isequal(token->idata, c->strings[ISOLATE_OVERRIDE], &match) == lwc_error_ok && match)) {
+			error = css__stylesheet_style_appendOPV(result, CSS_PROP_UNICODE_BIDI, 0,UNICODE_BIDI_ISOLATE_OVERRIDE);
+	} else if ((lwc_string_caseless_isequal(token->idata, c->strings[PLAINTEXT], &match) == lwc_error_ok && match)) {
+			error = css__stylesheet_style_appendOPV(result, CSS_PROP_UNICODE_BIDI, 0,UNICODE_BIDI_PLAINTEXT);
 	} else {
 		error = CSS_INVALID;
 	}
