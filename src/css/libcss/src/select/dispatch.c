@@ -620,7 +620,7 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
     },
     {
         PROPERTY_FUNCS(font_stretch),
-        0,
+        1,
     },
     {
         PROPERTY_FUNCS(marker_start),

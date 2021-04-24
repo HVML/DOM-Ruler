@@ -1099,9 +1099,18 @@ enum css_flood_opacity_e {
 };
 
 enum css_font_stretch_e {
-    CSS_FONT_STRETCH_INHERIT        = 0x0,
-    CSS_FONT_STRETCH_SET            = 0X1,
-    CSS_FONT_STRETCH_AUTO           = 0x2
+    CSS_FONT_STRETCH_INHERIT           = 0x0,
+    CSS_FONT_STRETCH_NORMAL            = 0x1,
+    CSS_FONT_STRETCH_WIDER             = 0x2,
+    CSS_FONT_STRETCH_NARROWER          = 0x3,
+    CSS_FONT_STRETCH_ULTRA_CONDENSED   = 0x4,
+    CSS_FONT_STRETCH_EXTRA_CONDENSED   = 0x5,
+    CSS_FONT_STRETCH_CONDENSED         = 0x6,
+    CSS_FONT_STRETCH_SEMI_CONDENSED    = 0x7,
+    CSS_FONT_STRETCH_SEMI_EXPANDED     = 0x8,
+    CSS_FONT_STRETCH_EXPANDED          = 0x9,
+    CSS_FONT_STRETCH_EXTRA_EXPANDED    = 0xa,
+    CSS_FONT_STRETCH_ULTRA_EXPANDED    = 0xb 
 };
 
 enum css_marker_start_e {
