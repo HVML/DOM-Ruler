@@ -1024,8 +1024,8 @@ enum css_clip_path_e {
 
 enum css_clip_rule_e {
     CSS_CLIP_RULE_INHERIT        = 0x0,
-    CSS_CLIP_RULE_SET            = 0X1,
-    CSS_CLIP_RULE_AUTO           = 0x2
+    CSS_CLIP_RULE_NONZERO        = 0x1,
+    CSS_CLIP_RULE_EVENODD        = 0x2
 };
 
 enum css_comp_op_e {

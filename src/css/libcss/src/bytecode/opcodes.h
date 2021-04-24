@@ -924,11 +924,8 @@ enum op_clip_path {
 };
 
 enum op_clip_rule {
-    CLIP_RULE_SET         = 0x0080,
-
-    CLIP_RULE_AUTO        = 0x0000,
-    CLIP_RULE_NONZERO,
-    CLIP_RULE_EVENODD,
+    CLIP_RULE_NONZERO    = 0x0000,
+    CLIP_RULE_EVENODD    = 0x0001
 };
 
 enum op_comp_op {
