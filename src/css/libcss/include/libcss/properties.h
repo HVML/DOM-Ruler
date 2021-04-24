@@ -1173,7 +1173,6 @@ enum css_stroke_width_e {
 enum css_stroke_opacity_e {
     CSS_STROKE_OPACITY_INHERIT        = 0x0,
     CSS_STROKE_OPACITY_SET            = 0X1,
-    CSS_STROKE_OPACITY_AUTO           = 0x2
 };
 
 enum css_stroke_dasharray_e {
