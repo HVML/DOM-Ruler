@@ -508,6 +508,12 @@ css_error css__parse_text_overflow(css_language *c,
 css_error css__parse_text_overflow_impl(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result, int np);
+css_error css__parse_text_shadow(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_text_shadow_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
 css_error css__parse_word_break(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
@@ -535,9 +541,15 @@ css_error css__parse_enable_background(css_language *c,
 css_error css__parse_fill(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
+css_error css__parse_fill_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
 css_error css__parse_fill_opacity(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
+css_error css__parse_fill_opacity_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
 css_error css__parse_fill_rule(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
@@ -577,6 +589,9 @@ css_error css__parse_stop_color(css_language *c,
 css_error css__parse_stop_opacity(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
+css_error css__parse_stop_opacity_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
 css_error css__parse_stroke(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
@@ -589,9 +604,15 @@ css_error css__parse_stroke_width(css_language *c,
 css_error css__parse_stroke_opacity(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
+css_error css__parse_stroke_opacity_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
 css_error css__parse_stroke_dasharray(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
+css_error css__parse_stroke_dasharray_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
 css_error css__parse_stroke_dashoffset(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result);
