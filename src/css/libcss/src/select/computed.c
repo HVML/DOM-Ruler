@@ -1878,8 +1878,7 @@ uint8_t css_computed_clip_rule(const css_computed_style *style)
     return get_clip_rule(style);
 }
 
-uint8_t css_computed_comp_op(const css_computed_style *style,
-        css_fixed *length, css_unit *unit)
+uint8_t css_computed_comp_op(const css_computed_style *style)
 {
     return get_comp_op(style);
 }

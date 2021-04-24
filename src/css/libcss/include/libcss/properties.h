@@ -1029,9 +1029,31 @@ enum css_clip_rule_e {
 };
 
 enum css_comp_op_e {
-    CSS_COMP_OP_INHERIT        = 0x0,
-    CSS_COMP_OP_SET            = 0X1,
-    CSS_COMP_OP_AUTO           = 0x2
+    CSS_COMP_OP_INHERIT     = 0x0,
+    CSS_COMP_OP_CLEAR       = 0x1,
+    CSS_COMP_OP_SRC         = 0x2,
+    CSS_COMP_OP_DST         = 0x3,
+    CSS_COMP_OP_SRC_OVER    = 0x4,
+    CSS_COMP_OP_DST_OVER    = 0x5,
+    CSS_COMP_OP_SRC_IN      = 0x6,
+    CSS_COMP_OP_DST_IN      = 0x7,
+    CSS_COMP_OP_SRC_OUT     = 0x8,
+    CSS_COMP_OP_DST_OUT     = 0x9,
+    CSS_COMP_OP_SRC_ATOP    = 0xa,
+    CSS_COMP_OP_DST_ATOP    = 0xb,
+    CSS_COMP_OP_XOR         = 0xc,
+    CSS_COMP_OP_PLUS        = 0xd,
+    CSS_COMP_OP_MULTIPLY    = 0xe,
+    CSS_COMP_OP_SCREEN      = 0xf,
+    CSS_COMP_OP_OVERLAY     = 0x10,
+    CSS_COMP_OP_DARKEN      = 0x11,
+    CSS_COMP_OP_LIGHTEN     = 0x12,
+    CSS_COMP_OP_COLOR_DODGE = 0x13,
+    CSS_COMP_OP_COLOR_BURN  = 0x14,
+    CSS_COMP_OP_HARD_LIGHT  = 0x15,
+    CSS_COMP_OP_SOFT_LIGHT  = 0x16,
+    CSS_COMP_OP_DIFFERENCE  = 0x17,
+    CSS_COMP_OP_EXCLUSION   = 0x18
 };
 
 enum css_enable_background_e {
