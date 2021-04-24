@@ -57,7 +57,7 @@ css_error css__compose_word_break(const css_computed_style *parent,
 {
 	uint8_t type = get_word_break(child);
 
-	if (type == CSS_DISPLAY_INHERIT) {
+	if (type == CSS_WORD_BREAK_INHERIT) {
 		type = get_word_break(parent);
 	}
 

@@ -1005,8 +1005,8 @@ enum css_word_break_e {
 
 enum css_word_wrap_e {
     CSS_WORD_WRAP_INHERIT        = 0x0,
-    CSS_WORD_WRAP_SET            = 0X1,
-    CSS_WORD_WRAP_AUTO           = 0x2
+    CSS_WORD_WRAP_NORMAL         = 0x1,
+    CSS_WORD_WRAP_BREAK_WORD     = 0x2
 };
 
 enum css_baseline_shift_e {

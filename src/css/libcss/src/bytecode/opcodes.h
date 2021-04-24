@@ -907,11 +907,8 @@ enum op_word_break {
 };
 
 enum op_word_wrap {
-    WORD_WRAP_SET         = 0x0080,
-
-    WORD_WRAP_AUTO        = 0x0000,
-    WORD_WRAP_NORMAL,
-    WORD_WRAP_BREAK_WORD
+    WORD_WRAP_NORMAL      = 0x0000,
+    WORD_WRAP_BREAK_WORD  = 0x0001
 };
 
 enum op_baseline_shift {

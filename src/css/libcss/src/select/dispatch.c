@@ -572,7 +572,7 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
     },
     {
         PROPERTY_FUNCS(word_wrap),
-        0,
+        1,
     },
     {
         PROPERTY_FUNCS(baseline_shift),
