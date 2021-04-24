@@ -20,13 +20,13 @@ css_error css__cascade_stroke_linecap(uint32_t opv, css_style *style,
 
     if (isInherit(opv) == false) {
         switch (getValue(opv)) {
-        case CSS_STROKE_LINECAP_BUTT:
+        case STROKE_LINECAP_BUTT:
             value = CSS_STROKE_LINECAP_BUTT;
             break;
-        case CSS_STROKE_LINECAP_ROUND:
+        case STROKE_LINECAP_ROUND:
             value = CSS_STROKE_LINECAP_ROUND;
             break;
-        case CSS_STROKE_LINECAP_SQUARE:
+        case STROKE_LINECAP_SQUARE:
             value = CSS_STROKE_LINECAP_SQUARE;
             break;
         }

@@ -1101,12 +1101,9 @@ enum op_stroke_linecap {
 };
 
 enum op_stroke_linejoin {
-    STROKE_LINEJOIN_SET         = 0x0080,
-
-    STROKE_LINEJOIN_AUTO        = 0x0000,
-    STROKE_LINEJOIN_MITER,
-    STROKE_LINEJOIN_ROUND,
-    STROKE_LINEJOIN_BEVEL
+    STROKE_LINEJOIN_MITER      = 0x0000,
+    STROKE_LINEJOIN_ROUND      = 0x0001,
+    STROKE_LINEJOIN_BEVEL      = 0x0002
 };
 
 enum op_stroke_miterlimit {

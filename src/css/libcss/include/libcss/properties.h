@@ -1199,9 +1199,10 @@ enum css_stroke_linecap_e {
 };
 
 enum css_stroke_linejoin_e {
-    CSS_STROKE_LINEJOIN_INHERIT        = 0x0,
-    CSS_STROKE_LINEJOIN_SET            = 0X1,
-    CSS_STROKE_LINEJOIN_AUTO           = 0x2
+    CSS_STROKE_LINEJOIN_INHERIT    = 0x0,
+    CSS_STROKE_LINEJOIN_MITER      = 0x1,
+    CSS_STROKE_LINEJOIN_ROUND      = 0x2,
+    CSS_STROKE_LINEJOIN_BEVEL      = 0x3
 };
 
 enum css_stroke_miterlimit_e {
