@@ -508,4 +508,106 @@ css_error css__parse_text_overflow(css_language *c,
 css_error css__parse_text_overflow_impl(css_language *c,
         const parserutils_vector *vector, int *ctx,
         css_style *result, int np);
+css_error css__parse_word_break(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_word_wrap(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_baseline_shift(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_clip_path(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_clip_path_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
+css_error css__parse_clip_rule(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_comp_op(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_enable_background(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_fill(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_fill_opacity(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_fill_rule(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_filter(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_filter_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
+css_error css__parse_flood_color(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_flood_opacity(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_font_stretch(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_marker_start(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_marker_mid(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_marker_end(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_mask(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_shape_rendering(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stop_color(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stop_opacity(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stroke(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stroke_impl(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result, int np);
+css_error css__parse_stroke_width(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stroke_opacity(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stroke_dasharray(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stroke_dashoffset(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stroke_linecap(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stroke_linejoin(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_stroke_miterlimit(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_text_anchor(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
+css_error css__parse_text_rendering(css_language *c,
+        const parserutils_vector *vector, int *ctx,
+        css_style *result);
 #endif
