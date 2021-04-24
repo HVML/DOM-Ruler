@@ -901,12 +901,9 @@ enum op_text_shadow {
 };
 
 enum op_word_break {
-    WORD_BREAK_SET         = 0x0080,
-
-    WORD_BREAK_AUTO        = 0x0000,
-    WORD_BREAK_NORMAL,
-    WORD_BREAK_BREAK_ALL,
-    WORD_BREAK_KEEP_ALL
+    WORD_BREAK_NORMAL      = 0x0000,
+    WORD_BREAK_BREAK_ALL   = 0x0001,
+    WORD_BREAK_KEEP_ALL    = 0x0002
 };
 
 enum op_word_wrap {

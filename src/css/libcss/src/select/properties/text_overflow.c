@@ -14,7 +14,7 @@
 css_error css__cascade_text_overflow(uint32_t opv, css_style *style,
 		css_select_state *state)
 {
-	uint16_t value = CSS_BACKGROUND_IMAGE_INHERIT;
+	uint16_t value = CSS_TEXT_OVERFLOW_INHERIT;
 	lwc_string *strings = NULL;
 
 	if (isInherit(opv) == false) {

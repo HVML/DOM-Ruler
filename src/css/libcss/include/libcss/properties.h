@@ -997,8 +997,10 @@ enum css_text_shadow_e {
 
 enum css_word_break_e {
     CSS_WORD_BREAK_INHERIT        = 0x0,
-    CSS_WORD_BREAK_SET            = 0X1,
-    CSS_WORD_BREAK_AUTO           = 0x2
+    CSS_WORD_BREAK_AUTO           = 0x1,
+    CSS_WORD_BREAK_NORMAL         = 0x2,
+    CSS_WORD_BREAK_BREAK_ALL      = 0x3,
+    CSS_WORD_BREAK_KEEP_ALL       = 0x4
 };
 
 enum css_word_wrap_e {
