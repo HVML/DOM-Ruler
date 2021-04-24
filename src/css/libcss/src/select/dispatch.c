@@ -640,7 +640,7 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
     },
     {
         PROPERTY_FUNCS(shape_rendering),
-        0,
+        1,
     },
     {
         PROPERTY_FUNCS(stop_color),

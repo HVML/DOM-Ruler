@@ -1141,9 +1141,12 @@ enum css_mask_e {
 };
 
 enum css_shape_rendering_e {
-    CSS_SHAPE_RENDERING_INHERIT        = 0x0,
-    CSS_SHAPE_RENDERING_SET            = 0X1,
-    CSS_SHAPE_RENDERING_AUTO           = 0x2
+    CSS_SHAPE_RENDERING_INHERIT            = 0x0,
+    CSS_SHAPE_RENDERING_AUTO               = 0x1,
+    CSS_SHAPE_RENDERING_OPTIMIZESPEED      = 0x2,
+    CSS_SHAPE_RENDERING_CRISPEDGES         = 0x3,
+    CSS_SHAPE_RENDERING_GEOMETRICPRECISION = 0x4,
+    CSS_SHAPE_RENDERING_DEFAULT            = 0x5
 };
 
 enum css_stop_color_e {
