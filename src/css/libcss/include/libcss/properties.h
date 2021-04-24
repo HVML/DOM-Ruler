@@ -1133,8 +1133,9 @@ enum css_marker_end_e {
 
 enum css_mask_e {
     CSS_MASK_INHERIT        = 0x0,
-    CSS_MASK_SET            = 0X1,
-    CSS_MASK_AUTO           = 0x2
+	/* Consult pointer in struct to determine which */
+	CSS_MASK_URI		    = 0x1,
+	CSS_MASK_NONE		    = 0x1
 };
 
 enum css_shape_rendering_e {

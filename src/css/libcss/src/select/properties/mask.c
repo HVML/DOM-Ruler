@@ -14,24 +14,39 @@
 css_error css__cascade_mask(uint32_t opv, css_style *style,
 		css_select_state *state)
 {
-	return CSS_OK;
+	return css__cascade_uri_none(opv, style, state, set_mask);
 }
 
 css_error css__set_mask_from_hint(const css_hint *hint,
 		css_computed_style *style)
 {
-	return CSS_OK;
+	css_error error;
+
+	error = set_mask(style, hint->status, hint->data.string);
+
+	if (hint->data.string != NULL)
+		lwc_string_unref(hint->data.string);
+
+	return error;
 }
 
 css_error css__initial_mask(css_select_state *state)
 {
-	return CSS_OK;
+	return set_mask(state->computed,
+			CSS_MASK_NONE, NULL);
 }
 
 css_error css__compose_mask(const css_computed_style *parent,
 		const css_computed_style *child,
 		css_computed_style *result)
 {
-	return CSS_OK;
+	lwc_string *url;
+	uint8_t type = get_mask(child, &url);
+
+	if (type == CSS_MASK_INHERIT) {
+		type = get_mask(parent, &url);
+	}
+
+	return set_mask(result, type, url);
 }
 

@@ -1033,11 +1033,8 @@ enum op_marker_end {
 };
 
 enum op_mask {
-    MASK_SET         = 0x0080,
-
-    MASK_AUTO        = 0x0000,
-    MASK_NONE,
-    MASK_URI
+	MASK_URI		= 0x0080,
+	MASK_NONE		= 0x0000
 };
 
 enum op_shape_rendering {
