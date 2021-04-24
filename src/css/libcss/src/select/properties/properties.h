@@ -158,6 +158,37 @@ PROPERTY_FUNCS(border_bottom_right_radius);
 PROPERTY_FUNCS(text_align_last);
 PROPERTY_FUNCS(text_justify);
 PROPERTY_FUNCS(text_overflow);
+PROPERTY_FUNCS(word_break);
+PROPERTY_FUNCS(word_wrap);
+PROPERTY_FUNCS(baseline_shift);
+PROPERTY_FUNCS(clip_path);
+PROPERTY_FUNCS(clip_rule);
+PROPERTY_FUNCS(comp_op);
+PROPERTY_FUNCS(enable_background);
+PROPERTY_FUNCS(fill);
+PROPERTY_FUNCS(fill_opacity);
+PROPERTY_FUNCS(fill_rule);
+PROPERTY_FUNCS(filter);
+PROPERTY_FUNCS(flood_color);
+PROPERTY_FUNCS(flood_opacity);
+PROPERTY_FUNCS(font_stretch);
+PROPERTY_FUNCS(marker_start);
+PROPERTY_FUNCS(marker_mid);
+PROPERTY_FUNCS(marker_end);
+PROPERTY_FUNCS(mask);
+PROPERTY_FUNCS(shape_rendering);
+PROPERTY_FUNCS(stop_color);
+PROPERTY_FUNCS(stop_opacity);
+PROPERTY_FUNCS(stroke);
+PROPERTY_FUNCS(stroke_width);
+PROPERTY_FUNCS(stroke_opacity);
+PROPERTY_FUNCS(stroke_dasharray);
+PROPERTY_FUNCS(stroke_dashoffset);
+PROPERTY_FUNCS(stroke_linecap);
+PROPERTY_FUNCS(stroke_linejoin);
+PROPERTY_FUNCS(stroke_miterlimit);
+PROPERTY_FUNCS(text_anchor);
+PROPERTY_FUNCS(text_rendering);
 
 #undef PROPERTY_FUNCS
 
