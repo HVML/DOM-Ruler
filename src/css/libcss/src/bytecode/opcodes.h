@@ -1049,9 +1049,9 @@ enum op_shape_rendering {
 };
 
 enum op_stop_color {
-    STOP_COLOR_SET         = 0x0080,
-
-    STOP_COLOR_AUTO        = 0x0000
+    STOP_COLOR_SET             = 0x0080,
+    STOP_COLOR_TRANSPARENT     = 0x0000,
+    STOP_COLOR_CURRENT_COLOR   = 0x0001
 };
 
 enum op_stop_opacity {

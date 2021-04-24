@@ -1,8 +1,5 @@
 /*
- * This file is part of LibCSS
- * Licensed under the MIT License,
- *		  http://www.opensource.org/licenses/mit-license.php
- * Copyright 2009 John-Mark Bell <jmb@netsurf-browser.org>
+ * Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
  */
 
 #include "bytecode/bytecode.h"

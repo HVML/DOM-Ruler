@@ -1147,9 +1147,8 @@ enum css_shape_rendering_e {
 };
 
 enum css_stop_color_e {
-    CSS_STOP_COLOR_INHERIT        = 0x0,
-    CSS_STOP_COLOR_SET            = 0X1,
-    CSS_STOP_COLOR_AUTO           = 0x2
+    CSS_STOP_COLOR_INHERIT         = 0x0,
+    CSS_STOP_COLOR_COLOR           = 0x1
 };
 
 enum css_stop_opacity_e {
