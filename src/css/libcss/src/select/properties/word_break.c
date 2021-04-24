@@ -48,7 +48,7 @@ css_error css__set_word_break_from_hint(const css_hint *hint,
 
 css_error css__initial_word_break(css_select_state *state)
 {
-	return set_word_break(state->computed, WORD_BREAK_NORMAL);
+	return set_word_break(state->computed, CSS_WORD_BREAK_NORMAL);
 }
 
 css_error css__compose_word_break(const css_computed_style *parent,

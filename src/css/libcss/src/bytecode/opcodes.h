@@ -912,12 +912,9 @@ enum op_word_wrap {
 };
 
 enum op_baseline_shift {
-    BASELINE_SHIFT_SET         = 0x0080,
-
-    BASELINE_SHIFT_AUTO        = 0x0000,
-    BASELINE_SHIFT_BASELINE    = 0x0001,
-    BASELINE_SHIFT_SUB         = 0x0002,
-    BASELINE_SHIFT_SUPER       = 0x0003
+    BASELINE_SHIFT_BASELINE    = 0x0000,
+    BASELINE_SHIFT_SUB         = 0x0001,
+    BASELINE_SHIFT_SUPER       = 0x0002
 };
 
 enum op_clip_path {

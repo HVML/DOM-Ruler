@@ -1862,8 +1862,7 @@ uint8_t css_computed_word_wrap(const css_computed_style *style)
     return get_word_wrap(style);
 }
 
-uint8_t css_computed_baseline_shift(const css_computed_style *style,
-        css_fixed *length, css_unit *unit)
+uint8_t css_computed_baseline_shift(const css_computed_style *style)
 {
     return get_baseline_shift(style);
 }

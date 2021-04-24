@@ -45,7 +45,7 @@ css_error css__set_word_wrap_from_hint(const css_hint *hint,
 
 css_error css__initial_word_wrap(css_select_state *state)
 {
-    return set_word_wrap(state->computed, WORD_WRAP_NORMAL);
+    return set_word_wrap(state->computed, CSS_WORD_WRAP_NORMAL);
 }
 
 css_error css__compose_word_wrap(const css_computed_style *parent,

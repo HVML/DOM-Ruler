@@ -1011,8 +1011,9 @@ enum css_word_wrap_e {
 
 enum css_baseline_shift_e {
     CSS_BASELINE_SHIFT_INHERIT        = 0x0,
-    CSS_BASELINE_SHIFT_SET            = 0X1,
-    CSS_BASELINE_SHIFT_AUTO           = 0x2
+    CSS_BASELINE_SHIFT_BASELINE       = 0x1,
+    CSS_BASELINE_SHIFT_SUB            = 0x2,
+    CSS_BASELINE_SHIFT_SUPER          = 0x3
 };
 
 enum css_clip_path_e {
