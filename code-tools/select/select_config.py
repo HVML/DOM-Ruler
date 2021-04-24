@@ -171,6 +171,7 @@ style = {
     ('enable_background', 5),
     ('fill', 1, 'string'),
     ('fill_opacity', 1, 'fixed', 'CSS_FILL_OPACITY_SET'),
+    ('fill_rule', 3),
     ('filter', 1, 'string'),
     ('flood_color', 1, 'color'),
     ('flood_opacity', 1, 'fixed', 'CSS_FLOOD_OPACITY_SET'),

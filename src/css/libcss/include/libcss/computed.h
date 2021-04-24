@@ -556,6 +556,9 @@ uint8_t css_computed_fill_opacity(
         const css_computed_style *style,
         css_fixed *length);
 
+uint8_t css_computed_fill_rule(
+        const css_computed_style *style);
+
 uint8_t css_computed_filter(
         const css_computed_style *style,
         lwc_string **string);

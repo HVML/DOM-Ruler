@@ -1900,6 +1900,11 @@ uint8_t css_computed_fill_opacity(const css_computed_style *style,
     return get_fill_opacity(style, length);
 }
 
+uint8_t css_computed_fill_rule(const css_computed_style *style)
+{
+    return get_fill_rule(style);
+}
+
 uint8_t css_computed_filter(const css_computed_style *style,
         lwc_string **string)
 {

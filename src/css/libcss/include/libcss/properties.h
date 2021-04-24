@@ -1075,9 +1075,9 @@ enum css_fill_opacity_e {
 };
 
 enum css_fill_rule_e {
-    CSS_FILL_RULE_INHERIT        = 0x0,
-    CSS_FILL_RULE_SET            = 0X1,
-    CSS_FILL_RULE_AUTO           = 0x2
+    CSS_FILL_RULE_INHERIT     = 0x0,
+    CSS_FILL_RULE_NONZERO     = 0x1, 
+    CSS_FILL_RULE_EVENODD     = 0x2
 };
 
 enum css_filter_e {
