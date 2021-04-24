@@ -361,6 +361,39 @@ list(APPEND css_SOURCES
     src/select/properties/text_align_last.c
     src/select/properties/text_justify.c
     src/select/properties/text_overflow.c
+    #### begin
+    src/select/properties/word_break.c
+    src/select/properties/word_wrap.c
+    src/select/properties/baseline_shift.c
+    src/select/properties/clip_path.c
+    src/select/properties/clip_rule.c
+    src/select/properties/comp_op.c
+    src/select/properties/enable_background.c
+    src/select/properties/fill.c
+    src/select/properties/fill_opacity.c
+    src/select/properties/fill_rule.c
+    src/select/properties/filter.c
+    src/select/properties/flood_color.c
+    src/select/properties/flood_opacity.c
+    src/select/properties/font_stretch.c
+    src/select/properties/marker_start.c
+    src/select/properties/marker_mid.c
+    src/select/properties/marker_end.c
+    src/select/properties/mask.c
+    src/select/properties/shape_rendering.c
+    src/select/properties/stop_color.c
+    src/select/properties/stop_opacity.c
+    src/select/properties/stroke.c
+    src/select/properties/stroke_width.c
+    src/select/properties/stroke_opacity.c
+    src/select/properties/stroke_dasharray.c
+    src/select/properties/stroke_dashoffset.c
+    src/select/properties/stroke_linecap.c
+    src/select/properties/stroke_linejoin.c
+    src/select/properties/stroke_miterlimit.c
+    src/select/properties/text_anchor.c
+    src/select/properties/text_rendering.c
+    #### end
     src/select/computed.c
     src/select/hash.c
     src/select/select.c
