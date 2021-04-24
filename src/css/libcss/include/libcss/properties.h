@@ -1219,9 +1219,12 @@ enum css_text_anchor_e {
 };
 
 enum css_text_rendering_e {
-    CSS_TEXT_RENDERING_INHERIT        = 0x0,
-    CSS_TEXT_RENDERING_SET            = 0X1,
-    CSS_TEXT_RENDERING_AUTO           = 0x2
+    CSS_TEXT_RENDERING_INHERIT              = 0x0,
+    CSS_TEXT_RENDERING_AUTO                 = 0x1,
+    CSS_TEXT_RENDERING_OPTIMIZESPEED        = 0x2,
+    CSS_TEXT_RENDERING_GEOMETRICPRECISION   = 0x3,
+    CSS_TEXT_RENDERING_OPTIMIZELEGIBILITY   = 0x4,
+    CSS_TEXT_RENDERING_DEFAULT              = 0x5
 };
 
 

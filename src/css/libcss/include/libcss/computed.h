@@ -634,9 +634,7 @@ uint8_t css_computed_stroke_miterlimit(
 uint8_t css_computed_text_anchor(
         const css_computed_style *style);
 
-uint8_t css_computed_text_rendering(
-        const css_computed_style *style,
-        css_fixed *length, css_unit *unit);
+uint8_t css_computed_text_rendering(const css_computed_style *style);
 
 
 #ifdef __cplusplus

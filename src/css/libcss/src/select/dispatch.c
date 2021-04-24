@@ -688,7 +688,7 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
     },
     {
         PROPERTY_FUNCS(text_rendering),
-        0,
+        1,
     }
 
 };
