@@ -1089,9 +1089,8 @@ enum css_filter_e {
 };
 
 enum css_flood_color_e {
-    CSS_FLOOD_COLOR_INHERIT        = 0x0,
-    CSS_FLOOD_COLOR_SET            = 0X1,
-    CSS_FLOOD_COLOR_AUTO           = 0x2
+    CSS_FLOOD_COLOR_INHERIT         = 0x0,
+    CSS_FLOOD_COLOR_COLOR           = 0x1
 };
 
 enum css_flood_opacity_e {

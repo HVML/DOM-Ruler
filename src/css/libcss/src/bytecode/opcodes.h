@@ -985,9 +985,9 @@ enum op_filter {
 };
 
 enum op_flood_color {
-    FLOOD_COLOR_SET         = 0x0080,
-
-    FLOOD_COLOR_AUTO        = 0x0000
+    FLOOD_COLOR_SET             = 0x0080,
+    FLOOD_COLOR_TRANSPARENT     = 0x0000,
+    FLOOD_COLOR_CURRENT_COLOR   = 0x0001
 };
 
 enum op_flood_opacity {
