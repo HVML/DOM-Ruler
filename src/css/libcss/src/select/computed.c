@@ -1883,8 +1883,7 @@ uint8_t css_computed_comp_op(const css_computed_style *style)
     return get_comp_op(style);
 }
 
-uint8_t css_computed_enable_background(const css_computed_style *style,
-        css_fixed *length, css_unit *unit)
+uint8_t css_computed_enable_background(const css_computed_style *style)
 {
     return get_enable_background(style);
 }

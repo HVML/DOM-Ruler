@@ -1057,9 +1057,9 @@ enum css_comp_op_e {
 };
 
 enum css_enable_background_e {
-    CSS_ENABLE_BACKGROUND_INHERIT        = 0x0,
-    CSS_ENABLE_BACKGROUND_SET            = 0X1,
-    CSS_ENABLE_BACKGROUND_AUTO           = 0x2
+    CSS_ENABLE_BACKGROUND_INHERIT     = 0x0,
+    CSS_ENABLE_BACKGROUND_ACCUMULATE  = 0x1,
+    CSS_ENABLE_BACKGROUND_NEW         = 0x2
 };
 
 enum css_fill_e {

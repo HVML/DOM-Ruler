@@ -956,11 +956,8 @@ enum op_comp_op {
 };
 
 enum op_enable_background {
-    ENABLE_BACKGROUND_SET         = 0x0080,
-
-    ENABLE_BACKGROUND_AUTO        = 0x0000,
-    ENABLE_BACKGROUND_ACCUMULATE,
-    ENABLE_BACKGROUND_NEW
+    ENABLE_BACKGROUND_ACCUMULATE  = 0x0000,
+    ENABLE_BACKGROUND_NEW         = 0x0001
 };
 
 enum op_fill {
