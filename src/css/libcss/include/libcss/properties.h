@@ -1115,27 +1115,30 @@ enum css_font_stretch_e {
 
 enum css_marker_start_e {
     CSS_MARKER_START_INHERIT        = 0x0,
-    CSS_MARKER_START_SET            = 0X1,
-    CSS_MARKER_START_AUTO           = 0x2
+    /* Consult pointer in struct to determine which */
+    CSS_MARKER_START_URI            = 0x1,
+    CSS_MARKER_START_NONE           = 0x1
 };
 
 enum css_marker_mid_e {
     CSS_MARKER_MID_INHERIT        = 0x0,
-    CSS_MARKER_MID_SET            = 0X1,
-    CSS_MARKER_MID_AUTO           = 0x2
+    /* Consult pointer in struct to determine which */
+    CSS_MARKER_MID_URI          = 0x1,
+    CSS_MARKER_MID_NONE         = 0x1
 };
 
 enum css_marker_end_e {
     CSS_MARKER_END_INHERIT        = 0x0,
-    CSS_MARKER_END_SET            = 0X1,
-    CSS_MARKER_END_AUTO           = 0x2
+    /* Consult pointer in struct to determine which */
+    CSS_MARKER_END_URI          = 0x1,
+    CSS_MARKER_END_NONE         = 0x1
 };
 
 enum css_mask_e {
     CSS_MASK_INHERIT        = 0x0,
-	/* Consult pointer in struct to determine which */
-	CSS_MASK_URI		    = 0x1,
-	CSS_MASK_NONE		    = 0x1
+    /* Consult pointer in struct to determine which */
+    CSS_MASK_URI            = 0x1,
+    CSS_MASK_NONE           = 0x1
 };
 
 enum css_shape_rendering_e {

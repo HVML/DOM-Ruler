@@ -1009,27 +1009,18 @@ enum op_font_stretch {
 };
 
 enum op_marker_start {
-    MARKER_START_SET         = 0x0080,
-
-    MARKER_START_AUTO        = 0x0000,
-    MARKER_START_NONE,
-    MARKER_START_URI
+	MARKER_START_URI		= 0x0080,
+	MARKER_START_NONE		= 0x0000
 };
 
 enum op_marker_mid {
-    MARKER_MID_SET         = 0x0080,
-
-    MARKER_MID_AUTO        = 0x0000,
-    MARKER_MID_NONE,
-    MARKER_MID_URI
+	MARKER_MID_URI		= 0x0080,
+	MARKER_MID_NONE		= 0x0000
 };
 
 enum op_marker_end {
-    MARKER_END_SET         = 0x0080,
-
-    MARKER_END_AUTO        = 0x0000,
-    MARKER_END_NONE,
-    MARKER_END_URI
+	MARKER_END_URI		= 0x0080,
+	MARKER_END_NONE		= 0x0000
 };
 
 enum op_mask {
