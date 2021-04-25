@@ -308,13 +308,13 @@ static inline uint8_t get_text_shadow(const css_computed_style *style,
 	bits &= TEXT_SHADOW_MASK;
 	bits >>= TEXT_SHADOW_SHIFT;
 	
-	/* 4bits: tttt : type */
+	/* 5bits: ttttt : type */
 	*text_shadow_h = style->i.text_shadow_h;
 	*text_shadow_v = style->i.text_shadow_v;
 	*text_shadow_blur = style->i.text_shadow_blur;
 	*text_shadow_color = style->i.text_shadow_color;
 	
-	return (bits & 0xf);
+	return (bits & 0x1f);
 }'''
 
 
@@ -327,8 +327,8 @@ static inline css_error set_text_shadow(css_computed_style *style, uint8_t type,
 	
 	bits = &style->i.bits[TEXT_SHADOW_INDEX];
 	
-	/* 4bits: tttt : type */
-	*bits = (*bits & ~TEXT_SHADOW_MASK) | (((uint32_t)type & 0xf) <<
+	/* 5bits: ttttt : type */
+	*bits = (*bits & ~TEXT_SHADOW_MASK) | (((uint32_t)type & 0x1f) <<
 			TEXT_SHADOW_SHIFT);
 
 	style->i.text_shadow_h = text_shadow_h;
