@@ -8,6 +8,7 @@
  * Licensed under the MIT License,
  *		  http://www.opensource.org/licenses/mit-license.php
  * Copyright 2010 The NetSurf Browser Project.
+ * Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
  */
 
 #include <assert.h>

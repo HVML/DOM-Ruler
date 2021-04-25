@@ -3,6 +3,7 @@
  * Licensed under the MIT License,
  *                http://www.opensource.org/licenses/mit-license.php
  * Copyright 2017 The NetSurf Project
+ * Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
  */
 
 struct css_computed_style_i {
