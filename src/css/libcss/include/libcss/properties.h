@@ -993,9 +993,12 @@ enum css_text_overflow_e {
 };
 
 enum css_text_shadow_e {
-    CSS_TEXT_SHADOW_INHERIT        = 0x0,
-    CSS_TEXT_SHADOW_SET            = 0X1,
-    CSS_TEXT_SHADOW_AUTO           = 0x2
+    CSS_TEXT_SHADOW_INHERIT     = 0x0,
+    CSS_TEXT_SHADOW_NONE        = 0x10,
+    CSS_TEXT_SHADOW_H           = (1<<0),
+    CSS_TEXT_SHADOW_V           = (1<<1),
+    CSS_TEXT_SHADOW_BLUR        = (1<<2),
+    CSS_TEXT_SHADOW_COLOR       = (1<<3)
 };
 
 enum css_word_break_e {

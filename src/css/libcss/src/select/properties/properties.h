@@ -158,6 +158,7 @@ PROPERTY_FUNCS(border_bottom_right_radius);
 PROPERTY_FUNCS(text_align_last);
 PROPERTY_FUNCS(text_justify);
 PROPERTY_FUNCS(text_overflow);
+PROPERTY_FUNCS(text_shadow);
 PROPERTY_FUNCS(word_break);
 PROPERTY_FUNCS(word_wrap);
 PROPERTY_FUNCS(baseline_shift);

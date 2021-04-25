@@ -900,7 +900,11 @@ enum op_text_overflow {
 enum op_text_shadow {
     TEXT_SHADOW_SET         = 0x0080,
 
-    TEXT_SHADOW_AUTO        = 0x0000
+    TEXT_SHADOW_NONE        = 0x0000,
+    TEXT_SHADOW_H           = (1<<0),
+    TEXT_SHADOW_V           = (1<<1),
+    TEXT_SHADOW_BLUR        = (1<<2),
+    TEXT_SHADOW_COLOR       = (1<<3)
 };
 
 enum op_word_break {
