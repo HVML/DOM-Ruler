@@ -161,7 +161,7 @@ style = {
     ('text_align_last', 4),
     ('text_justify', 4),
     ('text_overflow', 2, 'string'),
-    ('text_shadow', 2, None, None, 'CSS_TEXT_SHADOW_SET', None, ('get', 'set')),
+    ('text_shadow', 4, None, None, 'CSS_TEXT_SHADOW_SET', None, ('get', 'set')),
     ('word_break', 4),
     ('word_wrap', 4),
     ('baseline_shift', 4),

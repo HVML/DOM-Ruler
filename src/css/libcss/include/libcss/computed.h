@@ -525,7 +525,8 @@ uint8_t css_computed_text_justify(
 
 uint8_t css_computed_text_shadow(
         const css_computed_style *style,
-        css_fixed *length, css_unit *unit);
+        css_fixed* text_shadow_h, css_fixed* text_shadow_v,
+        css_fixed* text_shadow_blur, css_color* text_shadow_color);
 
 uint8_t css_computed_word_break(
         const css_computed_style *style);

@@ -501,10 +501,18 @@ class CSSGroup:
         t.append('css_fixed* grid_template_columns;')
         t.append('css_unit*  grid_template_columns_unit;')
 
+        t.append();
         t.append('size_t grid_template_rows_size;')
         t.append('uint8_t grid_template_rows_type;')
         t.append('css_fixed* grid_template_rows;')
         t.append('css_unit*  grid_template_rows_unit;')
+
+        t.append();
+        t.append('css_fixed  text_shadow_h;')
+        t.append('css_fixed  text_shadow_v;')
+        t.append('css_fixed  text_shadow_blur;')
+        t.append('css_color  text_shadow_color;')
+
         t.indent(-1)
         t.append('}}{};'.format(
             ' css_computed_' + self.name if typedef else ''))
