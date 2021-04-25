@@ -170,6 +170,7 @@ const css_prop_handler property_handlers[LAST_PROP + 1 - FIRST_PROP] =
     css__parse_text_align_last,
     css__parse_text_justify,
     css__parse_text_overflow,
+    css__parse_text_shadow,
     css__parse_word_break,
     css__parse_word_wrap,
     css__parse_baseline_shift,
