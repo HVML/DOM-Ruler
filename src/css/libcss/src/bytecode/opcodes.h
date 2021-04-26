@@ -1068,7 +1068,7 @@ enum op_stroke_opacity {
 enum op_stroke_dasharray {
     STROKE_DASHARRAY_SET         = 0x0080,
 
-    STROKE_DASHARRAY_AUTO        = 0x0000
+    STROKE_DASHARRAY_NONE        = 0x0000
 };
 
 enum op_stroke_dashoffset {
