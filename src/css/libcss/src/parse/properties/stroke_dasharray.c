@@ -19,7 +19,6 @@ css_error css__parse_stroke_dasharray_impl(css_language *c,
     css_error error = CSS_OK;
     const css_token *token;
     bool match;
-    bool write_flag = false;
 
     css_fixed length = 0;
     uint32_t unit = 0;
@@ -73,14 +72,10 @@ css_error css__parse_stroke_dasharray_impl(css_language *c,
             }
             last_ctx = *ctx;
 
-            if (!write_flag)
-            {
-                error = css__stylesheet_style_appendOPV(result, CSS_PROP_STROKE_DASHARRAY, 0, STROKE_DASHARRAY_SET);
-                if (error != CSS_OK) {
-                    *ctx = orig_ctx;
-                    return error;
-                }
-                write_flag = true;
+            error = css__stylesheet_style_appendOPV(result, CSS_PROP_STROKE_DASHARRAY, 0, STROKE_DASHARRAY_SET);
+            if (error != CSS_OK) {
+                *ctx = orig_ctx;
+                return error;
             }
 
             error = css__stylesheet_style_vappend(result, 2, length, unit);
@@ -90,6 +85,7 @@ css_error css__parse_stroke_dasharray_impl(css_language *c,
             }
 
         }
+        error = css__stylesheet_style_appendOPV(result, CSS_PROP_STROKE_DASHARRAY, 0, STROKE_DASHARRAY_END);
     }
 
     if (error != CSS_OK)

@@ -349,3 +349,57 @@ static inline css_error set_text_shadow(css_computed_style *style, uint8_t type,
         return CSS_OK;
 }'''
 
+overrides['get']['stroke_dasharray'] = '''\
+static inline uint8_t get_stroke_dasharray(const css_computed_style *style, int32_t *size,
+    css_fixed **values, css_unit **units)
+{
+    uint32_t bits = style->i.bits[STROKE_DASHARRAY_INDEX];
+    bits &= STROKE_DASHARRAY_MASK;
+    bits >>= STROKE_DASHARRAY_SHIFT;
+
+    *size = style->i.stroke_dasharray_size;
+    if (*size > 0)
+    {
+        css_fixed* v = (css_fixed*) malloc(*size * sizeof(css_fixed));
+        css_unit* u = (css_unit*) malloc(*size * sizeof(css_unit));
+        for (int i = 0; i < *size; i++)
+        {
+            v[i] = style->i.stroke_dasharray[i];
+            u[i] = style->i.stroke_dasharray_unit[i];
+        }
+        *values = v;
+        *units = u;
+    }
+
+    /* 2bits: tt : type */
+    return (bits & 0x3);
+}'''
+
+overrides['set']['stroke_dasharray'] = '''\
+static inline css_error set_stroke_dasharray(css_computed_style *style, uint8_t type, size_t size, css_fixed *values,
+                css_unit *units)
+{
+    uint32_t *bits;
+
+    bits = &style->i.bits[STROKE_DASHARRAY_INDEX];
+
+    /* 2bits: tt : type */
+    *bits = (*bits & ~STROKE_DASHARRAY_MASK) | (((uint32_t)type & 0x3) <<
+                    STROKE_DASHARRAY_SHIFT);
+
+    style->i.stroke_dasharray_size = size;
+
+    if (size == 0 || values == NULL || units == NULL)
+    {
+        return CSS_OK;
+    }
+
+    style->i.stroke_dasharray = (css_fixed*) malloc(size * sizeof(css_fixed));
+    style->i.stroke_dasharray_unit = (css_unit*) malloc(size *sizeof(css_unit));
+    for (int i = 0; i < size; i++)
+    {
+        style->i.stroke_dasharray[i] = values[i];
+        style->i.stroke_dasharray_unit[i] = units[i];
+    }
+    return CSS_OK;
+}'''

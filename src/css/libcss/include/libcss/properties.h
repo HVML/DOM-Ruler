@@ -1187,7 +1187,8 @@ enum css_stroke_opacity_e {
 enum css_stroke_dasharray_e {
     CSS_STROKE_DASHARRAY_INHERIT        = 0x0,
     CSS_STROKE_DASHARRAY_SET            = 0X1,
-    CSS_STROKE_DASHARRAY_NONE           = 0x2
+    CSS_STROKE_DASHARRAY_NONE           = 0x2,
+    CSS_STROKE_DASHARRAY_END            = 0x3
 };
 
 enum css_stroke_dashoffset_e {

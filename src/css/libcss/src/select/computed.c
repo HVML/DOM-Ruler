@@ -1996,9 +1996,12 @@ uint8_t css_computed_stroke_opacity(const css_computed_style *style,
     return get_stroke_opacity(style, length);
 }
 
-uint8_t css_computed_stroke_dasharray(const css_computed_style *style)
+uint8_t css_computed_stroke_dasharray(
+		const css_computed_style *style,
+        int32_t* n_values,
+		css_fixed** values, css_unit** units)
 {
-    return get_stroke_dasharray(style);
+    return get_stroke_dasharray(style, n_values, values, units);
 }
 
 uint8_t css_computed_stroke_dashoffset(const css_computed_style *style,

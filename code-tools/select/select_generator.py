@@ -516,6 +516,11 @@ class CSSGroup:
         t.append('css_unit  text_shadow_blur_unit;')
         t.append('css_color  text_shadow_color;')
 
+        t.append();
+        t.append('size_t stroke_dasharray_size;')
+        t.append('css_fixed* stroke_dasharray;')
+        t.append('css_unit*  stroke_dasharray_unit;')
+
         t.indent(-1)
         t.append('}}{};'.format(
             ' css_computed_' + self.name if typedef else ''))
