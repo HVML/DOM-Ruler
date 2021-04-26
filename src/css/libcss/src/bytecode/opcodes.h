@@ -982,9 +982,8 @@ enum op_fill_rule {
 };
 
 enum op_filter {
-    FILTER_SET         = 0x0080,
-
-    FILTER_AUTO        = 0x0000
+	FILTER_URI		= 0x0080,
+	FILTER_NONE		= 0x0000
 };
 
 enum op_flood_color {

@@ -1088,8 +1088,9 @@ enum css_fill_rule_e {
 
 enum css_filter_e {
     CSS_FILTER_INHERIT        = 0x0,
-    CSS_FILTER_SET            = 0X1,
-    CSS_FILTER_AUTO           = 0x2
+    /* Consult pointer in struct to determine which */
+    CSS_FILTER_URI            = 0x1,
+    CSS_FILTER_NONE           = 0x1
 };
 
 enum css_flood_color_e {
