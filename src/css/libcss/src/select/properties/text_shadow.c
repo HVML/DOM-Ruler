@@ -57,7 +57,7 @@
 css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
         css_select_state *state)
 {
-    uint16_t value = CSS_TEXT_SHADOW_INHERIT;
+    uint16_t v = CSS_TEXT_SHADOW_INHERIT;
 
     css_fixed text_shadow_h; 
     css_unit text_shadow_h_unit;
@@ -70,7 +70,9 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
 
     css_color text_shadow_color;
         
-    value = getValue(opv);
+    uint16_t value = getValue(opv);
+    if (value == TEXT_SHADOW_NONE)
+        v = CSS_TEXT_SHADOW_NONE;
     if (isInherit(opv) == false && value != TEXT_SHADOW_NONE) {
 
         // text_shadow_h 
@@ -89,9 +91,11 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
         advance_bytecode(style, sizeof(css_unit));
         text_shadow_v_unit = css__to_css_unit(text_shadow_v_unit);
 
+        v = v | CSS_TEXT_SHADOW_H | CSS_TEXT_SHADOW_V;
         // text_shadow_blur
         if (value & TEXT_SHADOW_BLUR)
         {
+            v = v | CSS_TEXT_SHADOW_BLUR;
             text_shadow_blur = *((css_fixed *) style->bytecode);
             advance_bytecode(style, sizeof(css_fixed));
 
@@ -103,6 +107,7 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
 
         if (value & TEXT_SHADOW_COLOR)
         {
+            v = v | CSS_TEXT_SHADOW_COLOR;
 			text_shadow_color = *((css_color *) style->bytecode);
 			advance_bytecode(style, sizeof(css_color));
         }
@@ -110,7 +115,7 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
 
     if (css__outranks_existing(getOpcode(opv), isImportant(opv), state,
             isInherit(opv))) {
-		return set_text_shadow(state->computed, value, 
+		return set_text_shadow(state->computed, v,
                 text_shadow_h, text_shadow_h_unit, 
                 text_shadow_v, text_shadow_v_unit, 
                 text_shadow_blur, text_shadow_blur_unit, 
