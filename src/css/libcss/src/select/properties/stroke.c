@@ -14,33 +14,6 @@
 css_error css__cascade_stroke(uint32_t opv, css_style *style,
 		css_select_state *state)
 {
-	bool inherit = isInherit(opv);
-	uint16_t value = CSS_STROKE_INHERIT;
-	css_color color = 0;
-
-	if (inherit == false) {
-		switch (getValue(opv)) {
-		case COLOR_TRANSPARENT:
-			value = CSS_STROKE_COLOR;
-			break;
-		case COLOR_CURRENT_COLOR:
-			/* color: currentColor always computes to inherit */
-			value = CSS_STROKE_INHERIT;
-			inherit = true;
-			break;
-		case COLOR_SET:
-			value = CSS_STROKE_COLOR;
-			color = *((css_color *) style->bytecode);
-			advance_bytecode(style, sizeof(color));
-			break;
-		}
-	}
-
-	if (css__outranks_existing(getOpcode(opv), isImportant(opv), state,
-			inherit)) {
-		return set_stroke(state->computed, value, color);
-	}
-
 	return CSS_OK;
 }
 

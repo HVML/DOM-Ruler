@@ -11,7 +11,7 @@
 #include "parse/properties/properties.h"
 #include "parse/properties/utils.h"
 
-css_error css__parse_fill_impl(css_language *c,
+css_error css__parse_stroke_impl(css_language *c,
 		const parserutils_vector *vector, int *ctx,
 		css_style *result, int np)
 {
@@ -27,11 +27,11 @@ css_error css__parse_fill_impl(css_language *c,
     }
 
     if ((token->type == CSS_TOKEN_IDENT) && (lwc_string_caseless_isequal(token->idata, c->strings[INHERIT], &match) == lwc_error_ok && match)) {
-        error = css_stylesheet_style_inherit(result, CSS_PROP_FILL);
+        error = css_stylesheet_style_inherit(result, CSS_PROP_STROKE);
     } else if ((token->type == CSS_TOKEN_IDENT) && (lwc_string_caseless_isequal(token->idata, c->strings[NONE], &match) == lwc_error_ok && match)) {
-        error = css__stylesheet_style_appendOPV(result, CSS_PROP_FILL, 0,FILL_NONE);
+        error = css__stylesheet_style_appendOPV(result, CSS_PROP_STROKE, 0,STROKE_NONE);
     } else if ((token->type == CSS_TOKEN_IDENT) && (lwc_string_caseless_isequal(token->idata, c->strings[CURRENTCOLOR], &match) == lwc_error_ok && match)) {
-        error = css__stylesheet_style_appendOPV(result, CSS_PROP_FILL, 0,FILL_CURRENT_COLOR);
+        error = css__stylesheet_style_appendOPV(result, CSS_PROP_STROKE, 0,STROKE_CURRENT_COLOR);
     } else if (token->type == CSS_TOKEN_URI) {
         lwc_string *uri = NULL;
         uint32_t uri_snumber;
@@ -50,7 +50,7 @@ css_error css__parse_fill_impl(css_language *c,
             return error;
         }
 
-        error = css__stylesheet_style_appendOPV(result, CSS_PROP_FILL, 0, FILL_URI);
+        error = css__stylesheet_style_appendOPV(result, CSS_PROP_STROKE, 0, STROKE_URI);
         if (error != CSS_OK) {
             *ctx = orig_ctx;
             return error;

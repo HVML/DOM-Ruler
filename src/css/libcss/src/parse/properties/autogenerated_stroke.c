@@ -3,7 +3,7 @@
  * 
  * Generated from:
  *
- * stroke:CSS_PROP_STROKE IDENT:INHERIT COLOR:CSS_PROP_STROKE_SET
+ * stroke:CSS_PROP_STROKE WRAP:css__parse_stroke_impl
  * 
  * Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
  */
@@ -34,43 +34,5 @@ css_error css__parse_stroke(css_language *c,
 		const parserutils_vector *vector, int *ctx,
 		css_style *result)
 {
-	int orig_ctx = *ctx;
-	css_error error;
-	const css_token *token;
-	bool match;
-
-	token = parserutils_vector_iterate(vector, ctx);
-	if (token == NULL) {
-		*ctx = orig_ctx;
-		return CSS_INVALID;
-	}
-
-	if ((token->type == CSS_TOKEN_IDENT) && (lwc_string_caseless_isequal(token->idata, c->strings[INHERIT], &match) == lwc_error_ok && match)) {
-			error = css_stylesheet_style_inherit(result, CSS_PROP_STROKE);
-	} else {
-		uint16_t value = 0;
-		uint32_t color = 0;
-		*ctx = orig_ctx;
-
-		error = css__parse_colour_specifier(c, vector, ctx, &value, &color);
-		if (error != CSS_OK) {
-			*ctx = orig_ctx;
-			return error;
-		}
-
-		error = css__stylesheet_style_appendOPV(result, CSS_PROP_STROKE, 0, value);
-		if (error != CSS_OK) {
-			*ctx = orig_ctx;
-			return error;
-		}
-
-		if (value == COLOR_SET)
-			error = css__stylesheet_style_append(result, color);
-	}
-
-	if (error != CSS_OK)
-		*ctx = orig_ctx;
-	
-	return error;
+	return css__parse_stroke_impl(c, vector, ctx, result, CSS_PROP_STROKE);
 }
-

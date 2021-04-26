@@ -596,7 +596,7 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
     },
     {
         PROPERTY_FUNCS(enable_background),
-        0,
+        1,
     },
     {
         PROPERTY_FUNCS(fill),
@@ -656,7 +656,7 @@ struct prop_table prop_dispatch[CSS_N_PROPERTIES] = {
     },
     {
         PROPERTY_FUNCS(stroke),
-        0,
+        1,
     },
     {
         PROPERTY_FUNCS(stroke_width),

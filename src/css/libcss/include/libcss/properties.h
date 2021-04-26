@@ -1071,8 +1071,9 @@ enum css_enable_background_e {
 
 enum css_fill_e {
     CSS_FILL_INHERIT        = 0x0,
-    CSS_FILL_SET            = 0X1,
-    CSS_FILL_AUTO           = 0x2
+    CSS_FILL_NONE           = 0x1,
+    CSS_FILL_URI            = 0x2,
+    CSS_FILL_CURRENT_COLOR  = 0x3
 };
 
 enum css_fill_opacity_e {
@@ -1166,8 +1167,10 @@ enum css_stop_opacity_e {
 };
 
 enum css_stroke_e {
-    CSS_STROKE_INHERIT         = 0x0,
-    CSS_STROKE_COLOR           = 0x1
+    CSS_STROKE_INHERIT          = 0x0,
+    CSS_STROKE_NONE             = 0x1,
+    CSS_STROKE_URI              = 0x2,
+    CSS_STROKE_CURRENT_COLOR    = 0x3
 };
 
 enum css_stroke_width_e {
