@@ -183,7 +183,7 @@ style = {
     ('shape_rendering', 5),
     ('stop_color', 1, 'color'),
     ('stop_opacity', 1, 'fixed', 'CSS_FLOOD_OPACITY_SET'),
-    ('stroke', 1, 'color'),
+    ('stroke', 1, 'string'),
     ('stroke_width', 2, 'length', 'CSS_STROKE_WIDTH_SET'),
     ('stroke_opacity', 1, 'fixed', 'CSS_STROKE_OPACITY_SET'),
     ('stroke_dasharray', 2, None, None, 'CSS_STROKE_DASHARRAY_SET', None, ('get', 'set')),

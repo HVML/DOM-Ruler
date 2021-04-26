@@ -606,7 +606,7 @@ uint8_t css_computed_stop_opacity(
 
 uint8_t css_computed_stroke(
         const css_computed_style *style,
-        css_color *color);
+        lwc_string **string);
 
 uint8_t css_computed_stroke_width(
         const css_computed_style *style,
