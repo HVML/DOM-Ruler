@@ -42,7 +42,7 @@ css_error css__compose_filter(const css_computed_style *parent,
 	lwc_string *url;
 	uint8_t type = get_filter(child, &url);
 
-	if (type == CSS_BACKGROUND_IMAGE_INHERIT) {
+	if (type == CSS_FILTER_INHERIT) {
 		type = get_filter(parent, &url);
 	}
 
