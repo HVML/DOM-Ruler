@@ -1846,12 +1846,18 @@ uint8_t css_computed_text_justify(const css_computed_style *style,
     return get_text_justify(style);
 }
 
-uint8_t css_computed_text_shadow(const css_computed_style *style,
-        css_fixed* text_shadow_h, css_fixed* text_shadow_v,
-        css_fixed* text_shadow_blur, css_color* text_shadow_color)
+uint8_t css_computed_text_shadow(
+        const css_computed_style *style,
+        css_fixed* text_shadow_h, css_unit* text_shadow_h_unit, 
+        css_fixed* text_shadow_v, css_unit* text_shadow_v_unit,
+        css_fixed* text_shadow_blur, css_unit* text_shadow_blur_unit,
+        css_color* text_shadow_color)
 {
-    return get_text_shadow(style, text_shadow_h,
-            text_shadow_v, text_shadow_blur, text_shadow_color);
+    return get_text_shadow(style, 
+            text_shadow_h, text_shadow_h_unit,
+            text_shadow_v, text_shadow_v_unit, 
+            text_shadow_blur, text_shadow_blur_unit, 
+            text_shadow_color);
 }
 
 uint8_t css_computed_word_break(const css_computed_style *style)

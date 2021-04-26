@@ -301,41 +301,51 @@ static inline css_error set_grid_template_rows(css_computed_style *style, uint8_
 
 overrides['get']['text_shadow'] = '''\
 static inline uint8_t get_text_shadow(const css_computed_style *style,
-        css_fixed* text_shadow_h, css_fixed* text_shadow_v,
-        css_fixed* text_shadow_blur, css_color* text_shadow_color)
+        css_fixed* text_shadow_h, css_unit* text_shadow_h_unit,
+        css_fixed* text_shadow_v, css_unit* text_shadow_v_unit,
+        css_fixed* text_shadow_blur, css_unit* text_shadow_blur_unit,
+        css_color* text_shadow_color)
 {
-	uint32_t bits = style->i.bits[TEXT_SHADOW_INDEX];
-	bits &= TEXT_SHADOW_MASK;
-	bits >>= TEXT_SHADOW_SHIFT;
-	
-	/* 5bits: ttttt : type */
-	*text_shadow_h = style->i.text_shadow_h;
-	*text_shadow_v = style->i.text_shadow_v;
-	*text_shadow_blur = style->i.text_shadow_blur;
-	*text_shadow_color = style->i.text_shadow_color;
-	
-	return (bits & 0x1f);
+        uint32_t bits = style->i.bits[TEXT_SHADOW_INDEX];
+        bits &= TEXT_SHADOW_MASK;
+        bits >>= TEXT_SHADOW_SHIFT;
+        
+        /* 5bits: ttttt : type */
+        *text_shadow_h = style->i.text_shadow_h;
+        *text_shadow_h_unit = style->i.text_shadow_h_unit;
+        *text_shadow_v = style->i.text_shadow_v;
+        *text_shadow_v_unit = style->i.text_shadow_v_unit;
+        *text_shadow_blur = style->i.text_shadow_blur;
+        *text_shadow_blur_unit = style->i.text_shadow_blur_unit;
+        *text_shadow_color = style->i.text_shadow_color;
+        
+        return (bits & 0x1f);
 }'''
 
 
 overrides['set']['text_shadow'] = '''\
 static inline css_error set_text_shadow(css_computed_style *style, uint8_t type,
-        css_fixed text_shadow_h, css_fixed text_shadow_v,
-        css_fixed text_shadow_blur, css_color text_shadow_color)
+        css_fixed text_shadow_h, css_unit text_shadow_h_unit,
+        css_fixed text_shadow_v, css_unit text_shadow_v_unit,
+        css_fixed text_shadow_blur, css_unit text_shadow_blur_unit, 
+        css_color text_shadow_color)
 {
-	uint32_t *bits;
-	
-	bits = &style->i.bits[TEXT_SHADOW_INDEX];
-	
-	/* 5bits: ttttt : type */
-	*bits = (*bits & ~TEXT_SHADOW_MASK) | (((uint32_t)type & 0x1f) <<
-			TEXT_SHADOW_SHIFT);
+        uint32_t *bits;
+        
+        bits = &style->i.bits[TEXT_SHADOW_INDEX];
+        
+        /* 5bits: ttttt : type */
+        *bits = (*bits & ~TEXT_SHADOW_MASK) | (((uint32_t)type & 0x1f) <<
+                        TEXT_SHADOW_SHIFT);
 
-	style->i.text_shadow_h = text_shadow_h;
-	style->i.text_shadow_v = text_shadow_v;
-	style->i.text_shadow_blur = text_shadow_blur;
-	style->i.text_shadow_color = text_shadow_color;
-	
-	return CSS_OK;
+        style->i.text_shadow_h = text_shadow_h;
+        style->i.text_shadow_h_unit = text_shadow_h_unit;
+        style->i.text_shadow_v = text_shadow_v;
+        style->i.text_shadow_v_unit = text_shadow_v_unit;
+        style->i.text_shadow_blur = text_shadow_blur;
+        style->i.text_shadow_blur_unit = text_shadow_blur_unit;
+        style->i.text_shadow_color = text_shadow_color;
+        
+        return CSS_OK;
 }'''
 

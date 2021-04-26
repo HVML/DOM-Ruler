@@ -509,8 +509,11 @@ class CSSGroup:
 
         t.append();
         t.append('css_fixed  text_shadow_h;')
+        t.append('css_unit  text_shadow_h_unit;')
         t.append('css_fixed  text_shadow_v;')
+        t.append('css_unit  text_shadow_v_unit;')
         t.append('css_fixed  text_shadow_blur;')
+        t.append('css_unit  text_shadow_blur_unit;')
         t.append('css_color  text_shadow_color;')
 
         t.indent(-1)

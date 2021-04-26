@@ -57,9 +57,24 @@ int main(int argc, char **argv)
 {
 	css_error code;
 	size_t size;
-	const char data[] = "h1 { color: red } "
-		"h4 { color: #321; } "
-		"h4, h5 { color: #123456; }";
+//	const char data[] = "h1 {fill: url(#MyHatch) powderblue; } ";
+//	const char data[] = "h1 {fill: 10px, 5px, 10px, blue } ";
+//	const char data[] = "h1 {stroke-dasharray: none;text-shadow: none } ";
+	//const char data[] = "h1 {text-shadow: 1px 5px 10px red } ";
+	const char data[] = "h1 {text-shadow: 5px 10px 100px red} ";
+#if 0
+	const char data[] = "h1 {stroke-dasharray: 10 5 10 1; } "
+        "h2 { stroke-dasharray: 1, 20%,3,4,5;}"
+        "h3 { filter: none url(http://www.baidu.com);}"
+        "h3 { fill: none;}"
+        "h3 { fill: currentColor;}"
+        "h3 { fill: url(http://www.baidu.com);}"
+        "h3 { stroke: Inherited;}"
+        "h3 { stroke: none;}"
+        "h3 { stroke: currentColor;}"
+        "h3 { stroke: url(http://www.baidu.com);}"
+        ;
+#endif
 	css_select_ctx *select_ctx;
 	uint32_t count;
 	unsigned int hh;
@@ -78,7 +93,7 @@ int main(int argc, char **argv)
     hilayout_css_append_data(css, data, strlen(data));
 
 	/* select style for each of h1 to h6 */
-	for (hh = 1; hh != 7; hh++) {
+	for (hh = 1; hh < 2; hh++) {
 		css_select_results *style;
 		uint8_t color_type;
 		css_color color_shade;
@@ -94,6 +109,20 @@ int main(int argc, char **argv)
 			HL_LOGW("color of h%i is 'inherit'\n", hh);
 		else
 			HL_LOGW("color of h%i is %x\n", hh, color_shade);
+
+        css_fixed h, v, blur;
+        css_unit h_unit, v_unit, blur_unit;
+        css_color color;
+
+        uint8_t shadow_type = css_computed_text_shadow(
+				style->styles[CSS_PSEUDO_ELEMENT_NONE],
+                &h, &h_unit, &v, &v_unit, &blur, &blur_unit, &color);
+
+        HL_LOGW("text_shadow type=0x%x\n", shadow_type);
+        HL_LOGW("text_shadow h=%d|h_unit=%d\n", h, h_unit);
+        HL_LOGW("text_shadow v=%d|v_unit=%d\n", v, v_unit);
+        HL_LOGW("text_shadow blur=%d|blur_unit=%d\n", blur, blur_unit);
+        HL_LOGW("text_shadow color=0x%x\n", color);
 
         _hilayout_css_select_result_destroy(style);
         hilayout_element_node_destroy(domNode);

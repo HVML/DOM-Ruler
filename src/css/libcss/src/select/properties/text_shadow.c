@@ -69,9 +69,9 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
     css_unit text_shadow_blur_unit;
 
     css_color text_shadow_color;
-
-    if (isInherit(opv) == false) {
-        value = getValue(opv);
+        
+    value = getValue(opv);
+    if (isInherit(opv) == false && value != TEXT_SHADOW_NONE) {
 
         // text_shadow_h 
         text_shadow_h = *((css_fixed *) style->bytecode);
@@ -79,6 +79,7 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
 
         text_shadow_h_unit = *((uint32_t *) style->bytecode);
         advance_bytecode(style, sizeof(css_unit));
+        text_shadow_h_unit = css__to_css_unit(text_shadow_h_unit);
 
         // text_shadow_v 
         text_shadow_v = *((css_fixed *) style->bytecode);
@@ -86,6 +87,7 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
 
         text_shadow_v_unit = *((uint32_t *) style->bytecode);
         advance_bytecode(style, sizeof(css_unit));
+        text_shadow_v_unit = css__to_css_unit(text_shadow_v_unit);
 
         // text_shadow_blur
         if (value & TEXT_SHADOW_BLUR)
@@ -95,6 +97,8 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
 
             text_shadow_blur_unit = *((uint32_t *) style->bytecode);
             advance_bytecode(style, sizeof(css_unit));
+            text_shadow_blur_unit = css__to_css_unit(text_shadow_blur_unit);
+
         }
 
         if (value & TEXT_SHADOW_COLOR)
@@ -106,7 +110,11 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
 
     if (css__outranks_existing(getOpcode(opv), isImportant(opv), state,
             isInherit(opv))) {
-		return set_text_shadow(state->computed, value, text_shadow_h, text_shadow_v, text_shadow_blur, text_shadow_color);
+		return set_text_shadow(state->computed, value, 
+                text_shadow_h, text_shadow_h_unit, 
+                text_shadow_v, text_shadow_v_unit, 
+                text_shadow_blur, text_shadow_blur_unit, 
+                text_shadow_color);
     }
 
     return CSS_OK;
@@ -115,12 +123,12 @@ css_error css__cascade_text_shadow(uint32_t opv, css_style *style,
 css_error css__set_text_shadow_from_hint(const css_hint *hint,
         css_computed_style *style)
 {
-    return set_text_shadow(style, CSS_TEXT_SHADOW_NONE,  0, 0, 0, 0);
+    return set_text_shadow(style, CSS_TEXT_SHADOW_NONE,  0, 0, 0, 0, 0, 0, 0);
 }
 
 css_error css__initial_text_shadow(css_select_state *state)
 {
-    return set_text_shadow(state->computed, CSS_TEXT_SHADOW_NONE,  0, 0, 0, 0);
+    return set_text_shadow(state->computed, CSS_TEXT_SHADOW_NONE,  0, 0, 0, 0, 0, 0, 0);
 }
 
 css_error css__compose_text_shadow(const css_computed_style *parent,
@@ -128,15 +136,33 @@ css_error css__compose_text_shadow(const css_computed_style *parent,
         css_computed_style *result)
 {
     css_fixed text_shadow_h; 
+    css_unit text_shadow_h_unit;
+
     css_fixed text_shadow_v;
+    css_unit text_shadow_v_unit;
+
     css_fixed text_shadow_blur; 
+    css_unit text_shadow_blur_unit;
+
     css_color text_shadow_color;
 
-    uint8_t type = get_text_shadow(child, &text_shadow_h, &text_shadow_v, &text_shadow_blur, &text_shadow_color);
+    uint8_t type = get_text_shadow(child, 
+            &text_shadow_h, &text_shadow_h_unit, 
+            &text_shadow_v, &text_shadow_v_unit, 
+            &text_shadow_blur, &text_shadow_blur_unit, 
+            &text_shadow_color);
 
     if (type == CSS_WORD_WRAP_INHERIT) {
-        type = get_text_shadow(parent, &text_shadow_h, &text_shadow_v, &text_shadow_blur, &text_shadow_color);
+        type = get_text_shadow(parent, 
+            &text_shadow_h, &text_shadow_h_unit, 
+            &text_shadow_v, &text_shadow_v_unit, 
+            &text_shadow_blur, &text_shadow_blur_unit, 
+            &text_shadow_color);
     }
 
-    return set_text_shadow(result, type, text_shadow_h, text_shadow_v, text_shadow_blur, text_shadow_color);
+    return set_text_shadow(result, type, 
+            text_shadow_h, text_shadow_h_unit, 
+            text_shadow_v, text_shadow_v_unit, 
+            text_shadow_blur, text_shadow_blur_unit, 
+            text_shadow_color);
 }
