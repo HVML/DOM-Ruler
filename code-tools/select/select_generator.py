@@ -522,6 +522,13 @@ class CSSGroup:
         t.append('css_fixed* stroke_dasharray;')
         t.append('css_unit*  stroke_dasharray_unit;')
 
+
+        t.append();
+        t.append('lwc_string* fill;')
+        t.append('css_color fill_color;')
+        t.append('lwc_string* stroke;')
+        t.append('css_color stroke_color;')
+
         t.indent(-1)
         t.append('}}{};'.format(
             ' css_computed_' + self.name if typedef else ''))

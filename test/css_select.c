@@ -59,11 +59,11 @@ int main(int argc, char **argv)
 	css_error code;
 	size_t size;
 //	const char data[] = "h1 {text-shadow: 5px 10px 100px red; filter:none; fill: url(#MyHatch); stroke: url(#stroke);} ";
-//	const char data[] = "h1 {fill: 10px, 5px, 10px, blue } ";
+	const char data[] = "h1 {fill: #123; stroke: red; } ";
 //	const char data[] = "h1 {stroke-dasharray: none;text-shadow: none } ";
 	//const char data[] = "h1 {text-shadow: 1px 5px 10px red } ";
 //	const char data[] = "h1 {text-shadow: 5px 10px 100px red; filter:none;} ";
-	const char data[] = "h1 {stroke-dasharray: 10,5,10,9,1; } ";
+//	const char data[] = "h1 {stroke-dasharray: 10,5,10,9,1; } ";
 #if 0
 	const char data[] = "h1 {stroke-dasharray: 10 5 10 1; } "
         "h2 { stroke-dasharray: 1, 20%,3,4,5;}"
@@ -134,16 +134,18 @@ int main(int argc, char **argv)
         HL_LOGW("text_shadow filter=%s\n", filter ? lwc_string_data(filter) : "");
 
         lwc_string *fill = NULL;
-        css_computed_fill(
+        css_color fill_color;
+        uint8_t fill_type = css_computed_fill(
 				style->styles[CSS_PSEUDO_ELEMENT_NONE],
-                &fill);
-        HL_LOGW("text_shadow fill=%s\n", fill ? lwc_string_data(fill) : "");
+                &fill, &fill_color);
+        HL_LOGW("text_shadow fill_type=%d|fill=%s|color=0x%x\n", fill_type, fill ? lwc_string_data(fill) : "", fill_color);
 
         lwc_string *stroke = NULL;
-        css_computed_stroke(
+        css_color stroke_color;
+        uint8_t stroke_type = css_computed_stroke(
 				style->styles[CSS_PSEUDO_ELEMENT_NONE],
-                &stroke);
-        HL_LOGW("text_shadow stroke=%s\n", stroke ? lwc_string_data(stroke) : "");
+                &stroke, &stroke_color);
+        HL_LOGW("text_shadow stroke_type=%d|stroke=%s|color=0x%x\n", stroke_type, stroke ? lwc_string_data(stroke) : "", stroke_color);
 
 
         int32_t n_values = 0;

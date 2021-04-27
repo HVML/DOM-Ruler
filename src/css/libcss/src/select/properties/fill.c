@@ -61,6 +61,7 @@ css_error css__cascade_fill(uint32_t opv, css_style *style,
 {
     uint16_t value = CSS_FILL_INHERIT;
     lwc_string *uri = NULL;
+    css_color color;
 
     if (isInherit(opv) == false) {
         switch (getValue(opv)) {
@@ -75,12 +76,17 @@ css_error css__cascade_fill(uint32_t opv, css_style *style,
             css__stylesheet_string_get(style->sheet, *((css_code_t *) style->bytecode), &uri);
             advance_bytecode(style, sizeof(css_code_t));
             break;
+        case FILL_SET_COLOR:
+            value = CSS_FILL_SET_COLOR;
+			color = *((css_color *) style->bytecode);
+			advance_bytecode(style, sizeof(color));
+            break;
         }
     }
 
     if (css__outranks_existing(getOpcode(opv),
             isImportant(opv), state, isInherit(opv))) {
-        return set_fill(state->computed, value, uri);
+        return set_fill(state->computed, value, uri, color);
     }
 
     return CSS_OK;
@@ -91,7 +97,7 @@ css_error css__set_fill_from_hint(const css_hint *hint,
 {
 	css_error error;
 
-	error = set_fill(style, hint->status, hint->data.string);
+	error = set_fill(style, hint->status, hint->data.string, 0);
 
 	if (hint->data.string != NULL)
 		lwc_string_unref(hint->data.string);
@@ -101,7 +107,7 @@ css_error css__set_fill_from_hint(const css_hint *hint,
 
 css_error css__initial_fill(css_select_state *state)
 {
-	return set_fill(state->computed, CSS_FILL_NONE, NULL);
+	return set_fill(state->computed, CSS_FILL_NONE, NULL, 0);
 }
 
 css_error css__compose_fill(const css_computed_style *parent,
@@ -109,11 +115,12 @@ css_error css__compose_fill(const css_computed_style *parent,
 		css_computed_style *result)
 {
 	lwc_string *url;
-	uint8_t type = get_fill(child, &url);
+    css_color color;
+	uint8_t type = get_fill(child, &url, &color);
 
 	if (type == CSS_FILL_INHERIT) {
-		type = get_fill(parent, &url);
+		type = get_fill(parent, &url, &color);
 	}
 
-	return set_fill(result, type, url);
+	return set_fill(result, type, url, color);
 }

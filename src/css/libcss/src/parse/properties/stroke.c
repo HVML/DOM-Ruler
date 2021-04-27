@@ -101,7 +101,23 @@ css_error css__parse_stroke_impl(css_language *c,
 
         error = css__stylesheet_style_append(result, uri_snumber);
     } else {
-        error = CSS_INVALID;
+		uint16_t value = 0;
+		uint32_t color = 0;
+		*ctx = orig_ctx;
+
+		error = css__parse_colour_specifier(c, vector, ctx, &value, &color);
+		if (error != CSS_OK) {
+			*ctx = orig_ctx;
+			return error;
+		}
+
+		error = css__stylesheet_style_appendOPV(result, CSS_PROP_STROKE, 0, STROKE_SET_COLOR);
+		if (error != CSS_OK) {
+			*ctx = orig_ctx;
+			return error;
+		}
+
+        error = css__stylesheet_style_append(result, color);
     }
 
     if (error != CSS_OK)

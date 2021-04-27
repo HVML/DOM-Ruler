@@ -1074,7 +1074,8 @@ enum css_fill_e {
     CSS_FILL_INHERIT        = 0x0,
     CSS_FILL_NONE           = 0x1,
     CSS_FILL_URI            = 0x2,
-    CSS_FILL_CURRENT_COLOR  = 0x3
+    CSS_FILL_CURRENT_COLOR  = 0x3,
+    CSS_FILL_SET_COLOR      = 0x4
 };
 
 enum css_fill_opacity_e {
@@ -1171,7 +1172,8 @@ enum css_stroke_e {
     CSS_STROKE_INHERIT          = 0x0,
     CSS_STROKE_NONE             = 0x1,
     CSS_STROKE_URI              = 0x2,
-    CSS_STROKE_CURRENT_COLOR    = 0x3
+    CSS_STROKE_CURRENT_COLOR    = 0x3,
+    CSS_STROKE_SET_COLOR        = 0x4
 };
 
 enum css_stroke_width_e {

@@ -404,3 +404,88 @@ static inline css_error set_stroke_dasharray(css_computed_style *style, uint8_t 
     }
     return CSS_OK;
 }'''
+
+
+overrides['get']['fill'] = '''\
+static inline uint8_t get_fill(const css_computed_style *style, lwc_string
+        **string, css_color *color)
+{
+    uint32_t bits = style->i.bits[FILL_INDEX];
+    bits &= FILL_MASK;
+    bits >>= FILL_SHIFT;
+
+    /* 3bits: ttt : type */
+    *string = style->i.fill;
+    *color = style->i.fill_color;
+
+    return (bits & 0x7);
+}'''
+
+overrides['set']['fill'] = '''\
+static inline css_error set_fill(css_computed_style *style, uint8_t type,
+        lwc_string *string, css_color color)
+{
+    uint32_t *bits;
+
+    bits = &style->i.bits[FILL_INDEX];
+
+    /* 3bits: ttt : type */
+    *bits = (*bits & ~FILL_MASK) | (((uint32_t)type & 0x7) << FILL_SHIFT);
+
+    lwc_string *old_string = style->i.fill;
+
+    if (string != NULL) {
+        style->i.fill = lwc_string_ref(string);
+    } else {
+        style->i.fill = NULL;
+    }
+
+    if (old_string != NULL)
+        lwc_string_unref(old_string);
+
+    style->i.fill_color = color;
+
+    return CSS_OK;
+}'''
+
+overrides['get']['stroke'] = '''\
+static inline uint8_t get_stroke(const css_computed_style *style, lwc_string
+        **string, css_color *color)
+{
+    uint32_t bits = style->i.bits[STROKE_INDEX];
+    bits &= STROKE_MASK;
+    bits >>= STROKE_SHIFT;
+
+    /* 3bits: ttt : type */
+    *string = style->i.stroke;
+    *color = style->i.stroke_color;
+
+    return (bits & 0x7);
+}'''
+
+overrides['set']['stroke'] = '''\
+static inline css_error set_stroke(css_computed_style *style, uint8_t type,
+        lwc_string *string, css_color color)
+{
+    uint32_t *bits;
+
+    bits = &style->i.bits[STROKE_INDEX];
+
+    /* 3bits: ttt : type */
+    *bits = (*bits & ~STROKE_MASK) | (((uint32_t)type & 0x7) << STROKE_SHIFT);
+
+    lwc_string *old_string = style->i.stroke;
+
+    if (string != NULL) {
+        style->i.stroke = lwc_string_ref(string);
+    } else {
+        style->i.stroke = NULL;
+    }
+
+    if (old_string != NULL)
+        lwc_string_unref(old_string);
+
+    style->i.stroke_color = color;
+
+    return CSS_OK;
+}'''

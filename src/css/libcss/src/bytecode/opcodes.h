@@ -970,7 +970,8 @@ enum op_enable_background {
 enum op_fill {
     FILL_NONE           = 0x0000,
     FILL_URI            = 0x0001,
-    FILL_CURRENT_COLOR  = 0x0002
+    FILL_CURRENT_COLOR  = 0x0002,
+    FILL_SET_COLOR      = 0x0003
 };
 
 enum op_fill_opacity {
@@ -1053,7 +1054,8 @@ enum op_stroke {
     STROKE_SET              = 0x0080,
     STROKE_NONE             = 0x0001,
     STROKE_URI              = 0x0002,
-    STROKE_CURRENT_COLOR    = 0x0003
+    STROKE_CURRENT_COLOR    = 0x0003,
+    STROKE_SET_COLOR        = 0x0004
 };
 
 enum op_stroke_width {
