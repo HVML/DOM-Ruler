@@ -23,6 +23,7 @@ hiacejs_test
 hiacejs_run
 node_test
 *.pc
+.build
 
 
 #log

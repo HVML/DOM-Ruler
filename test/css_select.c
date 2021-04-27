@@ -57,11 +57,12 @@ int main(int argc, char **argv)
 {
 	css_error code;
 	size_t size;
-//	const char data[] = "h1 {fill: url(#MyHatch) powderblue; } ";
+//	const char data[] = "h1 {text-shadow: 5px 10px 100px red; filter:none; fill: url(#MyHatch); stroke: url(#stroke);} ";
 //	const char data[] = "h1 {fill: 10px, 5px, 10px, blue } ";
 //	const char data[] = "h1 {stroke-dasharray: none;text-shadow: none } ";
 	//const char data[] = "h1 {text-shadow: 1px 5px 10px red } ";
-	const char data[] = "h1 {text-shadow: 5px 10px 100px red} ";
+//	const char data[] = "h1 {text-shadow: 5px 10px 100px red; filter:none;} ";
+	const char data[] = "h1 {stroke-dasharray: 10,5,10,9,1; } ";
 #if 0
 	const char data[] = "h1 {stroke-dasharray: 10 5 10 1; } "
         "h2 { stroke-dasharray: 1, 20%,3,4,5;}"
@@ -123,6 +124,39 @@ int main(int argc, char **argv)
         HL_LOGW("text_shadow v=%d|v_unit=%d\n", v, v_unit);
         HL_LOGW("text_shadow blur=%d|blur_unit=%d\n", blur, blur_unit);
         HL_LOGW("text_shadow color=0x%x\n", color);
+
+
+        lwc_string *filter = NULL;
+        css_computed_filter(
+				style->styles[CSS_PSEUDO_ELEMENT_NONE],
+                &filter);
+        HL_LOGW("text_shadow filter=%s\n", filter ? lwc_string_data(filter) : "");
+
+        lwc_string *fill = NULL;
+        css_computed_fill(
+				style->styles[CSS_PSEUDO_ELEMENT_NONE],
+                &fill);
+        HL_LOGW("text_shadow fill=%s\n", fill ? lwc_string_data(fill) : "");
+
+        lwc_string *stroke = NULL;
+        css_computed_stroke(
+				style->styles[CSS_PSEUDO_ELEMENT_NONE],
+                &stroke);
+        HL_LOGW("text_shadow stroke=%s\n", stroke ? lwc_string_data(stroke) : "");
+
+
+        int32_t n_values = 0;
+        css_fixed* values = NULL;
+        css_unit* units = NULL;
+        uint8_t dasharray_t = css_computed_stroke_dasharray(
+				style->styles[CSS_PSEUDO_ELEMENT_NONE],
+                &n_values, &values, &units);
+        HL_LOGW("stroke_dasharray type=0x%x\n", dasharray_t);
+        HL_LOGW("stroke_dasharray count=%d\n", n_values);
+        for (int i=0; i < n_values; i++)
+        {
+            fprintf(stderr, "index=%d|values=%d\n", i, values[i]);
+        }
 
         _hilayout_css_select_result_destroy(style);
         hilayout_element_node_destroy(domNode);
