@@ -2,6 +2,7 @@
 # Licensed under the MIT License,
 # http://www.opensource.org/licenses/mit-license.php
 # Copyright 2017 Lucas Neves <lcneves@gmail.com>
+# Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
 
 import math
 import string

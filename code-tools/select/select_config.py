@@ -2,6 +2,7 @@
 # Licensed under the MIT License,
 # http://www.opensource.org/licenses/mit-license.php
 # Copyright 2017 Lucas Neves <lcneves@gmail.com>
+# Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
 
 # Configuration of CSS values.
 # The tuples in this set will be unpacked as arguments to the CSSValue
