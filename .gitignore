@@ -2,6 +2,7 @@
 /src/out/
 lib*.so
 hiacejs_test
+build.sh
 
 # CMake
 cmake-build-*/
