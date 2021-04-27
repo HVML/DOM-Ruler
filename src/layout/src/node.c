@@ -12,10 +12,11 @@
 /**
  \verbatim
 
-    This file is part of HybridOS, a developing operating system based on
-    MiniGUI. HybridOs will support embedded systems and smart IoT devices.
+    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    maintain a DOM tree, lay out and stylize the DOM nodes by
+    using CSS (Cascaded Style Sheets).
 
-    Copyright (C) 2020 Beijing FMSoft Technologies Co., Ltd.
+    Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -95,8 +96,11 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     node->tag = strdup(tag);
     node->inner_tag = _hilayout_lwc_string_dup(tag);
 
-
     node->box_values.w = UNKNOWN_WIDTH;
+    node->box_values.display = HL_DISPLAY_BLOCK;
+    node->box_values.position = HL_POSITION_RELATIVE;
+    node->box_values.visibility = HL_VISIBILITY_VISIBLE;
+    node->box_values.opacity = 1.0f;
 
     node->min_w = 0;
     node->max_w = UNKNOWN_MAX_WIDTH;
@@ -112,22 +116,47 @@ const char* hilayout_element_node_get_tag_name(HLDomElementNode* node)
     return node ? node->tag : NULL;
 }
 
+void _hl_destory_class_list_item (gpointer data)
+{
+    free(data);
+}
+
 static const char _HILAYOUT_WHITESPACE[] = " ";
 void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
 {
     if (node == NULL || classes == NULL || strlen(classes) == 0)
     {
-        node->inner_classes_count = 0;
         return;
     }
+
+    if (node->inner_classes)
+    {
+        for (int i = 0; i < node->inner_classes_count; i++)
+        {
+            _hilayout_lwc_string_destroy(node->inner_classes[i]);
+        }
+        node->inner_classes_count = 0;
+        free(node->inner_classes);
+    }
+
+    g_list_free_full(node->class_list, _hl_destory_class_list_item);
+    node->class_list = NULL;
+    
     char* value = strdup(classes);
     char* c = strtok(value, _HILAYOUT_WHITESPACE);
     while (c != NULL) {
-        node->inner_classes[node->inner_classes_count]= _hilayout_lwc_string_dup(c);
+        node->class_list = g_list_append(node->class_list, strdup(c));
         node->inner_classes_count++;
         c = strtok(NULL, _HILAYOUT_WHITESPACE);
     }
     free(value);
+
+    node->inner_classes = (lwc_string**)calloc(node->inner_classes_count, sizeof(lwc_string*));
+    int i = 0;
+    for (GList* it = node->class_list; it; it = it->next)
+    {
+        node->inner_classes[i++]= _hilayout_lwc_string_dup((const char*)it->data);
+    }
 }
 
 void hilayout_element_node_destroy(HLDomElementNode *node)
@@ -180,12 +209,21 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         free(node->attach_data);
     }
 
+    if (node->class_list)
+    {
+        g_list_free_full(node->class_list, _hl_destory_class_list_item);
+    }
+
     _hilayout_lwc_string_destroy(node->inner_tag);
     _hilayout_lwc_string_destroy(node->inner_id);
 
-    for (int i = 0; i < node->inner_classes_count; i++)
+    if (node->inner_classes)
     {
-        _hilayout_lwc_string_destroy(node->inner_classes[i]);
+        for (int i = 0; i < node->inner_classes_count; i++)
+        {
+            _hilayout_lwc_string_destroy(node->inner_classes[i]);
+        }
+        free(node->inner_classes);
     }
 
     if (node->text_values.font_family)
@@ -329,10 +367,6 @@ int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttrib
             _hilayout_fill_inner_classes(node, attr_value);
             break;
     }
-    if (attr_id == HL_COMMON_ATTR_CLASS_NAME)
-    {
-    }
-
 
     return g_hash_table_insert(node->common_attrs, (gpointer)attr_id, (gpointer)strdup(attr_value));
 }
@@ -501,6 +535,64 @@ void* _hl_element_node_get_inner_data(HLDomElementNode* node, const char* key)
     }
     HLAttachData* attach = (HLAttachData*) g_hash_table_lookup(node->inner_data, (gpointer)key);
     return attach ? attach->data : NULL;
+}
+
+gint _hl_comp_class_name (gconstpointer a, gconstpointer b)
+{
+    return strcmp((const char*)a, (const char*)b);
+}
+
+int hilayout_element_node_has_class (HLDomElementNode* node, const char* class_name)
+{
+    GList* ret = g_list_find_custom(node->class_list, class_name, _hl_comp_class_name);
+    return ret ? 1 : 0;
+}
+
+int hilayout_element_node_include_class (HLDomElementNode* node, const char* class_name)
+{
+    if (node == NULL || class_name == NULL)
+    {
+        return HILAYOUT_BADPARM;
+    }
+
+    if (hilayout_element_node_has_class(node, class_name))
+    {
+        return 0;
+    }
+
+    const char* classes = hilayout_element_node_get_class (node);
+    char* buf = (char*) malloc(strlen(classes) + strlen(class_name) + 2);
+    strcpy(buf, classes);
+    strcat(buf, _HILAYOUT_WHITESPACE);
+    strcat(buf, class_name);
+    hilayout_element_node_set_class(node, buf);
+    free(buf);
+    return 0;
+}
+
+int hilayout_element_node_exclude_class (HLDomElementNode* node, const char* class_name)
+{
+    GList* ret = g_list_find_custom(node->class_list, class_name, _hl_comp_class_name);
+    if (!ret)
+    {
+        return 0;
+    }
+
+    const char* classes = hilayout_element_node_get_class (node);
+    char* buf = (char*) malloc(strlen(classes) + 1);
+
+    GList *it = NULL;
+    for (it = node->class_list; it; it = it->next)
+    {
+        if (it == ret)
+        {
+            continue;
+        }
+        strcat(buf, (const char*)it->data);
+        strcat(buf, _HILAYOUT_WHITESPACE);
+    }
+    hilayout_element_node_set_class(node, buf);
+    free(buf);
 }
 
 bool _hl_node_is_root(HLDomElementNode *n)

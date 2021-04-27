@@ -12,10 +12,11 @@
 /**
  \verbatim
 
-    This file is part of HybridOS, a developing operating system based on
-    MiniGUI. HybridOs will support embedded systems and smart IoT devices.
+    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    maintain a DOM tree, lay out and stylize the DOM nodes by
+    using CSS (Cascaded Style Sheets).
 
-    Copyright (C) 2020 Beijing FMSoft Technologies Co., Ltd.
+    Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -219,6 +220,29 @@ int main(int argc, char **argv)
     _hl_element_node_set_inner_data(hijs, "innerData", buf, destory_user_data);
     udata = _hl_element_node_get_inner_data(hijs, "innerData");
     fprintf(stderr, "############### test get inner data key=innerData | value =%s\n",  (char*)udata);
+
+    char* class_name = "   aa bb cc dd ee ff   ";
+    hilayout_element_node_set_class(hijs, class_name);
+    const char* get_name = hilayout_element_node_get_class(hijs);
+    fprintf(stderr, ".....................set class = %s\n", class_name);
+    fprintf(stderr, ".....................get class = %s\n", get_name);
+
+    fprintf(stderr, " hilayout_element_node_has_class xsm=%d\n", hilayout_element_node_has_class(hijs, "xsm"));
+    fprintf(stderr, " hilayout_element_node_has_class aa=%d\n", hilayout_element_node_has_class(hijs, "aa"));
+    fprintf(stderr, " hilayout_element_node_has_class bb=%d\n", hilayout_element_node_has_class(hijs, "bb"));
+    fprintf(stderr, " hilayout_element_node_has_class cc=%d\n", hilayout_element_node_has_class(hijs, "cc"));
+    fprintf(stderr, " hilayout_element_node_has_class dd=%d\n", hilayout_element_node_has_class(hijs, "dd"));
+    fprintf(stderr, " hilayout_element_node_has_class ee=%d\n", hilayout_element_node_has_class(hijs, "ee"));
+    fprintf(stderr, " hilayout_element_node_has_class ff=%d\n", hilayout_element_node_has_class(hijs, "ff"));
+
+    fprintf(stderr, " hilayout_element_node_include_class xsm=%d\n", hilayout_element_node_include_class(hijs, "xsm"));
+    fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
+
+    fprintf(stderr, " hilayout_element_node_exclude_class zxx=%d\n", hilayout_element_node_exclude_class(hijs, "zxx"));
+    fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
+
+    fprintf(stderr, " hilayout_element_node_exclude_class ff=%d\n", hilayout_element_node_exclude_class(hijs, "ff"));
+    fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
 
     hilayout_css_destroy(css);
 

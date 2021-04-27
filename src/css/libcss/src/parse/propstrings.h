@@ -3,6 +3,7 @@
  * Licensed under the MIT License,
  *                http://www.opensource.org/licenses/mit-license.php
  * Copyright 2008 John-Mark Bell <jmb@netsurf-browser.org>
+ * Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
  */
 
 #ifndef css_css__parse_propstrings_h_

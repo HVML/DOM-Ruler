@@ -12,10 +12,11 @@
 /**
  \verbatim
 
-    This file is part of HybridOS, a developing operating system based on
-    MiniGUI. HybridOs will support embedded systems and smart IoT devices.
+    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    maintain a DOM tree, lay out and stylize the DOM nodes by
+    using CSS (Cascaded Style Sheets).
 
-    Copyright (C) 2020 Beijing FMSoft Technologies Co., Ltd.
+    Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -122,13 +123,17 @@ typedef struct HLDomElementNode_ {
 
     HLAttachData* attach_data; // attach data
 
+
+    // class name
+    GList* class_list;
+
     //inner layout
     LayoutType layout_type;
 
     // begin for hicss inner
     lwc_string* inner_tag;
     lwc_string* inner_id;
-    lwc_string* inner_classes[HILAYOUT_MAX_CLASS_COUNT];
+    lwc_string** inner_classes;
     int inner_classes_count;
 
     HLDomElementNodeType inner_dom_type;;

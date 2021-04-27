@@ -12,10 +12,11 @@
 /**
  \verbatim
 
-    This file is part of HybridOS, a developing operating system based on
-    MiniGUI. HybridOs will support embedded systems and smart IoT devices.
+    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    maintain a DOM tree, lay out and stylize the DOM nodes by
+    using CSS (Cascaded Style Sheets).
 
-    Copyright (C) 2020 Beijing FMSoft Technologies Co., Ltd.
+    Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -75,8 +76,6 @@
     } while (0)
 
 // log end
-
-#define HILAYOUT_MAX_CLASS_COUNT   1024
 
 // error code begin
 #define HILAYOUT_OK                 0
@@ -177,6 +176,27 @@ typedef enum HLCommonAttribute_ {
 // svg begin
 // svg end
 
+typedef enum HLDisplayEnum_ {
+    HL_DISPLAY_BLOCK            = 0x02,
+    HL_DISPLAY_INLINE_BLOCK     = 0x05,
+    HL_DISPLAY_NONE             = 0x10,
+    HL_DISPLAY_FLEX             = 0x11,
+    HL_DISPLAY_INLINE_FLEX      = 0x12,
+    HL_DISPLAY_GRID             = 0x13,
+    HL_DISPLAY_INLINE_GRID      = 0x14
+} HLDisplayEnum;
+
+typedef enum HLPositionEnum_ {
+    HL_POSITION_STATIC          = 0x1,
+    HL_POSITION_RELATIVE        = 0x2,
+    HL_POSITION_ABSOLUTE        = 0x3,
+    HL_POSITION_FIXED           = 0x4
+} HLPositionEnum;
+
+typedef enum HLVisibilityEnum_ {
+    HL_VISIBILITY_VISIBLE           = 0x1,
+    HL_VISIBILITY_HIDDEN            = 0x2
+} HLVisibilityEnum;
 
 typedef struct HLDomElementNode_ HLDomElementNode;
 typedef struct HLCSS_ HLCSS;
@@ -209,6 +229,11 @@ typedef struct HLUsedBoxValues_ {
     hl_real_t border_bottom_right_radius;
 
     int z_index;
+
+    HLDisplayEnum display;
+    HLPositionEnum position;
+    HLVisibilityEnum visibility;
+    hl_real_t opacity;
 } HLUsedBoxValues;
 
 typedef struct HLUsedBackgroundValues_ {
@@ -352,6 +377,10 @@ static inline const char* hilayout_element_node_get_class (const HLDomElementNod
 {
     return hilayout_element_node_get_common_attr (node, HL_COMMON_ATTR_CLASS_NAME);
 }
+
+int hilayout_element_node_has_class (HLDomElementNode* node, const char* class_name);
+int hilayout_element_node_include_class (HLDomElementNode* node, const char* class_name);
+int hilayout_element_node_exclude_class (HLDomElementNode* node, const char* class_name);
 
 static inline int hilayout_element_node_set_style (HLDomElementNode* node, const char* style)
 {

@@ -10,10 +10,11 @@
 #  https://www.fmsoft.cn/exception-list
 # 
 #
-#   This file is part of HybridOS, a developing operating system based on
-#   MiniGUI. HybridOs will support embedded systems and smart IoT devices.
+#   This file is part of HiDOMLayout. hiDOMLayout is a library to
+#   maintain a DOM tree, lay out and stylize the DOM nodes by
+#   using CSS (Cascaded Style Sheets).
 #
-#   Copyright (C) 2020 Beijing FMSoft Technologies Co., Ltd.
+#   Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
