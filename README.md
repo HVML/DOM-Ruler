@@ -33,7 +33,9 @@ to install the following packages:
 hiDOMLayout uses cmake to configure and build the project.
 
 ```
-$ cmake .
+$ mkdir build
+$ cd build
+$ cmake ..
 $ make
 $ make install
 ```
