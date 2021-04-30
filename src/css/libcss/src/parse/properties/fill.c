@@ -64,7 +64,7 @@ css_error css__parse_fill_impl(css_language *c,
     bool match;
 
     token = parserutils_vector_iterate(vector, ctx);
-    if ((token == NULL) || ((token->type != CSS_TOKEN_IDENT) && (token->type != CSS_TOKEN_URI))) {
+    if (token == NULL) {
         *ctx = orig_ctx;
         return CSS_INVALID;
     }
