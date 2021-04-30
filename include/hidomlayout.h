@@ -429,8 +429,9 @@ uint32_t hilayout_element_node_get_children_count(HLDomElementNode* node);
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 
-typedef void (*ForEachCallback)(HLDomElementNode* node, void* user_data);
-void hilayout_element_node_for_each_child(HLDomElementNode* node, ForEachCallback callback, void* user_data);
+typedef void (*NodeCallback)(HLDomElementNode* node, void* user_data);
+void hilayout_element_node_for_each_child(HLDomElementNode* node, NodeCallback callback, void* user_data);
+void hilayout_element_node_depth_first_search_tree(HLDomElementNode* node, NodeCallback callback, void* user_data);
 
 #ifdef __cplusplus
 }

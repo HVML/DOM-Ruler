@@ -94,6 +94,12 @@ void destory_user_data(void* data)
 
 }
 
+
+void print_node_info(HLDomElementNode* node, void* user_data)
+{
+    fprintf(stderr, "................................node=%s|id=%s\n", hilayout_element_node_get_tag_name(node), hilayout_element_node_get_id(node));
+}
+
 int main(int argc, char **argv)
 {
 	size_t size;
@@ -245,6 +251,10 @@ int main(int argc, char **argv)
     fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
 
     hilayout_css_destroy(css);
+
+
+    hilayout_element_node_depth_first_search_tree(root, print_node_info, NULL);
+
 
     hilayout_element_node_destroy(root);
     hilayout_element_node_destroy(title);
