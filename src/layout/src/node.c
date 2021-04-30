@@ -252,6 +252,10 @@ const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNo
     return node ? & node->text_values : NULL;
 }
 
+const HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node)
+{
+    return NULL;
+}
 
 int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent)
 {

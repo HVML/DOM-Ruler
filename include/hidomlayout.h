@@ -336,6 +336,10 @@ typedef struct HLUsedTextValues_ {
     HLWritingMode writing_mode;
 } HLUsedTextValues;
 
+
+typedef struct HLUsedSvgValues_ {
+} HLUsedSvgValues;
+
 typedef struct HLMedia_ {
     unsigned int width;
     unsigned int height;
@@ -418,6 +422,7 @@ void hilayout_element_node_destroy(HLDomElementNode *node);
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node);
 const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node);
 const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNode* node);
+const HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node);
 
 int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent);
 HLDomElementNode* hilayout_element_node_get_parent(HLDomElementNode* node);
