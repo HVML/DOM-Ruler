@@ -343,8 +343,22 @@ typedef enum HLBaseLineShiftEnum_ {
     HL_BASELINE_SHIFT_SUPER          = 0x3
 } HLBaseLineShiftEnum;
 
+typedef enum HLFillEnum_ {
+    HL_FILL_INHERIT        = 0x0,
+    HL_FILL_NONE           = 0x1,
+    HL_FILL_URI            = 0x2,
+    HL_FILL_CURRENT_COLOR  = 0x3,
+    HL_FILL_SET_COLOR      = 0x4
+} HLFillEnum;
+
 typedef struct HLUsedSvgValues_ {
+    // baseline-shift
     HLBaseLineShiftEnum baseline_shift;
+
+    // fill
+    HLFillEnum fill_type;
+    char* fill_string;
+    uint32_t fill_color;
 } HLUsedSvgValues;
 
 typedef struct HLMedia_ {

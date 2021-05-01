@@ -270,6 +270,14 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // enable-background
     // comp-op
     // fill
+    lwc_string* fill_string = NULL;
+    svg->fill_type = css_computed_fill(style, &fill_string, &svg->fill_color);
+    if (fill_string)
+    {
+        svg->fill_string = strdup(lwc_string_data(fill_string));
+        lwc_string_unref(fill_string);
+    }
+
     // fill-opacity
     // fill-rule
     // filter
