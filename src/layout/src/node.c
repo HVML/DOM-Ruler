@@ -260,7 +260,50 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
         return NULL;
     }
     HLUsedSvgValues* svg = (HLUsedSvgValues*)calloc(1, sizeof(HLUsedSvgValues));
+    // baseline_shift
     svg->baseline_shift = css_computed_baseline_shift(style);
+    // clip-path
+    // clip-rule
+    // color
+    // direction
+    // display
+    // enable-background
+    // comp-op
+    // fill
+    // fill-opacity
+    // fill-rule
+    // filter
+    // flood-color
+    // flood-opacity
+    // font-family
+    // font-size
+    // font-stretch
+    // font-style
+    // font-variant
+    // font-weight
+    // marker-end
+    // mask
+    // marker-mid
+    // marker-start
+    // opacity
+    // overflow
+    // shape-rendering
+    // stop-color
+    // stop-opacity
+    // stroke
+    // stroke-dasharray
+    // stroke-dashoffset
+    // stroke-linecap
+    // stroke-linejoin
+    // stroke-miterlimit
+    // stroke-opacity
+    // stroke-width
+    // text-anchor
+    // text-decoration
+    // unicode-bidi
+    // letter-spacing
+    // visibility
+    // writing-mode
     return svg;
 }
 
