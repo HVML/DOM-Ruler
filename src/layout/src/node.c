@@ -623,10 +623,18 @@ int hilayout_element_node_include_class (HLDomElementNode* node, const char* cla
     }
 
     const char* classes = hilayout_element_node_get_class (node);
-    char* buf = (char*) malloc(strlen(classes) + strlen(class_name) + 2);
-    strcpy(buf, classes);
-    strcat(buf, _HILAYOUT_WHITESPACE);
-    strcat(buf, class_name);
+    size_t len = (classes ? strlen(classes) : 0)  + strlen(class_name) + 2;
+    char* buf = (char*) malloc(len);
+    if (classes)
+    {
+        strcpy(buf, classes);
+        strcat(buf, _HILAYOUT_WHITESPACE);
+        strcat(buf, class_name);
+    }
+    else
+    {
+        strcpy(buf, class_name);
+    }
     hilayout_element_node_set_class(node, buf);
     free(buf);
     return 0;
@@ -641,6 +649,11 @@ int hilayout_element_node_exclude_class (HLDomElementNode* node, const char* cla
     }
 
     const char* classes = hilayout_element_node_get_class (node);
+    if (classes == NULL)
+    {
+        return 0;
+    }
+
     char* buf = (char*) malloc(strlen(classes) + 1);
 
     GList *it = NULL;
