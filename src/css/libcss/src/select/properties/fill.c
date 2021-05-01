@@ -107,7 +107,8 @@ css_error css__set_fill_from_hint(const css_hint *hint,
 
 css_error css__initial_fill(css_select_state *state)
 {
-	return set_fill(state->computed, CSS_FILL_NONE, NULL, 0);
+    // Initial:	black
+	return set_fill(state->computed, CSS_FILL_SET_COLOR, NULL, 0);
 }
 
 css_error css__compose_fill(const css_computed_style *parent,
