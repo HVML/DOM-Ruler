@@ -252,9 +252,16 @@ const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNo
     return node ? & node->text_values : NULL;
 }
 
-const HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node)
+HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node)
 {
-    return NULL;
+    css_computed_style* style = node->computed_style;
+    if (style == NULL)
+    {
+        return NULL;
+    }
+    HLUsedSvgValues* svg = (HLUsedSvgValues*)calloc(1, sizeof(HLUsedSvgValues));
+    svg->baseline_shift = css_computed_baseline_shift(style);
+    return svg;
 }
 
 int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent)

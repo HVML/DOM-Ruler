@@ -336,8 +336,15 @@ typedef struct HLUsedTextValues_ {
     HLWritingMode writing_mode;
 } HLUsedTextValues;
 
+typedef enum HLBaseLineShiftEnum_ {
+    HL_BASELINE_SHIFT_INHERIT        = 0x0,
+    HL_BASELINE_SHIFT_BASELINE       = 0x1,
+    HL_BASELINE_SHIFT_SUB            = 0x2,
+    HL_BASELINE_SHIFT_SUPER          = 0x3
+} HLBaseLineShiftEnum;
 
 typedef struct HLUsedSvgValues_ {
+    HLBaseLineShiftEnum baseline_shift;
 } HLUsedSvgValues;
 
 typedef struct HLMedia_ {
@@ -422,7 +429,7 @@ void hilayout_element_node_destroy(HLDomElementNode *node);
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node);
 const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node);
 const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNode* node);
-const HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node);
+HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node);
 
 int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent);
 HLDomElementNode* hilayout_element_node_get_parent(HLDomElementNode* node);
