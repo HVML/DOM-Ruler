@@ -358,9 +358,9 @@ typedef enum HLFillRuleEnum_ {
 } HLFillRuleEnum;
 
 typedef enum HLClipRuleEnum_ {
-    HL_FILL_RULE_INHERIT     = 0x0,
-    HL_FILL_RULE_NONZERO     = 0x1,
-    HL_FILL_RULE_EVENODD     = 0x2
+    HL_CLIP_RULE_INHERIT     = 0x0,
+    HL_CLIP_RULE_NONZERO     = 0x1,
+    HL_CLIP_RULE_EVENODD     = 0x2
 } HLClipRuleEnum;
 
 typedef struct HLUsedSvgValues_ {
