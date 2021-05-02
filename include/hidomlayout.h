@@ -361,6 +361,9 @@ typedef struct HLUsedSvgValues_ {
     // baseline-shift
     HLBaseLineShiftEnum baseline_shift;
 
+    // clip-path
+    char* clip_path;
+
     // fill
     HLFillEnum fill_type;
     char* fill_string;

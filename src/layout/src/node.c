@@ -263,6 +263,13 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // baseline_shift
     svg->baseline_shift = css_computed_baseline_shift(style);
     // clip-path
+    lwc_string* clip_path = NULL;
+    css_computed_clip_path(style, &clip_path);
+    if (clip_path)
+    {
+        svg->clip_path = strdup(lwc_string_data(clip_path));
+        lwc_string_unref(clip_path);
+    }
     // clip-rule
     // color
     // direction
