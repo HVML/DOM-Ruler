@@ -371,11 +371,17 @@ typedef enum HLStrokeEnum_ {
     HL_STROKE_SET_COLOR      = 0x4
 } HLStrokeEnum;
 
+typedef enum HLColorEnum_ {
+	HL_COLOR_INHERIT			= 0x0,
+	HL_COLOR_COLOR				= 0x1
+} HLColorEnum;
 
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
     HLClipRuleEnum clip_rule;
+
+    HLColorEnum color_type;
     uint32_t color;
 
     // fill
