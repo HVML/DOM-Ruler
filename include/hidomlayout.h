@@ -376,6 +376,7 @@ typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
     HLClipRuleEnum clip_rule;
+    uint32_t color;
 
     // fill
     HLFillEnum fill_type;
