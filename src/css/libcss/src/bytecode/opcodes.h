@@ -971,7 +971,8 @@ enum op_fill {
     FILL_NONE           = 0x0000,
     FILL_URI            = 0x0001,
     FILL_CURRENT_COLOR  = 0x0002,
-    FILL_SET_COLOR      = 0x0003
+    FILL_SET_COLOR      = 0x0003,
+    FILL_NOT_SET        = 0x0004
 };
 
 enum op_fill_opacity {

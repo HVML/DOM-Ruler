@@ -1075,7 +1075,8 @@ enum css_fill_e {
     CSS_FILL_NONE           = 0x1,
     CSS_FILL_URI            = 0x2,
     CSS_FILL_CURRENT_COLOR  = 0x3,
-    CSS_FILL_SET_COLOR      = 0x4
+    CSS_FILL_SET_COLOR      = 0x4,
+    CSS_FILL_NOT_SET        = 0x5
 };
 
 enum css_fill_opacity_e {
