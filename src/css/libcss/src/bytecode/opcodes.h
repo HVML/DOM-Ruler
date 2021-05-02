@@ -1053,10 +1053,11 @@ enum op_stop_opacity {
 
 enum op_stroke {
     STROKE_SET              = 0x0080,
-    STROKE_NONE             = 0x0001,
-    STROKE_URI              = 0x0002,
-    STROKE_CURRENT_COLOR    = 0x0003,
-    STROKE_SET_COLOR        = 0x0004
+    STROKE_NONE             = 0x0000,
+    STROKE_URI              = 0x0001,
+    STROKE_CURRENT_COLOR    = 0x0002,
+    STROKE_SET_COLOR        = 0x0003,
+    STROKE_NOT_SET          = 0x0004
 };
 
 enum op_stroke_width {

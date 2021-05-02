@@ -1174,7 +1174,8 @@ enum css_stroke_e {
     CSS_STROKE_NONE             = 0x1,
     CSS_STROKE_URI              = 0x2,
     CSS_STROKE_CURRENT_COLOR    = 0x3,
-    CSS_STROKE_SET_COLOR        = 0x4
+    CSS_STROKE_SET_COLOR        = 0x4,
+    CSS_STROKE_NOT_SET          = 0x5
 };
 
 enum css_stroke_width_e {

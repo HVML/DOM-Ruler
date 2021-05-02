@@ -308,6 +308,13 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // stop-color
     // stop-opacity
     // stroke
+    lwc_string* stroke_string = NULL;
+    svg->stroke_type = css_computed_stroke(style, &stroke_string, &svg->stroke_color);
+    if (stroke_string)
+    {
+        svg->stroke_string = strdup(lwc_string_data(stroke_string));
+        lwc_string_unref(stroke_string);
+    }
     // stroke-dasharray
     // stroke-dashoffset
     // stroke-linecap

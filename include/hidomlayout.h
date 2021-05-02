@@ -363,6 +363,15 @@ typedef enum HLClipRuleEnum_ {
     HL_CLIP_RULE_EVENODD     = 0x2
 } HLClipRuleEnum;
 
+typedef enum HLStrokeEnum_ {
+    HL_STROKE_INHERIT        = 0x0,
+    HL_STROKE_NONE           = 0x1,
+    HL_STROKE_URI            = 0x2,
+    HL_STROKE_CURRENT_COLOR  = 0x3,
+    HL_STROKE_SET_COLOR      = 0x4
+} HLStrokeEnum;
+
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -374,6 +383,11 @@ typedef struct HLUsedSvgValues_ {
     uint32_t fill_color;
 
     HLFillRuleEnum fill_rule;
+
+    // stroke
+    HLStrokeEnum stroke_type;
+    char* stroke_string;
+    uint32_t stroke_color;
 } HLUsedSvgValues;
 
 typedef struct HLMedia_ {

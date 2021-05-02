@@ -107,7 +107,7 @@ css_error css__set_stroke_from_hint(const css_hint *hint,
 
 css_error css__initial_stroke(css_select_state *state)
 {
-	return set_stroke(state->computed, CSS_STROKE_NONE, NULL, 0);
+	return set_stroke(state->computed, CSS_STROKE_NOT_SET, NULL, 0);
 }
 
 css_error css__compose_stroke(const css_computed_style *parent,
