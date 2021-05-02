@@ -280,6 +280,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
 
     // fill-opacity
     // fill-rule
+    svg->fill_rule = css_computed_fill_rule(style);
     // filter
     // flood-color
     // flood-opacity

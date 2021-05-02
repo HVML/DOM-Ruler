@@ -351,6 +351,12 @@ typedef enum HLFillEnum_ {
     HL_FILL_SET_COLOR      = 0x4
 } HLFillEnum;
 
+typedef enum HLFillRuleEnum_ {
+    HL_FILL_RULE_INHERIT     = 0x0,
+    HL_FILL_RULE_NONZERO     = 0x1,
+    HL_FILL_RULE_EVENODD     = 0x2
+} HLFillRuleEnum;
+
 typedef struct HLUsedSvgValues_ {
     // baseline-shift
     HLBaseLineShiftEnum baseline_shift;
@@ -359,6 +365,8 @@ typedef struct HLUsedSvgValues_ {
     HLFillEnum fill_type;
     char* fill_string;
     uint32_t fill_color;
+
+    HLFillRuleEnum fill_rule;
 } HLUsedSvgValues;
 
 typedef struct HLMedia_ {
