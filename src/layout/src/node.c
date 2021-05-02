@@ -271,6 +271,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
         lwc_string_unref(clip_path);
     }
     // clip-rule
+    svg->clip_rule = css_computed_clip_rule(style);
     // color
     // direction
     // display

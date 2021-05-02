@@ -357,12 +357,16 @@ typedef enum HLFillRuleEnum_ {
     HL_FILL_RULE_EVENODD     = 0x2
 } HLFillRuleEnum;
 
-typedef struct HLUsedSvgValues_ {
-    // baseline-shift
-    HLBaseLineShiftEnum baseline_shift;
+typedef enum HLClipRuleEnum_ {
+    HL_FILL_RULE_INHERIT     = 0x0,
+    HL_FILL_RULE_NONZERO     = 0x1,
+    HL_FILL_RULE_EVENODD     = 0x2
+} HLClipRuleEnum;
 
-    // clip-path
+typedef struct HLUsedSvgValues_ {
+    HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
+    HLClipRuleEnum clip_rule;
 
     // fill
     HLFillEnum fill_type;
