@@ -275,6 +275,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // color
     svg->color_type = css_computed_color(style, &svg->color);
     // direction
+    svg->direction = css_computed_direction(style);
     // display
     // enable-background
     // comp-op

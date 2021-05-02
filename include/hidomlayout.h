@@ -376,6 +376,12 @@ typedef enum HLColorEnum_ {
 	HL_COLOR_COLOR				= 0x1
 } HLColorEnum;
 
+typedef enum HLDirectionEnum_ {
+    HL_DIRECTION_INHERIT           = 0x0,
+    HL_DIRECTION_LTR           = 0x1,
+    HL_DIRECTION_RTL           = 0x2
+} HLDirectionEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -383,6 +389,8 @@ typedef struct HLUsedSvgValues_ {
 
     HLColorEnum color_type;
     uint32_t color;
+
+    HLDirectionEnum direction;
 
     // fill
     HLFillEnum fill_type;
