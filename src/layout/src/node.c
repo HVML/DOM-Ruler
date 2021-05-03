@@ -417,6 +417,11 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     }
     // stroke-dasharray
     // stroke-dashoffset
+    css_fixed stroke_dashoffset_length;
+    css_unit stroke_dashoffset_unit;
+    svg->stroke_dashoffset_type = css_computed_stroke_dashoffset(style, &stroke_dashoffset_length, &stroke_dashoffset_unit);
+    svg->stroke_dashoffset_unit = stroke_dashoffset_unit;
+    svg->stroke_dashoffset = FIXTOFLT(stroke_dashoffset_length);
     // stroke-linecap
     svg->stroke_linecap = css_computed_stroke_linecap(style);
     // stroke-linejoin

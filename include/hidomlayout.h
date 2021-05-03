@@ -622,6 +622,12 @@ typedef enum HLLetterSpacingEnum_ {
 	HL_LETTER_SPACING_NORMAL		= 0x2
 } HLLetterSpacingEnum;
 
+typedef enum HLStrokeDashoffsetEnum_ {
+    HL_STROKE_DASHOFFSET_INHERIT        = 0x0,
+    HL_STROKE_DASHOFFSET_SET            = 0X1,
+    HL_STROKE_DASHOFFSET_AUTO           = 0x2
+} HLStrokeDashoffsetEnum;
+
 
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
@@ -689,6 +695,10 @@ typedef struct HLUsedSvgValues_ {
     HLStrokeEnum stroke_type;
     char* stroke_string;
     uint32_t stroke_color;
+
+    HLStrokeDashoffsetEnum stroke_dashoffset_type;
+    HL_UNIT_ENUM stroke_dashoffset_unit;
+    hl_real_t stroke_dashoffset;
 
     HLStrokeLinecapEnum stroke_linecap;
     HLStrokeLinejoinEnum stroke_linejoin;
