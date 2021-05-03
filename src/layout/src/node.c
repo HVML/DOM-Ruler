@@ -410,6 +410,11 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
         svg->stroke_opacity = FIXTOFLT(stroke_opacity);
     }
     // stroke-width
+    css_fixed stroke_width_length;
+    css_unit stroke_width_unit;
+    svg->stroke_width_type = css_computed_stroke_width(style, &stroke_width_length, &stroke_width_unit);
+    svg->stroke_width_unit = stroke_width_unit;
+    svg->stroke_width = FIXTOFLT(stroke_width_length);
     // text-anchor
     svg->text_anchor = css_computed_text_anchor(style);
     // text-decoration

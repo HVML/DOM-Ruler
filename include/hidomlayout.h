@@ -577,6 +577,20 @@ typedef enum HLFontVariantEnum_ {
 	HL_FONT_VARIANT_SMALL_CAPS		= 0x2
 } HLFontVariantEnum;
 
+typedef enum HLStrokeWidthEnum_ {
+    HL_STROKE_WIDTH_INHERIT        = 0x0,
+    HL_STROKE_WIDTH_SET            = 0X1,
+    HL_STROKE_WIDTH_AUTO           = 0x2
+} HLStrokeWidthEnum;
+
+typedef enum HL_UNIT_ENUM_ {
+    HL_UNIT_PX                 = 0x00,
+    HL_UNIT_EX                 = 0x01,
+    HL_UNIT_EM                 = 0x02,
+    HL_UNIT_IN                 = 0x03,
+    HL_UNIT_PCT                = 0x15, /* Percentage */
+} HL_UNIT_ENUM;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -645,6 +659,9 @@ typedef struct HLUsedSvgValues_ {
     HLStrokeOpacityEnum stroke_opacity_type;
     hl_real_t stroke_opacity;
 
+    HLStrokeWidthEnum stroke_width_type;
+    HL_UNIT_ENUM stroke_width_unit;
+    hl_real_t stroke_width;
 
     HLTextAnchorEnum text_anchor;
     HLTextDecorationEnum text_decoration;
