@@ -366,7 +366,14 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     svg->overflow = css_computed_overflow_x(style);
     // shape-rendering
     // stop-color
+    svg->stop_color_type = css_computed_stop_color(style, &svg->stop_color);
     // stop-opacity
+    css_fixed stop_opacity;
+    svg->stop_opacity_type = css_computed_stop_opacity(style, &stop_opacity);
+    if (svg->stop_opacity_type ==  CSS_FILL_OPACITY_SET)
+    {
+        svg->stop_opacity = FIXTOFLT(stop_opacity);
+    }
     // stroke
     lwc_string* stroke_string = NULL;
     svg->stroke_type = css_computed_stroke(style, &stroke_string, &svg->stroke_color);

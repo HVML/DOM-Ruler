@@ -446,6 +446,16 @@ typedef enum HLOverflowEnum_ {
 	HL_OVERFLOW_AUTO			= 0x4
 } HLOverflowEnum;
 
+typedef enum HLStopColorEnum_ {
+    HL_STOP_COLOR_INHERIT         = 0x0,
+    HL_STOP_COLOR_COLOR           = 0x1
+} HLStopColorEnum;
+
+typedef enum HLStopOpacityEnum_ {
+	HL_STOP_OPACITY_INHERIT			= 0x0,
+	HL_STOP_OPACITY_SET				= 0x1
+} HLStopOpacityEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -487,6 +497,12 @@ typedef struct HLUsedSvgValues_ {
     hl_real_t opacity;
 
     HLOverflowEnum overflow;
+
+    HLStopColorEnum stop_color_type;
+    uint32_t stop_color;
+
+    HLStopOpacityEnum stop_opacity_type;
+    hl_real_t stop_opacity;
 
     // stroke
     HLStrokeEnum stroke_type;
