@@ -473,6 +473,31 @@ typedef enum HLWritingModeEnum_ {
 	HL_WRITING_MODE_VERTICAL_LR		= 0x3
 } HLWritingModeEnum;
 
+typedef enum HLTextAnchorEnum_ {
+    HL_TEXT_ANCHOR_INHERIT     = 0x0,
+    HL_TEXT_ANCHOR_START       = 0x1,
+    HL_TEXT_ANCHOR_MIDDLE      = 0x2,
+    HL_TEXT_ANCHOR_END         = 0x3
+} HLTextAnchorEnum;
+
+typedef enum HLTextDecorationEnum_ {
+	HL_TEXT_DECORATION_INHERIT		= 0x00,
+	HL_TEXT_DECORATION_NONE		= 0x10,
+	HL_TEXT_DECORATION_BLINK		= (1<<3),
+	HL_TEXT_DECORATION_LINE_THROUGH	= (1<<2),
+	HL_TEXT_DECORATION_OVERLINE		= (1<<1),
+	HL_TEXT_DECORATION_UNDERLINE		= (1<<0)
+} HLTextDecorationEnum;
+
+typedef enum HLShapeRenderingEnum {
+    HL_SHAPE_RENDERING_INHERIT            = 0x0,
+    HL_SHAPE_RENDERING_AUTO               = 0x1,
+    HL_SHAPE_RENDERING_OPTIMIZESPEED      = 0x2,
+    HL_SHAPE_RENDERING_CRISPEDGES         = 0x3,
+    HL_SHAPE_RENDERING_GEOMETRICPRECISION = 0x4,
+    HL_SHAPE_RENDERING_DEFAULT            = 0x5
+} HLShapeRenderingEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -486,6 +511,7 @@ typedef struct HLUsedSvgValues_ {
     HLCompOpEnum comp_op;
 
     HLDirectionEnum direction;
+
 
     // fill
     HLFillEnum fill_type;
@@ -514,7 +540,7 @@ typedef struct HLUsedSvgValues_ {
     hl_real_t opacity;
 
     HLOverflowEnum overflow;
-
+    HLShapeRenderingEnum shape_rendering;
     HLStopColorEnum stop_color_type;
     uint32_t stop_color;
 
@@ -525,6 +551,9 @@ typedef struct HLUsedSvgValues_ {
     HLStrokeEnum stroke_type;
     char* stroke_string;
     uint32_t stroke_color;
+
+    HLTextAnchorEnum text_anchor;
+    HLTextDecorationEnum text_decoration;
 
     HLUnicodeBidiEnum unicode_bidi;
     HLVisibilityEnum visibility;

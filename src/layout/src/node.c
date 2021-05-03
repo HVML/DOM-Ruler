@@ -365,6 +365,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // overflow
     svg->overflow = css_computed_overflow_x(style);
     // shape-rendering
+    svg->shape_rendering = css_computed_shape_rendering(style); 
     // stop-color
     svg->stop_color_type = css_computed_stop_color(style, &svg->stop_color);
     // stop-opacity
@@ -390,7 +391,9 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // stroke-opacity
     // stroke-width
     // text-anchor
+    svg->text_anchor = css_computed_text_anchor(style);
     // text-decoration
+    svg->text_decoration = css_computed_text_decoration(style);
     // unicode-bidi
     svg->unicode_bidi = css_computed_unicode_bidi(style);
     // letter-spacing
