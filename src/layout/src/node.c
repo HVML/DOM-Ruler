@@ -390,6 +390,12 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // stroke-linecap
     // stroke-linejoin
     // stroke-miterlimit
+    css_fixed stroke_miterlimit;
+    svg->stroke_miterlimit_type = css_computed_stroke_miterlimit(style, &stroke_miterlimit);
+    if (svg->stroke_miterlimit_type == CSS_STROKE_MITERLIMIT_SET)
+    {
+        svg->stroke_miterlimit = FIXTOFLT(stroke_miterlimit);
+    }
     // stroke-opacity
     // stroke-width
     // text-anchor

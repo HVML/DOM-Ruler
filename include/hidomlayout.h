@@ -507,6 +507,13 @@ typedef enum HLTextRenderingEnum_ {
     HL_TEXT_RENDERING_DEFAULT              = 0x5
 } HLTextRenderingEnum;
 
+typedef enum HLStrokeMiterlimitEnum_ {
+    HL_STROKE_MITERLIMIT_INHERIT        = 0x0,
+    HL_STROKE_MITERLIMIT_SET            = 0X1,
+    HL_STROKE_MITERLIMIT_AUTO           = 0x2
+} HLStrokeMiterlimitEnum;
+
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -561,6 +568,9 @@ typedef struct HLUsedSvgValues_ {
     HLStrokeEnum stroke_type;
     char* stroke_string;
     uint32_t stroke_color;
+
+    HLStrokeMiterlimitEnum stroke_miterlimit_type;
+    hl_real_t stroke_miterlimit;
 
     HLTextAnchorEnum text_anchor;
     HLTextDecorationEnum text_decoration;
