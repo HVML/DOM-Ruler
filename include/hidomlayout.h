@@ -532,6 +532,21 @@ typedef enum HLStrokeLinecapEnum_ {
     HL_STROKE_LINECAP_SQUARE      = 0x3
 } HLStrokeLinecapEnum;
 
+typedef enum HLFontStretchEnum_ {
+    HL_FONT_STRETCH_INHERIT           = 0x0,
+    HL_FONT_STRETCH_NORMAL            = 0x1,
+    HL_FONT_STRETCH_WIDER             = 0x2,
+    HL_FONT_STRETCH_NARROWER          = 0x3,
+    HL_FONT_STRETCH_ULTRA_CONDENSED   = 0x4,
+    HL_FONT_STRETCH_EXTRA_CONDENSED   = 0x5,
+    HL_FONT_STRETCH_CONDENSED         = 0x6,
+    HL_FONT_STRETCH_SEMI_CONDENSED    = 0x7,
+    HL_FONT_STRETCH_SEMI_EXPANDED     = 0x8,
+    HL_FONT_STRETCH_EXPANDED          = 0x9,
+    HL_FONT_STRETCH_EXTRA_EXPANDED    = 0xa,
+    HL_FONT_STRETCH_ULTRA_EXPANDED    = 0xb
+} HLFontStretchEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -564,6 +579,8 @@ typedef struct HLUsedSvgValues_ {
 
     HLFloodOpacityEnum flood_opacity_type;
     hl_real_t flood_opacity;
+
+    HLFontStretchEnum font_stretch;
 
     char* marker_end;
     char* mask;

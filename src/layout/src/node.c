@@ -320,6 +320,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // font-family
     // font-size
     // font-stretch
+    svg->font_stretch = css_computed_font_stretch(style);
     // font-style
     // font-variant
     // font-weight
