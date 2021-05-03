@@ -453,6 +453,7 @@ typedef struct HLUsedSvgValues_ {
 
     HLFillRuleEnum fill_rule;
 
+    char* filter;
     HLFloodColorEnum flood_color_type;
     uint32_t flood_color;
 

@@ -295,6 +295,13 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // fill-rule
     svg->fill_rule = css_computed_fill_rule(style);
     // filter
+    lwc_string* filter = NULL;
+    css_computed_filter(style, &filter);
+    if (filter)
+    {
+        svg->filter = strdup(lwc_string_data(filter));
+        lwc_string_unref(filter);
+    }
     // flood-color
     svg->flood_color_type = css_computed_flood_color(style, &svg->flood_color);
     // flood-opacity
