@@ -588,8 +588,34 @@ typedef enum HL_UNIT_ENUM_ {
     HL_UNIT_EX                 = 0x01,
     HL_UNIT_EM                 = 0x02,
     HL_UNIT_IN                 = 0x03,
+    HL_UNIT_PT                 = 0x06,
     HL_UNIT_PCT                = 0x15, /* Percentage */
 } HL_UNIT_ENUM;
+
+typedef enum HLFontSizeEnum_ {
+	HL_FONT_SIZE_INHERIT			= 0x0,
+	HL_FONT_SIZE_XX_SMALL			= 0x1,
+	HL_FONT_SIZE_X_SMALL			= 0x2,
+	HL_FONT_SIZE_SMALL			= 0x3,
+	HL_FONT_SIZE_MEDIUM			= 0x4,
+	HL_FONT_SIZE_LARGE			= 0x5,
+	HL_FONT_SIZE_X_LARGE			= 0x6,
+	HL_FONT_SIZE_XX_LARGE			= 0x7,
+	HL_FONT_SIZE_LARGER			= 0x8,
+	HL_FONT_SIZE_SMALLER			= 0x9,
+	HL_FONT_SIZE_DIMENSION			= 0xa
+} HLFontSizeEnum;
+
+typedef enum HLFontFamilyEnum_ {
+	HL_FONT_FAMILY_INHERIT			= 0x0,
+	/* Named fonts exist if pointer is non-NULL */
+	HL_FONT_FAMILY_SERIF			= 0x1,
+	HL_FONT_FAMILY_SANS_SERIF		= 0x2,
+	HL_FONT_FAMILY_CURSIVE			= 0x3,
+	HL_FONT_FAMILY_FANTASY			= 0x4,
+	HL_FONT_FAMILY_MONOSPACE		= 0x5
+} HLFontFamilyEnum;
+
 
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
@@ -623,6 +649,13 @@ typedef struct HLUsedSvgValues_ {
 
     HLFloodOpacityEnum flood_opacity_type;
     hl_real_t flood_opacity;
+
+    HLFontFamilyEnum font_family_type;
+    char* font_family;
+
+    HLFontSizeEnum font_size_type;
+    HL_UNIT_ENUM font_size_unit;
+    hl_real_t font_size;
 
     HLFontStretchEnum font_stretch;
     HLFontStyleEnum font_style;

@@ -318,7 +318,33 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
         svg->flood_opacity = FIXTOFLT(flood_opacity);
     }
     // font-family
+    lwc_string** font_family_list = NULL;
+    svg->font_family_type = css_computed_font_family(style, &font_family_list);
+    svg->font_family = NULL;
+    if (font_family_list != NULL) {
+        while (*font_family_list != NULL) {
+            const char* name = lwc_string_data(*font_family_list);
+            size_t last_size =  svg->font_family ? strlen(svg->font_family) : 0;
+            size_t size = last_size + strlen(name) + 1;
+            svg->font_family = (char*)realloc(svg->font_family, size);
+            if (last_size)
+            {
+                strcat(svg->font_family, ",");
+                strcat(svg->font_family, name);
+            }
+            else
+            {
+                strcpy(svg->font_family, name);
+            }
+            font_family_list++;
+        }
+    }
     // font-size
+    css_fixed font_size_length;
+    css_unit font_size_unit;
+    svg->font_size_type = css_computed_font_size(style, &font_size_length, &font_size_unit);
+    svg->font_size_unit = font_size_unit;
+    svg->font_size = FIXTOFLT(font_size_length);
     // font-stretch
     svg->font_stretch = css_computed_font_stretch(style);
     // font-style
