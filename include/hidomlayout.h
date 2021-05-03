@@ -513,6 +513,11 @@ typedef enum HLStrokeMiterlimitEnum_ {
     HL_STROKE_MITERLIMIT_AUTO           = 0x2
 } HLStrokeMiterlimitEnum;
 
+typedef enum HLStrokeOpacityEnum_ {
+	HL_STROKE_OPACITY_INHERIT			= 0x0,
+	HL_STROKE_OPACITY_SET				= 0x1
+} HLStrokeOpacityEnum;
+
 
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
@@ -571,6 +576,10 @@ typedef struct HLUsedSvgValues_ {
 
     HLStrokeMiterlimitEnum stroke_miterlimit_type;
     hl_real_t stroke_miterlimit;
+
+    HLStrokeOpacityEnum stroke_opacity_type;
+    hl_real_t stroke_opacity;
+
 
     HLTextAnchorEnum text_anchor;
     HLTextDecorationEnum text_decoration;

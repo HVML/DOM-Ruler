@@ -397,6 +397,12 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
         svg->stroke_miterlimit = FIXTOFLT(stroke_miterlimit);
     }
     // stroke-opacity
+    css_fixed stroke_opacity;
+    svg->stroke_opacity_type = css_computed_stroke_opacity(style, &stroke_opacity);
+    if (svg->stroke_opacity_type ==  CSS_STROKE_OPACITY_SET)
+    {
+        svg->stroke_opacity = FIXTOFLT(stroke_opacity);
+    }
     // stroke-width
     // text-anchor
     svg->text_anchor = css_computed_text_anchor(style);
