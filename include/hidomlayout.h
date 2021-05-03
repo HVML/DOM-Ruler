@@ -432,6 +432,14 @@ typedef enum HLCompOpEnum_ {
     HL_COMP_OP_EXCLUSION   = 0x18
 } HLCompOpEnum;
 
+typedef enum HLOverflowEnum_ {
+	HL_OVERFLOW_INHERIT			= 0x0,
+	HL_OVERFLOW_VISIBLE			= 0x1,
+	HL_OVERFLOW_HIDDEN			= 0x2,
+	HL_OVERFLOW_SCROLL			= 0x3,
+	HL_OVERFLOW_AUTO			= 0x4
+} HLOverflowEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -454,14 +462,19 @@ typedef struct HLUsedSvgValues_ {
     HLFillRuleEnum fill_rule;
 
     char* filter;
+
     HLFloodColorEnum flood_color_type;
     uint32_t flood_color;
 
     HLFloodOpacityEnum flood_opacity_type;
     hl_real_t flood_opacity;
 
+    char* mask;
+
     HLOpacityEnum opacity_type;
     hl_real_t opacity;
+
+    HLOverflowEnum overflow;
 
     // stroke
     HLStrokeEnum stroke_type;

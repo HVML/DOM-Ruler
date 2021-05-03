@@ -319,6 +319,13 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // font-weight
     // marker-end
     // mask
+    lwc_string* mask = NULL;
+    css_computed_mask(style, &mask);
+    if (mask)
+    {
+        svg->mask = strdup(lwc_string_data(mask));
+        lwc_string_unref(mask);
+    }
     // marker-mid
     // marker-start
     // opacity
@@ -329,6 +336,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
         svg->opacity = FIXTOFLT(opacity);
     }
     // overflow
+    svg->overflow = css_computed_overflow_x(style);
     // shape-rendering
     // stop-color
     // stop-opacity
