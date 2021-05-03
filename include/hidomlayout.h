@@ -498,6 +498,15 @@ typedef enum HLShapeRenderingEnum {
     HL_SHAPE_RENDERING_DEFAULT            = 0x5
 } HLShapeRenderingEnum;
 
+typedef enum HLTextRenderingEnum_ {
+    HL_TEXT_RENDERING_INHERIT              = 0x0,
+    HL_TEXT_RENDERING_AUTO                 = 0x1,
+    HL_TEXT_RENDERING_OPTIMIZESPEED        = 0x2,
+    HL_TEXT_RENDERING_GEOMETRICPRECISION   = 0x3,
+    HL_TEXT_RENDERING_OPTIMIZELEGIBILITY   = 0x4,
+    HL_TEXT_RENDERING_DEFAULT              = 0x5
+} HLTextRenderingEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -541,6 +550,7 @@ typedef struct HLUsedSvgValues_ {
 
     HLOverflowEnum overflow;
     HLShapeRenderingEnum shape_rendering;
+    HLTextRenderingEnum text_rendering;
     HLStopColorEnum stop_color_type;
     uint32_t stop_color;
 

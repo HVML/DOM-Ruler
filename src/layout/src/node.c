@@ -366,6 +366,8 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     svg->overflow = css_computed_overflow_x(style);
     // shape-rendering
     svg->shape_rendering = css_computed_shape_rendering(style); 
+    // text-rendering
+    svg->text_rendering = css_computed_text_rendering(style);
     // stop-color
     svg->stop_color_type = css_computed_stop_color(style, &svg->stop_color);
     // stop-opacity
