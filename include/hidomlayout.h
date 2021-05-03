@@ -564,6 +564,13 @@ typedef enum HLSvgFontWeightEnum_ {
 	HL_FONT_WEIGHT_900			= 0xd
 } HLSvgFontWeightEnum;
 
+typedef enum HLFontStyleEnum_ {
+	HL_FONT_STYLE_INHERIT			= 0x0,
+	HL_FONT_STYLE_NORMAL			= 0x1,
+	HL_FONT_STYLE_ITALIC			= 0x2,
+	HL_FONT_STYLE_OBLIQUE			= 0x3
+} HLFontStyleEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -598,6 +605,7 @@ typedef struct HLUsedSvgValues_ {
     hl_real_t flood_opacity;
 
     HLFontStretchEnum font_stretch;
+    HLFontStyleEnum font_style;
     HLSvgFontWeightEnum font_weight;
 
     char* marker_end;
