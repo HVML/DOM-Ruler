@@ -547,6 +547,23 @@ typedef enum HLFontStretchEnum_ {
     HL_FONT_STRETCH_ULTRA_EXPANDED    = 0xb
 } HLFontStretchEnum;
 
+typedef enum HLSvgFontWeightEnum_ {
+	HL_FONT_WEIGHT_INHERIT			= 0x0,
+	HL_FONT_WEIGHT_NORMAL			= 0x1,
+	HL_FONT_WEIGHT_BOLD			= 0x2,
+	HL_FONT_WEIGHT_BOLDER			= 0x3,
+	HL_FONT_WEIGHT_LIGHTER			= 0x4,
+	HL_FONT_WEIGHT_100			= 0x5,
+	HL_FONT_WEIGHT_200			= 0x6,
+	HL_FONT_WEIGHT_300			= 0x7,
+	HL_FONT_WEIGHT_400			= 0x8,
+	HL_FONT_WEIGHT_500			= 0x9,
+	HL_FONT_WEIGHT_600			= 0xa,
+	HL_FONT_WEIGHT_700			= 0xb,
+	HL_FONT_WEIGHT_800			= 0xc,
+	HL_FONT_WEIGHT_900			= 0xd
+} HLSvgFontWeightEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -581,6 +598,7 @@ typedef struct HLUsedSvgValues_ {
     hl_real_t flood_opacity;
 
     HLFontStretchEnum font_stretch;
+    HLSvgFontWeightEnum font_weight;
 
     char* marker_end;
     char* mask;

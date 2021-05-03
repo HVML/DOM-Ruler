@@ -324,6 +324,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // font-style
     // font-variant
     // font-weight
+    svg->font_weight = css_computed_font_weight(style);
     // marker-end
     lwc_string* marker_end = NULL;
     css_computed_marker_end(style, &marker_end);
