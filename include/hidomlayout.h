@@ -390,6 +390,8 @@ typedef struct HLUsedSvgValues_ {
     HLColorEnum color_type;
     uint32_t color;
 
+    HLDisplayEnum display;
+
     HLDirectionEnum direction;
 
     // fill

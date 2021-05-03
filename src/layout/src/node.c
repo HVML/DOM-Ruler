@@ -277,6 +277,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // direction
     svg->direction = css_computed_direction(style);
     // display
+    svg->display = css_computed_display_static(style);
     // enable-background
     // comp-op
     // fill
