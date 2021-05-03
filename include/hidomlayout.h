@@ -466,6 +466,13 @@ typedef enum HLUnicodeBidiEnum_ {
     HL_UNICODE_BIDI_PLAINTEXT          = 0x6
 } HLUnicodeBidiEnum;
 
+typedef enum HLWritingModeEnum_ {
+	HL_WRITING_MODE_INHERIT		= 0x0,
+	HL_WRITING_MODE_HORIZONTAL_TB		= 0x1,
+	HL_WRITING_MODE_VERTICAL_RL		= 0x2,
+	HL_WRITING_MODE_VERTICAL_LR		= 0x3
+} HLWritingModeEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -521,6 +528,8 @@ typedef struct HLUsedSvgValues_ {
 
     HLUnicodeBidiEnum unicode_bidi;
     HLVisibilityEnum visibility;
+
+    HLWritingModeEnum writing_mode;
 } HLUsedSvgValues;
 
 typedef struct HLMedia_ {

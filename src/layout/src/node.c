@@ -397,6 +397,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // visibility
     svg->visibility = css_computed_visibility(style);
     // writing-mode
+    svg->writing_mode = css_computed_writing_mode(style);
     return svg;
 }
 
