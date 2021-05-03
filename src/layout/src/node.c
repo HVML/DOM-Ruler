@@ -279,7 +279,9 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // display
     svg->display = css_computed_display_static(style);
     // enable-background
+    svg->enable_background = css_computed_enable_background(style);
     // comp-op
+    svg->comp_op = css_computed_comp_op(style);
     // fill
     lwc_string* fill_string = NULL;
     svg->fill_type = css_computed_fill(style, &fill_string, &svg->fill_color);
@@ -294,7 +296,14 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     svg->fill_rule = css_computed_fill_rule(style);
     // filter
     // flood-color
+    svg->flood_color_type = css_computed_flood_color(style, &svg->flood_color);
     // flood-opacity
+    css_fixed flood_opacity;
+    svg->flood_opacity_type = css_computed_flood_opacity(style, &flood_opacity);
+    if (svg->flood_opacity_type ==  CSS_FILL_OPACITY_SET)
+    {
+        svg->flood_opacity = FIXTOFLT(flood_opacity);
+    }
     // font-family
     // font-size
     // font-stretch
@@ -306,6 +315,12 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // marker-mid
     // marker-start
     // opacity
+    css_fixed opacity;
+    svg->opacity_type = css_computed_opacity(style, &opacity);
+    if (svg->opacity_type ==  CSS_OPACITY_SET)
+    {
+        svg->opacity = FIXTOFLT(opacity);
+    }
     // overflow
     // shape-rendering
     // stop-color

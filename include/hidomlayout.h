@@ -357,6 +357,12 @@ typedef enum HLFillRuleEnum_ {
     HL_FILL_RULE_EVENODD     = 0x2
 } HLFillRuleEnum;
 
+
+typedef enum HLFloodColorEnum_ {
+    HL_FLOOD_COLOR_INHERIT         = 0x0,
+    HL_FLOOD_COLOR_COLOR           = 0x1
+} HLFloodColorEnum;
+
 typedef enum HLClipRuleEnum_ {
     HL_CLIP_RULE_INHERIT     = 0x0,
     HL_CLIP_RULE_NONZERO     = 0x1,
@@ -382,6 +388,50 @@ typedef enum HLDirectionEnum_ {
     HL_DIRECTION_RTL           = 0x2
 } HLDirectionEnum;
 
+typedef enum HLEnableBackgroundEnum_ {
+    HL_ENABLE_BACKGROUND_INHERIT     = 0x0,
+    HL_ENABLE_BACKGROUND_ACCUMULATE  = 0x1,
+    HL_ENABLE_BACKGROUND_NEW         = 0x2
+} HLEnableBackgroundEnum;
+
+typedef enum HLOpacityEnum_ {
+	HL_OPACITY_INHERIT			= 0x0,
+	HL_OPACITY_SET				= 0x1
+} HLOpacityEnum;
+
+typedef enum HLFloodOpacityEnum_ {
+	HL_FLOOD_OPACITY_INHERIT			= 0x0,
+	HL_FLOOD_OPACITY_SET				= 0x1
+} HLFloodOpacityEnum;
+
+typedef enum HLCompOpEnum_ {
+    HL_COMP_OP_INHERIT     = 0x0,
+    HL_COMP_OP_CLEAR       = 0x1,
+    HL_COMP_OP_SRC         = 0x2,
+    HL_COMP_OP_DST         = 0x3,
+    HL_COMP_OP_SRC_OVER    = 0x4,
+    HL_COMP_OP_DST_OVER    = 0x5,
+    HL_COMP_OP_SRC_IN      = 0x6,
+    HL_COMP_OP_DST_IN      = 0x7,
+    HL_COMP_OP_SRC_OUT     = 0x8,
+    HL_COMP_OP_DST_OUT     = 0x9,
+    HL_COMP_OP_SRC_ATOP    = 0xa,
+    HL_COMP_OP_DST_ATOP    = 0xb,
+    HL_COMP_OP_XOR         = 0xc,
+    HL_COMP_OP_PLUS        = 0xd,
+    HL_COMP_OP_MULTIPLY    = 0xe,
+    HL_COMP_OP_SCREEN      = 0xf,
+    HL_COMP_OP_OVERLAY     = 0x10,
+    HL_COMP_OP_DARKEN      = 0x11,
+    HL_COMP_OP_LIGHTEN     = 0x12,
+    HL_COMP_OP_COLOR_DODGE = 0x13,
+    HL_COMP_OP_COLOR_BURN  = 0x14,
+    HL_COMP_OP_HARD_LIGHT  = 0x15,
+    HL_COMP_OP_SOFT_LIGHT  = 0x16,
+    HL_COMP_OP_DIFFERENCE  = 0x17,
+    HL_COMP_OP_EXCLUSION   = 0x18
+} HLCompOpEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -391,6 +441,8 @@ typedef struct HLUsedSvgValues_ {
     uint32_t color;
 
     HLDisplayEnum display;
+    HLEnableBackgroundEnum enable_background;
+    HLCompOpEnum comp_op;
 
     HLDirectionEnum direction;
 
@@ -400,6 +452,15 @@ typedef struct HLUsedSvgValues_ {
     uint32_t fill_color;
 
     HLFillRuleEnum fill_rule;
+
+    HLFloodColorEnum flood_color_type;
+    uint32_t flood_color;
+
+    HLFloodOpacityEnum flood_opacity_type;
+    hl_real_t flood_opacity;
+
+    HLOpacityEnum opacity_type;
+    hl_real_t opacity;
 
     // stroke
     HLStrokeEnum stroke_type;
