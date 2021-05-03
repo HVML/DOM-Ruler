@@ -416,6 +416,19 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
         lwc_string_unref(stroke_string);
     }
     // stroke-dasharray
+    int32_t count = 0;
+    css_fixed* dasharray_values = NULL;
+    css_unit* dasharray_units = NULL;
+    svg->stroke_dasharray_type = css_computed_stroke_dasharray(style, &count, &dasharray_values, &dasharray_units);
+    svg->stroke_dasharray_count = count;
+    if (svg->stroke_dasharray_count > 0)
+    {
+        svg->stroke_dasharray = (hl_real_t*)calloc(svg->stroke_dasharray_count, sizeof(hl_real_t));
+        for (int i=0; i < svg->stroke_dasharray_count; i++)
+        {
+            svg->stroke_dasharray[i] = FIXTOFLT(dasharray_values[i]);
+        }
+    }
     // stroke-dashoffset
     css_fixed stroke_dashoffset_length;
     css_unit stroke_dashoffset_unit;

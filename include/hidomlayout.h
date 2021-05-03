@@ -628,6 +628,12 @@ typedef enum HLStrokeDashoffsetEnum_ {
     HL_STROKE_DASHOFFSET_AUTO           = 0x2
 } HLStrokeDashoffsetEnum;
 
+typedef enum HLStrokeDasharrayEnum_ {
+    HL_STROKE_DASHARRAY_INHERIT        = 0x0,
+    HL_STROKE_DASHARRAY_SET            = 0X1,
+    HL_STROKE_DASHARRAY_NONE           = 0x2,
+    HL_STROKE_DASHARRAY_END            = 0x3
+} HLStrokeDasharrayEnum;
 
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
@@ -695,6 +701,10 @@ typedef struct HLUsedSvgValues_ {
     HLStrokeEnum stroke_type;
     char* stroke_string;
     uint32_t stroke_color;
+
+    HLStrokeDasharrayEnum stroke_dasharray_type;
+    size_t stroke_dasharray_count;
+    hl_real_t* stroke_dasharray;
 
     HLStrokeDashoffsetEnum stroke_dashoffset_type;
     HL_UNIT_ENUM stroke_dashoffset_unit;
