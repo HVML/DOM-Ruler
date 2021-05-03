@@ -616,6 +616,12 @@ typedef enum HLFontFamilyEnum_ {
 	HL_FONT_FAMILY_MONOSPACE		= 0x5
 } HLFontFamilyEnum;
 
+typedef enum HLLetterSpacingEnum_ {
+	HL_LETTER_SPACING_INHERIT		= 0x0,
+	HL_LETTER_SPACING_SET			= 0x1,
+	HL_LETTER_SPACING_NORMAL		= 0x2
+} HLLetterSpacingEnum;
+
 
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
@@ -700,6 +706,11 @@ typedef struct HLUsedSvgValues_ {
     HLTextDecorationEnum text_decoration;
 
     HLUnicodeBidiEnum unicode_bidi;
+
+    HLLetterSpacingEnum letter_spacing_type;
+    HL_UNIT_ENUM letter_spacing_unit;
+    hl_real_t letter_spacing;
+
     HLVisibilityEnum visibility;
 
     HLWritingModeEnum writing_mode;

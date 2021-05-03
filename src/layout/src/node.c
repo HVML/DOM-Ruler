@@ -448,6 +448,11 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // unicode-bidi
     svg->unicode_bidi = css_computed_unicode_bidi(style);
     // letter-spacing
+    css_fixed letter_spacing_length;
+    css_unit letter_spacing_unit;
+    svg->letter_spacing_type = css_computed_letter_spacing(style, &letter_spacing_length, &letter_spacing_unit);
+    svg->letter_spacing_unit = letter_spacing_unit;
+    svg->letter_spacing = FIXTOFLT(letter_spacing_length);
     // visibility
     svg->visibility = css_computed_visibility(style);
     // writing-mode
