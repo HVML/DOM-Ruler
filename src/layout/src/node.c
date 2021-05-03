@@ -292,6 +292,12 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     }
 
     // fill-opacity
+    css_fixed fill_opacity;
+    svg->fill_opacity_type = css_computed_fill_opacity(style, &fill_opacity);
+    if (svg->fill_opacity_type ==  CSS_FILL_OPACITY_SET)
+    {
+        svg->fill_opacity = FIXTOFLT(fill_opacity);
+    }
     // fill-rule
     svg->fill_rule = css_computed_fill_rule(style);
     // filter
@@ -318,6 +324,13 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // font-variant
     // font-weight
     // marker-end
+    lwc_string* marker_end = NULL;
+    css_computed_marker_end(style, &marker_end);
+    if (marker_end)
+    {
+        svg->marker_end = strdup(lwc_string_data(marker_end));
+        lwc_string_unref(marker_end);
+    }
     // mask
     lwc_string* mask = NULL;
     css_computed_mask(style, &mask);
@@ -327,7 +340,21 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
         lwc_string_unref(mask);
     }
     // marker-mid
+    lwc_string* marker_mid = NULL;
+    css_computed_marker_mid(style, &marker_mid);
+    if (marker_mid)
+    {
+        svg->marker_mid = strdup(lwc_string_data(marker_mid));
+        lwc_string_unref(marker_mid);
+    }
     // marker-start
+    lwc_string* marker_start = NULL;
+    css_computed_marker_start(style, &marker_start);
+    if (marker_start)
+    {
+        svg->marker_start = strdup(lwc_string_data(marker_start));
+        lwc_string_unref(marker_start);
+    }
     // opacity
     css_fixed opacity;
     svg->opacity_type = css_computed_opacity(style, &opacity);
@@ -360,6 +387,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // unicode-bidi
     // letter-spacing
     // visibility
+    svg->visibility = css_computed_visibility(style);
     // writing-mode
     return svg;
 }

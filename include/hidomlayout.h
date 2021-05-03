@@ -194,8 +194,10 @@ typedef enum HLPositionEnum_ {
 } HLPositionEnum;
 
 typedef enum HLVisibilityEnum_ {
+	HL_VISIBILITY_INHERIT			= 0x0,
     HL_VISIBILITY_VISIBLE           = 0x1,
-    HL_VISIBILITY_HIDDEN            = 0x2
+    HL_VISIBILITY_HIDDEN            = 0x2,
+	HL_VISIBILITY_COLLAPSE			= 0x3
 } HLVisibilityEnum;
 
 typedef struct HLDomElementNode_ HLDomElementNode;
@@ -357,6 +359,10 @@ typedef enum HLFillRuleEnum_ {
     HL_FILL_RULE_EVENODD     = 0x2
 } HLFillRuleEnum;
 
+typedef enum HLFillOpacityEnum_ {
+	HL_FILL_OPACITY_INHERIT			= 0x0,
+	HL_FILL_OPACITY_SET				= 0x1
+} HLFillOpacityEnum;
 
 typedef enum HLFloodColorEnum_ {
     HL_FLOOD_COLOR_INHERIT         = 0x0,
@@ -459,6 +465,9 @@ typedef struct HLUsedSvgValues_ {
     char* fill_string;
     uint32_t fill_color;
 
+    HLFillOpacityEnum fill_opacity_type;
+    hl_real_t fill_opacity;
+
     HLFillRuleEnum fill_rule;
 
     char* filter;
@@ -469,7 +478,10 @@ typedef struct HLUsedSvgValues_ {
     HLFloodOpacityEnum flood_opacity_type;
     hl_real_t flood_opacity;
 
+    char* marker_end;
     char* mask;
+    char* marker_mid;
+    char* marker_start;
 
     HLOpacityEnum opacity_type;
     hl_real_t opacity;
@@ -480,6 +492,8 @@ typedef struct HLUsedSvgValues_ {
     HLStrokeEnum stroke_type;
     char* stroke_string;
     uint32_t stroke_color;
+
+    HLVisibilityEnum visibility;
 } HLUsedSvgValues;
 
 typedef struct HLMedia_ {
