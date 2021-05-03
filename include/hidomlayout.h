@@ -525,6 +525,13 @@ typedef enum HLStrokeLinejoinEnum_ {
     HL_STROKE_LINEJOIN_BEVEL      = 0x3
 } HLStrokeLinejoinEnum;
 
+typedef enum HLStrokeLinecapEnum_ {
+    HL_STROKE_LINECAP_INHERIT     = 0x0,
+    HL_STROKE_LINECAP_BUTT        = 0x1,
+    HL_STROKE_LINECAP_ROUND       = 0x2,
+    HL_STROKE_LINECAP_SQUARE      = 0x3
+} HLStrokeLinecapEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -580,6 +587,7 @@ typedef struct HLUsedSvgValues_ {
     char* stroke_string;
     uint32_t stroke_color;
 
+    HLStrokeLinecapEnum stroke_linecap;
     HLStrokeLinejoinEnum stroke_linejoin;
     HLStrokeMiterlimitEnum stroke_miterlimit_type;
     hl_real_t stroke_miterlimit;

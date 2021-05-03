@@ -388,6 +388,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // stroke-dasharray
     // stroke-dashoffset
     // stroke-linecap
+    svg->stroke_linecap = css_computed_stroke_linecap(style);
     // stroke-linejoin
     svg->stroke_linejoin = css_computed_stroke_linejoin(style);
     // stroke-miterlimit
