@@ -392,6 +392,7 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     // text-anchor
     // text-decoration
     // unicode-bidi
+    svg->unicode_bidi = css_computed_unicode_bidi(style);
     // letter-spacing
     // visibility
     svg->visibility = css_computed_visibility(style);

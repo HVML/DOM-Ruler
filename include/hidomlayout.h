@@ -456,6 +456,16 @@ typedef enum HLStopOpacityEnum_ {
 	HL_STOP_OPACITY_SET				= 0x1
 } HLStopOpacityEnum;
 
+typedef enum HLUnicodeBidiEnum_ {
+	HL_UNICODE_BIDI_INHERIT		= 0x0,
+	HL_UNICODE_BIDI_NORMAL			= 0x1,
+	HL_UNICODE_BIDI_EMBED			= 0x2,
+	HL_UNICODE_BIDI_BIDI_OVERRIDE		= 0x3,
+    HL_UNICODE_BIDI_ISOLATE            = 0x4,
+    HL_UNICODE_BIDI_ISOLATE_OVERRIDE   = 0x5,
+    HL_UNICODE_BIDI_PLAINTEXT          = 0x6
+} HLUnicodeBidiEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -509,6 +519,7 @@ typedef struct HLUsedSvgValues_ {
     char* stroke_string;
     uint32_t stroke_color;
 
+    HLUnicodeBidiEnum unicode_bidi;
     HLVisibilityEnum visibility;
 } HLUsedSvgValues;
 
