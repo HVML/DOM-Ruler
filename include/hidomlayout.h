@@ -571,6 +571,12 @@ typedef enum HLFontStyleEnum_ {
 	HL_FONT_STYLE_OBLIQUE			= 0x3
 } HLFontStyleEnum;
 
+typedef enum HLFontVariantEnum_ {
+	HL_FONT_VARIANT_INHERIT		= 0x0,
+	HL_FONT_VARIANT_NORMAL			= 0x1,
+	HL_FONT_VARIANT_SMALL_CAPS		= 0x2
+} HLFontVariantEnum;
+
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
     char* clip_path;
@@ -606,6 +612,7 @@ typedef struct HLUsedSvgValues_ {
 
     HLFontStretchEnum font_stretch;
     HLFontStyleEnum font_style;
+    HLFontVariantEnum font_variant;
     HLSvgFontWeightEnum font_weight;
 
     char* marker_end;
