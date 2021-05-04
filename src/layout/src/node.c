@@ -116,7 +116,7 @@ const char* hilayout_element_node_get_tag_name(HLDomElementNode* node)
     return node ? node->tag : NULL;
 }
 
-void _hl_destory_class_list_item (gpointer data)
+void _hl_destroy_class_list_item (gpointer data)
 {
     free(data);
 }
@@ -139,7 +139,7 @@ void _hilayout_fill_inner_classes(HLDomElementNode* node, const char* classes)
         free(node->inner_classes);
     }
 
-    g_list_free_full(node->class_list, _hl_destory_class_list_item);
+    g_list_free_full(node->class_list, _hl_destroy_class_list_item);
     node->class_list = NULL;
     
     char* value = strdup(classes);
@@ -211,7 +211,7 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
 
     if (node->class_list)
     {
-        g_list_free_full(node->class_list, _hl_destory_class_list_item);
+        g_list_free_full(node->class_list, _hl_destroy_class_list_item);
     }
 
     _hilayout_lwc_string_destroy(node->inner_tag);
@@ -231,6 +231,7 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         free(node->text_values.font_family);
     }
 
+    _hl_destroy_svg_values(node->svg_values);
     if (node->select_styles)
     {
         css_select_results_destroy(node->select_styles);
@@ -252,6 +253,68 @@ const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNo
     return node ? & node->text_values : NULL;
 }
 
+void _hl_destroy_svg_values(HLUsedSvgValues* svg)
+{
+    if (svg == NULL)
+    {
+        return;
+    }
+    // baseline_shift
+    // clip-path
+    free(svg->clip_path);
+    // clip-rule
+    // color
+    // direction
+    // display
+    // enable-background
+    // comp-op
+    // fill
+    free(svg->fill_string);
+    // fill-opacity
+    // fill-rule
+    // filter
+    free(svg->filter);
+    // flood-color
+    // flood-opacity
+    // font-family
+    free(svg->font_family);
+    // font-size
+    // font-stretch
+    // font-style
+    // font-variant
+    // font-weight
+    // marker-end
+    free(svg->marker_end);
+    // mask
+    free(svg->mask);
+    // marker-mid
+    free(svg->marker_mid);
+    // marker-start
+    free(svg->marker_start);
+    // opacity
+    // overflow
+    // shape-rendering
+    // text-rendering
+    // stop-color
+    // stop-opacity
+    // stroke
+    free(svg->stroke_string);
+    // stroke-dasharray
+    free(svg->stroke_dasharray);
+    // stroke-dashoffset
+    // stroke-linecap
+    // stroke-linejoin
+    // stroke-miterlimit
+    // stroke-opacity
+    // stroke-width
+    // text-anchor
+    // text-decoration
+    // unicode-bidi
+    // letter-spacing
+    // visibility
+    // writing-mode
+}
+
 HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node)
 {
     css_computed_style* style = node->computed_style;
@@ -259,7 +322,10 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
     {
         return NULL;
     }
+
+    _hl_destroy_svg_values(node->svg_values);
     HLUsedSvgValues* svg = (HLUsedSvgValues*)calloc(1, sizeof(HLUsedSvgValues));
+    node->svg_values = svg;
     // baseline_shift
     svg->baseline_shift = css_computed_baseline_shift(style);
     // clip-path
@@ -545,7 +611,7 @@ uint32_t hilayout_element_node_get_children_count(HLDomElementNode* node)
     return node ? node->n_children: 0;
 }
 
-void _hl_destory_common_attr_value (gpointer data)
+void _hl_destroy_common_attr_value (gpointer data)
 {
     free(data);
 }
@@ -573,7 +639,7 @@ int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttrib
     
     if (node->common_attrs == NULL)
     {
-        node->common_attrs = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, _hl_destory_common_attr_value);
+        node->common_attrs = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, _hl_destroy_common_attr_value);
     }
 
     switch (attr_id)
@@ -612,12 +678,12 @@ const char* hilayout_element_node_get_common_attr (const HLDomElementNode* node,
 }
 
 
-void _hl_destory_general_attr_key (gpointer data)
+void _hl_destroy_general_attr_key (gpointer data)
 {
     free(data);
 }
 
-void _hl_destory_general_attr_value (gpointer data)
+void _hl_destroy_general_attr_value (gpointer data)
 {
     free(data);
 }
@@ -631,7 +697,7 @@ int hilayout_element_node_set_general_attr(HLDomElementNode* node, const char* a
 
     if (node->general_attrs == NULL)
     {
-        node->general_attrs = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_general_attr_key, _hl_destory_general_attr_value);
+        node->general_attrs = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destroy_general_attr_key, _hl_destroy_general_attr_value);
     }
 
     return g_hash_table_insert(node->general_attrs, (gpointer)strdup(attr_name), (gpointer)strdup(attr_value));
@@ -646,12 +712,12 @@ const char* hilayout_element_node_get_general_attr(const HLDomElementNode* node,
     return g_hash_table_lookup(node->general_attrs, (gpointer)attr_name);
 }
 
-void _hl_destory_inner_attr_key (gpointer data)
+void _hl_destroy_inner_attr_key (gpointer data)
 {
     free(data);
 }
 
-void _hl_destory_inner_attr_value (gpointer data)
+void _hl_destroy_inner_attr_value (gpointer data)
 {
     free(data);
 }
@@ -665,7 +731,7 @@ int _hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_nam
 
     if (node->inner_attrs == NULL)
     {
-        node->inner_attrs = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_inner_attr_key, _hl_destory_inner_attr_value);
+        node->inner_attrs = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destroy_inner_attr_key, _hl_destroy_inner_attr_value);
     }
 
     return g_hash_table_insert(node->inner_attrs, (gpointer)strdup(attr_name), (gpointer)strdup(attr_value));
@@ -680,12 +746,12 @@ const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* 
     return g_hash_table_lookup(node->inner_attrs, (gpointer)attr_name);
 }
 
-void _hl_destory_attach_data_key (gpointer data)
+void _hl_destroy_attach_data_key (gpointer data)
 {
     free(data);
 }
 
-void _hl_destory_attach_data_value (gpointer data)
+void _hl_destroy_attach_data_value (gpointer data)
 {
     HLAttachData* attach = (HLAttachData*)data;
     if (attach->callback)
@@ -705,7 +771,7 @@ int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key,
 
     if (node->user_data == NULL)
     {
-        node->user_data = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_attach_data_key, _hl_destory_attach_data_value);
+        node->user_data = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destroy_attach_data_key, _hl_destroy_attach_data_value);
     }
 
     if (data == NULL)
@@ -738,7 +804,7 @@ int _hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, voi
 
     if (node->inner_data == NULL)
     {
-        node->inner_data = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destory_attach_data_key, _hl_destory_attach_data_value);
+        node->inner_data = g_hash_table_new_full(g_str_hash, g_str_equal, _hl_destroy_attach_data_key, _hl_destroy_attach_data_value);
     }
 
     if (data == NULL)

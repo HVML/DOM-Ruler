@@ -143,6 +143,7 @@ typedef struct HLDomElementNode_ {
     HLUsedBoxValues box_values;
     HLUsedBackgroundValues background_values;
     HLUsedTextValues text_values;
+    HLUsedSvgValues* svg_values;
 
     double min_w;
     double max_w;
@@ -169,6 +170,7 @@ int _hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_nam
 const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
 int _hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
 void* _hl_element_node_get_inner_data(HLDomElementNode* node, const char* key);
+void _hl_destroy_svg_values(HLUsedSvgValues* svg);
 
 #ifdef __cplusplus
 }
