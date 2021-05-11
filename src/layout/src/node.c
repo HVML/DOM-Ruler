@@ -236,6 +236,7 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
     {
         css_select_results_destroy(node->select_styles);
     }
+    free(node);
 }
 
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node)
