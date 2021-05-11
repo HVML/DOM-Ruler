@@ -643,7 +643,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 {
     if (node == NULL)
     {
-        HL_LOGW("layout node|level=%d|node=%p\n", level, node);
+        HL_LOGD("layout node|level=%d|node=%p\n", level, node);
         return HILAYOUT_OK;
     }
 
@@ -695,7 +695,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     HLDomElementNode* child = node->first_child;
     if (child == NULL)
     {
-        HL_LOGW("layout node|level=%d|tag=%s|id=%s|(%f, %f, %f, %f)"
+        HL_LOGD("layout node|level=%d|tag=%s|id=%s|(%f, %f, %f, %f)"
                 "|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%f\n",
                 level, node->tag, hilayout_element_node_get_id(node),
                 node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
@@ -711,7 +711,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         case LAYOUT_GRID:
         case LAYOUT_INLINE_GRID:
             {
-                HL_LOGW("layout node|level=%d|tag=%s|id=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%f\n",
+                HL_LOGD("layout node|level=%d|tag=%s|id=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%f\n",
                         level, node->tag, hilayout_element_node_get_id(node),
                         node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
                         node->background_values.color,
@@ -818,7 +818,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         child = child->next;
     }
 
-    HL_LOGW("layout node|level=%d|tag=%s|id=%s|"
+    HL_LOGD("layout node|level=%d|tag=%s|id=%s|"
             "(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%f\n",
             level, node->tag, hilayout_element_node_get_id(node),
             node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
@@ -833,8 +833,8 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 {
     if (media == NULL || root == NULL || css == NULL || css->sheet == NULL)
     {
-        HL_LOGW("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n", __func__, media, root, css, css->sheet);
-        return HILAYOUT_NOMEM;
+        HL_LOGE("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n", __func__, media, root, css, css->sheet);
+        return HILAYOUT_BADPARM;
     }
 
 	HLContext context = {
@@ -858,7 +858,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
     int ret = _hilayout_select_child_style(&m, select_ctx, root);
     if (ret != HILAYOUT_OK)
     {
-        HL_LOGW("%s|select child style failed.|code=%d\n", __func__, ret);
+        HL_LOGD("%s|select child style failed.|code=%d\n", __func__, ret);
         _hilayout_css_select_ctx_destroy(select_ctx);
         return ret;
     }
