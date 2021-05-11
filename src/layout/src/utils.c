@@ -518,6 +518,7 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
         HL_LOGD("layout node|tag=%s|id=%s|font inherit\n", node->tag, node->id);
         if (node->parent && node->parent->text_values.font_family)
         {
+            free (node->text_values.font_family);
             node->text_values.font_family = strdup(node->parent->text_values.font_family);
         }
     }
@@ -563,8 +564,7 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
                 break;
         }
 
-        char* result = (char*)malloc(len + 1);
-        memset(result, 0, len+1);
+        char* result = (char*)calloc(len + 1, 1);
         for (int i=0; i<index; i++)
         {
             strcat(result, buf[i]);
@@ -572,6 +572,7 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
             free(buf[i]);
         }
         result[strlen(result) - 1 ] = 0;
+        free (node->text_values.font_family);
         node->text_values.font_family = result;
     }
 
