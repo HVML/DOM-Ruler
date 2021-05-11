@@ -313,6 +313,7 @@ void _hl_destroy_svg_values(HLUsedSvgValues* svg)
     // letter-spacing
     // visibility
     // writing-mode
+    free(svg);
 }
 
 HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node)

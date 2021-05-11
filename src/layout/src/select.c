@@ -1282,6 +1282,10 @@ int _hilayout_select_node_style(const css_media* media, css_select_ctx* select_c
     css_select_results* result = _hilayout_get_node_style(media, select_ctx, node);
     if (result)
     {
+        if (node->select_styles)
+        {
+            css_select_results_destroy(node->select_styles);
+        }
         node->select_styles = result;
         node->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
         node->layout_type = _hl_computed_display(node->computed_style, _hl_node_is_root(node));
