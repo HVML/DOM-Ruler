@@ -530,7 +530,7 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
         if (families != NULL) {
             while (*families != NULL) {
                 buf[index] = strdup(lwc_string_data(*families));
-                len += strlen(buf[index]);
+                len += strlen(buf[index]) + 1;
                 index++;
                 families++;
             }
@@ -539,27 +539,27 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
         switch (val) {
             case CSS_FONT_FAMILY_SERIF:
                 buf[index] = strdup("serif");
-                len += strlen(buf[index]);
+                len += strlen(buf[index]) + 1;
                 index++;
                 break;
             case CSS_FONT_FAMILY_SANS_SERIF:
                 buf[index] = strdup("sans-serif");
-                len += strlen(buf[index]);
+                len += strlen(buf[index]) + 1;
                 index++;
                 break;
             case CSS_FONT_FAMILY_CURSIVE:
                 buf[index] = strdup("cursive");
-                len += strlen(buf[index]);
+                len += strlen(buf[index]) + 1;
                 index++;
                 break;
             case CSS_FONT_FAMILY_FANTASY:
                 buf[index] = strdup("fantasy");
-                len += strlen(buf[index]);
+                len += strlen(buf[index]) + 1;
                 index++;
                 break;
             case CSS_FONT_FAMILY_MONOSPACE:
                 buf[index] = strdup("monospace");
-                len += strlen(buf[index]);
+                len += strlen(buf[index]) + 1;
                 index++;
                 break;
         }
