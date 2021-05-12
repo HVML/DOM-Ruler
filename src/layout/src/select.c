@@ -874,11 +874,20 @@ css_error ua_default_for_property(void *pw, uint32_t property,
 	return CSS_OK;
 }
 
+typedef struct _HlCSSDataPackage {
+    HLDomElementNode* node;
+    void* libcss_node_data;
+} HlCSSDataPackage;
+
+void destroy_hl_css_data_package(void* data);
 css_error set_libcss_node_data(void *pw, void *node,
         void *libcss_node_data)
 {
+    HlCSSDataPackage* pkg = (HlCSSDataPackage*)calloc(1, sizeof(HlCSSDataPackage));
     HLDomElementNode *n = node;
-    _hl_element_node_set_inner_data(n, HL_INNER_CSS_SELECT_ATTACH, libcss_node_data, NULL);
+    pkg->node = n;
+    pkg->libcss_node_data = libcss_node_data;
+    _hl_element_node_set_inner_data(n, HL_INNER_CSS_SELECT_ATTACH, pkg, destroy_hl_css_data_package);
     return CSS_OK;
 }
 
@@ -886,7 +895,8 @@ css_error get_libcss_node_data(void *pw, void *node,
         void **libcss_node_data)
 {
     HLDomElementNode* n = node;
-    *libcss_node_data = _hl_element_node_get_inner_data(n, HL_INNER_CSS_SELECT_ATTACH);
+    HlCSSDataPackage* pkg = _hl_element_node_get_inner_data(n, HL_INNER_CSS_SELECT_ATTACH);
+    *libcss_node_data = pkg ? pkg->libcss_node_data : NULL;
     return CSS_OK;
 }
 
@@ -1078,6 +1088,17 @@ css_select_handler selection_handler = {
     set_libcss_node_data,
     get_libcss_node_data
 };
+
+void destroy_hl_css_data_package(void* data)
+{
+    if (data == NULL)
+    {
+        return;
+    }
+    HlCSSDataPackage* pkg = (HlCSSDataPackage*)data;
+    css_libcss_node_data_handler(&selection_handler, CSS_NODE_MODIFIED, NULL, pkg->node, NULL, pkg->libcss_node_data);
+    free(pkg);
+}
 
 css_stylesheet* _hilayout_css_stylesheet_create(const char *charset, const char *url, bool allow_quirks, bool inline_style)
 {
