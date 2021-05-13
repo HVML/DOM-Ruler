@@ -1287,7 +1287,7 @@ css_select_ctx* _hilayout_css_select_ctx_create(HLCSS* css)
         return NULL;
     }
 
-    HL_LOGW("create select ctx|sheet count=%d\n", count);
+    HL_LOGD("create select ctx|sheet count=%d\n", count);
     return select_ctx;
 }
 
@@ -1330,7 +1330,7 @@ css_select_results* _hilayout_get_node_style(const css_media* media, css_select_
     const char* style = hilayout_element_node_get_style(node);
     if (style != NULL)
     {
-        HL_LOGW("node style |tag=%s|id=%s|style=%s\n", node->tag, hilayout_element_node_get_id(node), style);
+        HL_LOGD("node style |tag=%s|id=%s|style=%s\n", node->tag, hilayout_element_node_get_id(node), style);
         inline_style = _hilayout_css_stylesheet_inline_style_create(style, strlen(style));
     }
 
