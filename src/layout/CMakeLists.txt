@@ -44,7 +44,7 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-project(hidomlayout)
+project(hidomlayout VERSION 1.0.0)
 
 #add_definitions(-D_DEBUG)
 
@@ -69,7 +69,9 @@ list(APPEND hidomlayout_SOURCES
 include_directories(${hidomlayout_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 link_directories(${GLIB_LIBRARIES})
 add_library(hidomlayout SHARED ${hidomlayout_SOURCES})
+set_target_properties(hidomlayout PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
 target_link_libraries(hidomlayout css)
+
 
 configure_file(hidomlayout.pc.in hidomlayout.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hidomlayout.pc DESTINATION lib/pkgconfig)
