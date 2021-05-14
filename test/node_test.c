@@ -35,8 +35,8 @@
     Or,
 
     As this program is a library, any link to this program must follow
-    GNU Lesser General License version 3 (LGPLv3). If you cannot accept
-    LGPLv3, you need to be licensed from FMSoft.
+    GNU Lesser General License version 3 (LLGPLv3). If you cannot accept
+    LLGPLv3, you need to be licensed from FMSoft.
 
     If you have got a commercial license of this program, please use it
     under the terms and conditions of the commercial license.
