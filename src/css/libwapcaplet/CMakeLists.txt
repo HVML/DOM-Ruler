@@ -57,6 +57,6 @@ list(APPEND wapcaplet_SOURCES
 )
 
 include_directories(${wapcaplet_INCLUDE_DIRECTORIES})
-add_library(wapcaplet ${wapcaplet_SOURCES})
+add_library(wapcaplet STATIC ${wapcaplet_SOURCES})
 
 

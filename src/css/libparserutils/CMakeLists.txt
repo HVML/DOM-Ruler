@@ -71,5 +71,5 @@ list(APPEND parserutils_SOURCES
 )
 
 include_directories(${parserutils_INCLUDE_DIRECTORIES})
-add_library(parserutils ${parserutils_SOURCES})
+add_library(parserutils STATIC ${parserutils_SOURCES})
 
