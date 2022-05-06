@@ -44,9 +44,12 @@
 
 cmake_minimum_required(VERSION 3.10)
 
+project(HiDOMLayout)
+
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 find_package(GLIB 2.0 REQUIRED)
+find_package(PurC)
 
 add_subdirectory(src)
 add_subdirectory(test)

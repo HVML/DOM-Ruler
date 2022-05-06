@@ -70,7 +70,7 @@ include_directories(${hidomlayout_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 link_directories(${GLIB_LIBRARIES})
 add_library(hidomlayout SHARED ${hidomlayout_SOURCES})
 set_target_properties(hidomlayout PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
-target_link_libraries(hidomlayout css)
+target_link_libraries(hidomlayout css  ${PURC_LIBRARIES})
 
 
 configure_file(hidomlayout.pc.in hidomlayout.pc @ONLY)
