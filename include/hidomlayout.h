@@ -54,6 +54,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 // log begin
 #if defined(_DEBUG)
@@ -103,6 +104,27 @@ typedef enum HLCommonAttribute_ {
 
     HL_COMMON_ATTR_COUNT
 } HLCommonAttribute;
+
+typedef enum {
+    LAYOUT_INVALID,
+    LAYOUT_BLOCK,
+    LAYOUT_INLINE_CONTAINER,
+    LAYOUT_INLINE,
+    LAYOUT_TABLE,
+    LAYOUT_TABLE_ROW,
+    LAYOUT_TABLE_CELL,
+    LAYOUT_TABLE_ROW_GROUP,
+    LAYOUT_FLOAT_LEFT,
+    LAYOUT_FLOAT_RIGHT,
+    LAYOUT_INLINE_BLOCK,
+    LAYOUT_BR,
+    LAYOUT_TEXT,
+    LAYOUT_INLINE_END,
+    LAYOUT_GRID,
+    LAYOUT_INLINE_GRID,
+    LAYOUT_NONE
+} LayoutType;
+
 
 // property
 
@@ -742,6 +764,18 @@ typedef struct HLMedia_ {
     unsigned int dpi;
     unsigned int density;
 } HLMedia;
+
+typedef struct hilayout_layout_handler {
+    void *(*parent)(void *node);
+    void (*set_parent)(void *node, void *parent);
+    void *(*first_child)(void *node);
+    void *(*next_child)(void *node);
+    bool (*is_root)(void *node);
+    void *(*computed_style)(void *node);
+    void *(*select_styles)(void *node);
+    LayoutType (*layout_type)(void *node);
+    HLUsedBoxValues *(*box_values)(void *node);
+} hilayout_layout_handler;
 
 #ifdef __cplusplus
 extern "C" {

@@ -51,6 +51,8 @@
 #define _HL_NODE_H
 
 #include "hidomlayout.h"
+#include "hl_dom_element_node.h"
+
 #include <libcss/libcss.h>
 #include <glib.h>
 
@@ -60,43 +62,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef enum {
-    DOM_ELEMENT_NODE        = 1,
-    DOM_ATTRIBUTE_NODE      = 2,
-    DOM_TEXT_NODE           = 3,
-    DOM_CDATA_SECTION_NODE      = 4,
-    DOM_ENTITY_REFERENCE_NODE   = 5,
-    DOM_ENTITY_NODE         = 6,
-    DOM_PROCESSING_INSTRUCTION_NODE = 7,
-    DOM_COMMENT_NODE        = 8,
-    DOM_DOCUMENT_NODE       = 9,
-    DOM_DOCUMENT_TYPE_NODE      = 10,
-    DOM_DOCUMENT_FRAGMENT_NODE  = 11,
-    DOM_NOTATION_NODE       = 12,
-
-    /* And a count of the number of node types */
-    DOM_NODE_TYPE_COUNT
-} HLDomElementNodeType;
-
-typedef enum {
-    LAYOUT_BLOCK,
-    LAYOUT_INLINE_CONTAINER,
-    LAYOUT_INLINE,
-    LAYOUT_TABLE,
-    LAYOUT_TABLE_ROW,
-    LAYOUT_TABLE_CELL,
-    LAYOUT_TABLE_ROW_GROUP,
-    LAYOUT_FLOAT_LEFT,
-    LAYOUT_FLOAT_RIGHT,
-    LAYOUT_INLINE_BLOCK,
-    LAYOUT_BR,
-    LAYOUT_TEXT,
-    LAYOUT_INLINE_END,
-    LAYOUT_GRID,
-    LAYOUT_INLINE_GRID,
-    LAYOUT_NONE
-} LayoutType;
 
 typedef struct HLAttachData_ {
     void* data;
@@ -171,6 +136,10 @@ const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* 
 int _hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
 void* _hl_element_node_get_inner_data(HLDomElementNode* node, const char* key);
 void _hl_destroy_svg_values(HLUsedSvgValues* svg);
+
+
+void *hl_dom_element_node_first_child(void *node);
+void *hl_dom_element_node_next_child(void *node);
 
 #ifdef __cplusplus
 }
