@@ -59,42 +59,42 @@ typedef uint8_t (*css_border_color_func)(const css_computed_style *style, css_co
 
 /** Array of per-side access functions for computed style margins. */
 static const css_len_func margin_funcs[4] = {
-	css_computed_margin_top,
-	css_computed_margin_right,
-	css_computed_margin_bottom,
-	css_computed_margin_left,
+    css_computed_margin_top,
+    css_computed_margin_right,
+    css_computed_margin_bottom,
+    css_computed_margin_left,
 };
 
 /** Array of per-side access functions for computed style paddings. */
 static const css_len_func padding_funcs[4] = {
-	css_computed_padding_top,
-	css_computed_padding_right,
-	css_computed_padding_bottom,
-	css_computed_padding_left,
+    css_computed_padding_top,
+    css_computed_padding_right,
+    css_computed_padding_bottom,
+    css_computed_padding_left,
 };
 
 /** Array of per-side access functions for computed style border_widths. */
 static const css_len_func border_width_funcs[4] = {
-	css_computed_border_top_width,
-	css_computed_border_right_width,
-	css_computed_border_bottom_width,
-	css_computed_border_left_width,
+    css_computed_border_top_width,
+    css_computed_border_right_width,
+    css_computed_border_bottom_width,
+    css_computed_border_left_width,
 };
 
 /** Array of per-side access functions for computed style border styles. */
 static const css_border_style_func border_style_funcs[4] = {
-	css_computed_border_top_style,
-	css_computed_border_right_style,
-	css_computed_border_bottom_style,
-	css_computed_border_left_style,
+    css_computed_border_top_style,
+    css_computed_border_right_style,
+    css_computed_border_bottom_style,
+    css_computed_border_left_style,
 };
 
 /** Array of per-side access functions for computed style border colors. */
 static const css_border_color_func border_color_funcs[4] = {
-	css_computed_border_top_color,
-	css_computed_border_right_color,
-	css_computed_border_bottom_color,
-	css_computed_border_left_color,
+    css_computed_border_top_color,
+    css_computed_border_right_color,
+    css_computed_border_bottom_color,
+    css_computed_border_left_color,
 };
 
 
@@ -120,410 +120,410 @@ int _hilayout_select_child_style(const css_media* media, css_select_ctx* select_
 
 
 void _hl_calculate_mbp_width(const HLContext *len_ctx,
-		    const css_computed_style *style,
-		    unsigned int side,
-		    bool margin,
-		    bool border,
-		    bool padding,
-		    int *fixed,
-		    float *frac
+            const css_computed_style *style,
+            unsigned int side,
+            bool margin,
+            bool border,
+            bool padding,
+            int *fixed,
+            float *frac
             )
 {
-	css_fixed value = 0;
-	css_unit unit = CSS_UNIT_PX;
+    css_fixed value = 0;
+    css_unit unit = CSS_UNIT_PX;
 
-	assert(style);
+    assert(style);
 
-	/* margin */
-	if (margin) {
-		enum css_margin_e type;
+    /* margin */
+    if (margin) {
+        enum css_margin_e type;
 
-		type = margin_funcs[side](style, &value, &unit);
-		if (type == CSS_MARGIN_SET) {
-			if (unit == CSS_UNIT_PCT) {
-				*frac += FIXTOINT(FDIV(value, F_100));
-			} else {
-				*fixed += FIXTOINT(_hl_css_len2px(len_ctx,
-						value, unit, style));
-			}
-		}
-	}
+        type = margin_funcs[side](style, &value, &unit);
+        if (type == CSS_MARGIN_SET) {
+            if (unit == CSS_UNIT_PCT) {
+                *frac += FIXTOINT(FDIV(value, F_100));
+            } else {
+                *fixed += FIXTOINT(_hl_css_len2px(len_ctx,
+                        value, unit, style));
+            }
+        }
+    }
 
-	/* border */
-	if (border) {
-		if (border_style_funcs[side](style) !=
-				CSS_BORDER_STYLE_NONE) {
-			border_width_funcs[side](style, &value, &unit);
+    /* border */
+    if (border) {
+        if (border_style_funcs[side](style) !=
+                CSS_BORDER_STYLE_NONE) {
+            border_width_funcs[side](style, &value, &unit);
 
-			*fixed += FIXTOINT(_hl_css_len2px(len_ctx,
-					value, unit, style));
-		}
-	}
+            *fixed += FIXTOINT(_hl_css_len2px(len_ctx,
+                    value, unit, style));
+        }
+    }
 
-	/* padding */
-	if (padding) {
-		padding_funcs[side](style, &value, &unit);
-		if (unit == CSS_UNIT_PCT) {
-			*frac += FIXTOINT(FDIV(value, F_100));
-		} else {
-			*fixed += FIXTOINT(_hl_css_len2px(len_ctx,
-					value, unit, style));
-		}
-	}
+    /* padding */
+    if (padding) {
+        padding_funcs[side](style, &value, &unit);
+        if (unit == CSS_UNIT_PCT) {
+            *frac += FIXTOINT(FDIV(value, F_100));
+        } else {
+            *fixed += FIXTOINT(_hl_css_len2px(len_ctx,
+                    value, unit, style));
+        }
+    }
 }
 
 void _hl_handle_box_sizing(
-		const HLContext *len_ctx,
-		HLDomElementNode *node,
-		int available_width,
-		bool setwidth,
-		int *dimension)
+        const HLContext *len_ctx,
+        HLDomElementNode *node,
+        int available_width,
+        bool setwidth,
+        int *dimension)
 {
-	enum css_box_sizing_e bs;
+    enum css_box_sizing_e bs;
 
-	assert(node && node->computed_style);
+    assert(node && node->computed_style);
 
-	bs = css_computed_box_sizing(node->computed_style);
+    bs = css_computed_box_sizing(node->computed_style);
 
-	if (bs == CSS_BOX_SIZING_BORDER_BOX) {
-		int orig = *dimension;
-		int fixed = 0;
-		float frac = 0;
+    if (bs == CSS_BOX_SIZING_BORDER_BOX) {
+        int orig = *dimension;
+        int fixed = 0;
+        float frac = 0;
 
-		_hl_calculate_mbp_width(len_ctx, node->computed_style,
-				setwidth ? HL_LEFT : HL_TOP,
-				false, true, true, &fixed, &frac);
-		_hl_calculate_mbp_width(len_ctx, node->computed_style,
-				setwidth ? HL_RIGHT : HL_BOTTOM,
-				false, true, true, &fixed, &frac);
-		orig -= frac * available_width + fixed;
-		*dimension = orig > 0 ? orig : 0;
-	}
+        _hl_calculate_mbp_width(len_ctx, node->computed_style,
+                setwidth ? HL_LEFT : HL_TOP,
+                false, true, true, &fixed, &frac);
+        _hl_calculate_mbp_width(len_ctx, node->computed_style,
+                setwidth ? HL_RIGHT : HL_BOTTOM,
+                false, true, true, &fixed, &frac);
+        orig -= frac * available_width + fixed;
+        *dimension = orig > 0 ? orig : 0;
+    }
 }
 
 
 void _hl_find_dimensions(const HLContext *len_ctx,
-		       int available_width,
-		       int viewport_height,
-		       HLDomElementNode *box,
-		       const css_computed_style *style,
-		       int *width,
-		       int *height,
-		       int *max_width,
-		       int *min_width,
-		       int *max_height,
-		       int *min_height
-		       )
+               int available_width,
+               int viewport_height,
+               HLDomElementNode *box,
+               const css_computed_style *style,
+               int *width,
+               int *height,
+               int *max_width,
+               int *min_width,
+               int *max_height,
+               int *min_height
+               )
 {
-	HLDomElementNode* containing_block = NULL;
-	unsigned int i;
+    HLDomElementNode* containing_block = NULL;
+    unsigned int i;
 
-	if (width) {
-		enum css_width_e wtype;
-		css_fixed value = 0;
-		css_unit unit = CSS_UNIT_PX;
+    if (width) {
+        enum css_width_e wtype;
+        css_fixed value = 0;
+        css_unit unit = CSS_UNIT_PX;
 
-		wtype = css_computed_width(style, &value, &unit);
+        wtype = css_computed_width(style, &value, &unit);
 
-		if (wtype == CSS_WIDTH_SET) {
-			if (unit == CSS_UNIT_PCT) {
-				*width = HL_FPCT_OF_INT_TOINT(
-						value, available_width);
-			} else {
-				*width = FIXTOINT(_hl_css_len2px(len_ctx,
-						value, unit, style));
-			}
-		} else {
-			*width = HL_AUTO;
-		}
+        if (wtype == CSS_WIDTH_SET) {
+            if (unit == CSS_UNIT_PCT) {
+                *width = HL_FPCT_OF_INT_TOINT(
+                        value, available_width);
+            } else {
+                *width = FIXTOINT(_hl_css_len2px(len_ctx,
+                        value, unit, style));
+            }
+        } else {
+            *width = HL_AUTO;
+        }
 
-		if (*width != HL_AUTO) {
-			_hl_handle_box_sizing(len_ctx, box, available_width,
-					true, width);
-		}
-	}
+        if (*width != HL_AUTO) {
+            _hl_handle_box_sizing(len_ctx, box, available_width,
+                    true, width);
+        }
+    }
 
-	if (height) {
-		enum css_height_e htype;
-		css_fixed value = 0;
-		css_unit unit = CSS_UNIT_PX;
+    if (height) {
+        enum css_height_e htype;
+        css_fixed value = 0;
+        css_unit unit = CSS_UNIT_PX;
 
-		htype = css_computed_height(style, &value, &unit);
+        htype = css_computed_height(style, &value, &unit);
 
-		if (htype == CSS_HEIGHT_SET) {
-			if (unit == CSS_UNIT_PCT) {
-				enum css_height_e cbhtype;
+        if (htype == CSS_HEIGHT_SET) {
+            if (unit == CSS_UNIT_PCT) {
+                enum css_height_e cbhtype;
 
-				if (box->parent && box->parent->layout_type !=
-						LAYOUT_INLINE_CONTAINER) {
-					/* Box is a block level element */
-					containing_block = box->parent;
-				} else if (box->parent && box->parent->layout_type ==
-						LAYOUT_INLINE_CONTAINER) {
-					/* Box is an inline block */
-					assert(box->parent->parent);
-					containing_block = box->parent->parent;
-				}
+                if (box->parent && box->parent->layout_type !=
+                        LAYOUT_INLINE_CONTAINER) {
+                    /* Box is a block level element */
+                    containing_block = box->parent;
+                } else if (box->parent && box->parent->layout_type ==
+                        LAYOUT_INLINE_CONTAINER) {
+                    /* Box is an inline block */
+                    assert(box->parent->parent);
+                    containing_block = box->parent->parent;
+                }
 
-				if (containing_block) {
-					css_fixed f = 0;
-					css_unit u = CSS_UNIT_PX;
+                if (containing_block) {
+                    css_fixed f = 0;
+                    css_unit u = CSS_UNIT_PX;
 
-					cbhtype = css_computed_height(
-							containing_block->computed_style,
-							&f, &u);
-				}
+                    cbhtype = css_computed_height(
+                            containing_block->computed_style,
+                            &f, &u);
+                }
 
-				if (containing_block &&
-					containing_block->box_values.h != HL_AUTO &&
-					(css_computed_position(box->computed_style) ==
-							CSS_POSITION_ABSOLUTE ||
-						cbhtype == CSS_HEIGHT_SET)) {
-					/* Box is absolutely positioned or its
-					 * containing block has a valid
-					 * specified height.
-					 * (CSS 2.1 Section 10.5) */
-					*height = HL_FPCT_OF_INT_TOINT(value,
-						containing_block->box_values.h);
-				} else if ((!box->parent ||
-						!box->parent->parent) &&
-						viewport_height >= 0) {
-					/* If root element or it's child
-					 * (HTML or BODY) */
-					*height = HL_FPCT_OF_INT_TOINT(value,
-							viewport_height);
-				} else {
-					/* precentage height not permissible
-					 * treat height as auto */
-					*height = HL_AUTO;
-				}
-			} else {
-				*height = FIXTOINT(_hl_css_len2px(len_ctx,
-						value, unit, style));
-			}
-		} else {
-			*height = HL_AUTO;
-		}
+                if (containing_block &&
+                    containing_block->box_values.h != HL_AUTO &&
+                    (css_computed_position(box->computed_style) ==
+                            CSS_POSITION_ABSOLUTE ||
+                        cbhtype == CSS_HEIGHT_SET)) {
+                    /* Box is absolutely positioned or its
+                     * containing block has a valid
+                     * specified height.
+                     * (CSS 2.1 Section 10.5) */
+                    *height = HL_FPCT_OF_INT_TOINT(value,
+                        containing_block->box_values.h);
+                } else if ((!box->parent ||
+                        !box->parent->parent) &&
+                        viewport_height >= 0) {
+                    /* If root element or it's child
+                     * (HTML or BODY) */
+                    *height = HL_FPCT_OF_INT_TOINT(value,
+                            viewport_height);
+                } else {
+                    /* precentage height not permissible
+                     * treat height as auto */
+                    *height = HL_AUTO;
+                }
+            } else {
+                *height = FIXTOINT(_hl_css_len2px(len_ctx,
+                        value, unit, style));
+            }
+        } else {
+            *height = HL_AUTO;
+        }
 
-		if (*height != HL_AUTO) {
-			_hl_handle_box_sizing(len_ctx, box, available_width,
-					false, height);
-		}
-	}
+        if (*height != HL_AUTO) {
+            _hl_handle_box_sizing(len_ctx, box, available_width,
+                    false, height);
+        }
+    }
 
-	if (max_width) {
-		enum css_max_width_e type;
-		css_fixed value = 0;
-		css_unit unit = CSS_UNIT_PX;
+    if (max_width) {
+        enum css_max_width_e type;
+        css_fixed value = 0;
+        css_unit unit = CSS_UNIT_PX;
 
-		type = css_computed_max_width(style, &value, &unit);
+        type = css_computed_max_width(style, &value, &unit);
 
-		if (type == CSS_MAX_WIDTH_SET) {
-			if (unit == CSS_UNIT_PCT) {
-				*max_width = HL_FPCT_OF_INT_TOINT(value,
-						available_width);
-			} else {
-				*max_width = FIXTOINT(_hl_css_len2px(len_ctx,
-						value, unit, style));
-			}
-		} else {
-			/* Inadmissible */
-			*max_width = -1;
-		}
+        if (type == CSS_MAX_WIDTH_SET) {
+            if (unit == CSS_UNIT_PCT) {
+                *max_width = HL_FPCT_OF_INT_TOINT(value,
+                        available_width);
+            } else {
+                *max_width = FIXTOINT(_hl_css_len2px(len_ctx,
+                        value, unit, style));
+            }
+        } else {
+            /* Inadmissible */
+            *max_width = -1;
+        }
 
-		if (*max_width != -1) {
-			_hl_handle_box_sizing(len_ctx, box, available_width,
-					true, max_width);
-		}
-	}
+        if (*max_width != -1) {
+            _hl_handle_box_sizing(len_ctx, box, available_width,
+                    true, max_width);
+        }
+    }
 
-	if (min_width) {
-		enum css_min_width_e type;
-		css_fixed value = 0;
-		css_unit unit = CSS_UNIT_PX;
+    if (min_width) {
+        enum css_min_width_e type;
+        css_fixed value = 0;
+        css_unit unit = CSS_UNIT_PX;
 
-		type = _hl_computed_min_width(style, &value, &unit);
+        type = _hl_computed_min_width(style, &value, &unit);
 
-		if (type == CSS_MIN_WIDTH_SET) {
-			if (unit == CSS_UNIT_PCT) {
-				*min_width = HL_FPCT_OF_INT_TOINT(value,
-						available_width);
-			} else {
-				*min_width = FIXTOINT(_hl_css_len2px(len_ctx,
-						value, unit, style));
-			}
-		} else {
-			/* Inadmissible */
-			*min_width = 0;
-		}
+        if (type == CSS_MIN_WIDTH_SET) {
+            if (unit == CSS_UNIT_PCT) {
+                *min_width = HL_FPCT_OF_INT_TOINT(value,
+                        available_width);
+            } else {
+                *min_width = FIXTOINT(_hl_css_len2px(len_ctx,
+                        value, unit, style));
+            }
+        } else {
+            /* Inadmissible */
+            *min_width = 0;
+        }
 
-		if (*min_width != 0) {
-			_hl_handle_box_sizing(len_ctx, box, available_width,
-					true, min_width);
-		}
-	}
+        if (*min_width != 0) {
+            _hl_handle_box_sizing(len_ctx, box, available_width,
+                    true, min_width);
+        }
+    }
 
-	if (max_height) {
-		enum css_max_height_e type;
-		css_fixed value = 0;
-		css_unit unit = CSS_UNIT_PX;
+    if (max_height) {
+        enum css_max_height_e type;
+        css_fixed value = 0;
+        css_unit unit = CSS_UNIT_PX;
 
-		type = css_computed_max_height(style, &value, &unit);
+        type = css_computed_max_height(style, &value, &unit);
 
-		if (type == CSS_MAX_HEIGHT_SET) {
-			if (unit == CSS_UNIT_PCT) {
-				/* TODO: handle percentage */
-				*max_height = -1;
-			} else {
-				*max_height = FIXTOINT(_hl_css_len2px(len_ctx,
-						value, unit, style));
-			}
-		} else {
-			/* Inadmissible */
-			*max_height = -1;
-		}
-	}
+        if (type == CSS_MAX_HEIGHT_SET) {
+            if (unit == CSS_UNIT_PCT) {
+                /* TODO: handle percentage */
+                *max_height = -1;
+            } else {
+                *max_height = FIXTOINT(_hl_css_len2px(len_ctx,
+                        value, unit, style));
+            }
+        } else {
+            /* Inadmissible */
+            *max_height = -1;
+        }
+    }
 
-	if (min_height) {
-		enum css_min_height_e type;
-		css_fixed value = 0;
-		css_unit unit = CSS_UNIT_PX;
+    if (min_height) {
+        enum css_min_height_e type;
+        css_fixed value = 0;
+        css_unit unit = CSS_UNIT_PX;
 
-		type = _hl_computed_min_height(style, &value, &unit);
+        type = _hl_computed_min_height(style, &value, &unit);
 
-		if (type == CSS_MIN_HEIGHT_SET) {
-			if (unit == CSS_UNIT_PCT) {
-				/* TODO: handle percentage */
-				*min_height = 0;
-			} else {
-				*min_height = FIXTOINT(_hl_css_len2px(len_ctx,
-						value, unit, style));
-			}
-		} else {
-			/* Inadmissible */
-			*min_height = 0;
-		}
-	}
+        if (type == CSS_MIN_HEIGHT_SET) {
+            if (unit == CSS_UNIT_PCT) {
+                /* TODO: handle percentage */
+                *min_height = 0;
+            } else {
+                *min_height = FIXTOINT(_hl_css_len2px(len_ctx,
+                        value, unit, style));
+            }
+        } else {
+            /* Inadmissible */
+            *min_height = 0;
+        }
+    }
 }
 
 int _hl_solve_width(HLDomElementNode* box,
-		   int available_width,
-		   int width,
-		   int lm,
-		   int rm,
-		   int max_width,
-		   int min_width)
+           int available_width,
+           int width,
+           int lm,
+           int rm,
+           int max_width,
+           int min_width)
 {
-	bool auto_width = false;
+    bool auto_width = false;
 
-	/* Increase specified left/right margins */
-	if (box->margin[HL_LEFT] != HL_AUTO && box->margin[HL_LEFT] < lm &&
-			box->margin[HL_LEFT] >= 0)
-		box->margin[HL_LEFT] = lm;
-	if (box->margin[HL_RIGHT] != HL_AUTO && box->margin[HL_RIGHT] < rm &&
-			box->margin[HL_RIGHT] >= 0)
-		box->margin[HL_RIGHT] = rm;
+    /* Increase specified left/right margins */
+    if (box->margin[HL_LEFT] != HL_AUTO && box->margin[HL_LEFT] < lm &&
+            box->margin[HL_LEFT] >= 0)
+        box->margin[HL_LEFT] = lm;
+    if (box->margin[HL_RIGHT] != HL_AUTO && box->margin[HL_RIGHT] < rm &&
+            box->margin[HL_RIGHT] >= 0)
+        box->margin[HL_RIGHT] = rm;
 
-	/* Find width */
-	if (width == HL_AUTO) {
-		int margin_left = box->margin[HL_LEFT];
-		int margin_right = box->margin[HL_RIGHT];
+    /* Find width */
+    if (width == HL_AUTO) {
+        int margin_left = box->margin[HL_LEFT];
+        int margin_right = box->margin[HL_RIGHT];
 
-		if (margin_left == HL_AUTO) {
-			margin_left = lm;
-		}
-		if (margin_right == HL_AUTO) {
-			margin_right = rm;
-		}
+        if (margin_left == HL_AUTO) {
+            margin_left = lm;
+        }
+        if (margin_right == HL_AUTO) {
+            margin_right = rm;
+        }
 
-		width = available_width -
-				(margin_left + box->border[HL_LEFT] +
-				box->padding[HL_LEFT] + box->padding[HL_RIGHT] +
-				box->border[HL_RIGHT] + margin_right);
-		width = width < 0 ? 0 : width;
-		auto_width = true;
-	}
+        width = available_width -
+                (margin_left + box->border[HL_LEFT] +
+                box->padding[HL_LEFT] + box->padding[HL_RIGHT] +
+                box->border[HL_RIGHT] + margin_right);
+        width = width < 0 ? 0 : width;
+        auto_width = true;
+    }
 
-	if (max_width >= 0 && width > max_width) {
-		/* max-width is admissable and width exceeds max-width */
-		width = max_width;
-		auto_width = false;
-	}
+    if (max_width >= 0 && width > max_width) {
+        /* max-width is admissable and width exceeds max-width */
+        width = max_width;
+        auto_width = false;
+    }
 
-	if (min_width > 0 && width < min_width) {
-		/* min-width is admissable and width is less than max-width */
-		width = min_width;
-		auto_width = false;
-	}
+    if (min_width > 0 && width < min_width) {
+        /* min-width is admissable and width is less than max-width */
+        width = min_width;
+        auto_width = false;
+    }
 
-	/* Width was auto, and unconstrained by min/max width, so we're done */
-	if (auto_width) {
-		/* any other 'auto' become 0 or the minimum required values */
-		if (box->margin[HL_LEFT] == HL_AUTO) {
-			box->margin[HL_LEFT] = lm;
-		}
-		if (box->margin[HL_RIGHT] == HL_AUTO) {
-			box->margin[HL_RIGHT] = rm;
-		}
-		return width;
-	}
+    /* Width was auto, and unconstrained by min/max width, so we're done */
+    if (auto_width) {
+        /* any other 'auto' become 0 or the minimum required values */
+        if (box->margin[HL_LEFT] == HL_AUTO) {
+            box->margin[HL_LEFT] = lm;
+        }
+        if (box->margin[HL_RIGHT] == HL_AUTO) {
+            box->margin[HL_RIGHT] = rm;
+        }
+        return width;
+    }
 
-	/* Width was not auto, or was constrained by min/max width
-	 * Need to compute left/right margins */
+    /* Width was not auto, or was constrained by min/max width
+     * Need to compute left/right margins */
 
-	/* HTML alignment (only applies to over-constrained boxes) */
-	if (box->margin[HL_LEFT] != HL_AUTO && box->margin[HL_RIGHT] != HL_AUTO &&
-			box->parent != NULL && box->parent->computed_style != NULL) {
-		switch (css_computed_text_align(box->parent->computed_style)) {
-		case CSS_TEXT_ALIGN_LIBCSS_RIGHT:
-			box->margin[HL_LEFT] = HL_AUTO;
-			box->margin[HL_RIGHT] = 0;
-			break;
-		case CSS_TEXT_ALIGN_LIBCSS_CENTER:
-			box->margin[HL_LEFT] = box->margin[HL_RIGHT] = HL_AUTO;
-			break;
-		case CSS_TEXT_ALIGN_LIBCSS_LEFT:
-			box->margin[HL_LEFT] = 0;
-			box->margin[HL_RIGHT] = HL_AUTO;
-			break;
-		default:
-			/* Leave it alone; no HTML alignment */
-			break;
-		}
-	}
+    /* HTML alignment (only applies to over-constrained boxes) */
+    if (box->margin[HL_LEFT] != HL_AUTO && box->margin[HL_RIGHT] != HL_AUTO &&
+            box->parent != NULL && box->parent->computed_style != NULL) {
+        switch (css_computed_text_align(box->parent->computed_style)) {
+        case CSS_TEXT_ALIGN_LIBCSS_RIGHT:
+            box->margin[HL_LEFT] = HL_AUTO;
+            box->margin[HL_RIGHT] = 0;
+            break;
+        case CSS_TEXT_ALIGN_LIBCSS_CENTER:
+            box->margin[HL_LEFT] = box->margin[HL_RIGHT] = HL_AUTO;
+            break;
+        case CSS_TEXT_ALIGN_LIBCSS_LEFT:
+            box->margin[HL_LEFT] = 0;
+            box->margin[HL_RIGHT] = HL_AUTO;
+            break;
+        default:
+            /* Leave it alone; no HTML alignment */
+            break;
+        }
+    }
 
-	if (box->margin[HL_LEFT] == HL_AUTO && box->margin[HL_RIGHT] == HL_AUTO) {
-		/* make the margins equal, centering the element */
-		box->margin[HL_LEFT] = box->margin[HL_RIGHT] =
-				(available_width - lm - rm -
-				(box->border[HL_LEFT] + box->padding[HL_LEFT] +
-				width + box->padding[HL_RIGHT] +
-				box->border[HL_RIGHT])) / 2;
+    if (box->margin[HL_LEFT] == HL_AUTO && box->margin[HL_RIGHT] == HL_AUTO) {
+        /* make the margins equal, centering the element */
+        box->margin[HL_LEFT] = box->margin[HL_RIGHT] =
+                (available_width - lm - rm -
+                (box->border[HL_LEFT] + box->padding[HL_LEFT] +
+                width + box->padding[HL_RIGHT] +
+                box->border[HL_RIGHT])) / 2;
 
-		if (box->margin[HL_LEFT] < 0) {
-			box->margin[HL_RIGHT] += box->margin[HL_LEFT];
-			box->margin[HL_LEFT] = 0;
-		}
+        if (box->margin[HL_LEFT] < 0) {
+            box->margin[HL_RIGHT] += box->margin[HL_LEFT];
+            box->margin[HL_LEFT] = 0;
+        }
 
-		box->margin[HL_LEFT] += lm;
+        box->margin[HL_LEFT] += lm;
 
-	} else if (box->margin[HL_LEFT] == HL_AUTO) {
-		box->margin[HL_LEFT] = available_width - lm -
-				(box->border[HL_LEFT] + box->padding[HL_LEFT] +
-				width + box->padding[HL_RIGHT] +
-				box->border[HL_RIGHT] + box->margin[HL_RIGHT]);
-		box->margin[HL_LEFT] = box->margin[HL_LEFT] < lm
-				? lm : box->margin[HL_LEFT];
-	} else {
-		/* margin-right auto or "over-constrained" */
-		box->margin[HL_RIGHT] = available_width - rm -
-				(box->margin[HL_LEFT] + box->border[HL_LEFT] +
-				 box->padding[HL_LEFT] + width +
-				 box->padding[HL_RIGHT] +
-				 box->border[HL_RIGHT]);
-	}
+    } else if (box->margin[HL_LEFT] == HL_AUTO) {
+        box->margin[HL_LEFT] = available_width - lm -
+                (box->border[HL_LEFT] + box->padding[HL_LEFT] +
+                width + box->padding[HL_RIGHT] +
+                box->border[HL_RIGHT] + box->margin[HL_RIGHT]);
+        box->margin[HL_LEFT] = box->margin[HL_LEFT] < lm
+                ? lm : box->margin[HL_LEFT];
+    } else {
+        /* margin-right auto or "over-constrained" */
+        box->margin[HL_RIGHT] = available_width - rm -
+                (box->margin[HL_LEFT] + box->border[HL_LEFT] +
+                 box->padding[HL_LEFT] + width +
+                 box->padding[HL_RIGHT] +
+                 box->border[HL_RIGHT]);
+    }
 
-	return width;
+    return width;
 }
 
 int _hl_block_find_dimensions(HLContext* ctx,
@@ -566,76 +566,76 @@ int _hl_block_find_dimensions(HLContext* ctx,
 }
 
 void _hl_computed_offsets(const HLContext* len_ctx,
-		       HLDomElementNode* box,
-		       HLDomElementNode* containing_block,
-		       int* top,
-		       int* right,
-		       int* bottom,
-		       int* left)
+               HLDomElementNode* box,
+               HLDomElementNode* containing_block,
+               int* top,
+               int* right,
+               int* bottom,
+               int* left)
 {
-	uint32_t type;
-	css_fixed value = 0;
-	css_unit unit = CSS_UNIT_PX;
+    uint32_t type;
+    css_fixed value = 0;
+    css_unit unit = CSS_UNIT_PX;
 
-	assert(containing_block->box_values.w != UNKNOWN_WIDTH &&
-			containing_block->box_values.w != HL_AUTO &&
-			containing_block->box_values.h != HL_AUTO);
+    assert(containing_block->box_values.w != UNKNOWN_WIDTH &&
+            containing_block->box_values.w != HL_AUTO &&
+            containing_block->box_values.h != HL_AUTO);
 
-	/* left */
-	type = css_computed_left(box->computed_style, &value, &unit);
-	if (type == CSS_LEFT_SET) {
-		if (unit == CSS_UNIT_PCT) {
-			*left = HL_FPCT_OF_INT_TOINT(value,
-					containing_block->box_values.w);
-		} else {
-			*left = FIXTOINT(_hl_css_len2px(len_ctx,
-					value, unit, box->computed_style));
-		}
-	} else {
-		*left = HL_AUTO;
-	}
+    /* left */
+    type = css_computed_left(box->computed_style, &value, &unit);
+    if (type == CSS_LEFT_SET) {
+        if (unit == CSS_UNIT_PCT) {
+            *left = HL_FPCT_OF_INT_TOINT(value,
+                    containing_block->box_values.w);
+        } else {
+            *left = FIXTOINT(_hl_css_len2px(len_ctx,
+                    value, unit, box->computed_style));
+        }
+    } else {
+        *left = HL_AUTO;
+    }
 
-	/* right */
-	type = css_computed_right(box->computed_style, &value, &unit);
-	if (type == CSS_RIGHT_SET) {
-		if (unit == CSS_UNIT_PCT) {
-			*right = HL_FPCT_OF_INT_TOINT(value,
-					containing_block->box_values.w);
-		} else {
-			*right = FIXTOINT(_hl_css_len2px(len_ctx,
-					value, unit, box->computed_style));
-		}
-	} else {
-		*right = HL_AUTO;
-	}
+    /* right */
+    type = css_computed_right(box->computed_style, &value, &unit);
+    if (type == CSS_RIGHT_SET) {
+        if (unit == CSS_UNIT_PCT) {
+            *right = HL_FPCT_OF_INT_TOINT(value,
+                    containing_block->box_values.w);
+        } else {
+            *right = FIXTOINT(_hl_css_len2px(len_ctx,
+                    value, unit, box->computed_style));
+        }
+    } else {
+        *right = HL_AUTO;
+    }
 
-	/* top */
-	type = css_computed_top(box->computed_style, &value, &unit);
-	if (type == CSS_TOP_SET) {
-		if (unit == CSS_UNIT_PCT) {
-			*top = HL_FPCT_OF_INT_TOINT(value,
-					containing_block->box_values.h);
-		} else {
-			*top = FIXTOINT(_hl_css_len2px(len_ctx,
-					value, unit, box->computed_style));
-		}
-	} else {
-		*top = HL_AUTO;
-	}
+    /* top */
+    type = css_computed_top(box->computed_style, &value, &unit);
+    if (type == CSS_TOP_SET) {
+        if (unit == CSS_UNIT_PCT) {
+            *top = HL_FPCT_OF_INT_TOINT(value,
+                    containing_block->box_values.h);
+        } else {
+            *top = FIXTOINT(_hl_css_len2px(len_ctx,
+                    value, unit, box->computed_style));
+        }
+    } else {
+        *top = HL_AUTO;
+    }
 
-	/* bottom */
-	type = css_computed_bottom(box->computed_style, &value, &unit);
-	if (type == CSS_BOTTOM_SET) {
-		if (unit == CSS_UNIT_PCT) {
-			*bottom = HL_FPCT_OF_INT_TOINT(value,
-					containing_block->box_values.h);
-		} else {
-			*bottom = FIXTOINT(_hl_css_len2px(len_ctx,
-					value, unit, box->computed_style));
-		}
-	} else {
-		*bottom = HL_AUTO;
-	}
+    /* bottom */
+    type = css_computed_bottom(box->computed_style, &value, &unit);
+    if (type == CSS_BOTTOM_SET) {
+        if (unit == CSS_UNIT_PCT) {
+            *bottom = HL_FPCT_OF_INT_TOINT(value,
+                    containing_block->box_values.h);
+        } else {
+            *bottom = FIXTOINT(_hl_css_len2px(len_ctx,
+                    value, unit, box->computed_style));
+        }
+    } else {
+        *bottom = HL_AUTO;
+    }
 }
 
 
@@ -837,16 +837,16 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         return HILAYOUT_BADPARM;
     }
 
-	HLContext context = {
-		.media = media,
-		.css = css,
+    HLContext context = {
+        .media = media,
+        .css = css,
         .root = root,
-	};
+    };
     _hl_set_media_dpi(&context, media->dpi);
     _hl_set_baseline_pixel_density(&context, media->density);
 
-	css_media m;
-	m.type = CSS_MEDIA_SCREEN;
+    css_media m;
+    m.type = CSS_MEDIA_SCREEN;
     m.width  = _hl_css_pixels_physical_to_css(&context, INTTOFIX(media->width));
     m.height = _hl_css_pixels_physical_to_css(&context, INTTOFIX(media->height));
     context.vw = m.width;

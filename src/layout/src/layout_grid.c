@@ -157,21 +157,21 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
     }
     // end height
 
-	if (max_width >= 0 && width > max_width) {
-		width = max_width;
-	}
+    if (max_width >= 0 && width > max_width) {
+        width = max_width;
+    }
 
-	if (min_width > 0 && width < min_width) {
-		width = min_width;
-	}
+    if (min_width > 0 && width < min_width) {
+        width = min_width;
+    }
 
-	if (max_height >= 0 && height > max_height) {
-		height = max_height;
-	}
+    if (max_height >= 0 && height > max_height) {
+        height = max_height;
+    }
 
-	if (min_height > 0 && height < min_height) {
-		height = min_height;
-	}
+    if (min_height > 0 && height < min_height) {
+        height = min_height;
+    }
 
     node->box_values.w = width;
     node->box_values.h = height;

@@ -592,38 +592,38 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
     }
 
     val = css_computed_font_weight(node->computed_style);
-	switch (val) {
-	case CSS_FONT_WEIGHT_100:
+    switch (val) {
+    case CSS_FONT_WEIGHT_100:
         node->text_values.font_weight = HLFONT_WEIGHT_THIN;
-		break;
-	case CSS_FONT_WEIGHT_200:
+        break;
+    case CSS_FONT_WEIGHT_200:
         node->text_values.font_weight = HLFONT_WEIGHT_EXTRA_LIGHT;
-		break;
-	case CSS_FONT_WEIGHT_300:
+        break;
+    case CSS_FONT_WEIGHT_300:
         node->text_values.font_weight = HLFONT_WEIGHT_LIGHT;
-		break;
-	case CSS_FONT_WEIGHT_400:
-	case CSS_FONT_WEIGHT_NORMAL:
-	default:
+        break;
+    case CSS_FONT_WEIGHT_400:
+    case CSS_FONT_WEIGHT_NORMAL:
+    default:
         node->text_values.font_weight = HLFONT_WEIGHT_NORMAL;
-		break;
-	case CSS_FONT_WEIGHT_500:
+        break;
+    case CSS_FONT_WEIGHT_500:
         node->text_values.font_weight = HLFONT_WEIGHT_MEDIUM;
-		break;
-	case CSS_FONT_WEIGHT_600:
+        break;
+    case CSS_FONT_WEIGHT_600:
         node->text_values.font_weight = HLFONT_WEIGHT_DEMIBOLD;
-		break;
-	case CSS_FONT_WEIGHT_700:
-	case CSS_FONT_WEIGHT_BOLD:
+        break;
+    case CSS_FONT_WEIGHT_700:
+    case CSS_FONT_WEIGHT_BOLD:
         node->text_values.font_weight = HLFONT_WEIGHT_BOLD;
-		break;
-	case CSS_FONT_WEIGHT_800:
+        break;
+    case CSS_FONT_WEIGHT_800:
         node->text_values.font_weight = HLFONT_WEIGHT_EXTRA_BOLD;
-		break;
-	case CSS_FONT_WEIGHT_900:
+        break;
+    case CSS_FONT_WEIGHT_900:
         node->text_values.font_weight = HLFONT_WEIGHT_BLACK;
-		break;
-	}
+        break;
+    }
 }
 
 int _hilayout_find_background(HLDomElementNode* node)

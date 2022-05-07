@@ -137,9 +137,9 @@ int _hl_set_baseline_pixel_density(HLContext* ctx, int density);
 css_unit _hl_css_utils_fudge_viewport_units(const HLContext *ctx, css_unit unit);
 css_fixed _hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit);
 css_fixed _hl_css_len2px(const HLContext *ctx,
-		css_fixed length,
-		css_unit unit,
-		const css_computed_style *style);
+        css_fixed length,
+        css_unit unit,
+        const css_computed_style *style);
 
 uint8_t _hl_computed_min_height(
         const css_computed_style *style,

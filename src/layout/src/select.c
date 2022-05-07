@@ -208,35 +208,35 @@ int dom_node_get_previous_sibling(HLDomElementNode *node,
  */
 css_error named_sibling_node(void *pw, void *node, const css_qname *qname, void **sibling)
 {
-	HLDomElementNode *n = node;
-	HLDomElementNode *prev;
-	int err;
+    HLDomElementNode *n = node;
+    HLDomElementNode *prev;
+    int err;
 
-	*sibling = NULL;
+    *sibling = NULL;
 
-	/* Find sibling element */
-	dom_node_get_previous_sibling(n, &n);
+    /* Find sibling element */
+    dom_node_get_previous_sibling(n, &n);
 
-	while (n != NULL) {
+    while (n != NULL) {
         HLDomElementNodeType type = n->inner_dom_type;
 
-		if (type == DOM_ELEMENT_NODE)
-			break;
+        if (type == DOM_ELEMENT_NODE)
+            break;
 
-		dom_node_get_previous_sibling(n, &prev);
-		n = prev;
-	}
+        dom_node_get_previous_sibling(n, &prev);
+        n = prev;
+    }
 
-	if (n != NULL) {
+    if (n != NULL) {
         bool match = false;
         if (lwc_string_caseless_isequal(n->inner_tag, qname->name,
                     &match) == lwc_error_ok && match)
         {
-			*sibling = n;
+            *sibling = n;
         }
-	}
+    }
 
-	return CSS_OK;
+    return CSS_OK;
 }
 
 /**
@@ -252,19 +252,19 @@ css_error named_sibling_node(void *pw, void *node, const css_qname *qname, void 
  */
 css_error named_generic_sibling_node(void *pw, void *node, const css_qname *qname, void **sibling)
 {
-	HLDomElementNode *n = node;
-	HLDomElementNode *prev;
-	int err;
+    HLDomElementNode *n = node;
+    HLDomElementNode *prev;
+    int err;
 
-	*sibling = NULL;
+    *sibling = NULL;
 
-	dom_node_get_previous_sibling(n, &n);
+    dom_node_get_previous_sibling(n, &n);
 
-	while (n != NULL) {
+    while (n != NULL) {
         HLDomElementNodeType type = n->inner_dom_type;
-		lwc_string *name;
+        lwc_string *name;
 
-		if (type == DOM_ELEMENT_NODE) {
+        if (type == DOM_ELEMENT_NODE) {
             bool match = false;
             if (lwc_string_caseless_isequal(n->inner_tag, qname->name,
                         &match) == lwc_error_ok && match)
@@ -272,13 +272,13 @@ css_error named_generic_sibling_node(void *pw, void *node, const css_qname *qnam
                 *sibling = n;
                 break;
             }
-		}
+        }
 
-		dom_node_get_previous_sibling(n, &prev);
-		n = prev;
-	}
+        dom_node_get_previous_sibling(n, &prev);
+        n = prev;
+    }
 
-	return CSS_OK;
+    return CSS_OK;
 }
 
 /**
@@ -317,29 +317,29 @@ css_error parent_node(void *pw, void *node, void **parent)
  */
 css_error sibling_node(void *pw, void *node, void **sibling)
 {
-	HLDomElementNode *n = node;
-	HLDomElementNode *prev;
-	int err;
+    HLDomElementNode *n = node;
+    HLDomElementNode *prev;
+    int err;
 
-	*sibling = NULL;
+    *sibling = NULL;
 
-	/* Find sibling element */
-	dom_node_get_previous_sibling(n, &n);
+    /* Find sibling element */
+    dom_node_get_previous_sibling(n, &n);
 
-	while (n != NULL) {
-		HLDomElementNodeType type = n->inner_dom_type;
-		if (type == DOM_ELEMENT_NODE)
-			break;
+    while (n != NULL) {
+        HLDomElementNodeType type = n->inner_dom_type;
+        if (type == DOM_ELEMENT_NODE)
+            break;
 
-		dom_node_get_previous_sibling(n, &prev);
-		n = prev;
-	}
+        dom_node_get_previous_sibling(n, &prev);
+        n = prev;
+    }
 
-	if (n != NULL) {
-		*sibling = n;
-	}
+    if (n != NULL) {
+        *sibling = n;
+    }
 
-	return CSS_OK;
+    return CSS_OK;
 }
 
 /**
@@ -355,9 +355,9 @@ css_error sibling_node(void *pw, void *node, void **sibling)
  */
 css_error node_has_name(void *pw, void *node, const css_qname *qname, bool *match)
 {
-	HLDomElementNode *n = node;
+    HLDomElementNode *n = node;
     lwc_string_caseless_isequal(n->inner_tag, qname->name, match);
-	return CSS_OK;
+    return CSS_OK;
 }
 
 /**
@@ -373,14 +373,14 @@ css_error node_has_name(void *pw, void *node, const css_qname *qname, bool *matc
  */
 css_error node_has_class(void *pw, void *node, lwc_string *name, bool *match)
 {
-	unsigned int class;
+    unsigned int class;
     HLDomElementNode *n = node;
-	
-	/* Short-circuit case where we have no classes */
-	if (n->inner_classes_count == 0) {
-		*match = false;
+    
+    /* Short-circuit case where we have no classes */
+    if (n->inner_classes_count == 0) {
+        *match = false;
         return CSS_OK;
-	}
+    }
 
     /* Standards mode: case sensitively match */
     for (class = 0; class < n->inner_classes_count; class++) {
@@ -406,7 +406,7 @@ css_error node_has_class(void *pw, void *node, lwc_string *name, bool *match)
  */
 css_error node_has_id(void *pw, void *node, lwc_string *name, bool *match)
 {
-	HLDomElementNode *n = node;
+    HLDomElementNode *n = node;
     lwc_string_caseless_isequal(n->inner_id, name, match);
     return CSS_OK;
 }
@@ -595,36 +595,36 @@ int dom_node_get_next_sibling(HLDomElementNode *node,
 
 static int
 node_count_siblings_check(HLDomElementNode *node,
-			  bool check_name,
-			  lwc_string *name)
+              bool check_name,
+              lwc_string *name)
 {
-	HLDomElementNodeType type;
-	int ret = 0;
-	int exc;
+    HLDomElementNodeType type;
+    int ret = 0;
+    int exc;
 
-	if (node == NULL)
-		return 0;
+    if (node == NULL)
+        return 0;
 
-	type = node->inner_dom_type;
-	if (type != DOM_ELEMENT_NODE) {
-		return 0;
-	}
+    type = node->inner_dom_type;
+    if (type != DOM_ELEMENT_NODE) {
+        return 0;
+    }
 
-	if (check_name) {
-		lwc_string *node_name = node->inner_tag;
+    if (check_name) {
+        lwc_string *node_name = node->inner_tag;
 
-		if (node_name != NULL) {
+        if (node_name != NULL) {
 
             bool match = false;
             if (lwc_string_caseless_isequal(node_name, name,
                     &match) == lwc_error_ok && match) {
-				ret = 1;
-			}
-		}
-	} else {
-		ret = 1;
-	}
-	return ret;
+                ret = 1;
+            }
+        }
+    } else {
+        ret = 1;
+    }
+    return ret;
 }
 
 /**
@@ -642,40 +642,40 @@ node_count_siblings_check(HLDomElementNode *node,
 css_error node_count_siblings(void *pw, void *n,
         bool same_name, bool after, int32_t *count)
 {
-	int32_t cnt = 0;
-	int exc;
-	lwc_string *node_name = NULL;
+    int32_t cnt = 0;
+    int exc;
+    lwc_string *node_name = NULL;
 
-	if (same_name) {
-		HLDomElementNode *node = n;
+    if (same_name) {
+        HLDomElementNode *node = n;
         node_name = node->inner_tag;
-		if (node_name == NULL) {
-			return CSS_NOMEM;
-		}
-	}
+        if (node_name == NULL) {
+            return CSS_NOMEM;
+        }
+    }
 
-	if (after) {
-		HLDomElementNode *node = n;
-		HLDomElementNode *next;
+    if (after) {
+        HLDomElementNode *node = n;
+        HLDomElementNode *next;
 
-		do {
-			dom_node_get_next_sibling(node, &next);
-			node = next;
-			cnt += node_count_siblings_check(node, same_name, node_name);
-		} while (node != NULL);
-	} else {
-		HLDomElementNode *node = n;
-		HLDomElementNode *next;
+        do {
+            dom_node_get_next_sibling(node, &next);
+            node = next;
+            cnt += node_count_siblings_check(node, same_name, node_name);
+        } while (node != NULL);
+    } else {
+        HLDomElementNode *node = n;
+        HLDomElementNode *next;
 
-		do {
-			dom_node_get_previous_sibling(node, &next);
-			node = next;
-			cnt += node_count_siblings_check(node, same_name, node_name);
-		} while (node != NULL);
-	}
+        do {
+            dom_node_get_previous_sibling(node, &next);
+            node = next;
+            cnt += node_count_siblings_check(node, same_name, node_name);
+        } while (node != NULL);
+    }
 
-	*count = cnt;
-	return CSS_OK;
+    *count = cnt;
+    return CSS_OK;
 }
 
 /**
@@ -871,7 +871,7 @@ css_error ua_default_for_property(void *pw, uint32_t property,
         return CSS_INVALID;
     }
 
-	return CSS_OK;
+    return CSS_OK;
 }
 
 typedef struct _HlCSSDataPackage {
@@ -904,64 +904,64 @@ css_error get_libcss_node_data(void *pw, void *node,
 css_error compute_font_size(void *pw, const css_hint *parent,
         css_hint *size)
 {
-	static css_hint_length sizes[] = {
-		{ FLTTOFIX(6.75), CSS_UNIT_PT },
-		{ FLTTOFIX(7.50), CSS_UNIT_PT },
-		{ FLTTOFIX(9.75), CSS_UNIT_PT },
-		{ FLTTOFIX(12.0), CSS_UNIT_PT },
-		{ FLTTOFIX(13.5), CSS_UNIT_PT },
-		{ FLTTOFIX(18.0), CSS_UNIT_PT },
-		{ FLTTOFIX(24.0), CSS_UNIT_PT }
-	};
-	const css_hint_length *parent_size;
+    static css_hint_length sizes[] = {
+        { FLTTOFIX(6.75), CSS_UNIT_PT },
+        { FLTTOFIX(7.50), CSS_UNIT_PT },
+        { FLTTOFIX(9.75), CSS_UNIT_PT },
+        { FLTTOFIX(12.0), CSS_UNIT_PT },
+        { FLTTOFIX(13.5), CSS_UNIT_PT },
+        { FLTTOFIX(18.0), CSS_UNIT_PT },
+        { FLTTOFIX(24.0), CSS_UNIT_PT }
+    };
+    const css_hint_length *parent_size;
 
-	UNUSED(pw);
+    UNUSED(pw);
 
-	/* Grab parent size, defaulting to medium if none */
-	if (parent == NULL) {
-		parent_size = &sizes[CSS_FONT_SIZE_MEDIUM - 1];
-	} else {
-		assert(parent->status == CSS_FONT_SIZE_DIMENSION);
-		assert(parent->data.length.unit != CSS_UNIT_EM);
-		assert(parent->data.length.unit != CSS_UNIT_EX);
-		parent_size = &parent->data.length;
-	}
+    /* Grab parent size, defaulting to medium if none */
+    if (parent == NULL) {
+        parent_size = &sizes[CSS_FONT_SIZE_MEDIUM - 1];
+    } else {
+        assert(parent->status == CSS_FONT_SIZE_DIMENSION);
+        assert(parent->data.length.unit != CSS_UNIT_EM);
+        assert(parent->data.length.unit != CSS_UNIT_EX);
+        parent_size = &parent->data.length;
+    }
 
-	assert(size->status != CSS_FONT_SIZE_INHERIT);
+    assert(size->status != CSS_FONT_SIZE_INHERIT);
 
-	if (size->status < CSS_FONT_SIZE_LARGER) {
-		/* Keyword -- simple */
-		size->data.length = sizes[size->status - 1];
-	} else if (size->status == CSS_FONT_SIZE_LARGER) {
-		/** \todo Step within table, if appropriate */
-		size->data.length.value =
-				FMUL(parent_size->value, FLTTOFIX(1.2));
-		size->data.length.unit = parent_size->unit;
-	} else if (size->status == CSS_FONT_SIZE_SMALLER) {
-		/** \todo Step within table, if appropriate */
-		size->data.length.value =
-				FMUL(parent_size->value, FLTTOFIX(1.2));
-		size->data.length.unit = parent_size->unit;
-	} else if (size->data.length.unit == CSS_UNIT_EM ||
-			size->data.length.unit == CSS_UNIT_EX) {
-		size->data.length.value =
-			FMUL(size->data.length.value, parent_size->value);
+    if (size->status < CSS_FONT_SIZE_LARGER) {
+        /* Keyword -- simple */
+        size->data.length = sizes[size->status - 1];
+    } else if (size->status == CSS_FONT_SIZE_LARGER) {
+        /** \todo Step within table, if appropriate */
+        size->data.length.value =
+                FMUL(parent_size->value, FLTTOFIX(1.2));
+        size->data.length.unit = parent_size->unit;
+    } else if (size->status == CSS_FONT_SIZE_SMALLER) {
+        /** \todo Step within table, if appropriate */
+        size->data.length.value =
+                FMUL(parent_size->value, FLTTOFIX(1.2));
+        size->data.length.unit = parent_size->unit;
+    } else if (size->data.length.unit == CSS_UNIT_EM ||
+            size->data.length.unit == CSS_UNIT_EX) {
+        size->data.length.value =
+            FMUL(size->data.length.value, parent_size->value);
 
-		if (size->data.length.unit == CSS_UNIT_EX) {
-			size->data.length.value = FMUL(size->data.length.value,
-					FLTTOFIX(0.6));
-		}
+        if (size->data.length.unit == CSS_UNIT_EX) {
+            size->data.length.value = FMUL(size->data.length.value,
+                    FLTTOFIX(0.6));
+        }
 
-		size->data.length.unit = parent_size->unit;
-	} else if (size->data.length.unit == CSS_UNIT_PCT) {
-		size->data.length.value = FDIV(FMUL(size->data.length.value,
-				parent_size->value), FLTTOFIX(100));
-		size->data.length.unit = parent_size->unit;
-	}
+        size->data.length.unit = parent_size->unit;
+    } else if (size->data.length.unit == CSS_UNIT_PCT) {
+        size->data.length.value = FDIV(FMUL(size->data.length.value,
+                parent_size->value), FLTTOFIX(100));
+        size->data.length.unit = parent_size->unit;
+    }
 
-	size->status = CSS_FONT_SIZE_DIMENSION;
+    size->status = CSS_FONT_SIZE_DIMENSION;
 
-	return CSS_OK;
+    return CSS_OK;
 }
 
 css_error resolve_url(void *pw,
@@ -990,24 +990,24 @@ css_error resolve_url(void *pw,
 css_error named_ancestor_node(void *pw, void *n,
         const css_qname *qname, void **ancestor)
 {
-	HLDomElementNode *node = n;
+    HLDomElementNode *node = n;
 
-	*ancestor = NULL;
+    *ancestor = NULL;
 
-	for (node = node->parent; node != NULL; node = node->parent) {
-		if (node->inner_dom_type != DOM_ELEMENT_NODE)
-			continue;
+    for (node = node->parent; node != NULL; node = node->parent) {
+        if (node->inner_dom_type != DOM_ELEMENT_NODE)
+            continue;
 
-		assert(node->inner_tag!= NULL);
+        assert(node->inner_tag!= NULL);
 
         bool match = false;
         if (lwc_string_caseless_isequal(node->inner_tag, qname->name,
                     &match) == lwc_error_ok && match)
         {
-			*ancestor = node;
-			break;
-		}
-	}
+            *ancestor = node;
+            break;
+        }
+    }
 
     return CSS_OK;
 }
