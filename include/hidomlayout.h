@@ -194,10 +194,10 @@ typedef enum HLPositionEnum_ {
 } HLPositionEnum;
 
 typedef enum HLVisibilityEnum_ {
-	HL_VISIBILITY_INHERIT			= 0x0,
+    HL_VISIBILITY_INHERIT           = 0x0,
     HL_VISIBILITY_VISIBLE           = 0x1,
     HL_VISIBILITY_HIDDEN            = 0x2,
-	HL_VISIBILITY_COLLAPSE			= 0x3
+    HL_VISIBILITY_COLLAPSE          = 0x3
 } HLVisibilityEnum;
 
 typedef struct HLDomElementNode_ HLDomElementNode;
@@ -360,8 +360,8 @@ typedef enum HLFillRuleEnum_ {
 } HLFillRuleEnum;
 
 typedef enum HLFillOpacityEnum_ {
-	HL_FILL_OPACITY_INHERIT			= 0x0,
-	HL_FILL_OPACITY_SET				= 0x1
+    HL_FILL_OPACITY_INHERIT         = 0x0,
+    HL_FILL_OPACITY_SET             = 0x1
 } HLFillOpacityEnum;
 
 typedef enum HLFloodColorEnum_ {
@@ -384,8 +384,8 @@ typedef enum HLStrokeEnum_ {
 } HLStrokeEnum;
 
 typedef enum HLColorEnum_ {
-	HL_COLOR_INHERIT			= 0x0,
-	HL_COLOR_COLOR				= 0x1
+    HL_COLOR_INHERIT            = 0x0,
+    HL_COLOR_COLOR              = 0x1
 } HLColorEnum;
 
 typedef enum HLDirectionEnum_ {
@@ -401,13 +401,13 @@ typedef enum HLEnableBackgroundEnum_ {
 } HLEnableBackgroundEnum;
 
 typedef enum HLOpacityEnum_ {
-	HL_OPACITY_INHERIT			= 0x0,
-	HL_OPACITY_SET				= 0x1
+    HL_OPACITY_INHERIT          = 0x0,
+    HL_OPACITY_SET              = 0x1
 } HLOpacityEnum;
 
 typedef enum HLFloodOpacityEnum_ {
-	HL_FLOOD_OPACITY_INHERIT			= 0x0,
-	HL_FLOOD_OPACITY_SET				= 0x1
+    HL_FLOOD_OPACITY_INHERIT            = 0x0,
+    HL_FLOOD_OPACITY_SET                = 0x1
 } HLFloodOpacityEnum;
 
 typedef enum HLCompOpEnum_ {
@@ -439,11 +439,11 @@ typedef enum HLCompOpEnum_ {
 } HLCompOpEnum;
 
 typedef enum HLOverflowEnum_ {
-	HL_OVERFLOW_INHERIT			= 0x0,
-	HL_OVERFLOW_VISIBLE			= 0x1,
-	HL_OVERFLOW_HIDDEN			= 0x2,
-	HL_OVERFLOW_SCROLL			= 0x3,
-	HL_OVERFLOW_AUTO			= 0x4
+    HL_OVERFLOW_INHERIT         = 0x0,
+    HL_OVERFLOW_VISIBLE         = 0x1,
+    HL_OVERFLOW_HIDDEN          = 0x2,
+    HL_OVERFLOW_SCROLL          = 0x3,
+    HL_OVERFLOW_AUTO            = 0x4
 } HLOverflowEnum;
 
 typedef enum HLStopColorEnum_ {
@@ -452,25 +452,25 @@ typedef enum HLStopColorEnum_ {
 } HLStopColorEnum;
 
 typedef enum HLStopOpacityEnum_ {
-	HL_STOP_OPACITY_INHERIT			= 0x0,
-	HL_STOP_OPACITY_SET				= 0x1
+    HL_STOP_OPACITY_INHERIT         = 0x0,
+    HL_STOP_OPACITY_SET             = 0x1
 } HLStopOpacityEnum;
 
 typedef enum HLUnicodeBidiEnum_ {
-	HL_UNICODE_BIDI_INHERIT		= 0x0,
-	HL_UNICODE_BIDI_NORMAL			= 0x1,
-	HL_UNICODE_BIDI_EMBED			= 0x2,
-	HL_UNICODE_BIDI_BIDI_OVERRIDE		= 0x3,
+    HL_UNICODE_BIDI_INHERIT     = 0x0,
+    HL_UNICODE_BIDI_NORMAL          = 0x1,
+    HL_UNICODE_BIDI_EMBED           = 0x2,
+    HL_UNICODE_BIDI_BIDI_OVERRIDE       = 0x3,
     HL_UNICODE_BIDI_ISOLATE            = 0x4,
     HL_UNICODE_BIDI_ISOLATE_OVERRIDE   = 0x5,
     HL_UNICODE_BIDI_PLAINTEXT          = 0x6
 } HLUnicodeBidiEnum;
 
 typedef enum HLWritingModeEnum_ {
-	HL_WRITING_MODE_INHERIT		= 0x0,
-	HL_WRITING_MODE_HORIZONTAL_TB		= 0x1,
-	HL_WRITING_MODE_VERTICAL_RL		= 0x2,
-	HL_WRITING_MODE_VERTICAL_LR		= 0x3
+    HL_WRITING_MODE_INHERIT     = 0x0,
+    HL_WRITING_MODE_HORIZONTAL_TB       = 0x1,
+    HL_WRITING_MODE_VERTICAL_RL     = 0x2,
+    HL_WRITING_MODE_VERTICAL_LR     = 0x3
 } HLWritingModeEnum;
 
 typedef enum HLTextAnchorEnum_ {
@@ -481,12 +481,12 @@ typedef enum HLTextAnchorEnum_ {
 } HLTextAnchorEnum;
 
 typedef enum HLTextDecorationEnum_ {
-	HL_TEXT_DECORATION_INHERIT		= 0x00,
-	HL_TEXT_DECORATION_NONE		= 0x10,
-	HL_TEXT_DECORATION_BLINK		= (1<<3),
-	HL_TEXT_DECORATION_LINE_THROUGH	= (1<<2),
-	HL_TEXT_DECORATION_OVERLINE		= (1<<1),
-	HL_TEXT_DECORATION_UNDERLINE		= (1<<0)
+    HL_TEXT_DECORATION_INHERIT      = 0x00,
+    HL_TEXT_DECORATION_NONE     = 0x10,
+    HL_TEXT_DECORATION_BLINK        = (1<<3),
+    HL_TEXT_DECORATION_LINE_THROUGH = (1<<2),
+    HL_TEXT_DECORATION_OVERLINE     = (1<<1),
+    HL_TEXT_DECORATION_UNDERLINE        = (1<<0)
 } HLTextDecorationEnum;
 
 typedef enum HLShapeRenderingEnum {
@@ -514,8 +514,8 @@ typedef enum HLStrokeMiterlimitEnum_ {
 } HLStrokeMiterlimitEnum;
 
 typedef enum HLStrokeOpacityEnum_ {
-	HL_STROKE_OPACITY_INHERIT			= 0x0,
-	HL_STROKE_OPACITY_SET				= 0x1
+    HL_STROKE_OPACITY_INHERIT           = 0x0,
+    HL_STROKE_OPACITY_SET               = 0x1
 } HLStrokeOpacityEnum;
 
 typedef enum HLStrokeLinejoinEnum_ {
@@ -548,33 +548,33 @@ typedef enum HLFontStretchEnum_ {
 } HLFontStretchEnum;
 
 typedef enum HLSvgFontWeightEnum_ {
-	HL_FONT_WEIGHT_INHERIT			= 0x0,
-	HL_FONT_WEIGHT_NORMAL			= 0x1,
-	HL_FONT_WEIGHT_BOLD			= 0x2,
-	HL_FONT_WEIGHT_BOLDER			= 0x3,
-	HL_FONT_WEIGHT_LIGHTER			= 0x4,
-	HL_FONT_WEIGHT_100			= 0x5,
-	HL_FONT_WEIGHT_200			= 0x6,
-	HL_FONT_WEIGHT_300			= 0x7,
-	HL_FONT_WEIGHT_400			= 0x8,
-	HL_FONT_WEIGHT_500			= 0x9,
-	HL_FONT_WEIGHT_600			= 0xa,
-	HL_FONT_WEIGHT_700			= 0xb,
-	HL_FONT_WEIGHT_800			= 0xc,
-	HL_FONT_WEIGHT_900			= 0xd
+    HL_FONT_WEIGHT_INHERIT          = 0x0,
+    HL_FONT_WEIGHT_NORMAL           = 0x1,
+    HL_FONT_WEIGHT_BOLD         = 0x2,
+    HL_FONT_WEIGHT_BOLDER           = 0x3,
+    HL_FONT_WEIGHT_LIGHTER          = 0x4,
+    HL_FONT_WEIGHT_100          = 0x5,
+    HL_FONT_WEIGHT_200          = 0x6,
+    HL_FONT_WEIGHT_300          = 0x7,
+    HL_FONT_WEIGHT_400          = 0x8,
+    HL_FONT_WEIGHT_500          = 0x9,
+    HL_FONT_WEIGHT_600          = 0xa,
+    HL_FONT_WEIGHT_700          = 0xb,
+    HL_FONT_WEIGHT_800          = 0xc,
+    HL_FONT_WEIGHT_900          = 0xd
 } HLSvgFontWeightEnum;
 
 typedef enum HLFontStyleEnum_ {
-	HL_FONT_STYLE_INHERIT			= 0x0,
-	HL_FONT_STYLE_NORMAL			= 0x1,
-	HL_FONT_STYLE_ITALIC			= 0x2,
-	HL_FONT_STYLE_OBLIQUE			= 0x3
+    HL_FONT_STYLE_INHERIT           = 0x0,
+    HL_FONT_STYLE_NORMAL            = 0x1,
+    HL_FONT_STYLE_ITALIC            = 0x2,
+    HL_FONT_STYLE_OBLIQUE           = 0x3
 } HLFontStyleEnum;
 
 typedef enum HLFontVariantEnum_ {
-	HL_FONT_VARIANT_INHERIT		= 0x0,
-	HL_FONT_VARIANT_NORMAL			= 0x1,
-	HL_FONT_VARIANT_SMALL_CAPS		= 0x2
+    HL_FONT_VARIANT_INHERIT     = 0x0,
+    HL_FONT_VARIANT_NORMAL          = 0x1,
+    HL_FONT_VARIANT_SMALL_CAPS      = 0x2
 } HLFontVariantEnum;
 
 typedef enum HLStrokeWidthEnum_ {
@@ -593,33 +593,33 @@ typedef enum HL_UNIT_ENUM_ {
 } HL_UNIT_ENUM;
 
 typedef enum HLFontSizeEnum_ {
-	HL_FONT_SIZE_INHERIT			= 0x0,
-	HL_FONT_SIZE_XX_SMALL			= 0x1,
-	HL_FONT_SIZE_X_SMALL			= 0x2,
-	HL_FONT_SIZE_SMALL			= 0x3,
-	HL_FONT_SIZE_MEDIUM			= 0x4,
-	HL_FONT_SIZE_LARGE			= 0x5,
-	HL_FONT_SIZE_X_LARGE			= 0x6,
-	HL_FONT_SIZE_XX_LARGE			= 0x7,
-	HL_FONT_SIZE_LARGER			= 0x8,
-	HL_FONT_SIZE_SMALLER			= 0x9,
-	HL_FONT_SIZE_DIMENSION			= 0xa
+    HL_FONT_SIZE_INHERIT            = 0x0,
+    HL_FONT_SIZE_XX_SMALL           = 0x1,
+    HL_FONT_SIZE_X_SMALL            = 0x2,
+    HL_FONT_SIZE_SMALL          = 0x3,
+    HL_FONT_SIZE_MEDIUM         = 0x4,
+    HL_FONT_SIZE_LARGE          = 0x5,
+    HL_FONT_SIZE_X_LARGE            = 0x6,
+    HL_FONT_SIZE_XX_LARGE           = 0x7,
+    HL_FONT_SIZE_LARGER         = 0x8,
+    HL_FONT_SIZE_SMALLER            = 0x9,
+    HL_FONT_SIZE_DIMENSION          = 0xa
 } HLFontSizeEnum;
 
 typedef enum HLFontFamilyEnum_ {
-	HL_FONT_FAMILY_INHERIT			= 0x0,
-	/* Named fonts exist if pointer is non-NULL */
-	HL_FONT_FAMILY_SERIF			= 0x1,
-	HL_FONT_FAMILY_SANS_SERIF		= 0x2,
-	HL_FONT_FAMILY_CURSIVE			= 0x3,
-	HL_FONT_FAMILY_FANTASY			= 0x4,
-	HL_FONT_FAMILY_MONOSPACE		= 0x5
+    HL_FONT_FAMILY_INHERIT          = 0x0,
+    /* Named fonts exist if pointer is non-NULL */
+    HL_FONT_FAMILY_SERIF            = 0x1,
+    HL_FONT_FAMILY_SANS_SERIF       = 0x2,
+    HL_FONT_FAMILY_CURSIVE          = 0x3,
+    HL_FONT_FAMILY_FANTASY          = 0x4,
+    HL_FONT_FAMILY_MONOSPACE        = 0x5
 } HLFontFamilyEnum;
 
 typedef enum HLLetterSpacingEnum_ {
-	HL_LETTER_SPACING_INHERIT		= 0x0,
-	HL_LETTER_SPACING_SET			= 0x1,
-	HL_LETTER_SPACING_NORMAL		= 0x2
+    HL_LETTER_SPACING_INHERIT       = 0x0,
+    HL_LETTER_SPACING_SET           = 0x1,
+    HL_LETTER_SPACING_NORMAL        = 0x2
 } HLLetterSpacingEnum;
 
 typedef enum HLStrokeDashoffsetEnum_ {
