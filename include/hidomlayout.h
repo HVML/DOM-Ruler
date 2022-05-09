@@ -775,41 +775,6 @@ typedef struct hilayout_layout_handler {
     void *(*select_styles)(void *node);
     LayoutType (*layout_type)(void *node);
     HLUsedBoxValues *(*box_values)(void *node);
-    double (*margin_top)(void *node);
-    double (*margin_right)(void *node);
-    double (*margin_bottom)(void *node);
-    double (*margin_left)(void *node);
-    void (*set_margin_top)(void *node, double v);
-    void (*set_margin_right)(void *node, double v);
-    void (*set_margin_bottom)(void *node, double v);
-    void (*set_margin_left)(void *node, double v);
-
-    double (*padding_top)(void *node);
-    double (*padding_right)(void *node);
-    double (*padding_bottom)(void *node);
-    double (*padding_left)(void *node);
-    void (*set_padding_top)(void *node, double v);
-    void (*set_padding_right)(void *node, double v);
-    void (*set_padding_bottom)(void *node, double v);
-    void (*set_padding_left)(void *node, double v);
-
-    double (*border_top)(void *node);
-    double (*border_right)(void *node);
-    double (*border_bottom)(void *node);
-    double (*border_left)(void *node);
-    void (*set_border_top)(void *node, double v);
-    void (*set_border_right)(void *node, double v);
-    void (*set_border_bottom)(void *node, double v);
-    void (*set_border_left)(void *node, double v);
-
-    int (*border_type_top)(void *node);
-    int (*border_type_right)(void *node);
-    int (*border_type_bottom)(void *node);
-    int (*border_type_left)(void *node);
-    void (*set_border_type_top)(void *node, double v);
-    void (*set_border_type_right)(void *node, double v);
-    void (*set_border_type_bottom)(void *node, double v);
-    void (*set_border_type_left)(void *node, double v);
 } hilayout_layout_handler;
 
 #ifdef __cplusplus
