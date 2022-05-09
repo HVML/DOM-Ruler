@@ -49,6 +49,7 @@
 #ifndef _HL_LAYOUT_H_
 #define _HL_LAYOUT_H_
 
+#include "node.h"
 #include "utils.h"
 
 #ifdef __cplusplus

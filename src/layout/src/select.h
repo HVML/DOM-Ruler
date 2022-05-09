@@ -54,7 +54,7 @@
 
 #include "hidomlayout.h"
 
-//#include "node.h"
+#include "node.h"
 
 typedef struct HLCSS_ {
     css_stylesheet* sheet;
