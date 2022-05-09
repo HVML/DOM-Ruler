@@ -1304,13 +1304,13 @@ int _hilayout_select_node_style(const css_media* media, css_select_ctx* select_c
     css_select_results* result = _hilayout_get_node_style(media, select_ctx, node);
     if (result)
     {
-        if (node->select_styles)
+        if (node->layout.select_styles)
         {
-            css_select_results_destroy(node->select_styles);
+            css_select_results_destroy(node->layout.select_styles);
         }
-        node->select_styles = result;
-        node->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
-        LAYOUT(node)->layout_type = _hl_computed_display(node->computed_style, _hl_node_is_root(node));
+        node->layout.select_styles = result;
+        node->layout.computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
+        LAYOUT(node)->layout_type = _hl_computed_display(node->layout.computed_style, _hl_node_is_root(node));
         HL_LOGD("select node style|tag=%s|id=%s|name=%s|layout_type=%d\n", 
                 node->tag, hilayout_element_node_get_id(node), hilayout_element_node_get_name(node), node->layout_type);
         return HILAYOUT_OK;

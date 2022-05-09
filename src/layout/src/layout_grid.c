@@ -70,12 +70,12 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
     css_unit unit = CSS_UNIT_PX;
 
     // start width
-    type = css_computed_width(node->computed_style, &value, &unit);
+    type = css_computed_width(node->layout.computed_style, &value, &unit);
     if (type == CSS_WIDTH_SET) {
         if (unit == CSS_UNIT_PCT) {
             width = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            width = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->computed_style));
+            width = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     }
     else
@@ -85,12 +85,12 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
 
     value = 0;
     unit = CSS_UNIT_PX;
-    type = css_computed_max_width(node->computed_style, &value, &unit);
+    type = css_computed_max_width(node->layout.computed_style, &value, &unit);
     if (type == CSS_MAX_WIDTH_SET) {
         if (unit == CSS_UNIT_PCT) {
             max_width = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            max_width = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->computed_style));
+            max_width = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     } else {
         /* Inadmissible */
@@ -100,12 +100,12 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
 
     value = 0;
     unit = CSS_UNIT_PX;
-    type = _hl_computed_min_width(node->computed_style, &value, &unit);
+    type = _hl_computed_min_width(node->layout.computed_style, &value, &unit);
     if (type == CSS_MIN_WIDTH_SET) {
         if (unit == CSS_UNIT_PCT) {
             min_width = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            min_width = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->computed_style));
+            min_width = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     } else {
         /* Inadmissible */
@@ -114,12 +114,12 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
     // end width
 
     // start height
-    type = css_computed_height(node->computed_style, &value, &unit);
+    type = css_computed_height(node->layout.computed_style, &value, &unit);
     if (type == CSS_HEIGHT_SET) {
         if (unit == CSS_UNIT_PCT) {
             height = HL_FPCT_OF_INT_TOINT(value, grid_h);
         } else {
-            height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->computed_style));
+            height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     }
     else
@@ -129,12 +129,12 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
 
     value = 0;
     unit = CSS_UNIT_PX;
-    type = css_computed_max_height(node->computed_style, &value, &unit);
+    type = css_computed_max_height(node->layout.computed_style, &value, &unit);
     if (type == CSS_MAX_HEIGHT_SET) {
         if (unit == CSS_UNIT_PCT) {
             max_height = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            max_height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->computed_style));
+            max_height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     } else {
         /* Inadmissible */
@@ -144,12 +144,12 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
 
     value = 0;
     unit = CSS_UNIT_PX;
-    type = _hl_computed_min_height(node->computed_style, &value, &unit);
+    type = _hl_computed_min_height(node->layout.computed_style, &value, &unit);
     if (type == CSS_MIN_HEIGHT_SET) {
         if (unit == CSS_UNIT_PCT) {
             min_height = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            min_height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->computed_style));
+            min_height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     } else {
         /* Inadmissible */
@@ -173,8 +173,8 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
         height = min_height;
     }
 
-    node->box_values.w = width;
-    node->box_values.h = height;
+    node->layout.box_values.w = width;
+    node->layout.box_values.h = height;
 
     return HILAYOUT_OK;
 }
@@ -356,8 +356,8 @@ void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* 
         grid_w += grid_template->columns[i];
     }
 
-    node->box_values.x = node->parent->box_values.x + grid_x;
-    node->box_values.y = node->parent->box_values.y + grid_y;
+    node->layout.box_values.x = node->parent->layout.box_values.x + grid_x;
+    node->layout.box_values.y = node->parent->layout.box_values.y + grid_y;
     item->layout_done = 1;
     _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
@@ -376,7 +376,7 @@ void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* 
             item->row_start, r_count,
             item->column_start, c_count,
             node->tag, hilayout_element_node_get_id(node),
-            node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+            node->layout.box_values.x, node->layout.box_values.y, node->layout.box_values.w, node->layout.box_values.h,
             item->layout_done);
 
 }
@@ -481,8 +481,8 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, v
         grid_w += grid_template->columns[i];
     }
 
-    node->box_values.x = node->parent->box_values.x + grid_x;
-    node->box_values.y = node->parent->box_values.y + grid_y;
+    node->layout.box_values.x = node->parent->layout.box_values.x + grid_x;
+    node->layout.box_values.y = node->parent->layout.box_values.y + grid_y;
     item->layout_done = 1;
     _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
@@ -500,7 +500,7 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, v
             "|tag=%s|id=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
             r_start, r_count,
             node->tag, hilayout_element_node_get_id(node),
-            node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+            node->layout.box_values.x, node->layout.box_values.y, node->layout.box_values.w, node->layout.box_values.h,
             item->layout_done);
 }
 
@@ -617,8 +617,8 @@ void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node, 
         grid_w += grid_template->columns[i];
     }
 
-    node->box_values.x = node->parent->box_values.x + grid_x;
-    node->box_values.y = node->parent->box_values.y + grid_y;
+    node->layout.box_values.x = node->parent->layout.box_values.x + grid_x;
+    node->layout.box_values.y = node->parent->layout.box_values.y + grid_y;
     item->layout_done = 1;
     _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
@@ -634,7 +634,7 @@ void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node, 
     HL_LOGW("layout grid rc auto|"
             "|tag=%s|id=%s|(x,y,w,h)=(%f, %f, %f, %f)|layout_done=%d\n",
             node->tag, hilayout_element_node_get_id(node),
-            node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+            node->layout.box_values.x, node->layout.box_values.y, node->layout.box_values.w, node->layout.box_values.h,
             item->layout_done);
 }
 
@@ -643,7 +643,7 @@ void _hl_free_grid_item(HLContext* ctx, HLDomElementNode* node, void* user_data)
     _hl_destroy_grid_item(node);
 }
 
-int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level)
+int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level, hilayout_layout_handler *handler)
 {
     HLGridTemplate* grid_template = _hl_grid_template_create(ctx, node);
 

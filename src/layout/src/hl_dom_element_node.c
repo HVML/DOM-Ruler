@@ -91,13 +91,4 @@ bool hl_dom_element_node_is_root(void *node)
     return true;
 }
 
-void *hl_dom_element_node_computed_style(void *node)
-{
-    return node ? ((HLDomElementNode*)node)->computed_style : NULL;
-}
-
-void *hl_dom_element_node_select_styles(void *node)
-{
-    return node ? ((HLDomElementNode*)node)->select_styles : NULL;
-}
 

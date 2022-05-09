@@ -74,6 +74,23 @@ typedef struct NodeLayout {
     //inner layout
     LayoutType layout_type;
 
+    // begin for layout output
+    HLUsedBoxValues box_values;
+    HLUsedBackgroundValues background_values;
+    HLUsedTextValues text_values;
+    HLUsedSvgValues* svg_values;
+
+    // top, right, bottom, left
+    double margin[4];
+    double padding[4];
+    double border[4];
+    int borderType[4];
+    // end for layout output
+
+    // for css select result
+    css_select_results* select_styles;
+    css_computed_style* computed_style;
+
 } NodeLayout;
 
 typedef struct hilayout_layout_handler {
@@ -109,21 +126,14 @@ typedef struct HLDomElementNode_ {
     // class name
     GList* class_list;
 
-    // begin
     // begin for hicss inner
     lwc_string* inner_tag;
     lwc_string* inner_id;
     lwc_string** inner_classes;
     int inner_classes_count;
 
-    HLDomElementNodeType inner_dom_type;;
+    HLDomElementNodeType inner_dom_type;
     // end for hicss inner
-    
-    // begin for layout output
-    HLUsedBoxValues box_values;
-    HLUsedBackgroundValues background_values;
-    HLUsedTextValues text_values;
-    HLUsedSvgValues* svg_values;
 
     double min_w;
     double max_w;
@@ -131,17 +141,8 @@ typedef struct HLDomElementNode_ {
     double min_h;
     double max_h;
 
-    // top, right, bottom, left
-    double margin[4];
-    double padding[4];
-    double border[4];
-    int borderType[4];
-
-    // end for layout output
-
-    // for css select result
-    css_select_results* select_styles;
-    css_computed_style* computed_style;
+    // begin
+    NodeLayout layout;
 
 } HLDomElementNode;
 

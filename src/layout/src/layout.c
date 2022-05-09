@@ -184,19 +184,19 @@ void _hl_handle_box_sizing(
 {
     enum css_box_sizing_e bs;
 
-    assert(node && node->computed_style);
+    assert(node && LAYOUT(node)->computed_style);
 
-    bs = css_computed_box_sizing(node->computed_style);
+    bs = css_computed_box_sizing(LAYOUT(node)->computed_style);
 
     if (bs == CSS_BOX_SIZING_BORDER_BOX) {
         int orig = *dimension;
         int fixed = 0;
         float frac = 0;
 
-        _hl_calculate_mbp_width(len_ctx, node->computed_style,
+        _hl_calculate_mbp_width(len_ctx, LAYOUT(node)->computed_style,
                 setwidth ? HL_LEFT : HL_TOP,
                 false, true, true, &fixed, &frac);
-        _hl_calculate_mbp_width(len_ctx, node->computed_style,
+        _hl_calculate_mbp_width(len_ctx, LAYOUT(node)->computed_style,
                 setwidth ? HL_RIGHT : HL_BOTTOM,
                 false, true, true, &fixed, &frac);
         orig -= frac * available_width + fixed;
@@ -275,13 +275,13 @@ void _hl_find_dimensions(const HLContext *len_ctx,
                     css_unit u = CSS_UNIT_PX;
 
                     cbhtype = css_computed_height(
-                            containing_block->computed_style,
+                            LAYOUT(containing_block)->computed_style,
                             &f, &u);
                 }
 
                 if (containing_block &&
-                    containing_block->box_values.h != HL_AUTO &&
-                    (css_computed_position(box->computed_style) ==
+                    LAYOUT(containing_block)->box_values.h != HL_AUTO &&
+                    (css_computed_position(LAYOUT(box)->computed_style) ==
                             CSS_POSITION_ABSOLUTE ||
                         cbhtype == CSS_HEIGHT_SET)) {
                     /* Box is absolutely positioned or its
@@ -289,7 +289,7 @@ void _hl_find_dimensions(const HLContext *len_ctx,
                      * specified height.
                      * (CSS 2.1 Section 10.5) */
                     *height = HL_FPCT_OF_INT_TOINT(value,
-                        containing_block->box_values.h);
+                        LAYOUT(containing_block)->box_values.h);
                 } else if ((!parent || !handler->parent(parent)) &&
                         viewport_height >= 0) {
                     /* If root element or it's child
@@ -422,17 +422,17 @@ int _hl_solve_width(HLDomElementNode* box,
     bool auto_width = false;
 
     /* Increase specified left/right margins */
-    if (box->margin[HL_LEFT] != HL_AUTO && box->margin[HL_LEFT] < lm &&
-            box->margin[HL_LEFT] >= 0)
-        box->margin[HL_LEFT] = lm;
-    if (box->margin[HL_RIGHT] != HL_AUTO && box->margin[HL_RIGHT] < rm &&
-            box->margin[HL_RIGHT] >= 0)
-        box->margin[HL_RIGHT] = rm;
+    if (LAYOUT(box)->margin[HL_LEFT] != HL_AUTO && LAYOUT(box)->margin[HL_LEFT] < lm &&
+            LAYOUT(box)->margin[HL_LEFT] >= 0)
+        LAYOUT(box)->margin[HL_LEFT] = lm;
+    if (LAYOUT(box)->margin[HL_RIGHT] != HL_AUTO && LAYOUT(box)->margin[HL_RIGHT] < rm &&
+            LAYOUT(box)->margin[HL_RIGHT] >= 0)
+        LAYOUT(box)->margin[HL_RIGHT] = rm;
 
     /* Find width */
     if (width == HL_AUTO) {
-        int margin_left = box->margin[HL_LEFT];
-        int margin_right = box->margin[HL_RIGHT];
+        int margin_left = LAYOUT(box)->margin[HL_LEFT];
+        int margin_right = LAYOUT(box)->margin[HL_RIGHT];
 
         if (margin_left == HL_AUTO) {
             margin_left = lm;
@@ -442,9 +442,9 @@ int _hl_solve_width(HLDomElementNode* box,
         }
 
         width = available_width -
-                (margin_left + box->border[HL_LEFT] +
-                box->padding[HL_LEFT] + box->padding[HL_RIGHT] +
-                box->border[HL_RIGHT] + margin_right);
+                (margin_left + LAYOUT(box)->border[HL_LEFT] +
+                LAYOUT(box)->padding[HL_LEFT] + LAYOUT(box)->padding[HL_RIGHT] +
+                LAYOUT(box)->border[HL_RIGHT] + margin_right);
         width = width < 0 ? 0 : width;
         auto_width = true;
     }
@@ -464,11 +464,11 @@ int _hl_solve_width(HLDomElementNode* box,
     /* Width was auto, and unconstrained by min/max width, so we're done */
     if (auto_width) {
         /* any other 'auto' become 0 or the minimum required values */
-        if (box->margin[HL_LEFT] == HL_AUTO) {
-            box->margin[HL_LEFT] = lm;
+        if (LAYOUT(box)->margin[HL_LEFT] == HL_AUTO) {
+            LAYOUT(box)->margin[HL_LEFT] = lm;
         }
-        if (box->margin[HL_RIGHT] == HL_AUTO) {
-            box->margin[HL_RIGHT] = rm;
+        if (LAYOUT(box)->margin[HL_RIGHT] == HL_AUTO) {
+            LAYOUT(box)->margin[HL_RIGHT] = rm;
         }
         return width;
     }
@@ -478,19 +478,19 @@ int _hl_solve_width(HLDomElementNode* box,
 
     /* HTML alignment (only applies to over-constrained boxes) */
     HLDomElementNode *parent = handler->parent(box);
-    if (box->margin[HL_LEFT] != HL_AUTO && box->margin[HL_RIGHT] != HL_AUTO &&
-            parent != NULL && parent->computed_style != NULL) {
-        switch (css_computed_text_align(parent->computed_style)) {
+    if (LAYOUT(box)->margin[HL_LEFT] != HL_AUTO && LAYOUT(box)->margin[HL_RIGHT] != HL_AUTO &&
+            parent != NULL && LAYOUT(parent)->computed_style != NULL) {
+        switch (css_computed_text_align(LAYOUT(parent)->computed_style)) {
         case CSS_TEXT_ALIGN_LIBCSS_RIGHT:
-            box->margin[HL_LEFT] = HL_AUTO;
-            box->margin[HL_RIGHT] = 0;
+            LAYOUT(box)->margin[HL_LEFT] = HL_AUTO;
+            LAYOUT(box)->margin[HL_RIGHT] = 0;
             break;
         case CSS_TEXT_ALIGN_LIBCSS_CENTER:
-            box->margin[HL_LEFT] = box->margin[HL_RIGHT] = HL_AUTO;
+            LAYOUT(box)->margin[HL_LEFT] = LAYOUT(box)->margin[HL_RIGHT] = HL_AUTO;
             break;
         case CSS_TEXT_ALIGN_LIBCSS_LEFT:
-            box->margin[HL_LEFT] = 0;
-            box->margin[HL_RIGHT] = HL_AUTO;
+            LAYOUT(box)->margin[HL_LEFT] = 0;
+            LAYOUT(box)->margin[HL_RIGHT] = HL_AUTO;
             break;
         default:
             /* Leave it alone; no HTML alignment */
@@ -498,35 +498,35 @@ int _hl_solve_width(HLDomElementNode* box,
         }
     }
 
-    if (box->margin[HL_LEFT] == HL_AUTO && box->margin[HL_RIGHT] == HL_AUTO) {
+    if (LAYOUT(box)->margin[HL_LEFT] == HL_AUTO && LAYOUT(box)->margin[HL_RIGHT] == HL_AUTO) {
         /* make the margins equal, centering the element */
-        box->margin[HL_LEFT] = box->margin[HL_RIGHT] =
+        LAYOUT(box)->margin[HL_LEFT] = LAYOUT(box)->margin[HL_RIGHT] =
                 (available_width - lm - rm -
-                (box->border[HL_LEFT] + box->padding[HL_LEFT] +
-                width + box->padding[HL_RIGHT] +
-                box->border[HL_RIGHT])) / 2;
+                (LAYOUT(box)->border[HL_LEFT] + LAYOUT(box)->padding[HL_LEFT] +
+                width + LAYOUT(box)->padding[HL_RIGHT] +
+                LAYOUT(box)->border[HL_RIGHT])) / 2;
 
-        if (box->margin[HL_LEFT] < 0) {
-            box->margin[HL_RIGHT] += box->margin[HL_LEFT];
-            box->margin[HL_LEFT] = 0;
+        if (LAYOUT(box)->margin[HL_LEFT] < 0) {
+            LAYOUT(box)->margin[HL_RIGHT] += LAYOUT(box)->margin[HL_LEFT];
+            LAYOUT(box)->margin[HL_LEFT] = 0;
         }
 
-        box->margin[HL_LEFT] += lm;
+        LAYOUT(box)->margin[HL_LEFT] += lm;
 
-    } else if (box->margin[HL_LEFT] == HL_AUTO) {
-        box->margin[HL_LEFT] = available_width - lm -
-                (box->border[HL_LEFT] + box->padding[HL_LEFT] +
-                width + box->padding[HL_RIGHT] +
-                box->border[HL_RIGHT] + box->margin[HL_RIGHT]);
-        box->margin[HL_LEFT] = box->margin[HL_LEFT] < lm
-                ? lm : box->margin[HL_LEFT];
+    } else if (LAYOUT(box)->margin[HL_LEFT] == HL_AUTO) {
+        LAYOUT(box)->margin[HL_LEFT] = available_width - lm -
+                (LAYOUT(box)->border[HL_LEFT] + LAYOUT(box)->padding[HL_LEFT] +
+                width + LAYOUT(box)->padding[HL_RIGHT] +
+                LAYOUT(box)->border[HL_RIGHT] + LAYOUT(box)->margin[HL_RIGHT]);
+        LAYOUT(box)->margin[HL_LEFT] = LAYOUT(box)->margin[HL_LEFT] < lm
+                ? lm : LAYOUT(box)->margin[HL_LEFT];
     } else {
         /* margin-right auto or "over-constrained" */
-        box->margin[HL_RIGHT] = available_width - rm -
-                (box->margin[HL_LEFT] + box->border[HL_LEFT] +
-                 box->padding[HL_LEFT] + width +
-                 box->padding[HL_RIGHT] +
-                 box->border[HL_RIGHT]);
+        LAYOUT(box)->margin[HL_RIGHT] = available_width - rm -
+                (LAYOUT(box)->margin[HL_LEFT] + LAYOUT(box)->border[HL_LEFT] +
+                 LAYOUT(box)->padding[HL_LEFT] + width +
+                 LAYOUT(box)->padding[HL_RIGHT] +
+                 LAYOUT(box)->border[HL_RIGHT]);
     }
 
     return width;
@@ -552,7 +552,7 @@ int _hl_block_find_dimensions(HLContext* ctx,
             container_width,
             container_height,
             node,
-            node->computed_style,
+            LAYOUT(node)->computed_style,
             &width,
             &height,
             &max_width,
@@ -569,8 +569,8 @@ int _hl_block_find_dimensions(HLContext* ctx,
             sw, sh
            );
 
-    node->box_values.w = sw;
-    node->box_values.h = sh;
+    LAYOUT(node)->box_values.w = sw;
+    LAYOUT(node)->box_values.h = sh;
 }
 
 void _hl_computed_offsets(const HLContext* len_ctx,
@@ -586,61 +586,61 @@ void _hl_computed_offsets(const HLContext* len_ctx,
     css_fixed value = 0;
     css_unit unit = CSS_UNIT_PX;
 
-    assert(containing_block->box_values.w != UNKNOWN_WIDTH &&
-            containing_block->box_values.w != HL_AUTO &&
-            containing_block->box_values.h != HL_AUTO);
+    assert(LAYOUT(containing_block)->box_values.w != UNKNOWN_WIDTH &&
+            LAYOUT(containing_block)->box_values.w != HL_AUTO &&
+            LAYOUT(containing_block)->box_values.h != HL_AUTO);
 
     /* left */
-    type = css_computed_left(box->computed_style, &value, &unit);
+    type = css_computed_left(LAYOUT(box)->computed_style, &value, &unit);
     if (type == CSS_LEFT_SET) {
         if (unit == CSS_UNIT_PCT) {
             *left = HL_FPCT_OF_INT_TOINT(value,
-                    containing_block->box_values.w);
+                    LAYOUT(containing_block)->box_values.w);
         } else {
             *left = FIXTOINT(_hl_css_len2px(len_ctx,
-                    value, unit, box->computed_style));
+                    value, unit, LAYOUT(box)->computed_style));
         }
     } else {
         *left = HL_AUTO;
     }
 
     /* right */
-    type = css_computed_right(box->computed_style, &value, &unit);
+    type = css_computed_right(LAYOUT(box)->computed_style, &value, &unit);
     if (type == CSS_RIGHT_SET) {
         if (unit == CSS_UNIT_PCT) {
             *right = HL_FPCT_OF_INT_TOINT(value,
-                    containing_block->box_values.w);
+                    LAYOUT(containing_block)->box_values.w);
         } else {
             *right = FIXTOINT(_hl_css_len2px(len_ctx,
-                    value, unit, box->computed_style));
+                    value, unit, LAYOUT(box)->computed_style));
         }
     } else {
         *right = HL_AUTO;
     }
 
     /* top */
-    type = css_computed_top(box->computed_style, &value, &unit);
+    type = css_computed_top(LAYOUT(box)->computed_style, &value, &unit);
     if (type == CSS_TOP_SET) {
         if (unit == CSS_UNIT_PCT) {
             *top = HL_FPCT_OF_INT_TOINT(value,
-                    containing_block->box_values.h);
+                    LAYOUT(containing_block)->box_values.h);
         } else {
             *top = FIXTOINT(_hl_css_len2px(len_ctx,
-                    value, unit, box->computed_style));
+                    value, unit, LAYOUT(box)->computed_style));
         }
     } else {
         *top = HL_AUTO;
     }
 
     /* bottom */
-    type = css_computed_bottom(box->computed_style, &value, &unit);
+    type = css_computed_bottom(LAYOUT(box)->computed_style, &value, &unit);
     if (type == CSS_BOTTOM_SET) {
         if (unit == CSS_UNIT_PCT) {
             *bottom = HL_FPCT_OF_INT_TOINT(value,
-                    containing_block->box_values.h);
+                    LAYOUT(containing_block)->box_values.h);
         } else {
             *bottom = FIXTOINT(_hl_css_len2px(len_ctx,
-                    value, unit, box->computed_style));
+                    value, unit, LAYOUT(box)->computed_style));
         }
     } else {
         *bottom = HL_AUTO;
@@ -658,22 +658,22 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 
     HL_LOGD("layout node|level=%d|tag=%s|id=%s|in x=%d|y=%d|container_width=%d|container_height=%d\n",
             level, node->tag, hilayout_element_node_get_id(node), x, y, container_width, container_height);
-    node->box_values.x = x;
-    node->box_values.y = y;
+    LAYOUT(node)->box_values.x = x;
+    LAYOUT(node)->box_values.y = y;
 
     _hi_computed_z_index(node);
     _hilayout_find_background(node);
     _hilayout_find_font(ctx, node);
     if (handler->is_root(node))
     {
-        node->box_values.w = container_width;
-        node->box_values.h = container_height;
+        LAYOUT(node)->box_values.w = container_width;
+        LAYOUT(node)->box_values.h = container_height;
     }
-    else if (css_computed_position(node->computed_style) == CSS_POSITION_FIXED)
+    else if (css_computed_position(LAYOUT(node)->computed_style) == CSS_POSITION_FIXED)
     {
         HLDomElementNode* op = handler->parent(node);
         handler->set_parent(node, ctx->root);
-        _hl_block_find_dimensions(ctx, node, ctx->root->box_values.w, ctx->root->box_values.h, 0, 0, handler);
+        _hl_block_find_dimensions(ctx, node, LAYOUT(ctx->root)->box_values.w, LAYOUT(ctx->root)->box_values.h, 0, 0, handler);
         handler->set_parent(node, op);
     }
     else {
@@ -707,7 +707,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         HL_LOGD("layout node|level=%d|tag=%s|id=%s|(%f, %f, %f, %f)"
                 "|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%f\n",
                 level, node->tag, hilayout_element_node_get_id(node),
-                node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+                LAYOUT(node)->box_values.x, LAYOUT(node)->box_values.y, LAYOUT(node)->box_values.w, LAYOUT(node)->box_values.h,
                 node->background_values.color,
                 node->text_values.font_family, node->text_values.color, node->text_values.font_weight,
                 node->text_values.font_size
@@ -722,19 +722,19 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
             {
                 HL_LOGD("layout node|level=%d|tag=%s|id=%s|(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%f\n",
                         level, node->tag, hilayout_element_node_get_id(node),
-                        node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+                        LAYOUT(node)->box_values.x, LAYOUT(node)->box_values.y, LAYOUT(node)->box_values.w, LAYOUT(node)->box_values.h,
                         node->background_values.color,
                         node->text_values.font_family, node->text_values.color, node->text_values.font_weight,
                         node->text_values.font_size
                        );
-                return _hl_layout_child_node_grid(ctx, node, level);
+                return _hl_layout_child_node_grid(ctx, node, level, handler);
             }
     }
 
     int cx = x;
     int cy = y;
-    int cw = node->box_values.w;
-    int ch = node->box_values.h;
+    int cw = LAYOUT(node)->box_values.w;
+    int ch = LAYOUT(node)->box_values.h;
     int cl = level + 1;
 
     int top = 0;
@@ -745,12 +745,12 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     int prev_width = 0;
     while(child)
     {
-        if (css_computed_position(child->computed_style) == CSS_POSITION_FIXED)
+        if (css_computed_position(LAYOUT(child)->computed_style) == CSS_POSITION_FIXED)
         {
-            int x = ctx->root->box_values.x;
-            int y = ctx->root->box_values.y;
-            int w = ctx->root->box_values.w;
-            int h = ctx->root->box_values.h;
+            int x = LAYOUT(ctx->root)->box_values.x;
+            int y = LAYOUT(ctx->root)->box_values.y;
+            int w = LAYOUT(ctx->root)->box_values.w;
+            int h = LAYOUT(ctx->root)->box_values.h;
 
             _hl_computed_offsets(ctx, child, ctx->root, &top, &right, &bottom, &left, handler);
             if (left == HL_AUTO)
@@ -769,7 +769,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
             case LAYOUT_BLOCK:
             case LAYOUT_GRID:
                 cx = x;
-                if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
+                if (css_computed_position(LAYOUT(child)->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, handler);
                 }
@@ -780,7 +780,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 
             case LAYOUT_INLINE_BLOCK:
             case LAYOUT_INLINE_GRID:
-                if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
+                if (css_computed_position(LAYOUT(child)->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, handler);
                 }
@@ -795,9 +795,9 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                     cy = cy + line_height;
                     fprintf(stderr, "..............................block/grid ----> inline-block modify after cx=%d|cy=%d|line_height=%d\n", cx, cy, line_height);
                 }
-                else if (cx + prev_width + child->box_values.w + left > cw)
+                else if (cx + prev_width + LAYOUT(child)->box_values.w + left > cw)
                 {
-                    fprintf(stderr, "..............................%s:%d cx=%d|cy=%d|prev_width=%d|w=%f|left=%d\n", __FILE__, __LINE__, cx, cy, prev_width, child->box_values.w, left);
+                    fprintf(stderr, "..............................%s:%d cx=%d|cy=%d|prev_width=%d|w=%f|left=%d\n", __FILE__, __LINE__, cx, cy, prev_width, LAYOUT(child)->box_values.w, left);
                     cx = x;
                     cy = cy + line_height;
                     fprintf(stderr, "..............................%s:%d cx=%d|cy=%d\n", __FILE__, __LINE__, cx, cy);
@@ -809,12 +809,12 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                     fprintf(stderr, "..............................%s:%d cx=%d|cy=%d\n", __FILE__, __LINE__, cx, cy);
                 }
                 _hilayout_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl, handler);
-                prev_width = child->box_values.w;
+                prev_width = LAYOUT(child)->box_values.w;
                 break;
 
             default:
                 cx = x;
-                if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
+                if (css_computed_position(LAYOUT(child)->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, handler);
                 }
@@ -823,14 +823,14 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 line_height = 0;
                 break;
         }
-        line_height = line_height < child->box_values.h ? child->box_values.h : line_height;
+        line_height = line_height < LAYOUT(child)->box_values.h ? LAYOUT(child)->box_values.h : line_height;
         child = child->next;
     }
 
     HL_LOGD("layout node|level=%d|tag=%s|id=%s|"
             "(%f, %f, %f, %f)|background=0x%08X|text.family=%s|text.color=0x%08X|text.weight=%d|text.size=%f\n",
             level, node->tag, hilayout_element_node_get_id(node),
-            node->box_values.x, node->box_values.y, node->box_values.w, node->box_values.h,
+            LAYOUT(node)->box_values.x, LAYOUT(node)->box_values.y, LAYOUT(node)->box_values.w, LAYOUT(node)->box_values.h,
             node->background_values.color,
             node->text_values.font_family, node->text_values.color, node->text_values.font_weight,
             node->text_values.font_size
@@ -871,7 +871,7 @@ int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HLDomElementNode *root, hi
         _hilayout_css_select_ctx_destroy(select_ctx);
         return ret;
     }
-    context.root_style = root->computed_style;
+    context.root_style = LAYOUT(root)->computed_style;
 
     _hilayout_layout_node(&context, root, 0, 0, media->width, media->height, 0, handler);
     _hilayout_css_select_ctx_destroy(select_ctx);

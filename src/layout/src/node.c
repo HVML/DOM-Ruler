@@ -96,11 +96,11 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     node->tag = strdup(tag);
     node->inner_tag = _hilayout_lwc_string_dup(tag);
 
-    node->box_values.w = UNKNOWN_WIDTH;
-    node->box_values.display = HL_DISPLAY_BLOCK;
-    node->box_values.position = HL_POSITION_RELATIVE;
-    node->box_values.visibility = HL_VISIBILITY_VISIBLE;
-    node->box_values.opacity = 1.0f;
+    node->layout.box_values.w = UNKNOWN_WIDTH;
+    node->layout.box_values.display = HL_DISPLAY_BLOCK;
+    node->layout.box_values.position = HL_POSITION_RELATIVE;
+    node->layout.box_values.visibility = HL_VISIBILITY_VISIBLE;
+    node->layout.box_values.opacity = 1.0f;
 
     node->min_w = 0;
     node->max_w = UNKNOWN_MAX_WIDTH;
@@ -226,32 +226,32 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         free(node->inner_classes);
     }
 
-    if (node->text_values.font_family)
+    if (node->layout.text_values.font_family)
     {
-        free(node->text_values.font_family);
+        free(node->layout.text_values.font_family);
     }
 
-    _hl_destroy_svg_values(node->svg_values);
-    if (node->select_styles)
+    _hl_destroy_svg_values(node->layout.svg_values);
+    if (node->layout.select_styles)
     {
-        css_select_results_destroy(node->select_styles);
+        css_select_results_destroy(node->layout.select_styles);
     }
     free(node);
 }
 
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node)
 {
-    return node ? & node->box_values : NULL;
+    return node ? & node->layout.box_values : NULL;
 }
 
 const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node)
 {
-    return node ? & node->background_values : NULL;
+    return node ? & node->layout.background_values : NULL;
 }
 
 const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNode* node)
 {
-    return node ? & node->text_values : NULL;
+    return node ? & node->layout.text_values : NULL;
 }
 
 void _hl_destroy_svg_values(HLUsedSvgValues* svg)
@@ -319,15 +319,15 @@ void _hl_destroy_svg_values(HLUsedSvgValues* svg)
 
 HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node)
 {
-    css_computed_style* style = node->computed_style;
+    css_computed_style* style = node->layout.computed_style;
     if (style == NULL)
     {
         return NULL;
     }
 
-    _hl_destroy_svg_values(node->svg_values);
+    _hl_destroy_svg_values(node->layout.svg_values);
     HLUsedSvgValues* svg = (HLUsedSvgValues*)calloc(1, sizeof(HLUsedSvgValues));
-    node->svg_values = svg;
+    node->layout.svg_values = svg;
     // baseline_shift
     svg->baseline_shift = css_computed_baseline_shift(style);
     // clip-path
