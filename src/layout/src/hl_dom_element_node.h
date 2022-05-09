@@ -84,6 +84,25 @@ void *hl_dom_element_node_computed_style(void *node);
 void *hl_dom_element_node_select_styles(void *node);
 LayoutType hl_dom_element_node_layout_type(void *node);
 HLUsedBoxValues *hl_dom_element_node_box_values(void *node);
+double hl_dom_element_node_margin_top(void *node);
+double hl_dom_element_node_margin_right(void *node);
+double hl_dom_element_node_margin_bottom(void *node);
+double hl_dom_element_node_margin_left(void *node);
+
+double hl_dom_element_node_padding_top(void *node);
+double hl_dom_element_node_padding_right(void *node);
+double hl_dom_element_node_padding_bottom(void *node);
+double hl_dom_element_node_padding_left(void *node);
+
+double hl_dom_element_node_border_top(void *node);
+double hl_dom_element_node_border_right(void *node);
+double hl_dom_element_node_border_bottom(void *node);
+double hl_dom_element_node_border_left(void *node);
+
+int hl_dom_element_node_border_type_top(void *node);
+int hl_dom_element_node_border_type_right(void *node);
+int hl_dom_element_node_border_type_bottom(void *node);
+int hl_dom_element_node_border_type_left(void *node);
 
 #ifdef __cplusplus
 }
