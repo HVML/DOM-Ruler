@@ -56,12 +56,6 @@
 extern "C" {
 #endif
 
-int layout_child_node_block(HLDomElementNode *node, int x, int y,
-        int widthLimit, int heightLimit, int *width, int *height,
-        int level, hilayout_layout_handler *handler);
-int layout_child_node_inline_block(HLDomElementNode *node, int x, int y,
-        int widthLimit, int heightLimit, int *width, int *height,
-        int level, hilayout_layout_handler *handler);
 int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node,
         int level, hilayout_layout_handler *handler);
 
