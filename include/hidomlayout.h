@@ -771,8 +771,6 @@ typedef struct hilayout_layout_handler {
     void *(*first_child)(void *node);
     void *(*next_child)(void *node);
     bool (*is_root)(void *node);
-    void *(*computed_style)(void *node);
-    void *(*select_styles)(void *node);
 } hilayout_layout_handler;
 
 #ifdef __cplusplus

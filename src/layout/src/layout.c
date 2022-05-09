@@ -184,19 +184,19 @@ void _hl_handle_box_sizing(
 {
     enum css_box_sizing_e bs;
 
-    assert(node && handler->computed_style(node));
+    assert(node && node->computed_style);
 
-    bs = css_computed_box_sizing(handler->computed_style(node));
+    bs = css_computed_box_sizing(node->computed_style);
 
     if (bs == CSS_BOX_SIZING_BORDER_BOX) {
         int orig = *dimension;
         int fixed = 0;
         float frac = 0;
 
-        _hl_calculate_mbp_width(len_ctx, handler->computed_style(node),
+        _hl_calculate_mbp_width(len_ctx, node->computed_style,
                 setwidth ? HL_LEFT : HL_TOP,
                 false, true, true, &fixed, &frac);
-        _hl_calculate_mbp_width(len_ctx, handler->computed_style(node),
+        _hl_calculate_mbp_width(len_ctx, node->computed_style,
                 setwidth ? HL_RIGHT : HL_BOTTOM,
                 false, true, true, &fixed, &frac);
         orig -= frac * available_width + fixed;
@@ -275,13 +275,13 @@ void _hl_find_dimensions(const HLContext *len_ctx,
                     css_unit u = CSS_UNIT_PX;
 
                     cbhtype = css_computed_height(
-                            handler->computed_style(containing_block),
+                            containing_block->computed_style,
                             &f, &u);
                 }
 
                 if (containing_block &&
                     containing_block->box_values.h != HL_AUTO &&
-                    (css_computed_position(handler->computed_style(box)) ==
+                    (css_computed_position(box->computed_style) ==
                             CSS_POSITION_ABSOLUTE ||
                         cbhtype == CSS_HEIGHT_SET)) {
                     /* Box is absolutely positioned or its
@@ -479,8 +479,8 @@ int _hl_solve_width(HLDomElementNode* box,
     /* HTML alignment (only applies to over-constrained boxes) */
     HLDomElementNode *parent = handler->parent(box);
     if (box->margin[HL_LEFT] != HL_AUTO && box->margin[HL_RIGHT] != HL_AUTO &&
-            parent != NULL && handler->computed_style(parent) != NULL) {
-        switch (css_computed_text_align(handler->computed_style(parent))) {
+            parent != NULL && parent->computed_style != NULL) {
+        switch (css_computed_text_align(parent->computed_style)) {
         case CSS_TEXT_ALIGN_LIBCSS_RIGHT:
             box->margin[HL_LEFT] = HL_AUTO;
             box->margin[HL_RIGHT] = 0;
@@ -552,7 +552,7 @@ int _hl_block_find_dimensions(HLContext* ctx,
             container_width,
             container_height,
             node,
-            handler->computed_style(node),
+            node->computed_style,
             &width,
             &height,
             &max_width,
@@ -591,56 +591,56 @@ void _hl_computed_offsets(const HLContext* len_ctx,
             containing_block->box_values.h != HL_AUTO);
 
     /* left */
-    type = css_computed_left(handler->computed_style(box), &value, &unit);
+    type = css_computed_left(box->computed_style, &value, &unit);
     if (type == CSS_LEFT_SET) {
         if (unit == CSS_UNIT_PCT) {
             *left = HL_FPCT_OF_INT_TOINT(value,
                     containing_block->box_values.w);
         } else {
             *left = FIXTOINT(_hl_css_len2px(len_ctx,
-                    value, unit, handler->computed_style(box)));
+                    value, unit, box->computed_style));
         }
     } else {
         *left = HL_AUTO;
     }
 
     /* right */
-    type = css_computed_right(handler->computed_style(box), &value, &unit);
+    type = css_computed_right(box->computed_style, &value, &unit);
     if (type == CSS_RIGHT_SET) {
         if (unit == CSS_UNIT_PCT) {
             *right = HL_FPCT_OF_INT_TOINT(value,
                     containing_block->box_values.w);
         } else {
             *right = FIXTOINT(_hl_css_len2px(len_ctx,
-                    value, unit, handler->computed_style(box)));
+                    value, unit, box->computed_style));
         }
     } else {
         *right = HL_AUTO;
     }
 
     /* top */
-    type = css_computed_top(handler->computed_style(box), &value, &unit);
+    type = css_computed_top(box->computed_style, &value, &unit);
     if (type == CSS_TOP_SET) {
         if (unit == CSS_UNIT_PCT) {
             *top = HL_FPCT_OF_INT_TOINT(value,
                     containing_block->box_values.h);
         } else {
             *top = FIXTOINT(_hl_css_len2px(len_ctx,
-                    value, unit, handler->computed_style(box)));
+                    value, unit, box->computed_style));
         }
     } else {
         *top = HL_AUTO;
     }
 
     /* bottom */
-    type = css_computed_bottom(handler->computed_style(box), &value, &unit);
+    type = css_computed_bottom(box->computed_style, &value, &unit);
     if (type == CSS_BOTTOM_SET) {
         if (unit == CSS_UNIT_PCT) {
             *bottom = HL_FPCT_OF_INT_TOINT(value,
                     containing_block->box_values.h);
         } else {
             *bottom = FIXTOINT(_hl_css_len2px(len_ctx,
-                    value, unit, handler->computed_style(box)));
+                    value, unit, box->computed_style));
         }
     } else {
         *bottom = HL_AUTO;
@@ -669,7 +669,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         node->box_values.w = container_width;
         node->box_values.h = container_height;
     }
-    else if (css_computed_position(handler->computed_style(node)) == CSS_POSITION_FIXED)
+    else if (css_computed_position(node->computed_style) == CSS_POSITION_FIXED)
     {
         HLDomElementNode* op = handler->parent(node);
         handler->set_parent(node, ctx->root);
@@ -745,7 +745,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     int prev_width = 0;
     while(child)
     {
-        if (css_computed_position(handler->computed_style(child)) == CSS_POSITION_FIXED)
+        if (css_computed_position(child->computed_style) == CSS_POSITION_FIXED)
         {
             int x = ctx->root->box_values.x;
             int y = ctx->root->box_values.y;
@@ -769,7 +769,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
             case LAYOUT_BLOCK:
             case LAYOUT_GRID:
                 cx = x;
-                if (css_computed_position(handler->computed_style(child)) == CSS_POSITION_RELATIVE)
+                if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, handler);
                 }
@@ -780,7 +780,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 
             case LAYOUT_INLINE_BLOCK:
             case LAYOUT_INLINE_GRID:
-                if (css_computed_position(handler->computed_style(child)) == CSS_POSITION_RELATIVE)
+                if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, handler);
                 }
@@ -814,7 +814,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
 
             default:
                 cx = x;
-                if (css_computed_position(handler->computed_style(child)) == CSS_POSITION_RELATIVE)
+                if (css_computed_position(child->computed_style) == CSS_POSITION_RELATIVE)
                 {
                     _hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, handler);
                 }
@@ -871,7 +871,7 @@ int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HLDomElementNode *root, hi
         _hilayout_css_select_ctx_destroy(select_ctx);
         return ret;
     }
-    context.root_style = handler->computed_style(root);
+    context.root_style = root->computed_style;
 
     _hilayout_layout_node(&context, root, 0, 0, media->width, media->height, 0, handler);
     _hilayout_css_select_ctx_destroy(select_ctx);
@@ -886,8 +886,6 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         .first_child = hl_dom_element_node_first_child,
         .next_child = hl_dom_element_node_next_child,
         .is_root = hl_dom_element_node_is_root,
-        .computed_style = hl_dom_element_node_computed_style,
-        .select_styles = hl_dom_element_node_select_styles,
     };
     return hilayout_do_layout_ex(media, css, root, &handler);
 }
