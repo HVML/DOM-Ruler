@@ -773,8 +773,6 @@ typedef struct hilayout_layout_handler {
     bool (*is_root)(void *node);
     void *(*computed_style)(void *node);
     void *(*select_styles)(void *node);
-    LayoutType (*layout_type)(void *node);
-    HLUsedBoxValues *(*box_values)(void *node);
 } hilayout_layout_handler;
 
 #ifdef __cplusplus

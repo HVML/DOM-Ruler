@@ -259,11 +259,11 @@ void _hl_find_dimensions(const HLContext *len_ctx,
             if (unit == CSS_UNIT_PCT) {
                 enum css_height_e cbhtype;
 
-                if (parent && handler->layout_type(parent) !=
+                if (parent && parent->layout_type !=
                         LAYOUT_INLINE_CONTAINER) {
                     /* Box is a block level element */
                     containing_block = parent;
-                } else if (parent && handler->layout_type(parent) ==
+                } else if (parent && parent->layout_type ==
                         LAYOUT_INLINE_CONTAINER) {
                     /* Box is an inline block */
                     containing_block = handler->parent(parent);
@@ -280,7 +280,7 @@ void _hl_find_dimensions(const HLContext *len_ctx,
                 }
 
                 if (containing_block &&
-                    handler->box_values(containing_block)->h != HL_AUTO &&
+                    containing_block->box_values.h != HL_AUTO &&
                     (css_computed_position(handler->computed_style(box)) ==
                             CSS_POSITION_ABSOLUTE ||
                         cbhtype == CSS_HEIGHT_SET)) {
@@ -289,7 +289,7 @@ void _hl_find_dimensions(const HLContext *len_ctx,
                      * specified height.
                      * (CSS 2.1 Section 10.5) */
                     *height = HL_FPCT_OF_INT_TOINT(value,
-                        handler->box_values(containing_block)->h);
+                        containing_block->box_values.h);
                 } else if ((!parent || !handler->parent(parent)) &&
                         viewport_height >= 0) {
                     /* If root element or it's child
@@ -888,7 +888,6 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         .is_root = hl_dom_element_node_is_root,
         .computed_style = hl_dom_element_node_computed_style,
         .select_styles = hl_dom_element_node_select_styles,
-        .layout_type = hl_dom_element_node_layout_type,
     };
     return hilayout_do_layout_ex(media, css, root, &handler);
 }
