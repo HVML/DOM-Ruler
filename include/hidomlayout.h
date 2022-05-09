@@ -765,14 +765,6 @@ typedef struct HLMedia_ {
     unsigned int density;
 } HLMedia;
 
-typedef struct hilayout_layout_handler {
-    void *(*parent)(void *node);
-    void (*set_parent)(void *node, void *parent);
-    void *(*first_child)(void *node);
-    void *(*next_child)(void *node);
-    bool (*is_root)(void *node);
-} hilayout_layout_handler;
-
 #ifdef __cplusplus
 extern "C" {
 #endif

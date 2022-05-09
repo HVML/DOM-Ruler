@@ -68,6 +68,14 @@ typedef struct HLAttachData_ {
     HlDestroyCallback callback;
 } HLAttachData;
 
+typedef struct hilayout_layout_handler {
+    void *(*parent)(void *node);
+    void (*set_parent)(void *node, void *parent);
+    void *(*first_child)(void *node);
+    void *(*next_child)(void *node);
+    bool (*is_root)(void *node);
+} hilayout_layout_handler;
+
 typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* parent;  /**< Parent node */
     struct HLDomElementNode_* first_child; /**< First child node */
