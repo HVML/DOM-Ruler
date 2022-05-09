@@ -56,7 +56,9 @@ bool layout_inline_block(HLDomElementNode *node, int width, int height)
     return false;
 }
 
-int layout_child_node_inline_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
+int layout_child_node_inline_block(HLDomElementNode *node, int x, int y,
+        int widthLimit, int heightLimit, int *width, int *height,
+        int level, hilayout_layout_handler *handler);
 {
     return 0;
 }

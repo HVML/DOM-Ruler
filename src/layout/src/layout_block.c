@@ -52,7 +52,9 @@
 #include <stdio.h>
 
 #if 0
-int layout_child_node_block(HLDomElementNode *node, int x, int y, int widthLimit, int heightLimit, int *width, int *height, int level)
+int layout_child_node_block(HLDomElementNode *node, int x, int y,
+        int widthLimit, int heightLimit, int *width, int *height,
+        int level, hilayout_layout_handler *handler);
 {
     level++;
     if (node == NULL || node->first_child == NULL)
