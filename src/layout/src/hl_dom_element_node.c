@@ -101,12 +101,3 @@ void *hl_dom_element_node_select_styles(void *node)
     return node ? ((HLDomElementNode*)node)->select_styles : NULL;
 }
 
-LayoutType hl_dom_element_node_layout_type(void *node)
-{
-    return node ? ((HLDomElementNode*)node)->layout_type : LAYOUT_INVALID;
-}
-
-HLUsedBoxValues *hl_dom_element_node_box_values(void *node)
-{
-    return node ? &((HLDomElementNode*)node)->box_values : NULL;
-}

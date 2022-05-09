@@ -102,7 +102,7 @@ static const css_border_color_func border_color_funcs[4] = {
 
 int _hilayout_select_child_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node, hilayout_layout_handler *handler)
 {
-    int ret = _hilayout_select_node_style(media, select_ctx, node);
+    int ret = _hilayout_select_node_style(media, select_ctx, node, handler);
     if (ret != HILAYOUT_OK)
     {
         return ret;
@@ -259,11 +259,11 @@ void _hl_find_dimensions(const HLContext *len_ctx,
             if (unit == CSS_UNIT_PCT) {
                 enum css_height_e cbhtype;
 
-                if (parent && parent->layout_type !=
+                if (parent && LAYOUT(parent)->layout_type !=
                         LAYOUT_INLINE_CONTAINER) {
                     /* Box is a block level element */
                     containing_block = parent;
-                } else if (parent && parent->layout_type ==
+                } else if (parent && LAYOUT(parent)->layout_type ==
                         LAYOUT_INLINE_CONTAINER) {
                     /* Box is an inline block */
                     containing_block = handler->parent(parent);
@@ -677,7 +677,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         handler->set_parent(node, op);
     }
     else {
-        switch (node->layout_type)
+        switch (LAYOUT(node)->layout_type)
         {
             case LAYOUT_BLOCK:
                 _hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, handler);
@@ -715,7 +715,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
         return HILAYOUT_OK;
     }
 
-    switch(node->layout_type)
+    switch(LAYOUT(node)->layout_type)
     {
         case LAYOUT_GRID:
         case LAYOUT_INLINE_GRID:
@@ -764,7 +764,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
             continue;
         }
 
-        switch (child->layout_type)
+        switch (LAYOUT(child)->layout_type)
         {
             case LAYOUT_BLOCK:
             case LAYOUT_GRID:
@@ -786,8 +786,8 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
                 }
                 _hl_block_find_dimensions(ctx, child, cw, ch, 0, 0, handler);
                 if (child->previous != NULL
-                        && (child->previous->layout_type == LAYOUT_BLOCK
-                            || child->previous->layout_type == LAYOUT_GRID)
+                        && (LAYOUT(child->previous)->layout_type == LAYOUT_BLOCK
+                            || LAYOUT(child->previous)->layout_type == LAYOUT_GRID)
                         )
                 {
                     fprintf(stderr, "..............................block/grid ----> inline-block modify before cx=%d|cy=%d\n", cx, cy);

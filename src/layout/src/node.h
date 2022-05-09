@@ -59,6 +59,8 @@
 #define HL_INNER_CSS_SELECT_ATTACH "hl_inner_css_select_attach"
 #define HL_INNER_LAYOUT_ATTACH "hl_inner_layout_attach"
 
+#define LAYOUT(node)            (handler->layout(node))
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -68,12 +70,19 @@ typedef struct HLAttachData_ {
     HlDestroyCallback callback;
 } HLAttachData;
 
+typedef struct NodeLayout {
+    //inner layout
+    LayoutType layout_type;
+
+} NodeLayout;
+
 typedef struct hilayout_layout_handler {
     void *(*parent)(void *node);
     void (*set_parent)(void *node, void *parent);
     void *(*first_child)(void *node);
     void *(*next_child)(void *node);
     bool (*is_root)(void *node);
+    NodeLayout *(*layout)(void *node);
 } hilayout_layout_handler;
 
 typedef struct HLDomElementNode_ {
@@ -100,9 +109,7 @@ typedef struct HLDomElementNode_ {
     // class name
     GList* class_list;
 
-    //inner layout
-    LayoutType layout_type;
-
+    // begin
     // begin for hicss inner
     lwc_string* inner_tag;
     lwc_string* inner_id;
