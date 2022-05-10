@@ -1299,6 +1299,13 @@ int _hilayout_css_select_ctx_destroy(css_select_ctx* ctx)
     return HILAYOUT_OK;
 }
 
+int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
+        void *node, hidomlayout_layout_handler *handler)
+{
+    // TODO
+    return HILAYOUT_OK;
+}
+
 int _hilayout_select_node_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node, hilayout_layout_handler *handler)
 {
     css_select_results* result = _hilayout_get_node_style(media, select_ctx, node);

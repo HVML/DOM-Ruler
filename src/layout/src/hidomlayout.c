@@ -76,8 +76,7 @@ bool hl_verify_handler(hidomlayout_layout_handler *handler)
 int hl_select_child_style(const css_media *media, css_select_ctx *ctx,
         void *node, hidomlayout_layout_handler *handler)
 {
-#if 0
-    int ret = _hilayout_select_node_style(media, ctx, node, handler);
+    int ret = hl_select_node_style(media, ctx, node, handler);
     if (ret != HILAYOUT_OK) {
         return ret;
     }
@@ -90,7 +89,6 @@ int hl_select_child_style(const css_media *media, css_select_ctx *ctx,
         }
         child = handler->next_child(child);
     }
-#endif
     return HILAYOUT_OK;
 }
 
