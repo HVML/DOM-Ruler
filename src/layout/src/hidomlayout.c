@@ -58,11 +58,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-NodeLayout *hl_layout(void *node, hidomlayout_layout_handler *handler)
-{
-    return (NodeLayout*) handler->get_attach(node, NULL);
-}
-
 int hl_computed_z_index(void *node, hidomlayout_layout_handler *handler)
 {
     int32_t index = 0;

@@ -55,9 +55,7 @@
 #include <libcss/libcss.h>
 #include <glib.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#define LAYOUT(node)            (hl_layout(node, handler))
 
 typedef struct NodeLayout {
     //inner layout
@@ -81,6 +79,12 @@ typedef struct NodeLayout {
     css_computed_style* computed_style;
 
 } NodeLayout;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+NodeLayout *hl_layout(void *node, hidomlayout_layout_handler *handler);
 
 #ifdef __cplusplus
 }

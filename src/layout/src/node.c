@@ -54,3 +54,8 @@
 #include <glib.h>
 #include <glib/ghash.h>
 
+NodeLayout *hl_layout(void *node, hidomlayout_layout_handler *handler)
+{
+    return (NodeLayout*) handler->get_attach(node, NULL);
+}
+
