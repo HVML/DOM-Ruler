@@ -1317,10 +1317,10 @@ int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
     return HILAYOUT_SELECT_STYLE_ERR;
 }
 
-css_select_results* _hilayout_get_node_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node)
+css_select_results *_hilayout_get_node_style(const css_media *media,
+        css_select_ctx *select_ctx, void *node)
 {
-    if (media == NULL || select_ctx == NULL || node == NULL)
-    {
+    if (media == NULL || select_ctx == NULL || node == NULL) {
         HL_LOGW("get node style failed.\n");
         return NULL;
     }
@@ -1328,15 +1328,15 @@ css_select_results* _hilayout_get_node_style(const css_media* media, css_select_
     // prepare inline style
     css_stylesheet* inline_style = NULL;
     const char* style = hilayout_element_node_get_style(node);
-    if (style != NULL)
-    {
-        HL_LOGD("node style |tag=%s|id=%s|style=%s\n", node->tag, hilayout_element_node_get_id(node), style);
-        inline_style = _hilayout_css_stylesheet_inline_style_create(style, strlen(style));
+    if (style != NULL) {
+        inline_style = _hilayout_css_stylesheet_inline_style_create(style,
+                strlen(style));
     }
 
     /* Select style for node */
     css_select_results *styles;
-    css_error error = css_select_style(select_ctx, node, media, inline_style, &selection_handler, NULL, &styles);
+    css_error error = css_select_style(select_ctx, node, media, inline_style,
+            &selection_handler, NULL, &styles);
 
     if (error != CSS_OK || styles == NULL) {
         /* Failed selecting partial style -- bail out */
@@ -1385,7 +1385,8 @@ css_select_results* _hilayout_get_node_style(const css_media* media, css_select_
 }
 
 css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
-        const css_media *media, const css_stylesheet *inlineStyleSheet, css_select_handler *handler)
+        const css_media *media, const css_stylesheet *inlineStyleSheet,
+        css_select_handler *handler)
 {
     css_computed_style *composed;
     css_select_results *styles;
