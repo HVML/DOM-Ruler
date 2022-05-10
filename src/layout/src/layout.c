@@ -883,8 +883,8 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
     hidomlayout_layout_handler handler = {
         .set_attach = hl_dom_element_node_set_attach,
         .get_attach = hl_dom_element_node_get_attach,
-        .parent = hl_dom_element_node_parent,
         .set_parent = hl_dom_element_node_set_parent,
+        .get_parent = hl_dom_element_node_parent,
         .first_child = hl_dom_element_node_first_child,
         .next_child = hl_dom_element_node_next_child,
         .is_root = hl_dom_element_node_is_root,

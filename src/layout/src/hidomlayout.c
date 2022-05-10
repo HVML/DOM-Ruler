@@ -52,9 +52,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+static inline
+bool hl_verify_handler(hidomlayout_layout_handler *handler)
+{
+    if (!handler || !handler->set_attach || !handler->get_attach
+            || !handler->set_parent || !handler->get_parent
+            || !handler->first_child || !handler->next_child
+            || !handler->is_root) {
+        return false;
+    }
+    return true;
+}
+
 int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root_node,
         hidomlayout_layout_handler *handler)
 {
+    if (!media || !css || !root_node || !hl_verify_handler(handler)) {
+        return -1;
+    }
     return 0;
 }
 
