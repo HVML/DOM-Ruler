@@ -48,6 +48,7 @@
 
 #include "node.h"
 #include "hl_dom_element_node.h"
+#include "libcss/libcss.h"
 
 #include <stdio.h>
 #include <stdlib.h>

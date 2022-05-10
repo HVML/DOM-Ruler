@@ -51,6 +51,14 @@
 #define _HL_DOM_ELEMENT_NODE_H
 
 #include "hidomlayout.h"
+#include "node.h"
+#include "libcss/libcss.h"
+
+#include <glib.h>
+#include <glib/ghash.h>
+
+#define HL_INNER_CSS_SELECT_ATTACH "hl_inner_css_select_attach"
+#define HL_INNER_LAYOUT_ATTACH "hl_inner_layout_attach"
 
 typedef enum {
     DOM_ELEMENT_NODE        = 1,
@@ -72,9 +80,68 @@ typedef enum {
 
 typedef struct NodeLayout NodeLayout;
 
+typedef struct HLAttachData_ {
+    void* data;
+    HlDestroyCallback callback;
+} HLAttachData;
+
+typedef struct HLDomElementNode_ {
+    struct HLDomElementNode_* parent;  /**< Parent node */
+    struct HLDomElementNode_* first_child; /**< First child node */
+    struct HLDomElementNode_* last_child;  /**< Last child node */
+    struct HLDomElementNode_* previous;    /**< Previous sibling */
+    struct HLDomElementNode_* next;        /**< Next sibling */
+    uint32_t n_children;        // child count;
+
+    char* tag;
+
+    GHashTable* common_attrs;  // common attrs key(uint64_t) -> value(string)
+
+    GHashTable* general_attrs;     // user attrs key(string) -> value(string)
+    GHashTable* user_data;     // user data key(string) -> value(HLAttachData)
+
+    GHashTable* inner_attrs;    // inner attrs key(string) -> value(string)
+    GHashTable* inner_data;     // inner data key(string) -> value(HLAttachData)
+
+    HLAttachData* attach_data; // attach data
+
+
+    // class name
+    GList* class_list;
+
+    // begin for hicss inner
+    lwc_string* inner_tag;
+    lwc_string* inner_id;
+    lwc_string** inner_classes;
+    int inner_classes_count;
+
+    HLDomElementNodeType inner_dom_type;
+    // end for hicss inner
+
+    double min_w;
+    double max_w;
+
+    double min_h;
+    double max_h;
+
+    // begin
+    NodeLayout layout;
+
+} HLDomElementNode;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+bool _hl_node_is_root(HLDomElementNode *n);
+int _hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
+const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
+int _hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
+void* _hl_element_node_get_inner_data(HLDomElementNode* node, const char* key);
+void _hl_destroy_svg_values(HLUsedSvgValues* svg);
+
+void *hl_dom_element_node_first_child(void *node);
+void *hl_dom_element_node_next_child(void *node);
 
 void hl_dom_element_node_set_attach(void *node, void *data,
         cb_free_attach_data cb_free);
