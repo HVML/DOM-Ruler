@@ -643,7 +643,7 @@ void _hl_free_grid_item(HLContext* ctx, HLDomElementNode* node, void* user_data)
     _hl_destroy_grid_item(node);
 }
 
-int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level, hilayout_layout_handler *handler)
+int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level, hidomlayout_layout_handler *handler)
 {
     HLGridTemplate* grid_template = _hl_grid_template_create(ctx, node);
 

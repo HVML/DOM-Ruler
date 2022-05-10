@@ -76,6 +76,7 @@ bool hl_verify_handler(hidomlayout_layout_handler *handler)
 int hl_select_child_style(const css_media *media, css_select_ctx *ctx,
         void *node, hidomlayout_layout_handler *handler)
 {
+#if 0
     int ret = hl_select_node_style(media, ctx, node, handler);
     if (ret != HILAYOUT_OK) {
         return ret;
@@ -89,13 +90,7 @@ int hl_select_child_style(const css_media *media, css_select_ctx *ctx,
         }
         child = handler->next_child(child);
     }
-    return HILAYOUT_OK;
-}
-
-int hl_layout_node(HLContext *ctx, void *node,
-        int x, int y, int container_width, int container_height,
-        int level, hidomlayout_layout_handler *handler)
-{
+#endif
     return HILAYOUT_OK;
 }
 
@@ -134,9 +129,12 @@ int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
         return ret;
     }
 
-    context.root_style = hl_layout(root, handler)->computed_style;
+    NodeLayout* layout = hl_layout(root, handler);
+    context.root_style = layout->computed_style;
+#if 0
     hl_layout_node(&context, root, 0, 0, media->width, media->height, 0,
             handler);
+#endif
     _hilayout_css_select_ctx_destroy(select_ctx);
 
     return ret;

@@ -59,8 +59,6 @@
 #define HL_INNER_CSS_SELECT_ATTACH "hl_inner_css_select_attach"
 #define HL_INNER_LAYOUT_ATTACH "hl_inner_layout_attach"
 
-#define LAYOUT(node)            (handler->layout(node))
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -92,15 +90,6 @@ typedef struct NodeLayout {
     css_computed_style* computed_style;
 
 } NodeLayout;
-
-typedef struct hilayout_layout_handler {
-    void *(*parent)(void *node);
-    void (*set_parent)(void *node, void *parent);
-    void *(*first_child)(void *node);
-    void *(*next_child)(void *node);
-    bool (*is_root)(void *node);
-    NodeLayout *(*layout)(void *node);
-} hilayout_layout_handler;
 
 typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* parent;  /**< Parent node */
@@ -152,7 +141,6 @@ const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* 
 int _hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
 void* _hl_element_node_get_inner_data(HLDomElementNode* node, const char* key);
 void _hl_destroy_svg_values(HLUsedSvgValues* svg);
-
 
 void *hl_dom_element_node_first_child(void *node);
 void *hl_dom_element_node_next_child(void *node);
