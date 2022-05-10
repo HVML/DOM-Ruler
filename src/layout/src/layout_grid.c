@@ -229,14 +229,15 @@ int _hl_layout_grid_child(HLContext* ctx, HLGridTemplate* grid_template, HLDomEl
     _hl_grid_item_destroy(node_row_column);
 }
 
-HLGridItem* _hl_get_grid_item(HLContext* ctx, HLDomElementNode* node)
+HLGridItem* _hl_get_grid_item(HLContext* ctx, HLDomElementNode* node,
+        hidomlayout_layout_handler *handler)
 {
     HLGridItem* item = (HLGridItem*)_hl_element_node_get_inner_data(node, HL_INNER_LAYOUT_ATTACH);
     if (item)
     {
         return item;
     }
-    _hi_computed_z_index(node);
+    hl_computed_z_index(node, handler);
     _hilayout_find_background(node);
     _hilayout_find_font(ctx, node);
     return _hl_grid_item_create(node);
@@ -252,10 +253,12 @@ HLGridItem* _hl_destroy_grid_item(HLDomElementNode* node)
     _hl_element_node_set_inner_data(node, HL_INNER_LAYOUT_ATTACH, NULL, NULL);
 }
 
-void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* node, void* user_data)
+void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx,
+        HLDomElementNode* node, void* user_data,
+        hidomlayout_layout_handler *handler)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
-    HLGridItem* item = _hl_get_grid_item(ctx, node);
+    HLGridItem* item = _hl_get_grid_item(ctx, node, handler);
     int set_row = (item->rc_set & HL_GRID_ITEM_RC_ROW_START) | (item->rc_set & HL_GRID_ITEM_RC_ROW_END);
     int set_column = (item->rc_set & HL_GRID_ITEM_RC_COLUMN_START) | (item->rc_set & HL_GRID_ITEM_RC_COLUMN_END);
 
@@ -381,10 +384,12 @@ void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx, HLDomElementNode* 
 
 }
 
-void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, void* user_data)
+void _hl_layout_child_with_grid_rc_row(HLContext* ctx,
+        HLDomElementNode* node, void* user_data,
+        hidomlayout_layout_handler *handler)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
-    HLGridItem* item = _hl_get_grid_item(ctx, node);
+    HLGridItem* item = _hl_get_grid_item(ctx, node, handler);
     int set_row = (item->rc_set & HL_GRID_ITEM_RC_ROW_START) | (item->rc_set & HL_GRID_ITEM_RC_ROW_END);
 
     if (item->layout_done || !set_row)
@@ -504,10 +509,11 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx, HLDomElementNode* node, v
             item->layout_done);
 }
 
-void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node, void* user_data)
+void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node,
+        void* user_data, hidomlayout_layout_handler *handler)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
-    HLGridItem* item = _hl_get_grid_item(ctx, node);
+    HLGridItem* item = _hl_get_grid_item(ctx, node, handler);
 
     if (item->layout_done)
     {
@@ -638,7 +644,7 @@ void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node, 
             item->layout_done);
 }
 
-void _hl_free_grid_item(HLContext* ctx, HLDomElementNode* node, void* user_data)
+void _hl_free_grid_item(HLContext* ctx, HLDomElementNode* node, void* user_data, hidomlayout_layout_handler *handler)
 {
     _hl_destroy_grid_item(node);
 }
@@ -649,13 +655,13 @@ int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level
 
     int cl = level + 1;
     // layout with grid-row-start/end, grid-column-start/end
-    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_row_column, grid_template);
+    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_row_column, grid_template, handler);
     // layout with grid-row-start/end
-    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_row, grid_template);
+    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_row, grid_template, handler);
     // layout auto
-    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_auto, grid_template);
+    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_auto, grid_template, handler);
     // free grid tree
-    _hl_for_each_child(ctx, node, _hl_free_grid_item, grid_template);
+    _hl_for_each_child(ctx, node, _hl_free_grid_item, grid_template, handler);
     // while for layout child call _hilayout_layout_node
     //
     // clear

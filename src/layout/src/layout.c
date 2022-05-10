@@ -661,7 +661,7 @@ int _hilayout_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, 
     LAYOUT(node)->box_values.x = x;
     LAYOUT(node)->box_values.y = y;
 
-    _hi_computed_z_index(node);
+    hl_computed_z_index(node, handler);
     _hilayout_find_background(node);
     _hilayout_find_font(ctx, node);
     if (handler->is_root(node))

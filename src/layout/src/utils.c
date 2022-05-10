@@ -46,6 +46,7 @@
  \endverbatim
  */
 
+#include "hidomlayout.h"
 #include "utils.h"
 #include "node.h"
 #include <string.h>
@@ -315,29 +316,6 @@ uint8_t _hl_computed_display(const css_computed_style *style, bool root)
     }
 }
 
-int _hi_computed_z_index(HLDomElementNode *node)
-{
-    int32_t index = 0;
-    int8_t val = css_computed_z_index(node->layout.computed_style, &index);
-    switch (val) {
-    case CSS_Z_INDEX_INHERIT:
-        index = node->parent ? node->parent->layout.box_values.z_index : 0;
-        break;
-
-    case CSS_Z_INDEX_AUTO:
-        break;
-
-    case CSS_Z_INDEX_SET:
-        index = FIXTOINT(index);
-        break;
-
-    default:
-        break;
-    }
-    node->layout.box_values.z_index = index;
-    return index;
-}
-
 HLGridItem* _hl_grid_item_create(HLDomElementNode *node)
 {
     if (node == NULL)
@@ -491,7 +469,9 @@ void _hl_grid_template_destroy(HLGridTemplate* p)
     free(p);
 }
 
-void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node, each_child_callback callback, void* user_data)
+void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node,
+        each_child_callback callback, void* user_data,
+        hidomlayout_layout_handler *handler)
 {
     if (ctx == NULL || node == NULL || callback == NULL)
     {
@@ -501,7 +481,7 @@ void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node, each_child_callb
     HLDomElementNode* child = node->first_child;
     while(child)
     {
-        callback(ctx, child, user_data);
+        callback(ctx, child, user_data, handler);
         child = child->next;
     }
 }

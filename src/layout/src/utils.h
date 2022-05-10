@@ -149,15 +149,17 @@ uint8_t _hl_computed_min_width(
         css_fixed *length, css_unit *unit);
 
 uint8_t _hl_computed_display(const css_computed_style *style, bool root);
-int _hi_computed_z_index(HLDomElementNode *node);
 HLGridItem* _hl_grid_item_create(HLDomElementNode *node);
 void _hl_grid_item_destroy(HLGridItem*);
 
 HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode *node);
 void _hl_grid_template_destroy(HLGridTemplate*);
 
-typedef void (*each_child_callback)(HLContext* ctx, HLDomElementNode* node, void* user_data);
-void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node, each_child_callback callback, void* user_data);
+typedef void (*each_child_callback)(HLContext* ctx, HLDomElementNode* node, void* user_data,
+        hidomlayout_layout_handler *handler);
+void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node,
+        each_child_callback callback, void* user_data,
+        hidomlayout_layout_handler *handler);
 
 int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node);
 int _hilayout_find_background(HLDomElementNode* node);

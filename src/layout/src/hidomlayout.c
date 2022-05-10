@@ -62,6 +62,41 @@ NodeLayout *hl_layout(void *node, hidomlayout_layout_handler *handler)
     return (NodeLayout*) handler->get_attach(node, NULL);
 }
 
+int hl_computed_z_index(void *node, hidomlayout_layout_handler *handler)
+{
+    int32_t index = 0;
+    NodeLayout *layout = (NodeLayout*)handler->get_attach(node, NULL);
+    int8_t val = css_computed_z_index(layout->computed_style, &index);
+    switch (val) {
+    case CSS_Z_INDEX_INHERIT:
+        {
+            void *parent = handler->get_parent(node);
+            if (parent) {
+                NodeLayout *parent_layout = (NodeLayout*)handler->get_attach(
+                        parent, NULL);
+                index = parent_layout->box_values.z_index;
+            }
+            else {
+                index = 0;
+            }
+        }
+        break;
+
+    case CSS_Z_INDEX_AUTO:
+        break;
+
+    case CSS_Z_INDEX_SET:
+        index = FIXTOINT(index);
+        break;
+
+    default:
+        break;
+    }
+    layout->box_values.z_index = index;
+    return index;
+}
+
+
 static inline
 bool hl_verify_handler(hidomlayout_layout_handler *handler)
 {
