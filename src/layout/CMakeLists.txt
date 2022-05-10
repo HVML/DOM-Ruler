@@ -63,6 +63,7 @@ list(APPEND hidomlayout_SOURCES
     src/layout.c
     src/layout_grid.c
     src/hl_dom_element_node.c
+    src/hidomlayout.c
 )
 
 include_directories(${hidomlayout_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})

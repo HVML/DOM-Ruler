@@ -878,12 +878,6 @@ int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HLDomElementNode *root, hi
     return ret;
 }
 
-int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root_node,
-        hidomlayout_layout_handler *handler)
-{
-    return 0;
-}
-
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 {
     hidomlayout_layout_handler handler = {
