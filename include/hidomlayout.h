@@ -126,6 +126,19 @@ typedef enum {
 } LayoutType;
 
 
+typedef void (*cb_free_attach_data) (void *data);
+
+typedef struct hidomlayout_layout_handler {
+    void (*set_attach)(void *node, void *data, cb_free_attach_data cb_free);
+    void *(*get_attach)(void *node, cb_free_attach_data *cb_free);
+
+    void *(*parent)(void *node);
+    void (*set_parent)(void *node, void *parent);
+    void *(*first_child)(void *node);
+    void *(*next_child)(void *node);
+    bool (*is_root)(void *node);
+} hidomlayout_layout_handler;
+
 // property
 
 #define  HL_PROP_CATEGORY_BOX                  (1 << 0)
@@ -773,6 +786,21 @@ extern "C" {
  * @defgroup hiDOMLayout API
  * @{
  */
+
+/**
+ * layout dom tree
+ *
+ * @param media: the pointer to the HLMedia
+ * @param css: the pointer to the HLCSS
+ * @param root_node: the pointer to the root node
+ * @param handler: the handler to handle root node
+ *
+ * Returns: zero if success; an error code (!=0) otherwise.
+ *
+ * Since: 1.1
+ */
+int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root_node,
+        hidomlayout_layout_handler *handler);
 
 /**
  * Create a HLCSS object
