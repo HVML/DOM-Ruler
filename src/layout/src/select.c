@@ -1310,7 +1310,7 @@ int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
         }
         layout->select_styles = result;
         layout->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
-        layout->layout_type = _hl_computed_display(layout->computed_style,
+        layout->layout_type = hl_computed_display(layout->computed_style,
                 handler->is_root(node));
         return HILAYOUT_OK;
     }

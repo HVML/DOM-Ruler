@@ -148,7 +148,7 @@ uint8_t _hl_computed_min_width(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit);
 
-uint8_t _hl_computed_display(const css_computed_style *style, bool root);
+uint8_t hl_computed_display(const css_computed_style *style, bool root);
 HLGridItem* _hl_grid_item_create(HLDomElementNode *node);
 void _hl_grid_item_destroy(HLGridItem*);
 
