@@ -274,3 +274,21 @@ int _hilayout_css_select_ctx_destroy(css_select_ctx* ctx)
     return HILAYOUT_OK;
 }
 
+int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
+        void *node, hidomlayout_layout_handler *handler)
+{
+    css_select_results* result = hl_get_node_style(media, select_ctx, node);
+    if (result) {
+        NodeLayout* layout = (NodeLayout*) handler->get_attach(node, NULL);
+        if (layout->select_styles) {
+            css_select_results_destroy(layout->select_styles);
+        }
+        layout->select_styles = result;
+        layout->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
+        layout->layout_type = hl_computed_display(layout->computed_style,
+                handler->is_root(node));
+        return HILAYOUT_OK;
+    }
+    return HILAYOUT_SELECT_STYLE_ERR;
+}
+
