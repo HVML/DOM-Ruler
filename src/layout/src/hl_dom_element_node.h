@@ -70,6 +70,7 @@ typedef enum {
     DOM_NODE_TYPE_COUNT
 } HLDomElementNodeType;
 
+typedef struct NodeLayout NodeLayout;
 
 #ifdef __cplusplus
 extern "C" {
@@ -80,6 +81,7 @@ void hl_dom_element_node_set_parent(void *node, void *parent);
 void *hl_dom_element_node_first_child(void *node);
 void *hl_dom_element_node_next_child(void *node);
 bool hl_dom_element_node_is_root(void *node);
+NodeLayout *hl_dom_element_node_layout(void *node);
 
 #ifdef __cplusplus
 }

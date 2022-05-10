@@ -886,6 +886,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         .first_child = hl_dom_element_node_first_child,
         .next_child = hl_dom_element_node_next_child,
         .is_root = hl_dom_element_node_is_root,
+        .layout = hl_dom_element_node_layout,
     };
     return hilayout_do_layout_ex(media, css, root, &handler);
 }
