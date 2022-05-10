@@ -1302,7 +1302,7 @@ int _hilayout_css_select_ctx_destroy(css_select_ctx* ctx)
 int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
         void *node, hidomlayout_layout_handler *handler)
 {
-    css_select_results* result = _hilayout_get_node_style(media, select_ctx, node);
+    css_select_results* result = hl_get_node_style(media, select_ctx, node);
     if (result) {
         NodeLayout* layout = (NodeLayout*) handler->get_attach(node, NULL);
         if (layout->select_styles) {
@@ -1317,7 +1317,7 @@ int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
     return HILAYOUT_SELECT_STYLE_ERR;
 }
 
-css_select_results *_hilayout_get_node_style(const css_media *media,
+css_select_results *hl_get_node_style(const css_media *media,
         css_select_ctx *select_ctx, void *node)
 {
     if (media == NULL || select_ctx == NULL || node == NULL) {

@@ -48,6 +48,7 @@
 
 
 #include "hidomlayout.h"
+#include "layout.h"
 
 #include "utils.h"
 #include "select.h"
