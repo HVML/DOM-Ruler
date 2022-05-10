@@ -878,16 +878,23 @@ int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HLDomElementNode *root, hi
     return ret;
 }
 
+int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root_node,
+        hidomlayout_layout_handler *handler)
+{
+    return 0;
+}
+
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 {
-    hilayout_layout_handler handler = {
+    hidomlayout_layout_handler handler = {
+        .set_attach = hl_dom_element_node_set_attach,
+        .get_attach = hl_dom_element_node_get_attach,
         .parent = hl_dom_element_node_parent,
         .set_parent = hl_dom_element_node_set_parent,
         .first_child = hl_dom_element_node_first_child,
         .next_child = hl_dom_element_node_next_child,
         .is_root = hl_dom_element_node_is_root,
-        .layout = hl_dom_element_node_layout,
     };
-    return hilayout_do_layout_ex(media, css, root, &handler);
+    return hidomlayout_layout(media, css, root, &handler);
 }
 

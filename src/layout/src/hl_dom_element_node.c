@@ -55,6 +55,16 @@
 #include <glib.h>
 #include <glib/ghash.h>
 
+void hl_dom_element_node_set_attach(void *node, void *data,
+        cb_free_attach_data cb_free)
+{
+}
+
+void *hl_dom_element_node_get_attach(void *node, cb_free_attach_data *cb_free)
+{
+    return NULL;
+}
+
 void *hl_dom_element_node_parent(void *node)
 {
     return node ? ((HLDomElementNode*)node)->parent : NULL;

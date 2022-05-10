@@ -76,6 +76,11 @@ typedef struct NodeLayout NodeLayout;
 extern "C" {
 #endif
 
+void hl_dom_element_node_set_attach(void *node, void *data,
+        cb_free_attach_data cb_free);
+
+void *hl_dom_element_node_get_attach(void *node, cb_free_attach_data *cb_free);
+
 void *hl_dom_element_node_parent(void *node);
 void hl_dom_element_node_set_parent(void *node, void *parent);
 void *hl_dom_element_node_first_child(void *node);
