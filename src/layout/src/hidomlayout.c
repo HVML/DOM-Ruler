@@ -49,6 +49,9 @@
 
 #include "hidomlayout.h"
 
+#include "utils.h"
+#include "select.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -65,12 +68,67 @@ bool hl_verify_handler(hidomlayout_layout_handler *handler)
     return true;
 }
 
-int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root_node,
-        hidomlayout_layout_handler *handler)
+int hl_select_child_style(const css_media *media, css_select_ctx *ctx,
+        void *node, hidomlayout_layout_handler *handler)
 {
-    if (!media || !css || !root_node || !hl_verify_handler(handler)) {
-        return -1;
+#if 0
+    int ret = _hilayout_select_node_style(media, ctx, node, handler);
+    if (ret != HILAYOUT_OK) {
+        return ret;
     }
-    return 0;
+
+    void *child = handler->first_child(node);
+    while (child) {
+        ret = hl_select_child_style(media, ctx, child, handler);
+        if (ret != HILAYOUT_OK) {
+            return ret;
+        }
+        child = handler->next_child(child);
+    }
+#endif
+    return HILAYOUT_OK;
 }
 
+int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
+        hidomlayout_layout_handler *handler)
+{
+    if (!media || !css || !root || !hl_verify_handler(handler)) {
+        HL_LOGE("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n",
+                __func__, media, root, css, css->sheet);
+        return HILAYOUT_BADPARM;
+    }
+
+    int ret = HILAYOUT_OK;
+    HLContext context = {
+        .media = media,
+        .css = css,
+        .root = root,
+    };
+    _hl_set_media_dpi(&context, media->dpi);
+    _hl_set_baseline_pixel_density(&context, media->density);
+
+    css_media m;
+    m.type = CSS_MEDIA_SCREEN;
+    m.width  = _hl_css_pixels_physical_to_css(&context, INTTOFIX(media->width));
+    m.height = _hl_css_pixels_physical_to_css(&context, INTTOFIX(media->height));
+    context.vw = m.width;
+    context.vh = m.height;
+
+    // create css select context
+    css_select_ctx* select_ctx = _hilayout_css_select_ctx_create(css);
+
+    ret = hl_select_child_style(&m, select_ctx, root, handler);
+    if (ret != HILAYOUT_OK) {
+        HL_LOGD("%s|select child style failed.|code=%d\n", __func__, ret);
+        _hilayout_css_select_ctx_destroy(select_ctx);
+        return ret;
+    }
+
+#if 0
+    context.root_style = LAYOUT(root)->computed_style;
+
+    _hilayout_layout_node(&context, root, 0, 0, media->width, media->height, 0, handler);
+    _hilayout_css_select_ctx_destroy(select_ctx);
+#endif
+    return ret;
+}
