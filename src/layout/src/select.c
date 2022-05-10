@@ -1299,20 +1299,19 @@ int _hilayout_css_select_ctx_destroy(css_select_ctx* ctx)
     return HILAYOUT_OK;
 }
 
-int _hilayout_select_node_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node, hidomlayout_layout_handler *handler)
+int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
+        void *node, hidomlayout_layout_handler *handler)
 {
     css_select_results* result = _hilayout_get_node_style(media, select_ctx, node);
-    if (result)
-    {
-        if (node->layout.select_styles)
-        {
-            css_select_results_destroy(node->layout.select_styles);
+    if (result) {
+        NodeLayout* layout = (NodeLayout*) handler->get_attach(node, NULL);
+        if (layout->select_styles) {
+            css_select_results_destroy(layout->select_styles);
         }
-        node->layout.select_styles = result;
-        node->layout.computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
-        node->layout.layout_type = _hl_computed_display(node->layout.computed_style, _hl_node_is_root(node));
-        HL_LOGD("select node style|tag=%s|id=%s|name=%s|layout_type=%d\n", 
-                node->tag, hilayout_element_node_get_id(node), hilayout_element_node_get_name(node), node->layout_type);
+        layout->select_styles = result;
+        layout->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
+        layout->layout_type = _hl_computed_display(layout->computed_style,
+                handler->is_root(node));
         return HILAYOUT_OK;
     }
     return HILAYOUT_SELECT_STYLE_ERR;

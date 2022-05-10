@@ -102,7 +102,7 @@ static const css_border_color_func border_color_funcs[4] = {
 
 int _hilayout_select_child_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node, hidomlayout_layout_handler *handler)
 {
-    int ret = _hilayout_select_node_style(media, select_ctx, node, handler);
+    int ret = hl_select_node_style(media, select_ctx, node, handler);
     if (ret != HILAYOUT_OK)
     {
         return ret;
