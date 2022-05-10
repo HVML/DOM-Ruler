@@ -52,6 +52,7 @@
 
 #include "hidomlayout.h"
 #include "node.h"
+#include "hl_dom_element_node.h"
 /*
  
    <div id="root">
