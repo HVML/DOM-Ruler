@@ -115,7 +115,7 @@ int hl_select_child_style(const css_media* media, css_select_ctx* select_ctx, HL
         {
             return ret;
         }
-        child = handler->next_child(child);
+        child = handler->next(child);
     }
     return HILAYOUT_OK;
 }
@@ -662,8 +662,8 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
     LAYOUT(node)->box_values.y = y;
 
     hl_computed_z_index(node, handler);
-    hl_find_background(node);
-    hl_find_font(ctx, node);
+    hl_find_background(node, handler);
+    hl_find_font(ctx, node, handler);
     if (handler->is_root(node))
     {
         LAYOUT(node)->box_values.w = container_width;
@@ -886,7 +886,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         .set_parent = hl_dom_element_node_set_parent,
         .get_parent = hl_dom_element_node_parent,
         .first_child = hl_dom_element_node_first_child,
-        .next_child = hl_dom_element_node_next_child,
+        .next = hl_dom_element_node_next_child,
         .is_root = hl_dom_element_node_is_root,
     };
     return hidomlayout_layout(media, css, root, &handler);

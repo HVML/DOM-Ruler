@@ -96,7 +96,6 @@ int hl_set_media_dpi(HLContext *ctx, int dpi)
     if (dpi < 72 || dpi > 250) {
         int bad = dpi;
         dpi = min(max(dpi, 72), 250);
-        HL_LOGW("%s|invalid dpi=%d|change to dpi=%d\n", __func__, bad, dpi);
     }
     ctx->hl_css_media_dpi = INTTOFIX(dpi);
     return HILAYOUT_OK;
@@ -104,15 +103,13 @@ int hl_set_media_dpi(HLContext *ctx, int dpi)
 
 int hl_set_baseline_pixel_density(HLContext* ctx, int density)
 {
-    if (density <= 0)
-    {
+    if (density <= 0) {
         density = hl_default_css_baseline_pixel_density;
     }
 
     if (density < 72 || density > 250) {
         int bad = density;
         density = min(max(density, 72), 250);
-        HL_LOGW("%s|invalid density=%d|change to density=%d\n", __func__, bad, density);
     }
     ctx->hl_css_baseline_pixel_density = INTTOFIX(density);
     return HILAYOUT_OK;
@@ -198,11 +195,8 @@ css_fixed hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit)
     return 0;
 }
 
-css_fixed hl_css_len2px(
-        const HLContext *ctx,
-        css_fixed length,
-        css_unit unit,
-        const css_computed_style *style)
+css_fixed hl_css_len2px(const HLContext *ctx,
+        css_fixed length, css_unit unit, const css_computed_style *style)
 {
     /* We assume the screen and any other output has the same dpi */
     css_fixed px_per_unit;
@@ -319,40 +313,42 @@ uint8_t hl_computed_display(const css_computed_style *style, bool root)
     }
 }
 
-HLGridItem* hl_grid_item_create(HLDomElementNode *node)
+HLGridItem *hl_grid_item_create(void *node,
+        hidomlayout_layout_handler *handler)
 {
-    if (node == NULL)
-    {
+    if (node == NULL) {
         return NULL;
     }
 
     css_fixed value = 0;
     css_unit unit = CSS_UNIT_PX;
 
-    HLGridItem* item = calloc(1, sizeof(HLGridItem));
+    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    HLGridItem *item = calloc(1, sizeof(HLGridItem));
 
-    int8_t type = css_computed_grid_column_start(node->layout.computed_style, &value, &unit);
+    int8_t type = css_computed_grid_column_start(layout->computed_style,
+            &value, &unit);
     if (type == CSS_GRID_COLUMN_START_SET)
     {
         item->rc_set = item->rc_set | HL_GRID_ITEM_RC_COLUMN_START;
         item->column_start = FIXTOINT(value);
     }
 
-    type = css_computed_grid_column_end(node->layout.computed_style, &value, &unit);
+    type = css_computed_grid_column_end(layout->computed_style, &value, &unit);
     if (type == CSS_GRID_COLUMN_END_SET)
     {
         item->rc_set = item->rc_set | HL_GRID_ITEM_RC_COLUMN_END;
         item->column_end = FIXTOINT(value);
     }
 
-    type = css_computed_grid_row_start(node->layout.computed_style, &value, &unit);
+    type = css_computed_grid_row_start(layout->computed_style, &value, &unit);
     if (type == CSS_GRID_ROW_START_SET)
     {
         item->rc_set = item->rc_set | HL_GRID_ITEM_RC_ROW_START;
         item->row_start = FIXTOINT(value);
     }
 
-    type = css_computed_grid_row_end(node->layout.computed_style, &value, &unit);
+    type = css_computed_grid_row_end(layout->computed_style, &value, &unit);
     if (type == CSS_GRID_ROW_END_SET)
     {
         item->rc_set = item->rc_set | HL_GRID_ITEM_RC_ROW_END;
@@ -363,58 +359,58 @@ HLGridItem* hl_grid_item_create(HLDomElementNode *node)
     return item;
 }
 
-HLGridTemplate* hl_grid_template_create(const HLContext *ctx, HLDomElementNode *node)
+HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
+        void *node, hidomlayout_layout_handler *handler)
 {
-    if (node == NULL)
-    {
+    if (node == NULL) {
         return NULL;
     }
 
     int row_size = 0;
-    css_fixed* row_values = NULL;
-    css_unit* row_units = NULL;
+    css_fixed *row_values = NULL;
+    css_unit *row_units = NULL;
 
     int column_size = 0;
-    css_fixed* column_values = NULL;
-    css_unit* column_units = NULL;
+    css_fixed *column_values = NULL;
+    css_unit *column_units = NULL;
 
     uint8_t ret = 0;
+    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
 
-    ret = css_computed_grid_template_rows(node->layout.computed_style, &row_size, &row_values, &row_units);
-    if (ret != CSS_GRID_TEMPLATE_ROWS_SET)
-    {
+    ret = css_computed_grid_template_rows(layout->computed_style,
+            &row_size, &row_values, &row_units);
+    if (ret != CSS_GRID_TEMPLATE_ROWS_SET) {
         return NULL;
     }
 
-    ret = css_computed_grid_template_columns(node->layout.computed_style, &column_size, &column_values, &column_units);
-    if (ret != CSS_GRID_TEMPLATE_COLUMNS_SET)
-    {
+    ret = css_computed_grid_template_columns(layout->computed_style,
+            &column_size, &column_values, &column_units);
+    if (ret != CSS_GRID_TEMPLATE_COLUMNS_SET) {
         return NULL;
     }
 
-    HLGridTemplate* gt = (HLGridTemplate*)calloc(1, sizeof(HLGridTemplate));
-    gt->x = node->layout.box_values.x;
-    gt->y = node->layout.box_values.y;
-    gt->w = node->layout.box_values.w;
-    gt->h = node->layout.box_values.h;
+    HLGridTemplate *gt = (HLGridTemplate*)calloc(1, sizeof(HLGridTemplate));
+    gt->x = layout->box_values.x;
+    gt->y = layout->box_values.y;
+    gt->w = layout->box_values.w;
+    gt->h = layout->box_values.h;
 
     gt->n_row = row_size;
     gt->n_column = column_size;
     gt->mask = (uint8_t**)calloc(gt->n_row, sizeof(uint8_t*));
-    for (int i = 0; i < gt->n_row; i++)
-    {
+    for (int i = 0; i < gt->n_row; i++) {
         gt->mask[i] = (uint8_t*)calloc(gt->n_column, sizeof(uint8_t));
     }
 
     gt->rows = (int32_t*)malloc(gt->n_row * sizeof(int32_t));
     gt->columns = (int32_t*)malloc(gt->n_column * sizeof(int32_t));
 
-    for (int i = 0; i < row_size; i++)
-    {
+    for (int i = 0; i < row_size; i++) {
         if (row_units[i] == CSS_UNIT_PCT) {
             gt->rows[i] = HL_FPCT_OF_INT_TOINT(row_values[i], gt->h);
         } else {
-            gt->rows[i] = FIXTOINT(hl_css_len2px(ctx, row_values[i], row_units[i], node->layout.computed_style));
+            gt->rows[i] = FIXTOINT(hl_css_len2px(ctx, row_values[i],
+                        row_units[i], layout->computed_style));
         }
     }
 
@@ -423,7 +419,8 @@ HLGridTemplate* hl_grid_template_create(const HLContext *ctx, HLDomElementNode *
         if (column_units[i] == CSS_UNIT_PCT) {
             gt->columns[i] = HL_FPCT_OF_INT_TOINT(column_values[i], gt->w);
         } else {
-            gt->columns[i] = FIXTOINT(hl_css_len2px(ctx, column_values[i], column_units[i], node->layout.computed_style));
+            gt->columns[i] = FIXTOINT(hl_css_len2px(ctx, column_values[i],
+                        column_units[i], layout->computed_style));
         }
     }
 
@@ -435,35 +432,29 @@ HLGridTemplate* hl_grid_template_create(const HLContext *ctx, HLDomElementNode *
     return gt;
 }
 
-void hl_grid_item_destroy(HLGridItem* p)
+void hl_grid_item_destroy(HLGridItem *p)
 {
-    if (p == NULL)
-    {
-        return;
+    if (p) {
+        free(p);
     }
-    free(p);
 }
 
-void hl_grid_template_destroy(HLGridTemplate* p)
+void hl_grid_template_destroy(HLGridTemplate *p)
 {
-    if (p == NULL)
-    {
+    if (p == NULL) {
         return;
     }
-    if (p->rows != NULL)
-    {
+
+    if (p->rows != NULL) {
         free(p->rows);
     }
 
-    if (p->columns != NULL)
-    {
+    if (p->columns != NULL) {
         free(p->columns);
     }
 
-    if (p->mask != NULL)
-    {
-        for (int i = 0; i < p->n_row; i++)
-        {
+    if (p->mask != NULL) {
+        for (int i = 0; i < p->n_row; i++) {
             free(p->mask[i]);
         }
     }
@@ -472,41 +463,42 @@ void hl_grid_template_destroy(HLGridTemplate* p)
     free(p);
 }
 
-void hl_for_each_child(HLContext* ctx, HLDomElementNode* node,
-        each_child_callback callback, void* user_data,
-        hidomlayout_layout_handler *handler)
+void hl_for_each_child(HLContext *ctx, void *node,
+        hidomlayout_layout_handler *handler,
+        each_child_callback callback, void *user_data)
 {
-    if (ctx == NULL || node == NULL || callback == NULL)
-    {
+    if (ctx == NULL || node == NULL || callback == NULL) {
         return;
     }
 
-    HLDomElementNode* child = node->first_child;
-    while(child)
-    {
-        callback(ctx, child, user_data, handler);
-        child = child->next;
+    void *child = handler->first_child(node);
+    while(child) {
+        callback(ctx, child, handler, user_data);
+        child = handler->next(child);
     }
 }
 
-int hl_find_font(HLContext* ctx, HLDomElementNode* node)
+int hl_find_font(HLContext *ctx, void *node,
+        hidomlayout_layout_handler *handler)
 {
     lwc_string **families;
     css_fixed length = 0;
     css_unit unit = CSS_UNIT_PX;
 
-    uint8_t val = css_computed_font_family(node->layout.computed_style, &families);
-    if (val == CSS_FONT_FAMILY_INHERIT)
-    {
+    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    void *parent = handler->get_parent(node);
+    NodeLayout* parent_layout = parent ?
+        (NodeLayout *)handler->get_attach(node, NULL) : NULL;
+
+    uint8_t val = css_computed_font_family(layout->computed_style, &families);
+    if (val == CSS_FONT_FAMILY_INHERIT) {
         HL_LOGD("layout node|tag=%s|id=%s|font inherit\n", node->tag, node->id);
-        if (node->parent && node->parent->layout.text_values.font_family)
-        {
-            free (node->layout.text_values.font_family);
-            node->layout.text_values.font_family = strdup(node->parent->layout.text_values.font_family);
+        if (parent && parent_layout->text_values.font_family) {
+            free (layout->text_values.font_family);
+            layout->text_values.font_family = strdup(parent_layout->text_values.font_family);
         }
     }
-    else
-    {
+    else {
         char* buf[1024] = {0};
         int index = 0;
         int len = 0;
@@ -548,72 +540,71 @@ int hl_find_font(HLContext* ctx, HLDomElementNode* node)
         }
 
         char* result = (char*)calloc(len + 1, 1);
-        for (int i=0; i<index; i++)
-        {
+        for (int i=0; i<index; i++) {
             strcat(result, buf[i]);
             strcat(result, ",");
             free(buf[i]);
         }
         result[strlen(result) - 1 ] = 0;
-        free (node->layout.text_values.font_family);
-        node->layout.text_values.font_family = result;
+        free (layout->text_values.font_family);
+        layout->text_values.font_family = result;
     }
 
-    css_computed_font_size(node->layout.computed_style, &length, &unit);
-    int text_height = hl_css_len2px(ctx, length, unit, node->layout.computed_style);
-    node->layout.text_values.font_size = FIXTOINT(text_height * 3 / 4);
+    css_computed_font_size(layout->computed_style, &length, &unit);
+    int text_height = hl_css_len2px(ctx, length, unit, layout->computed_style);
+    layout->text_values.font_size = FIXTOINT(text_height * 3 / 4);
 
     css_color color;
-    val = css_computed_color(node->layout.computed_style, &color);
+    val = css_computed_color(layout->computed_style, &color);
     if (val == CSS_COLOR_INHERIT) {
-        if (node->parent)
-        {
-            node->layout.text_values.color = node->parent->layout.text_values.color;
+        if (parent) {
+            layout->text_values.color = parent_layout->text_values.color;
         }
     } else if (val == CSS_COLOR_COLOR) {
-        node->layout.text_values.color = color;
+        layout->text_values.color = color;
     }
 
-    val = css_computed_font_weight(node->layout.computed_style);
+    val = css_computed_font_weight(layout->computed_style);
     switch (val) {
     case CSS_FONT_WEIGHT_100:
-        node->layout.text_values.font_weight = HLFONT_WEIGHT_THIN;
+        layout->text_values.font_weight = HLFONT_WEIGHT_THIN;
         break;
     case CSS_FONT_WEIGHT_200:
-        node->layout.text_values.font_weight = HLFONT_WEIGHT_EXTRA_LIGHT;
+        layout->text_values.font_weight = HLFONT_WEIGHT_EXTRA_LIGHT;
         break;
     case CSS_FONT_WEIGHT_300:
-        node->layout.text_values.font_weight = HLFONT_WEIGHT_LIGHT;
+        layout->text_values.font_weight = HLFONT_WEIGHT_LIGHT;
         break;
     case CSS_FONT_WEIGHT_400:
     case CSS_FONT_WEIGHT_NORMAL:
     default:
-        node->layout.text_values.font_weight = HLFONT_WEIGHT_NORMAL;
+        layout->text_values.font_weight = HLFONT_WEIGHT_NORMAL;
         break;
     case CSS_FONT_WEIGHT_500:
-        node->layout.text_values.font_weight = HLFONT_WEIGHT_MEDIUM;
+        layout->text_values.font_weight = HLFONT_WEIGHT_MEDIUM;
         break;
     case CSS_FONT_WEIGHT_600:
-        node->layout.text_values.font_weight = HLFONT_WEIGHT_DEMIBOLD;
+        layout->text_values.font_weight = HLFONT_WEIGHT_DEMIBOLD;
         break;
     case CSS_FONT_WEIGHT_700:
     case CSS_FONT_WEIGHT_BOLD:
-        node->layout.text_values.font_weight = HLFONT_WEIGHT_BOLD;
+        layout->text_values.font_weight = HLFONT_WEIGHT_BOLD;
         break;
     case CSS_FONT_WEIGHT_800:
-        node->layout.text_values.font_weight = HLFONT_WEIGHT_EXTRA_BOLD;
+        layout->text_values.font_weight = HLFONT_WEIGHT_EXTRA_BOLD;
         break;
     case CSS_FONT_WEIGHT_900:
-        node->layout.text_values.font_weight = HLFONT_WEIGHT_BLACK;
+        layout->text_values.font_weight = HLFONT_WEIGHT_BLACK;
         break;
     }
 }
 
-int hl_find_background(HLDomElementNode* node)
+int hl_find_background(void *node, hidomlayout_layout_handler *handler)
 {
     css_color color;
-    css_computed_background_color(node->layout.computed_style, &color);
-    node->layout.background_values.color = color;
+    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    css_computed_background_color(layout->computed_style, &color);
+    layout->background_values.color = color;
     return HILAYOUT_OK;
 }
 

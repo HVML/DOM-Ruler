@@ -135,7 +135,7 @@ typedef struct hidomlayout_layout_handler {
     void (*set_parent)(void *node, void *parent);
     void *(*get_parent)(void *node);
     void *(*first_child)(void *node);
-    void *(*next_child)(void *node);
+    void *(*next)(void *node);
     bool (*is_root)(void *node);
 } hidomlayout_layout_handler;
 

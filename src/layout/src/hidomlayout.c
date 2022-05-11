@@ -98,7 +98,7 @@ bool hl_verify_handler(hidomlayout_layout_handler *handler)
 {
     if (!handler || !handler->set_attach || !handler->get_attach
             || !handler->set_parent || !handler->get_parent
-            || !handler->first_child || !handler->next_child
+            || !handler->first_child || !handler->next
             || !handler->is_root) {
         return false;
     }

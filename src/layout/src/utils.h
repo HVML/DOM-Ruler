@@ -88,7 +88,7 @@ typedef struct HLContext_ {
     int vh;
     const css_computed_style *root_style;
 
-    HLDomElementNode *root;
+    void *root;
 } HLContext;
 
 typedef enum HLGridItemRowColumnE_ {
@@ -135,13 +135,10 @@ css_fixed hl_css_pixels_physical_to_css(const HLContext *ctx,
 int hl_set_media_dpi(HLContext *ctx, int dpi);
 int hl_set_baseline_pixel_density(HLContext *ctx, int density);
 
-
 css_unit hl_css_utils_fudge_viewport_units(const HLContext *ctx, css_unit unit);
 css_fixed hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit);
 css_fixed hl_css_len2px(const HLContext *ctx,
-        css_fixed length,
-        css_unit unit,
-        const css_computed_style *style);
+        css_fixed length, css_unit unit, const css_computed_style *style);
 
 uint8_t hl_computed_min_height(
         const css_computed_style *style,
@@ -151,20 +148,23 @@ uint8_t hl_computed_min_width(
         css_fixed *length, css_unit *unit);
 
 uint8_t hl_computed_display(const css_computed_style *style, bool root);
-HLGridItem *hl_grid_item_create(HLDomElementNode *node);
+HLGridItem *hl_grid_item_create(void *node,
+        hidomlayout_layout_handler *handler);
 void hl_grid_item_destroy(HLGridItem*);
 
-HLGridTemplate *hl_grid_template_create(const HLContext *ctx, HLDomElementNode *node);
+HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
+        void *node, hidomlayout_layout_handler *handler);
 void hl_grid_template_destroy(HLGridTemplate*);
 
-typedef void (*each_child_callback)(HLContext *ctx, HLDomElementNode *node, void *user_data,
-        hidomlayout_layout_handler *handler);
-void hl_for_each_child(HLContext *ctx, HLDomElementNode *node,
-        each_child_callback callback, void *user_data,
-        hidomlayout_layout_handler *handler);
+typedef void (*each_child_callback)(HLContext *ctx, void *node,
+        hidomlayout_layout_handler *handler, void *user_data);
+void hl_for_each_child(HLContext *ctx, void *node,
+        hidomlayout_layout_handler *handler,
+        each_child_callback callback, void *user_data);
 
-int hl_find_font(HLContext *ctx, HLDomElementNode *node);
-int hl_find_background(HLDomElementNode *node);
+int hl_find_font(HLContext *ctx, void *node,
+        hidomlayout_layout_handler *handler);
+int hl_find_background(void *node, hidomlayout_layout_handler *handler);
 
 #ifdef __cplusplus
 }
