@@ -727,7 +727,7 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
                         node->text_values.font_family, node->text_values.color, node->text_values.font_weight,
                         node->text_values.font_size
                        );
-                return hl_layout_child_node_grid(ctx, node, level, handler);
+                return hl_layout_child_node_grid(ctx, node, handler, level);
             }
     }
 
