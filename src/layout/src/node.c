@@ -530,6 +530,12 @@ HiLayoutNode *hi_layout_node_next(HiLayoutNode *node)
     return hi_layout_node_from_origin_node(origin, NULL);
 }
 
+HiLayoutNode *hi_layout_node_previous(HiLayoutNode *node)
+{
+    void *origin = node->origin_op->previous(node->origin);
+    return hi_layout_node_from_origin_node(origin, NULL);
+}
+
 bool hi_layout_node_is_root(HiLayoutNode *node)
 {
     return node->origin_op->is_root(node->origin);

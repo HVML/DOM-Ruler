@@ -58,19 +58,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int hl_computed_z_index(void *node, hidomlayout_node_op *op)
+int hl_computed_z_index(HiLayoutNode *node)
 {
     int32_t index = 0;
-    HiLayoutNode *layout = (HiLayoutNode*)op->get_attach(node, NULL);
-    int8_t val = css_computed_z_index(layout->computed_style, &index);
+    int8_t val = css_computed_z_index(node->computed_style, &index);
     switch (val) {
     case CSS_Z_INDEX_INHERIT:
         {
-            void *parent = op->get_parent(node);
+            HiLayoutNode *parent = hi_layout_node_get_parent(node);
             if (parent) {
-                HiLayoutNode *parent_layout = (HiLayoutNode*)op->get_attach(
-                        parent, NULL);
-                index = parent_layout->box_values.z_index;
+                index = parent->box_values.z_index;
             }
             else {
                 index = 0;
@@ -88,7 +85,7 @@ int hl_computed_z_index(void *node, hidomlayout_node_op *op)
     default:
         break;
     }
-    layout->box_values.z_index = index;
+    node->box_values.z_index = index;
     return index;
 }
 

@@ -136,6 +136,7 @@ typedef struct hidomlayout_node_op {
     void *(*get_parent)(void *node);
     void *(*first_child)(void *node);
     void *(*next)(void *node);
+    void *(*previous)(void *node);
     bool (*is_root)(void *node);
 } hidomlayout_node_op;
 

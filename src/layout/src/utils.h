@@ -78,6 +78,8 @@
 #define min(a,b) ((a)<(b)?(a):(b))
 #endif
 
+struct HiLayoutNode;
+
 typedef struct HLContext_ {
     HLMedia *media;
     HLCSS *css;
@@ -88,7 +90,7 @@ typedef struct HLContext_ {
     int vh;
     const css_computed_style *root_style;
 
-    void *root;
+    struct HiLayoutNode *root;
 } HLContext;
 
 #ifdef __cplusplus

@@ -244,7 +244,7 @@ HLGridItem* hl_get_grid_item(HLContext* ctx, HiLayoutNode *node)
     {
         return item;
     }
-    hl_computed_z_index(node->origin, node->origin_op);
+    hl_computed_z_index(node);
     hl_find_background(node);
     hl_find_font(ctx, node);
     return hl_grid_item_create(node);

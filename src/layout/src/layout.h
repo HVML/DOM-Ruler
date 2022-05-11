@@ -56,7 +56,7 @@
 extern "C" {
 #endif
 
-int hl_computed_z_index(void *node, hidomlayout_node_op *op);
+int hl_computed_z_index(HiLayoutNode *node);
 
 int hl_layout_child_node_grid(HLContext* ctx, HiLayoutNode *node, int level);
 

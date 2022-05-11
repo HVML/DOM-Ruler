@@ -167,6 +167,7 @@ HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node);
 void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent);
 HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node);
 HiLayoutNode *hi_layout_node_next(HiLayoutNode *node);
+HiLayoutNode *hi_layout_node_previous(HiLayoutNode *node);
 bool hi_layout_node_is_root(HiLayoutNode *node);
 // END: HiLayoutNode  < ----- > Origin Node
 
