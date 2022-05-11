@@ -51,6 +51,7 @@
 #define _HL_NODE_H
 
 #include "hidomlayout.h"
+#include "utils.h"
 
 #include <libcss/libcss.h>
 #include <glib.h>
@@ -99,6 +100,9 @@ void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent);
 HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node);
 HiLayoutNode *hi_layout_node_next(HiLayoutNode *node);
 bool hi_layout_node_is_root(HiLayoutNode *node);
+
+int hl_find_background(HiLayoutNode *node);
+int hl_find_font(HLContext *ctx, HiLayoutNode *node);
 
 #ifdef __cplusplus
 }

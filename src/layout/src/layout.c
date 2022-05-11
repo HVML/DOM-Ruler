@@ -650,11 +650,12 @@ void hl_computed_offsets(const HLContext* len_ctx,
 
 int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level, hidomlayout_node_op *op)
 {
-    if (node == NULL)
-    {
+    if (node == NULL) {
         HL_LOGD("layout node|level=%d|node=%p\n", level, node);
         return HILAYOUT_OK;
     }
+
+    HiLayoutNode *layout_node = hi_layout_node_from_origin_node(node, op);
 
     HL_LOGD("layout node|level=%d|tag=%s|id=%s|in x=%d|y=%d|container_width=%d|container_height=%d\n",
             level, node->tag, hilayout_element_node_get_id(node), x, y, container_width, container_height);
@@ -662,8 +663,8 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
     LAYOUT(node)->box_values.y = y;
 
     hl_computed_z_index(node, op);
-    hl_find_background(node, op);
-    hl_find_font(ctx, node, op);
+    hl_find_background(layout_node);
+    hl_find_font(ctx, layout_node);
     if (op->is_root(node))
     {
         LAYOUT(node)->box_values.w = container_width;

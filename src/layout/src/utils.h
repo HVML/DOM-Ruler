@@ -162,10 +162,6 @@ void hl_for_each_child(HLContext *ctx, void *node,
         hidomlayout_node_op *op,
         each_child_callback callback, void *user_data);
 
-int hl_find_font(HLContext *ctx, void *node,
-        hidomlayout_node_op *op);
-int hl_find_background(void *node, hidomlayout_node_op *op);
-
 void hl_destroy_svg_values(HLUsedSvgValues *svg);
 
 #ifdef __cplusplus

@@ -149,3 +149,129 @@ bool hi_layout_node_is_root(HiLayoutNode *node)
     return node->origin_op->is_root(node->origin);
 }
 
+int hl_find_background(HiLayoutNode *node)
+{
+    css_color color;
+    css_computed_background_color(node->computed_style, &color);
+    node->background_values.color = color;
+    return HILAYOUT_OK;
+}
+
+int hl_find_font(HLContext *ctx, HiLayoutNode *node)
+{
+    lwc_string **families;
+    css_fixed length = 0;
+    css_unit unit = CSS_UNIT_PX;
+
+    HiLayoutNode* parent = hi_layout_node_get_parent(node);
+
+    uint8_t val = css_computed_font_family(node->computed_style, &families);
+    if (val == CSS_FONT_FAMILY_INHERIT) {
+        HL_LOGD("node node|tag=%s|id=%s|font inherit\n", node->tag, node->id);
+        if (parent && parent->text_values.font_family) {
+            free (node->text_values.font_family);
+            node->text_values.font_family =
+                strdup(parent->text_values.font_family);
+        }
+    }
+    else {
+        char* buf[1024] = {0};
+        int index = 0;
+        int len = 0;
+        if (families != NULL) {
+            while (*families != NULL) {
+                buf[index] = strdup(lwc_string_data(*families));
+                len += strlen(buf[index]) + 1;
+                index++;
+                families++;
+            }
+        }
+
+        switch (val) {
+            case CSS_FONT_FAMILY_SERIF:
+                buf[index] = strdup("serif");
+                len += strlen(buf[index]) + 1;
+                index++;
+                break;
+            case CSS_FONT_FAMILY_SANS_SERIF:
+                buf[index] = strdup("sans-serif");
+                len += strlen(buf[index]) + 1;
+                index++;
+                break;
+            case CSS_FONT_FAMILY_CURSIVE:
+                buf[index] = strdup("cursive");
+                len += strlen(buf[index]) + 1;
+                index++;
+                break;
+            case CSS_FONT_FAMILY_FANTASY:
+                buf[index] = strdup("fantasy");
+                len += strlen(buf[index]) + 1;
+                index++;
+                break;
+            case CSS_FONT_FAMILY_MONOSPACE:
+                buf[index] = strdup("monospace");
+                len += strlen(buf[index]) + 1;
+                index++;
+                break;
+        }
+
+        char* result = (char*)calloc(len + 1, 1);
+        for (int i=0; i<index; i++) {
+            strcat(result, buf[i]);
+            strcat(result, ",");
+            free(buf[i]);
+        }
+        result[strlen(result) - 1 ] = 0;
+        free (node->text_values.font_family);
+        node->text_values.font_family = result;
+    }
+
+    css_computed_font_size(node->computed_style, &length, &unit);
+    int text_height = hl_css_len2px(ctx, length, unit, node->computed_style);
+    node->text_values.font_size = FIXTOINT(text_height * 3 / 4);
+
+    css_color color;
+    val = css_computed_color(node->computed_style, &color);
+    if (val == CSS_COLOR_INHERIT) {
+        if (parent) {
+            node->text_values.color = parent->text_values.color;
+        }
+    } else if (val == CSS_COLOR_COLOR) {
+        node->text_values.color = color;
+    }
+
+    val = css_computed_font_weight(node->computed_style);
+    switch (val) {
+    case CSS_FONT_WEIGHT_100:
+        node->text_values.font_weight = HLFONT_WEIGHT_THIN;
+        break;
+    case CSS_FONT_WEIGHT_200:
+        node->text_values.font_weight = HLFONT_WEIGHT_EXTRA_LIGHT;
+        break;
+    case CSS_FONT_WEIGHT_300:
+        node->text_values.font_weight = HLFONT_WEIGHT_LIGHT;
+        break;
+    case CSS_FONT_WEIGHT_400:
+    case CSS_FONT_WEIGHT_NORMAL:
+    default:
+        node->text_values.font_weight = HLFONT_WEIGHT_NORMAL;
+        break;
+    case CSS_FONT_WEIGHT_500:
+        node->text_values.font_weight = HLFONT_WEIGHT_MEDIUM;
+        break;
+    case CSS_FONT_WEIGHT_600:
+        node->text_values.font_weight = HLFONT_WEIGHT_DEMIBOLD;
+        break;
+    case CSS_FONT_WEIGHT_700:
+    case CSS_FONT_WEIGHT_BOLD:
+        node->text_values.font_weight = HLFONT_WEIGHT_BOLD;
+        break;
+    case CSS_FONT_WEIGHT_800:
+        node->text_values.font_weight = HLFONT_WEIGHT_EXTRA_BOLD;
+        break;
+    case CSS_FONT_WEIGHT_900:
+        node->text_values.font_weight = HLFONT_WEIGHT_BLACK;
+        break;
+    }
+}
+

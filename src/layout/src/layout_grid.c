@@ -249,9 +249,10 @@ HLGridItem* hl_get_grid_item(HLContext* ctx, HLDomElementNode* node,
     {
         return item;
     }
+    HiLayoutNode *layout_node = hi_layout_node_from_origin_node(node, op);
     hl_computed_z_index(node, op);
-    hl_find_background(node, op);
-    hl_find_font(ctx, node, op);
+    hl_find_background(layout_node);
+    hl_find_font(ctx, layout_node);
     return hl_grid_item_create(node, op);
 }
 
