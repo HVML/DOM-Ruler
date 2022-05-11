@@ -56,7 +56,7 @@
 #include <string.h>
 #include <glib.h>
 
-int hl_solve_grid_child_width_height(HLContext* ctx, NodeLayout *layout,
+int hl_solve_grid_child_width_height(HLContext* ctx, HiLayoutNode *layout,
         int grid_w, int grid_h)
 {
     int width = 0;
@@ -218,7 +218,7 @@ int hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template,
     grid_template->mask[row][column] = 1;
     int h = grid_template->rows[row];
     int w = grid_template->columns[column];
-    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
 
     hl_solve_grid_child_width_height(ctx, layout, w, h);
 
@@ -274,7 +274,7 @@ void hl_layout_child_with_grid_rc_row_column(HLContext *ctx,
     HLGridItem* item = hl_get_grid_item(ctx, node, handler);
     int set_row = (item->rc_set & HL_GRID_ITEM_RC_ROW_START) | (item->rc_set & HL_GRID_ITEM_RC_ROW_END);
     int set_column = (item->rc_set & HL_GRID_ITEM_RC_COLUMN_START) | (item->rc_set & HL_GRID_ITEM_RC_COLUMN_END);
-    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
 
     if (!(set_row && set_column))
     {
@@ -504,7 +504,7 @@ void hl_layout_child_with_grid_rc_row(HLContext* ctx,
     node->layout.box_values.x = node->parent->layout.box_values.x + grid_x;
     node->layout.box_values.y = node->parent->layout.box_values.y + grid_y;
     item->layout_done = 1;
-    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
     hl_solve_grid_child_width_height(ctx, layout, grid_w, grid_h);
 
     // mask
@@ -644,7 +644,7 @@ void hl_layout_child_with_grid_rc_auto(HLContext* ctx,
     node->layout.box_values.x = node->parent->layout.box_values.x + grid_x;
     node->layout.box_values.y = node->parent->layout.box_values.y + grid_y;
     item->layout_done = 1;
-    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
     hl_solve_grid_child_width_height(ctx, layout, grid_w, grid_h);
 
     // mask

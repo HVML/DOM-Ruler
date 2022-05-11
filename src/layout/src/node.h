@@ -57,7 +57,7 @@
 
 #define LAYOUT(node)            (hl_layout(node, handler))
 
-typedef struct NodeLayout {
+typedef struct HiLayoutNode {
     //inner layout
     LayoutType layout_type;
 
@@ -78,13 +78,13 @@ typedef struct NodeLayout {
     css_select_results* select_styles;
     css_computed_style* computed_style;
 
-} NodeLayout;
+} HiLayoutNode;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-NodeLayout *hl_layout(void *node, hidomlayout_layout_handler *handler);
+HiLayoutNode *hl_layout(void *node, hidomlayout_layout_handler *handler);
 
 #ifdef __cplusplus
 }

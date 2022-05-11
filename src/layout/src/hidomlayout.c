@@ -61,14 +61,14 @@
 int hl_computed_z_index(void *node, hidomlayout_layout_handler *handler)
 {
     int32_t index = 0;
-    NodeLayout *layout = (NodeLayout*)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode*)handler->get_attach(node, NULL);
     int8_t val = css_computed_z_index(layout->computed_style, &index);
     switch (val) {
     case CSS_Z_INDEX_INHERIT:
         {
             void *parent = handler->get_parent(node);
             if (parent) {
-                NodeLayout *parent_layout = (NodeLayout*)handler->get_attach(
+                HiLayoutNode *parent_layout = (HiLayoutNode*)handler->get_attach(
                         parent, NULL);
                 index = parent_layout->box_values.z_index;
             }
@@ -141,7 +141,7 @@ int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
         return ret;
     }
 
-    NodeLayout* layout = hl_layout(root, handler);
+    HiLayoutNode* layout = hl_layout(root, handler);
     context.root_style = layout->computed_style;
     hl_layout_node(&context, root, 0, 0, media->width, media->height, 0,
             handler);

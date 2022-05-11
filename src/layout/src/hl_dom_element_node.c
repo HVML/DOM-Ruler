@@ -1032,7 +1032,7 @@ bool hl_dom_element_node_is_root(void *node)
 }
 
 
-NodeLayout *hl_dom_element_node_layout(void *node)
+HiLayoutNode *hl_dom_element_node_layout(void *node)
 {
     return &((HLDomElementNode*)node)->layout;
 }

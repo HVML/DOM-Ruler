@@ -279,7 +279,7 @@ int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
 {
     css_select_results* result = hl_get_node_style(media, select_ctx, node);
     if (result) {
-        NodeLayout* layout = (NodeLayout*) handler->get_attach(node, NULL);
+        HiLayoutNode* layout = (HiLayoutNode*) handler->get_attach(node, NULL);
         if (layout->select_styles) {
             css_select_results_destroy(layout->select_styles);
         }

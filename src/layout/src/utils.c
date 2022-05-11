@@ -323,7 +323,7 @@ HLGridItem *hl_grid_item_create(void *node,
     css_fixed value = 0;
     css_unit unit = CSS_UNIT_PX;
 
-    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
     HLGridItem *item = calloc(1, sizeof(HLGridItem));
 
     int8_t type = css_computed_grid_column_start(layout->computed_style,
@@ -375,7 +375,7 @@ HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
     css_unit *column_units = NULL;
 
     uint8_t ret = 0;
-    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
 
     ret = css_computed_grid_template_rows(layout->computed_style,
             &row_size, &row_values, &row_units);
@@ -485,10 +485,10 @@ int hl_find_font(HLContext *ctx, void *node,
     css_fixed length = 0;
     css_unit unit = CSS_UNIT_PX;
 
-    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
     void *parent = handler->get_parent(node);
-    NodeLayout* parent_layout = parent ?
-        (NodeLayout *)handler->get_attach(node, NULL) : NULL;
+    HiLayoutNode* parent_layout = parent ?
+        (HiLayoutNode *)handler->get_attach(node, NULL) : NULL;
 
     uint8_t val = css_computed_font_family(layout->computed_style, &families);
     if (val == CSS_FONT_FAMILY_INHERIT) {
@@ -602,7 +602,7 @@ int hl_find_font(HLContext *ctx, void *node,
 int hl_find_background(void *node, hidomlayout_layout_handler *handler)
 {
     css_color color;
-    NodeLayout *layout = (NodeLayout *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
     css_computed_background_color(layout->computed_style, &color);
     layout->background_values.color = color;
     return HILAYOUT_OK;
