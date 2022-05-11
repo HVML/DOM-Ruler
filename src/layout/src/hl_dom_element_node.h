@@ -80,11 +80,6 @@ typedef enum {
 
 typedef struct HiLayoutNode HiLayoutNode;
 
-typedef struct HLAttachData_ {
-    void* data;
-    HlDestroyCallback callback;
-} HLAttachData;
-
 typedef struct HLDomElementNode_ {
     struct HLDomElementNode_* parent;  /**< Parent node */
     struct HLDomElementNode_* first_child; /**< First child node */

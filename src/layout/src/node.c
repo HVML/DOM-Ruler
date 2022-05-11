@@ -55,6 +55,9 @@
 #include <glib.h>
 #include <glib/ghash.h>
 
+
+#define  MAX_ATTACH_DATA_SIZE  10
+
 HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op)
 {
     return (HiLayoutNode*) op->get_attach(node, NULL);
@@ -80,7 +83,104 @@ void hi_layout_node_destroy(HiLayoutNode *node)
     if (node->select_styles) {
         css_select_results_destroy(node->select_styles);
     }
+
+    if (node->inner_data)
+    {
+        g_hash_table_destroy(node->inner_data);
+    }
+
+    if (node->attach_data) {
+        for (int i = 0; i < MAX_ATTACH_DATA_SIZE; i++) {
+            HLAttachData* attach = node->attach_data + i;
+            if (attach->data && attach->callback) {
+                attach->callback(attach->data);
+            }
+        }
+        free(node->attach_data);
+    }
     free(node);
+}
+
+int hi_layout_node_set_attach_data(HiLayoutNode *node,
+        uint32_t index, void *data, HlDestroyCallback destroy_callback)
+{
+    if (node == NULL || index >= MAX_ATTACH_DATA_SIZE) {
+        return HILAYOUT_BADPARM;
+    }
+
+    if (node->attach_data == NULL) {
+        node->attach_data = (HLAttachData*)calloc(MAX_ATTACH_DATA_SIZE,
+                sizeof(HLAttachData));
+    }
+
+    HLAttachData* attach = node->attach_data + index;
+    if (attach->data != NULL && attach->callback != NULL)
+    {
+        attach->callback(attach->data);
+    }
+
+    attach->data = data;
+    attach->callback = destroy_callback;
+    return HILAYOUT_OK;
+}
+
+void *hi_layout_node_get_attach_data(const HiLayoutNode *node,
+        uint32_t index)
+{
+    if (node == NULL || index >= MAX_ATTACH_DATA_SIZE) {
+        return NULL;
+    }
+    HLAttachData* attach = node->attach_data + index;
+    return attach->data;
+}
+
+void hl_layout_node_destroy_attach_data_key(gpointer data)
+{
+    free(data);
+}
+
+void hl_layout_node_destroy_attach_data_value(gpointer data)
+{
+    HLAttachData *attach = (HLAttachData *)data;
+    if (attach->callback) {
+        attach->callback(attach->data);
+    }
+    free(attach);
+}
+
+
+int hi_layout_node_set_inner_data(HiLayoutNode *node, const char *key,
+        void *data, HlDestroyCallback destroy_callback)
+{
+    if (node == NULL || key == NULL) {
+        return HILAYOUT_OK;
+    }
+
+    if (node->inner_data == NULL) {
+        node->inner_data = g_hash_table_new_full(g_str_hash, g_str_equal,
+                hl_layout_node_destroy_attach_data_key,
+                hl_layout_node_destroy_attach_data_value);
+    }
+
+    if (data == NULL) {
+        return g_hash_table_remove(node->inner_data, key);
+    }
+
+    HLAttachData *attach = (HLAttachData*)calloc(1, sizeof(HLAttachData));
+    attach->data = data;
+    attach->callback = destroy_callback;
+    return g_hash_table_insert(node->inner_data, (gpointer)strdup(key),
+            (gpointer)attach);
+}
+
+void *hi_layout_node_get_inner_data(HiLayoutNode *node, const char *key)
+{
+    if (node == NULL || key == NULL) {
+        return NULL;
+    }
+    HLAttachData *attach = (HLAttachData*) g_hash_table_lookup(node->inner_data,
+            (gpointer)key);
+    return attach ? attach->data : NULL;
 }
 
 void cb_hi_layout_node_destroy(void *n)

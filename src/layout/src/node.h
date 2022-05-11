@@ -58,6 +58,11 @@
 
 #define LAYOUT(node)            (hl_layout(node, op))
 
+typedef struct HLAttachData_ {
+    void* data;
+    HlDestroyCallback callback;
+} HLAttachData;
+
 typedef struct HiLayoutNode {
     //inner layout
     LayoutType layout_type;
@@ -66,7 +71,7 @@ typedef struct HiLayoutNode {
     HLUsedBoxValues box_values;
     HLUsedBackgroundValues background_values;
     HLUsedTextValues text_values;
-    HLUsedSvgValues* svg_values;
+    HLUsedSvgValues *svg_values;
 
     // top, right, bottom, left
     double margin[4];
@@ -76,8 +81,12 @@ typedef struct HiLayoutNode {
     // end for layout output
 
     // for css select result
-    css_select_results* select_styles;
-    css_computed_style* computed_style;
+    css_select_results *select_styles;
+    css_computed_style *computed_style;
+
+    // inner data
+    GHashTable *inner_data;   // inner data key(string) -> value(HLAttachData)
+    HLAttachData *attach_data; // attach data
 
     // Origin Node
     void *origin;
@@ -87,6 +96,14 @@ typedef struct HiLayoutNode {
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+int hi_layout_node_set_attach_data(HiLayoutNode *node,
+        uint32_t index, void *data, HlDestroyCallback destroy_callback);
+void *hi_layout_node_get_attach_data(const HiLayoutNode *node,
+        uint32_t index);
+int hi_layout_node_set_inner_data(HiLayoutNode *node, const char *key,
+        void *data, HlDestroyCallback destroy_callback);
+void *hi_layout_node_get_inner_data(HiLayoutNode *node, const char *key);
 
 HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op);
 
