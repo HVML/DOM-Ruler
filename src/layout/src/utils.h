@@ -91,39 +91,6 @@ typedef struct HLContext_ {
     void *root;
 } HLContext;
 
-typedef enum HLGridItemRowColumnE_ {
-    HL_GRID_ITEM_RC_NONE            = 0x00,
-    HL_GRID_ITEM_RC_FULL            = 0x0F,
-    HL_GRID_ITEM_RC_ROW_START       = (1<<3),
-    HL_GRID_ITEM_RC_ROW_END         = (1<<2),
-    HL_GRID_ITEM_RC_COLUMN_START    = (1<<1),
-    HL_GRID_ITEM_RC_COLUMN_END      = (1<<0),
-} HLGridItemRowColumnE;
-
-typedef struct HLGridItem_ {
-    HLGridItemRowColumnE rc_set;
-    int row_start;
-    int row_end;
-
-    int column_start;
-    int column_end;
-    uint8_t layout_done;
-} HLGridItem;
-
-typedef struct HLGridTemplate_ {
-    int x;
-    int y;
-    int w;
-    int h;
-    int32_t *rows;
-    int32_t *columns;
-
-    int n_row;
-    int n_column;
-
-    uint8_t **mask;
-} HLGridTemplate;
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -148,19 +115,7 @@ uint8_t hl_computed_min_width(
         css_fixed *length, css_unit *unit);
 
 uint8_t hl_computed_display(const css_computed_style *style, bool root);
-HLGridItem *hl_grid_item_create(void *node,
-        hidomlayout_node_op *op);
-void hl_grid_item_destroy(HLGridItem*);
 
-HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
-        void *node, hidomlayout_node_op *op);
-void hl_grid_template_destroy(HLGridTemplate*);
-
-typedef void (*each_child_callback)(HLContext *ctx, void *node,
-        hidomlayout_node_op *op, void *user_data);
-void hl_for_each_child(HLContext *ctx, void *node,
-        hidomlayout_node_op *op,
-        each_child_callback callback, void *user_data);
 
 void hl_destroy_svg_values(HLUsedSvgValues *svg);
 

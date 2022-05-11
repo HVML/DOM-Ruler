@@ -63,6 +63,39 @@ typedef struct HLAttachData_ {
     HlDestroyCallback callback;
 } HLAttachData;
 
+typedef enum HLGridItemRowColumnE_ {
+    HL_GRID_ITEM_RC_NONE            = 0x00,
+    HL_GRID_ITEM_RC_FULL            = 0x0F,
+    HL_GRID_ITEM_RC_ROW_START       = (1<<3),
+    HL_GRID_ITEM_RC_ROW_END         = (1<<2),
+    HL_GRID_ITEM_RC_COLUMN_START    = (1<<1),
+    HL_GRID_ITEM_RC_COLUMN_END      = (1<<0),
+} HLGridItemRowColumnE;
+
+typedef struct HLGridItem_ {
+    HLGridItemRowColumnE rc_set;
+    int row_start;
+    int row_end;
+
+    int column_start;
+    int column_end;
+    uint8_t layout_done;
+} HLGridItem;
+
+typedef struct HLGridTemplate_ {
+    int x;
+    int y;
+    int w;
+    int h;
+    int32_t *rows;
+    int32_t *columns;
+
+    int n_row;
+    int n_column;
+
+    uint8_t **mask;
+} HLGridTemplate;
+
 typedef struct HiLayoutNode {
     //inner layout
     LayoutType layout_type;
@@ -120,6 +153,20 @@ bool hi_layout_node_is_root(HiLayoutNode *node);
 
 int hl_find_background(HiLayoutNode *node);
 int hl_find_font(HLContext *ctx, HiLayoutNode *node);
+
+HLGridItem *hl_grid_item_create(HiLayoutNode *node);
+void hl_grid_item_destroy(HLGridItem*);
+
+HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
+        HiLayoutNode *node);
+void hl_grid_template_destroy(HLGridTemplate*);
+
+typedef void (*each_child_callback)(HLContext *ctx, HiLayoutNode *node,
+        void *user_data);
+
+void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
+        each_child_callback callback, void *user_data);
+
 
 #ifdef __cplusplus
 }
