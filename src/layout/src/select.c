@@ -73,7 +73,7 @@ css_error resolve_url(void *pw,
     return CSS_OK;
 }
 
-css_stylesheet *hl_hilayout_css_stylesheet_create(const char *charset,
+css_stylesheet *hlhl_css_stylesheet_create(const char *charset,
         const char *url, bool allow_quirks, bool inline_style)
 {
     css_stylesheet_params params;
@@ -107,7 +107,7 @@ css_stylesheet *hl_hilayout_css_stylesheet_create(const char *charset,
 
 css_stylesheet *hl_css_stylesheet_create_ua_css()
 {
-    css_stylesheet *sheet = hl_hilayout_css_stylesheet_create(DEFAULT_CHARSET,
+    css_stylesheet *sheet = hlhl_css_stylesheet_create(DEFAULT_CHARSET,
             DEFAULT_URL, true, false);
     if (sheet == NULL) {
         return NULL;
@@ -163,7 +163,7 @@ int hl_css_stylesheet_destroy(css_stylesheet* sheet)
 css_stylesheet *hl_css_stylesheet_inline_style_create(
         const uint8_t *data, size_t len)
 {
-    css_stylesheet *sheet = hl_hilayout_css_stylesheet_create(DEFAULT_CHARSET,
+    css_stylesheet *sheet = hlhl_css_stylesheet_create(DEFAULT_CHARSET,
             DEFAULT_URL, true, true);
     if (sheet == NULL) {
         return NULL;
@@ -189,7 +189,7 @@ css_stylesheet *hl_css_stylesheet_inline_style_create(
 
 HLCSS *hilayout_css_create()
 {
-    css_stylesheet *sheet = hl_hilayout_css_stylesheet_create(DEFAULT_CHARSET,
+    css_stylesheet *sheet = hlhl_css_stylesheet_create(DEFAULT_CHARSET,
             DEFAULT_URL, true, false);
     if (sheet == NULL)
     {

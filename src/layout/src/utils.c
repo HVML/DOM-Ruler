@@ -66,9 +66,11 @@ int hl_default_css_baseline_pixel_density = 96;
  * \param[in] css_pixels  Length in css pixels.
  * \return length in physical pixels
  */
-css_fixed _hl_css_pixels_css_to_physical(const HLContext* ctx, css_fixed css_pixels)
+css_fixed hl_css_pixels_css_to_physical(const HLContext* ctx,
+        css_fixed css_pixels)
 {
-    return FDIV(FMUL(css_pixels, ctx->hl_css_media_dpi), ctx->hl_css_baseline_pixel_density);
+    return FDIV(FMUL(css_pixels, ctx->hl_css_media_dpi),
+            ctx->hl_css_baseline_pixel_density);
 }
 
 /**
@@ -77,12 +79,14 @@ css_fixed _hl_css_pixels_css_to_physical(const HLContext* ctx, css_fixed css_pix
  * \param[in] physical_pixels  Length in physical pixels.
  * \return length in css pixels
  */
-css_fixed _hl_css_pixels_physical_to_css(const HLContext* ctx, css_fixed physical_pixels)
+css_fixed hl_css_pixels_physical_to_css(const HLContext* ctx,
+        css_fixed physical_pixels)
 {
-    return FDIV(FMUL(physical_pixels, ctx->hl_css_baseline_pixel_density), ctx->hl_css_media_dpi);
+    return FDIV(FMUL(physical_pixels, ctx->hl_css_baseline_pixel_density),
+            ctx->hl_css_media_dpi);
 }
 
-int _hl_set_media_dpi(HLContext* ctx, int dpi)
+int hl_set_media_dpi(HLContext *ctx, int dpi)
 {
     if (dpi <= 0)
     {
@@ -98,7 +102,7 @@ int _hl_set_media_dpi(HLContext* ctx, int dpi)
     return HILAYOUT_OK;
 }
 
-int _hl_set_baseline_pixel_density(HLContext* ctx, int density)
+int hl_set_baseline_pixel_density(HLContext* ctx, int density)
 {
     if (density <= 0)
     {
@@ -114,7 +118,7 @@ int _hl_set_baseline_pixel_density(HLContext* ctx, int density)
     return HILAYOUT_OK;
 }
 
-css_unit _hl_css_utils_fudge_viewport_units(const HLContext *ctx, css_unit unit)
+css_unit hl_css_utils_fudge_viewport_units(const HLContext *ctx, css_unit unit)
 {
     switch (unit) {
         case CSS_UNIT_VI:
@@ -155,7 +159,7 @@ css_unit _hl_css_utils_fudge_viewport_units(const HLContext *ctx, css_unit unit)
     return unit;
 }
 
-css_fixed _hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit)
+css_fixed hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit)
 {
     /* Length must not be relative */
     assert(unit != CSS_UNIT_EM &&
@@ -166,7 +170,7 @@ css_fixed _hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit)
             unit != CSS_UNIT_REM &&
             unit != CSS_UNIT_RLH);
 
-    unit = _hl_css_utils_fudge_viewport_units(ctx, unit);
+    unit = hl_css_utils_fudge_viewport_units(ctx, unit);
 
     switch (unit) {
         /* We assume the screen and any other output has the same dpi */
@@ -194,7 +198,7 @@ css_fixed _hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit)
     return 0;
 }
 
-css_fixed _hl_css_len2px(
+css_fixed hl_css_len2px(
         const HLContext *ctx,
         css_fixed length,
         css_unit unit,
@@ -203,7 +207,7 @@ css_fixed _hl_css_len2px(
     /* We assume the screen and any other output has the same dpi */
     css_fixed px_per_unit;
 
-    unit = _hl_css_utils_fudge_viewport_units(ctx, unit);
+    unit = hl_css_utils_fudge_viewport_units(ctx, unit);
 
     switch (unit) {
         case CSS_UNIT_PX:
@@ -244,7 +248,7 @@ css_fixed _hl_css_len2px(
             break;
     }
 
-    px_per_unit = _hl_css_pixels_css_to_physical(ctx, px_per_unit);
+    px_per_unit = hl_css_pixels_css_to_physical(ctx, px_per_unit);
 
     /* Ensure we round px_per_unit to the nearest whole number of pixels:
      * the use of FIXTOINT() below will truncate. */
@@ -255,7 +259,7 @@ css_fixed _hl_css_len2px(
 }
 
 
-uint8_t _hl_computed_min_height(
+uint8_t hl_computed_min_height(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit)
 {
@@ -270,7 +274,7 @@ uint8_t _hl_computed_min_height(
     return value;
 }
 
-uint8_t _hl_computed_min_width(
+uint8_t hl_computed_min_width(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit)
 {
@@ -315,7 +319,7 @@ uint8_t hl_computed_display(const css_computed_style *style, bool root)
     }
 }
 
-HLGridItem* _hl_grid_item_create(HLDomElementNode *node)
+HLGridItem* hl_grid_item_create(HLDomElementNode *node)
 {
     if (node == NULL)
     {
@@ -355,11 +359,11 @@ HLGridItem* _hl_grid_item_create(HLDomElementNode *node)
         item->row_end = FIXTOINT(value);
     }
 
-    _hl_element_node_set_inner_data(node, HL_INNER_LAYOUT_ATTACH, item, NULL);
+    hl_element_node_set_inner_data(node, HL_INNER_LAYOUT_ATTACH, item, NULL);
     return item;
 }
 
-HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode *node)
+HLGridTemplate* hl_grid_template_create(const HLContext *ctx, HLDomElementNode *node)
 {
     if (node == NULL)
     {
@@ -410,7 +414,7 @@ HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode 
         if (row_units[i] == CSS_UNIT_PCT) {
             gt->rows[i] = HL_FPCT_OF_INT_TOINT(row_values[i], gt->h);
         } else {
-            gt->rows[i] = FIXTOINT(_hl_css_len2px(ctx, row_values[i], row_units[i], node->layout.computed_style));
+            gt->rows[i] = FIXTOINT(hl_css_len2px(ctx, row_values[i], row_units[i], node->layout.computed_style));
         }
     }
 
@@ -419,7 +423,7 @@ HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode 
         if (column_units[i] == CSS_UNIT_PCT) {
             gt->columns[i] = HL_FPCT_OF_INT_TOINT(column_values[i], gt->w);
         } else {
-            gt->columns[i] = FIXTOINT(_hl_css_len2px(ctx, column_values[i], column_units[i], node->layout.computed_style));
+            gt->columns[i] = FIXTOINT(hl_css_len2px(ctx, column_values[i], column_units[i], node->layout.computed_style));
         }
     }
 
@@ -431,7 +435,7 @@ HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode 
     return gt;
 }
 
-void _hl_grid_item_destroy(HLGridItem* p)
+void hl_grid_item_destroy(HLGridItem* p)
 {
     if (p == NULL)
     {
@@ -440,7 +444,7 @@ void _hl_grid_item_destroy(HLGridItem* p)
     free(p);
 }
 
-void _hl_grid_template_destroy(HLGridTemplate* p)
+void hl_grid_template_destroy(HLGridTemplate* p)
 {
     if (p == NULL)
     {
@@ -468,7 +472,7 @@ void _hl_grid_template_destroy(HLGridTemplate* p)
     free(p);
 }
 
-void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node,
+void hl_for_each_child(HLContext* ctx, HLDomElementNode* node,
         each_child_callback callback, void* user_data,
         hidomlayout_layout_handler *handler)
 {
@@ -485,7 +489,7 @@ void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node,
     }
 }
 
-int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
+int hl_find_font(HLContext* ctx, HLDomElementNode* node)
 {
     lwc_string **families;
     css_fixed length = 0;
@@ -556,7 +560,7 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
     }
 
     css_computed_font_size(node->layout.computed_style, &length, &unit);
-    int text_height = _hl_css_len2px(ctx, length, unit, node->layout.computed_style);
+    int text_height = hl_css_len2px(ctx, length, unit, node->layout.computed_style);
     node->layout.text_values.font_size = FIXTOINT(text_height * 3 / 4);
 
     css_color color;
@@ -605,7 +609,7 @@ int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node)
     }
 }
 
-int _hilayout_find_background(HLDomElementNode* node)
+int hl_find_background(HLDomElementNode* node)
 {
     css_color color;
     css_computed_background_color(node->layout.computed_style, &color);

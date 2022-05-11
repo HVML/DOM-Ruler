@@ -881,7 +881,7 @@ css_error set_libcss_node_data(void *pw, void *node,
     HLDomElementNode *n = node;
     pkg->node = n;
     pkg->libcss_node_data = libcss_node_data;
-    _hl_element_node_set_inner_data(n, HL_INNER_CSS_SELECT_ATTACH, pkg, destroy_hl_css_data_package);
+    hl_element_node_set_inner_data(n, HL_INNER_CSS_SELECT_ATTACH, pkg, destroy_hl_css_data_package);
     return CSS_OK;
 }
 
@@ -889,7 +889,7 @@ css_error get_libcss_node_data(void *pw, void *node,
         void **libcss_node_data)
 {
     HLDomElementNode* n = node;
-    HlCSSDataPackage* pkg = _hl_element_node_get_inner_data(n, HL_INNER_CSS_SELECT_ATTACH);
+    HlCSSDataPackage* pkg = hl_element_node_get_inner_data(n, HL_INNER_CSS_SELECT_ATTACH);
     *libcss_node_data = pkg ? pkg->libcss_node_data : NULL;
     return CSS_OK;
 }

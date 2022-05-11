@@ -56,7 +56,7 @@
 #include <string.h>
 #include <glib.h>
 
-int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, int grid_w, int grid_h)
+int hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, int grid_w, int grid_h)
 {
     int width = 0;
     int max_width = 0;
@@ -76,7 +76,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
         if (unit == CSS_UNIT_PCT) {
             width = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            width = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
+            width = FIXTOINT(hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     }
     else
@@ -91,7 +91,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
         if (unit == CSS_UNIT_PCT) {
             max_width = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            max_width = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
+            max_width = FIXTOINT(hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     } else {
         /* Inadmissible */
@@ -101,12 +101,12 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
 
     value = 0;
     unit = CSS_UNIT_PX;
-    type = _hl_computed_min_width(node->layout.computed_style, &value, &unit);
+    type = hl_computed_min_width(node->layout.computed_style, &value, &unit);
     if (type == CSS_MIN_WIDTH_SET) {
         if (unit == CSS_UNIT_PCT) {
             min_width = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            min_width = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
+            min_width = FIXTOINT(hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     } else {
         /* Inadmissible */
@@ -120,7 +120,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
         if (unit == CSS_UNIT_PCT) {
             height = HL_FPCT_OF_INT_TOINT(value, grid_h);
         } else {
-            height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
+            height = FIXTOINT(hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     }
     else
@@ -135,7 +135,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
         if (unit == CSS_UNIT_PCT) {
             max_height = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            max_height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
+            max_height = FIXTOINT(hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     } else {
         /* Inadmissible */
@@ -145,12 +145,12 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
 
     value = 0;
     unit = CSS_UNIT_PX;
-    type = _hl_computed_min_height(node->layout.computed_style, &value, &unit);
+    type = hl_computed_min_height(node->layout.computed_style, &value, &unit);
     if (type == CSS_MIN_HEIGHT_SET) {
         if (unit == CSS_UNIT_PCT) {
             min_height = HL_FPCT_OF_INT_TOINT(value, grid_w);
         } else {
-            min_height = FIXTOINT(_hl_css_len2px(ctx, value, unit, node->layout.computed_style));
+            min_height = FIXTOINT(hl_css_len2px(ctx, value, unit, node->layout.computed_style));
         }
     } else {
         /* Inadmissible */
@@ -180,7 +180,7 @@ int _hl_solve_grid_child_width_height(HLContext* ctx, HLDomElementNode *node, in
     return HILAYOUT_OK;
 }
 
-int _hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template, HLDomElementNode *node, HLGridItem* row_column)
+int hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template, HLDomElementNode *node, HLGridItem* row_column)
 {
     // no set
     bool found = false;
@@ -211,7 +211,7 @@ int _hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template, 
     int h = grid_template->rows[row];
     int w = grid_template->columns[column];
 
-    _hl_solve_grid_child_width_height(ctx, node, w, h);
+    hl_solve_grid_child_width_height(ctx, node, w, h);
 
     // grid-row-start, grid-row-end, grid-column-start, grid-column-end
 
@@ -221,45 +221,45 @@ int _hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template, 
     return 0;
 }
 
-int _hl_layout_grid_child(HLContext* ctx, HLGridTemplate* grid_template, HLDomElementNode *node, int level)
+int hl_layout_grid_child(HLContext* ctx, HLGridTemplate* grid_template, HLDomElementNode *node, int level)
 {
     HL_LOGW("layout grid item|level=%d|tag=%s|id=%s\n", level, node->tag, hilayout_element_node_get_id(node));
 
-    HLGridItem* node_row_column = _hl_grid_item_create(node);
-    _hl_find_grid_child_position(ctx, grid_template, node, node_row_column);
-    _hl_grid_item_destroy(node_row_column);
+    HLGridItem* node_row_column = hl_grid_item_create(node);
+    hl_find_grid_child_position(ctx, grid_template, node, node_row_column);
+    hl_grid_item_destroy(node_row_column);
 }
 
-HLGridItem* _hl_get_grid_item(HLContext* ctx, HLDomElementNode* node,
+HLGridItem* hl_get_grid_item(HLContext* ctx, HLDomElementNode* node,
         hidomlayout_layout_handler *handler)
 {
-    HLGridItem* item = (HLGridItem*)_hl_element_node_get_inner_data(node, HL_INNER_LAYOUT_ATTACH);
+    HLGridItem* item = (HLGridItem*)hl_element_node_get_inner_data(node, HL_INNER_LAYOUT_ATTACH);
     if (item)
     {
         return item;
     }
     hl_computed_z_index(node, handler);
-    _hilayout_find_background(node);
-    _hilayout_find_font(ctx, node);
-    return _hl_grid_item_create(node);
+    hl_find_background(node);
+    hl_find_font(ctx, node);
+    return hl_grid_item_create(node);
 }
 
-HLGridItem* _hl_destroy_grid_item(HLDomElementNode* node)
+HLGridItem* hl_destroy_grid_item(HLDomElementNode* node)
 {
-    HLGridItem* item = (HLGridItem*)_hl_element_node_get_inner_data(node, HL_INNER_LAYOUT_ATTACH);
+    HLGridItem* item = (HLGridItem*)hl_element_node_get_inner_data(node, HL_INNER_LAYOUT_ATTACH);
     if (item)
     {
         free(item);
     }
-    _hl_element_node_set_inner_data(node, HL_INNER_LAYOUT_ATTACH, NULL, NULL);
+    hl_element_node_set_inner_data(node, HL_INNER_LAYOUT_ATTACH, NULL, NULL);
 }
 
-void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx,
+void hl_layout_child_with_grid_rc_row_column(HLContext* ctx,
         HLDomElementNode* node, void* user_data,
         hidomlayout_layout_handler *handler)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
-    HLGridItem* item = _hl_get_grid_item(ctx, node, handler);
+    HLGridItem* item = hl_get_grid_item(ctx, node, handler);
     int set_row = (item->rc_set & HL_GRID_ITEM_RC_ROW_START) | (item->rc_set & HL_GRID_ITEM_RC_ROW_END);
     int set_column = (item->rc_set & HL_GRID_ITEM_RC_COLUMN_START) | (item->rc_set & HL_GRID_ITEM_RC_COLUMN_END);
 
@@ -363,7 +363,7 @@ void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx,
     node->layout.box_values.x = node->parent->layout.box_values.x + grid_x;
     node->layout.box_values.y = node->parent->layout.box_values.y + grid_y;
     item->layout_done = 1;
-    _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
+    hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
 
     // mask
@@ -385,12 +385,12 @@ void _hl_layout_child_with_grid_rc_row_column(HLContext* ctx,
 
 }
 
-void _hl_layout_child_with_grid_rc_row(HLContext* ctx,
+void hl_layout_child_with_grid_rc_row(HLContext* ctx,
         HLDomElementNode* node, void* user_data,
         hidomlayout_layout_handler *handler)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
-    HLGridItem* item = _hl_get_grid_item(ctx, node, handler);
+    HLGridItem* item = hl_get_grid_item(ctx, node, handler);
     int set_row = (item->rc_set & HL_GRID_ITEM_RC_ROW_START) | (item->rc_set & HL_GRID_ITEM_RC_ROW_END);
 
     if (item->layout_done || !set_row)
@@ -490,7 +490,7 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx,
     node->layout.box_values.x = node->parent->layout.box_values.x + grid_x;
     node->layout.box_values.y = node->parent->layout.box_values.y + grid_y;
     item->layout_done = 1;
-    _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
+    hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
     // mask
     for (int i = r_start; i < r_end && i < n_row; i++)
@@ -510,11 +510,11 @@ void _hl_layout_child_with_grid_rc_row(HLContext* ctx,
             item->layout_done);
 }
 
-void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node,
+void hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node,
         void* user_data, hidomlayout_layout_handler *handler)
 {
     HLGridTemplate* grid_template = (HLGridTemplate*)user_data;
-    HLGridItem* item = _hl_get_grid_item(ctx, node, handler);
+    HLGridItem* item = hl_get_grid_item(ctx, node, handler);
 
     if (item->layout_done)
     {
@@ -627,7 +627,7 @@ void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node,
     node->layout.box_values.x = node->parent->layout.box_values.x + grid_x;
     node->layout.box_values.y = node->parent->layout.box_values.y + grid_y;
     item->layout_done = 1;
-    _hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
+    hl_solve_grid_child_width_height(ctx, node, grid_w, grid_h);
 
     // mask
     for (int i = r_start; i < r_end && i < n_row; i++)
@@ -645,28 +645,28 @@ void _hl_layout_child_with_grid_rc_auto(HLContext* ctx, HLDomElementNode* node,
             item->layout_done);
 }
 
-void _hl_free_grid_item(HLContext* ctx, HLDomElementNode* node, void* user_data, hidomlayout_layout_handler *handler)
+void hl_free_grid_item(HLContext* ctx, HLDomElementNode* node, void* user_data, hidomlayout_layout_handler *handler)
 {
-    _hl_destroy_grid_item(node);
+    hl_destroy_grid_item(node);
 }
 
-int _hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level, hidomlayout_layout_handler *handler)
+int hl_layout_child_node_grid(HLContext* ctx, HLDomElementNode *node, int level, hidomlayout_layout_handler *handler)
 {
-    HLGridTemplate* grid_template = _hl_grid_template_create(ctx, node);
+    HLGridTemplate* grid_template = hl_grid_template_create(ctx, node);
 
     int cl = level + 1;
     // layout with grid-row-start/end, grid-column-start/end
-    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_row_column, grid_template, handler);
+    hl_for_each_child(ctx, node, hl_layout_child_with_grid_rc_row_column, grid_template, handler);
     // layout with grid-row-start/end
-    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_row, grid_template, handler);
+    hl_for_each_child(ctx, node, hl_layout_child_with_grid_rc_row, grid_template, handler);
     // layout auto
-    _hl_for_each_child(ctx, node, _hl_layout_child_with_grid_rc_auto, grid_template, handler);
+    hl_for_each_child(ctx, node, hl_layout_child_with_grid_rc_auto, grid_template, handler);
     // free grid tree
-    _hl_for_each_child(ctx, node, _hl_free_grid_item, grid_template, handler);
-    // while for layout child call _hilayout_layout_node
+    hl_for_each_child(ctx, node, hl_free_grid_item, grid_template, handler);
+    // while for layout child call hl_layout_node
     //
     // clear
-    _hl_grid_template_destroy(grid_template);
+    hl_grid_template_destroy(grid_template);
 
     return HILAYOUT_OK;
 }

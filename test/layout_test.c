@@ -70,8 +70,8 @@
  
 #define FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
 
-int _hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
-const char* _hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
+int hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
+const char* hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
 
 char* readCSS(char* filename)
 {
@@ -213,8 +213,8 @@ int main(int argc, char **argv)
 
     fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_BACKGROUND_COLOR, hilayout_element_node_get_common_attr(hijs, HL_PROP_ID_BACKGROUND_COLOR));
 
-    _hl_element_node_set_inner_attr(hijs, "innerKey", "innerValue2222");
-    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, _hl_element_node_get_inner_attr(hijs, "innerKey2"));
+    hl_element_node_set_inner_attr(hijs, "innerKey", "innerValue2222");
+    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, hl_element_node_get_inner_attr(hijs, "innerKey2"));
 
     char* buf = (char*)malloc(100);
     strcpy(buf, "this is test buf for userdata.\n");
@@ -224,8 +224,8 @@ int main(int argc, char **argv)
 
     buf = (char*)malloc(100);
     strcpy(buf, "this is test buf for inner data.\n");
-    _hl_element_node_set_inner_data(hijs, "innerData", buf, destory_user_data);
-    udata = _hl_element_node_get_inner_data(hijs, "innerData");
+    hl_element_node_set_inner_data(hijs, "innerData", buf, destory_user_data);
+    udata = hl_element_node_get_inner_data(hijs, "innerData");
     fprintf(stderr, "############### test get inner data key=innerData | value =%s\n",  (char*)udata);
 
     char* class_name = "   aa bb cc dd ee ff   ";

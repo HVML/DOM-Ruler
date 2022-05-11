@@ -79,8 +79,8 @@
 #endif
 
 typedef struct HLContext_ {
-    HLMedia* media;
-    HLCSS* css;
+    HLMedia *media;
+    HLCSS *css;
     css_fixed hl_css_media_dpi;
     css_fixed hl_css_baseline_pixel_density;
 
@@ -88,7 +88,7 @@ typedef struct HLContext_ {
     int vh;
     const css_computed_style *root_style;
 
-    HLDomElementNode* root;
+    HLDomElementNode *root;
 } HLContext;
 
 typedef enum HLGridItemRowColumnE_ {
@@ -115,54 +115,56 @@ typedef struct HLGridTemplate_ {
     int y;
     int w;
     int h;
-    int32_t* rows;
-    int32_t* columns;
+    int32_t *rows;
+    int32_t *columns;
 
     int n_row;
     int n_column;
 
-    uint8_t** mask;
+    uint8_t **mask;
 } HLGridTemplate;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-css_fixed _hl_css_pixels_css_to_physical(const HLContext* ctx, css_fixed css_pixels);
-css_fixed _hl_css_pixels_physical_to_css(const HLContext* ctx, css_fixed physical_pixels);
-int _hl_set_media_dpi(HLContext* ctx, int dpi);
-int _hl_set_baseline_pixel_density(HLContext* ctx, int density);
+css_fixed hl_css_pixels_css_to_physical(const HLContext *ctx,
+        css_fixed css_pixels);
+css_fixed hl_css_pixels_physical_to_css(const HLContext *ctx,
+        css_fixed physical_pixels);
+int hl_set_media_dpi(HLContext *ctx, int dpi);
+int hl_set_baseline_pixel_density(HLContext *ctx, int density);
 
 
-css_unit _hl_css_utils_fudge_viewport_units(const HLContext *ctx, css_unit unit);
-css_fixed _hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit);
-css_fixed _hl_css_len2px(const HLContext *ctx,
+css_unit hl_css_utils_fudge_viewport_units(const HLContext *ctx, css_unit unit);
+css_fixed hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit);
+css_fixed hl_css_len2px(const HLContext *ctx,
         css_fixed length,
         css_unit unit,
         const css_computed_style *style);
 
-uint8_t _hl_computed_min_height(
+uint8_t hl_computed_min_height(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit);
-uint8_t _hl_computed_min_width(
+uint8_t hl_computed_min_width(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit);
 
 uint8_t hl_computed_display(const css_computed_style *style, bool root);
-HLGridItem* _hl_grid_item_create(HLDomElementNode *node);
-void _hl_grid_item_destroy(HLGridItem*);
+HLGridItem *hl_grid_item_create(HLDomElementNode *node);
+void hl_grid_item_destroy(HLGridItem*);
 
-HLGridTemplate* _hl_grid_template_create(const HLContext *ctx, HLDomElementNode *node);
-void _hl_grid_template_destroy(HLGridTemplate*);
+HLGridTemplate *hl_grid_template_create(const HLContext *ctx, HLDomElementNode *node);
+void hl_grid_template_destroy(HLGridTemplate*);
 
-typedef void (*each_child_callback)(HLContext* ctx, HLDomElementNode* node, void* user_data,
+typedef void (*each_child_callback)(HLContext *ctx, HLDomElementNode *node, void *user_data,
         hidomlayout_layout_handler *handler);
-void _hl_for_each_child(HLContext* ctx, HLDomElementNode* node,
-        each_child_callback callback, void* user_data,
+void hl_for_each_child(HLContext *ctx, HLDomElementNode *node,
+        each_child_callback callback, void *user_data,
         hidomlayout_layout_handler *handler);
 
-int _hilayout_find_font(HLContext* ctx, HLDomElementNode* node);
-int _hilayout_find_background(HLDomElementNode* node);
+int hl_find_font(HLContext *ctx, HLDomElementNode *node);
+int hl_find_background(HLDomElementNode *node);
 
 #ifdef __cplusplus
 }
