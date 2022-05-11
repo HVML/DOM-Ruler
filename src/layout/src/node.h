@@ -138,19 +138,6 @@ int hi_layout_node_set_inner_data(HiLayoutNode *node, const char *key,
         void *data, HlDestroyCallback destroy_callback);
 void *hi_layout_node_get_inner_data(HiLayoutNode *node, const char *key);
 
-HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op);
-
-HiLayoutNode *hi_layout_node_from_origin_node(void *node,
-        hidomlayout_node_op *op);
-void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
-        hidomlayout_node_op **op);
-
-HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node);
-void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent);
-HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node);
-HiLayoutNode *hi_layout_node_next(HiLayoutNode *node);
-bool hi_layout_node_is_root(HiLayoutNode *node);
-
 int hl_find_background(HiLayoutNode *node);
 int hl_find_font(HLContext *ctx, HiLayoutNode *node);
 
@@ -166,6 +153,22 @@ typedef void (*each_child_callback)(HLContext *ctx, HiLayoutNode *node,
 
 void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
         each_child_callback callback, void *user_data);
+
+
+// BEGIN: HiLayoutNode  < ----- > Origin Node
+HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op);
+
+HiLayoutNode *hi_layout_node_from_origin_node(void *node,
+        hidomlayout_node_op *op);
+void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
+        hidomlayout_node_op **op);
+
+HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node);
+void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent);
+HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node);
+HiLayoutNode *hi_layout_node_next(HiLayoutNode *node);
+bool hi_layout_node_is_root(HiLayoutNode *node);
+// END: HiLayoutNode  < ----- > Origin Node
 
 
 #ifdef __cplusplus

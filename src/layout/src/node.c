@@ -60,11 +60,6 @@
 #define HL_INNER_LAYOUT_ATTACH      "hl_inner_layout_attach"
 #define MAX_ATTACH_DATA_SIZE        10
 
-HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op)
-{
-    return (HiLayoutNode*) op->get_attach(node, NULL);
-}
-
 HiLayoutNode *hi_layout_node_create(void)
 {
     return (HiLayoutNode*) calloc(1, sizeof(HiLayoutNode));
@@ -188,67 +183,6 @@ void *hi_layout_node_get_inner_data(HiLayoutNode *node, const char *key)
 void cb_hi_layout_node_destroy(void *n)
 {
     hi_layout_node_destroy((HiLayoutNode *)n);
-}
-
-HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
-        hidomlayout_node_op *op)
-{
-    if (!origin) {
-        return NULL;
-    }
-
-    HiLayoutNode *layout =  op->get_attach(origin, NULL);
-    if (layout) {
-        return layout;
-    }
-    layout = hi_layout_node_create();
-    if (!layout) {
-        return NULL;
-    }
-    layout->origin = origin;
-    layout->origin_op = op;
-    op->set_attach(origin, layout, cb_hi_layout_node_destroy);
-    return layout;
-}
-
-void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
-        hidomlayout_node_op **op)
-{
-    if (!layout->origin) {
-        return NULL;
-    }
-    if (op) {
-        *op = layout->origin_op;
-    }
-    return layout->origin;
-}
-
-HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node)
-{
-    void *origin = node->origin_op->get_parent(node->origin);
-    return hi_layout_node_from_origin_node(origin, NULL);
-}
-
-void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent)
-{
-    node->origin_op->set_parent(node->origin, parent->origin);
-}
-
-HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node)
-{
-    void *origin = node->origin_op->first_child(node->origin);
-    return hi_layout_node_from_origin_node(origin, NULL);
-}
-
-HiLayoutNode *hi_layout_node_next(HiLayoutNode *node)
-{
-    void *origin = node->origin_op->next(node->origin);
-    return hi_layout_node_from_origin_node(origin, NULL);
-}
-
-bool hi_layout_node_is_root(HiLayoutNode *node)
-{
-    return node->origin_op->is_root(node->origin);
 }
 
 int hl_find_background(HiLayoutNode *node)
@@ -534,4 +468,71 @@ void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
     }
 }
 
+// BEGIN: HiLayoutNode  < ----- > Origin Node
+HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op)
+{
+    return (HiLayoutNode*) op->get_attach(node, NULL);
+}
 
+HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
+        hidomlayout_node_op *op)
+{
+    if (!origin) {
+        return NULL;
+    }
+
+    HiLayoutNode *layout =  op->get_attach(origin, NULL);
+    if (layout) {
+        return layout;
+    }
+    layout = hi_layout_node_create();
+    if (!layout) {
+        return NULL;
+    }
+    layout->origin = origin;
+    layout->origin_op = op;
+    op->set_attach(origin, layout, cb_hi_layout_node_destroy);
+    return layout;
+}
+
+void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
+        hidomlayout_node_op **op)
+{
+    if (!layout->origin) {
+        return NULL;
+    }
+    if (op) {
+        *op = layout->origin_op;
+    }
+    return layout->origin;
+}
+
+HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node)
+{
+    void *origin = node->origin_op->get_parent(node->origin);
+    return hi_layout_node_from_origin_node(origin, NULL);
+}
+
+void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent)
+{
+    node->origin_op->set_parent(node->origin, parent->origin);
+}
+
+HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node)
+{
+    void *origin = node->origin_op->first_child(node->origin);
+    return hi_layout_node_from_origin_node(origin, NULL);
+}
+
+HiLayoutNode *hi_layout_node_next(HiLayoutNode *node)
+{
+    void *origin = node->origin_op->next(node->origin);
+    return hi_layout_node_from_origin_node(origin, NULL);
+}
+
+bool hi_layout_node_is_root(HiLayoutNode *node)
+{
+    return node->origin_op->is_root(node->origin);
+}
+
+// END: HiLayoutNode  < ----- > Origin Node
