@@ -58,17 +58,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int hl_computed_z_index(void *node, hidomlayout_layout_handler *handler)
+int hl_computed_z_index(void *node, hidomlayout_node_op *op)
 {
     int32_t index = 0;
-    HiLayoutNode *layout = (HiLayoutNode*)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode*)op->get_attach(node, NULL);
     int8_t val = css_computed_z_index(layout->computed_style, &index);
     switch (val) {
     case CSS_Z_INDEX_INHERIT:
         {
-            void *parent = handler->get_parent(node);
+            void *parent = op->get_parent(node);
             if (parent) {
-                HiLayoutNode *parent_layout = (HiLayoutNode*)handler->get_attach(
+                HiLayoutNode *parent_layout = (HiLayoutNode*)op->get_attach(
                         parent, NULL);
                 index = parent_layout->box_values.z_index;
             }
@@ -94,21 +94,21 @@ int hl_computed_z_index(void *node, hidomlayout_layout_handler *handler)
 
 
 static inline
-bool hl_verify_handler(hidomlayout_layout_handler *handler)
+bool hl_verify_handler(hidomlayout_node_op *op)
 {
-    if (!handler || !handler->set_attach || !handler->get_attach
-            || !handler->set_parent || !handler->get_parent
-            || !handler->first_child || !handler->next
-            || !handler->is_root) {
+    if (!op || !op->set_attach || !op->get_attach
+            || !op->set_parent || !op->get_parent
+            || !op->first_child || !op->next
+            || !op->is_root) {
         return false;
     }
     return true;
 }
 
 int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
-        hidomlayout_layout_handler *handler)
+        hidomlayout_node_op *op)
 {
-    if (!media || !css || !root || !hl_verify_handler(handler)) {
+    if (!media || !css || !root || !hl_verify_handler(op)) {
         HL_LOGE("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n",
                 __func__, media, root, css, css->sheet);
         return HILAYOUT_BADPARM;
@@ -134,17 +134,17 @@ int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
     css_select_ctx* select_ctx = hl_css_select_ctx_create(css);
 
 #if 0
-    ret = hl_select_child_style(&m, select_ctx, root, handler);
+    ret = hl_select_child_style(&m, select_ctx, root, op);
     if (ret != HILAYOUT_OK) {
         HL_LOGD("%s|select child style failed.|code=%d\n", __func__, ret);
         hl_css_select_ctx_destroy(select_ctx);
         return ret;
     }
 
-    HiLayoutNode* layout = hl_layout(root, handler);
+    HiLayoutNode* layout = hl_layout(root, op);
     context.root_style = layout->computed_style;
     hl_layout_node(&context, root, 0, 0, media->width, media->height, 0,
-            handler);
+            op);
 #endif
     hl_css_select_ctx_destroy(select_ctx);
 

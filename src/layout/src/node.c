@@ -55,9 +55,9 @@
 #include <glib.h>
 #include <glib/ghash.h>
 
-HiLayoutNode *hl_layout(void *node, hidomlayout_layout_handler *handler)
+HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op)
 {
-    return (HiLayoutNode*) handler->get_attach(node, NULL);
+    return (HiLayoutNode*) op->get_attach(node, NULL);
 }
 
 HiLayoutNode *hi_layout_node_create(void)
@@ -89,7 +89,7 @@ void cb_hi_layout_node_destroy(void *n)
 }
 
 HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
-        hidomlayout_layout_handler *op)
+        hidomlayout_node_op *op)
 {
     if (!origin) {
         return NULL;
@@ -110,7 +110,7 @@ HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
 }
 
 void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
-        hidomlayout_layout_handler **op)
+        hidomlayout_node_op **op)
 {
     if (!layout->origin) {
         return NULL;

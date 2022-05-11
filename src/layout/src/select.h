@@ -87,14 +87,14 @@ css_select_results *hl_get_node_style(const css_media *media,
 
 css_select_results* hl_css_select_style(const HLCSS* css, void *node,
         const css_media *media, const css_stylesheet *inline_style,
-        css_select_handler *handler);
+        css_select_handler *op);
 
 int hl_css_select_result_destroy(css_select_results *result);
 
 
 // select node style
 int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
-        void *node, hidomlayout_layout_handler *handler);
+        void *node, hidomlayout_node_op *op);
 
 
 #ifdef __cplusplus

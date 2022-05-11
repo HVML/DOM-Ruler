@@ -314,7 +314,7 @@ uint8_t hl_computed_display(const css_computed_style *style, bool root)
 }
 
 HLGridItem *hl_grid_item_create(void *node,
-        hidomlayout_layout_handler *handler)
+        hidomlayout_node_op *op)
 {
     if (node == NULL) {
         return NULL;
@@ -323,7 +323,7 @@ HLGridItem *hl_grid_item_create(void *node,
     css_fixed value = 0;
     css_unit unit = CSS_UNIT_PX;
 
-    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)op->get_attach(node, NULL);
     HLGridItem *item = calloc(1, sizeof(HLGridItem));
 
     int8_t type = css_computed_grid_column_start(layout->computed_style,
@@ -360,7 +360,7 @@ HLGridItem *hl_grid_item_create(void *node,
 }
 
 HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
-        void *node, hidomlayout_layout_handler *handler)
+        void *node, hidomlayout_node_op *op)
 {
     if (node == NULL) {
         return NULL;
@@ -375,7 +375,7 @@ HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
     css_unit *column_units = NULL;
 
     uint8_t ret = 0;
-    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)op->get_attach(node, NULL);
 
     ret = css_computed_grid_template_rows(layout->computed_style,
             &row_size, &row_values, &row_units);
@@ -464,31 +464,31 @@ void hl_grid_template_destroy(HLGridTemplate *p)
 }
 
 void hl_for_each_child(HLContext *ctx, void *node,
-        hidomlayout_layout_handler *handler,
+        hidomlayout_node_op *op,
         each_child_callback callback, void *user_data)
 {
     if (ctx == NULL || node == NULL || callback == NULL) {
         return;
     }
 
-    void *child = handler->first_child(node);
+    void *child = op->first_child(node);
     while(child) {
-        callback(ctx, child, handler, user_data);
-        child = handler->next(child);
+        callback(ctx, child, op, user_data);
+        child = op->next(child);
     }
 }
 
 int hl_find_font(HLContext *ctx, void *node,
-        hidomlayout_layout_handler *handler)
+        hidomlayout_node_op *op)
 {
     lwc_string **families;
     css_fixed length = 0;
     css_unit unit = CSS_UNIT_PX;
 
-    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
-    void *parent = handler->get_parent(node);
+    HiLayoutNode *layout = (HiLayoutNode *)op->get_attach(node, NULL);
+    void *parent = op->get_parent(node);
     HiLayoutNode* parent_layout = parent ?
-        (HiLayoutNode *)handler->get_attach(node, NULL) : NULL;
+        (HiLayoutNode *)op->get_attach(node, NULL) : NULL;
 
     uint8_t val = css_computed_font_family(layout->computed_style, &families);
     if (val == CSS_FONT_FAMILY_INHERIT) {
@@ -599,10 +599,10 @@ int hl_find_font(HLContext *ctx, void *node,
     }
 }
 
-int hl_find_background(void *node, hidomlayout_layout_handler *handler)
+int hl_find_background(void *node, hidomlayout_node_op *op)
 {
     css_color color;
-    HiLayoutNode *layout = (HiLayoutNode *)handler->get_attach(node, NULL);
+    HiLayoutNode *layout = (HiLayoutNode *)op->get_attach(node, NULL);
     css_computed_background_color(layout->computed_style, &color);
     layout->background_values.color = color;
     return HILAYOUT_OK;

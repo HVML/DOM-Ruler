@@ -149,22 +149,22 @@ uint8_t hl_computed_min_width(
 
 uint8_t hl_computed_display(const css_computed_style *style, bool root);
 HLGridItem *hl_grid_item_create(void *node,
-        hidomlayout_layout_handler *handler);
+        hidomlayout_node_op *op);
 void hl_grid_item_destroy(HLGridItem*);
 
 HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
-        void *node, hidomlayout_layout_handler *handler);
+        void *node, hidomlayout_node_op *op);
 void hl_grid_template_destroy(HLGridTemplate*);
 
 typedef void (*each_child_callback)(HLContext *ctx, void *node,
-        hidomlayout_layout_handler *handler, void *user_data);
+        hidomlayout_node_op *op, void *user_data);
 void hl_for_each_child(HLContext *ctx, void *node,
-        hidomlayout_layout_handler *handler,
+        hidomlayout_node_op *op,
         each_child_callback callback, void *user_data);
 
 int hl_find_font(HLContext *ctx, void *node,
-        hidomlayout_layout_handler *handler);
-int hl_find_background(void *node, hidomlayout_layout_handler *handler);
+        hidomlayout_node_op *op);
+int hl_find_background(void *node, hidomlayout_node_op *op);
 
 void hl_destroy_svg_values(HLUsedSvgValues *svg);
 

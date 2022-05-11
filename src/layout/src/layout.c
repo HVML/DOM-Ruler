@@ -100,22 +100,22 @@ static const css_border_color_func border_color_funcs[4] = {
 };
 
 
-int hl_select_child_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node, hidomlayout_layout_handler *handler)
+int hl_select_child_style(const css_media* media, css_select_ctx* select_ctx, HLDomElementNode* node, hidomlayout_node_op *op)
 {
-    int ret = hl_select_node_style(media, select_ctx, node, handler);
+    int ret = hl_select_node_style(media, select_ctx, node, op);
     if (ret != HILAYOUT_OK)
     {
         return ret;
     }
-    HLDomElementNode* child = handler->first_child(node);
+    HLDomElementNode* child = op->first_child(node);
     while(child)
     {
-        ret = hl_select_child_style(media, select_ctx, child, handler);
+        ret = hl_select_child_style(media, select_ctx, child, op);
         if (ret != HILAYOUT_OK)
         {
             return ret;
         }
-        child = handler->next(child);
+        child = op->next(child);
     }
     return HILAYOUT_OK;
 }
@@ -180,7 +180,7 @@ void hl_handle_box_sizing(
         int available_width,
         bool setwidth,
         int *dimension,
-        hidomlayout_layout_handler *handler)
+        hidomlayout_node_op *op)
 {
     enum css_box_sizing_e bs;
 
@@ -216,11 +216,11 @@ void hl_find_dimensions(const HLContext *len_ctx,
                int *min_width,
                int *max_height,
                int *min_height,
-               hidomlayout_layout_handler *handler
+               hidomlayout_node_op *op
                )
 {
     HLDomElementNode* containing_block = NULL;
-    HLDomElementNode *parent = handler->get_parent(box);
+    HLDomElementNode *parent = op->get_parent(box);
     unsigned int i;
 
     if (width) {
@@ -244,7 +244,7 @@ void hl_find_dimensions(const HLContext *len_ctx,
 
         if (*width != HL_AUTO) {
             hl_handle_box_sizing(len_ctx, box, available_width,
-                    true, width, handler);
+                    true, width, op);
         }
     }
 
@@ -266,7 +266,7 @@ void hl_find_dimensions(const HLContext *len_ctx,
                 } else if (parent && LAYOUT(parent)->layout_type ==
                         LAYOUT_INLINE_CONTAINER) {
                     /* Box is an inline block */
-                    containing_block = handler->get_parent(parent);
+                    containing_block = op->get_parent(parent);
                     assert(containing_block);
                 }
 
@@ -290,7 +290,7 @@ void hl_find_dimensions(const HLContext *len_ctx,
                      * (CSS 2.1 Section 10.5) */
                     *height = HL_FPCT_OF_INT_TOINT(value,
                         LAYOUT(containing_block)->box_values.h);
-                } else if ((!parent || !handler->get_parent(parent)) &&
+                } else if ((!parent || !op->get_parent(parent)) &&
                         viewport_height >= 0) {
                     /* If root element or it's child
                      * (HTML or BODY) */
@@ -311,7 +311,7 @@ void hl_find_dimensions(const HLContext *len_ctx,
 
         if (*height != HL_AUTO) {
             hl_handle_box_sizing(len_ctx, box, available_width,
-                    false, height, handler);
+                    false, height, op);
         }
     }
 
@@ -337,7 +337,7 @@ void hl_find_dimensions(const HLContext *len_ctx,
 
         if (*max_width != -1) {
             hl_handle_box_sizing(len_ctx, box, available_width,
-                    true, max_width, handler);
+                    true, max_width, op);
         }
     }
 
@@ -363,7 +363,7 @@ void hl_find_dimensions(const HLContext *len_ctx,
 
         if (*min_width != 0) {
             hl_handle_box_sizing(len_ctx, box, available_width,
-                    true, min_width, handler);
+                    true, min_width, op);
         }
     }
 
@@ -417,7 +417,7 @@ int hl_solve_width(HLDomElementNode* box,
            int rm,
            int max_width,
            int min_width,
-           hidomlayout_layout_handler *handler)
+           hidomlayout_node_op *op)
 {
     bool auto_width = false;
 
@@ -477,7 +477,7 @@ int hl_solve_width(HLDomElementNode* box,
      * Need to compute left/right margins */
 
     /* HTML alignment (only applies to over-constrained boxes) */
-    HLDomElementNode *parent = handler->get_parent(box);
+    HLDomElementNode *parent = op->get_parent(box);
     if (LAYOUT(box)->margin[HL_LEFT] != HL_AUTO && LAYOUT(box)->margin[HL_RIGHT] != HL_AUTO &&
             parent != NULL && LAYOUT(parent)->computed_style != NULL) {
         switch (css_computed_text_align(LAYOUT(parent)->computed_style)) {
@@ -538,7 +538,7 @@ int hl_block_find_dimensions(HLContext* ctx,
         int container_height,
         int lm,
         int rm,
-        hidomlayout_layout_handler *handler
+        hidomlayout_node_op *op
         )
 {
     int width = 0;
@@ -559,8 +559,8 @@ int hl_block_find_dimensions(HLContext* ctx,
             &min_width,
             &max_height,
             &min_height,
-            handler);
-    int sw = hl_solve_width(node, container_width, width, 0, 0, max_width, min_width, handler);
+            op);
+    int sw = hl_solve_width(node, container_width, width, 0, 0, max_width, min_width, op);
     int sh = height;
     HL_LOGD("block node dimension|tag=%s|id=%s|nw=%d|max_width=%d|min_width=%d|nh=%d|max_height=%d|min_height=%d|sw=%d|sh=%d\n",
             node->tag, hilayout_element_node_get_id(node),
@@ -580,7 +580,7 @@ void hl_computed_offsets(const HLContext* len_ctx,
                int* right,
                int* bottom,
                int* left,
-               hidomlayout_layout_handler *handler)
+               hidomlayout_node_op *op)
 {
     uint32_t type;
     css_fixed value = 0;
@@ -648,7 +648,7 @@ void hl_computed_offsets(const HLContext* len_ctx,
 }
 
 
-int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level, hidomlayout_layout_handler *handler)
+int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int container_width, int container_height, int level, hidomlayout_node_op *op)
 {
     if (node == NULL)
     {
@@ -661,42 +661,42 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
     LAYOUT(node)->box_values.x = x;
     LAYOUT(node)->box_values.y = y;
 
-    hl_computed_z_index(node, handler);
-    hl_find_background(node, handler);
-    hl_find_font(ctx, node, handler);
-    if (handler->is_root(node))
+    hl_computed_z_index(node, op);
+    hl_find_background(node, op);
+    hl_find_font(ctx, node, op);
+    if (op->is_root(node))
     {
         LAYOUT(node)->box_values.w = container_width;
         LAYOUT(node)->box_values.h = container_height;
     }
     else if (css_computed_position(LAYOUT(node)->computed_style) == CSS_POSITION_FIXED)
     {
-        HLDomElementNode* op = handler->get_parent(node);
-        handler->set_parent(node, ctx->root);
-        hl_block_find_dimensions(ctx, node, LAYOUT(ctx->root)->box_values.w, LAYOUT(ctx->root)->box_values.h, 0, 0, handler);
-        handler->set_parent(node, op);
+        HLDomElementNode* op_node = op->get_parent(node);
+        op->set_parent(node, ctx->root);
+        hl_block_find_dimensions(ctx, node, LAYOUT(ctx->root)->box_values.w, LAYOUT(ctx->root)->box_values.h, 0, 0, op);
+        op->set_parent(node, op_node);
     }
     else {
         switch (LAYOUT(node)->layout_type)
         {
             case LAYOUT_BLOCK:
-                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, handler);
+                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, op);
                 break;
 
             case LAYOUT_INLINE_BLOCK:
-                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, handler);
+                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, op);
                 break;
 
             case LAYOUT_GRID:
-                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, handler);
+                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, op);
                 break;
 
             case LAYOUT_INLINE_GRID:
-                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, handler);
+                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, op);
                 break;
 
             default:
-                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, handler);
+                hl_block_find_dimensions(ctx, node, container_width, container_height, 0, 0, op);
                 break;
         }
     }
@@ -727,7 +727,7 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
                         node->text_values.font_family, node->text_values.color, node->text_values.font_weight,
                         node->text_values.font_size
                        );
-                return hl_layout_child_node_grid(ctx, node, handler, level);
+                return hl_layout_child_node_grid(ctx, node, op, level);
             }
     }
 
@@ -752,13 +752,13 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
             int w = LAYOUT(ctx->root)->box_values.w;
             int h = LAYOUT(ctx->root)->box_values.h;
 
-            hl_computed_offsets(ctx, child, ctx->root, &top, &right, &bottom, &left, handler);
+            hl_computed_offsets(ctx, child, ctx->root, &top, &right, &bottom, &left, op);
             if (left == HL_AUTO)
                 left = 0;
 
             if (top == HL_AUTO)
                 top = 0;
-            hl_layout_node(ctx, child, x + left, y + top, w, h, cl, handler);
+            hl_layout_node(ctx, child, x + left, y + top, w, h, cl, op);
             line_height = 0;
             child = child->next;
             continue;
@@ -771,10 +771,10 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
                 cx = x;
                 if (css_computed_position(LAYOUT(child)->computed_style) == CSS_POSITION_RELATIVE)
                 {
-                    hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, handler);
+                    hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, op);
                 }
                 cy = cy + line_height;
-                hl_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl, handler);
+                hl_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl, op);
                 line_height = 0;
                 break;
 
@@ -782,9 +782,9 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
             case LAYOUT_INLINE_GRID:
                 if (css_computed_position(LAYOUT(child)->computed_style) == CSS_POSITION_RELATIVE)
                 {
-                    hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, handler);
+                    hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, op);
                 }
-                hl_block_find_dimensions(ctx, child, cw, ch, 0, 0, handler);
+                hl_block_find_dimensions(ctx, child, cw, ch, 0, 0, op);
                 if (child->previous != NULL
                         && (LAYOUT(child->previous)->layout_type == LAYOUT_BLOCK
                             || LAYOUT(child->previous)->layout_type == LAYOUT_GRID)
@@ -808,7 +808,7 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
                     cx = cx + prev_width;
                     fprintf(stderr, "..............................%s:%d cx=%d|cy=%d\n", __FILE__, __LINE__, cx, cy);
                 }
-                hl_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl, handler);
+                hl_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl, op);
                 prev_width = LAYOUT(child)->box_values.w;
                 break;
 
@@ -816,10 +816,10 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
                 cx = x;
                 if (css_computed_position(LAYOUT(child)->computed_style) == CSS_POSITION_RELATIVE)
                 {
-                    hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, handler);
+                    hl_computed_offsets(ctx, child, node, &top, &right, &bottom, &left, op);
                 }
                 cy = cy + line_height;
-                hl_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl, handler);
+                hl_layout_node(ctx, child, cx + left, cy + top, cw, ch, cl, op);
                 line_height = 0;
                 break;
         }
@@ -838,7 +838,7 @@ int hl_layout_node(HLContext* ctx, HLDomElementNode *node, int x, int y, int con
     return HILAYOUT_OK;
 }
 
-int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HLDomElementNode *root, hidomlayout_layout_handler *handler)
+int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HLDomElementNode *root, hidomlayout_node_op *op)
 {
     if (media == NULL || root == NULL || css == NULL || css->sheet == NULL)
     {
@@ -864,7 +864,7 @@ int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HLDomElementNode *root, hi
     // create css select context
     css_select_ctx* select_ctx = hl_css_select_ctx_create(css);
 
-    int ret = hl_select_child_style(&m, select_ctx, root, handler);
+    int ret = hl_select_child_style(&m, select_ctx, root, op);
     if (ret != HILAYOUT_OK)
     {
         HL_LOGD("%s|select child style failed.|code=%d\n", __func__, ret);
@@ -873,14 +873,14 @@ int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HLDomElementNode *root, hi
     }
     context.root_style = LAYOUT(root)->computed_style;
 
-    hl_layout_node(&context, root, 0, 0, media->width, media->height, 0, handler);
+    hl_layout_node(&context, root, 0, 0, media->width, media->height, 0, op);
     hl_css_select_ctx_destroy(select_ctx);
     return ret;
 }
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 {
-    hidomlayout_layout_handler handler = {
+    hidomlayout_node_op op = {
         .set_attach = hl_dom_element_node_set_attach,
         .get_attach = hl_dom_element_node_get_attach,
         .set_parent = hl_dom_element_node_set_parent,
@@ -889,6 +889,6 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
         .next = hl_dom_element_node_next_child,
         .is_root = hl_dom_element_node_is_root,
     };
-    return hidomlayout_layout(media, css, root, &handler);
+    return hidomlayout_layout(media, css, root, &op);
 }
 

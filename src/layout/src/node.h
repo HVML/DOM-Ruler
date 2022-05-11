@@ -55,7 +55,7 @@
 #include <libcss/libcss.h>
 #include <glib.h>
 
-#define LAYOUT(node)            (hl_layout(node, handler))
+#define LAYOUT(node)            (hl_layout(node, op))
 
 typedef struct HiLayoutNode {
     //inner layout
@@ -80,19 +80,19 @@ typedef struct HiLayoutNode {
 
     // Origin Node
     void *origin;
-    hidomlayout_layout_handler *origin_op;
+    hidomlayout_node_op *origin_op;
 } HiLayoutNode;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-HiLayoutNode *hl_layout(void *node, hidomlayout_layout_handler *handler);
+HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op);
 
 HiLayoutNode *hi_layout_node_from_origin_node(void *node,
-        hidomlayout_layout_handler *handler);
+        hidomlayout_node_op *op);
 void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
-        hidomlayout_layout_handler **handler);
+        hidomlayout_node_op **op);
 
 HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node);
 void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent);

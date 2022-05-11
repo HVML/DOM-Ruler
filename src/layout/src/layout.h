@@ -56,10 +56,10 @@
 extern "C" {
 #endif
 
-int hl_computed_z_index(void *node, hidomlayout_layout_handler *handler);
+int hl_computed_z_index(void *node, hidomlayout_node_op *op);
 
 int hl_layout_child_node_grid(HLContext* ctx, void *node,
-        hidomlayout_layout_handler *handler, int level);
+        hidomlayout_node_op *op, int level);
 
 #ifdef __cplusplus
 }
