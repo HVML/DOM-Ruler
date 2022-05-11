@@ -66,28 +66,35 @@ typedef struct HLCSS_ {
 extern "C" {
 #endif
 
-css_stylesheet* _hilayout_css_stylesheet_create(const char *charset, const char *url, bool allow_quirks, bool inline_style);
-css_stylesheet* _hilayout_css_stylesheet_inline_style_create(const uint8_t *data, size_t len);
-css_stylesheet* _hilayout_css_stylesheet_create_ua_css();
-int _hilayout_css_stylesheet_append_data(css_stylesheet* sheet, const uint8_t *data, size_t len);
-int _hilayout_css_stylesheet_data_done(css_stylesheet* sheet);
-int _hilayout_css_stylesheet_destroy(css_stylesheet* sheet);
+// css_stylesheet
+css_stylesheet *hl_hilayout_css_stylesheet_create(const char *charset,
+        const char *url, bool allow_quirks, bool inline_style);
+css_stylesheet *hl_css_stylesheet_inline_style_create(const uint8_t *data,
+        size_t len);
+css_stylesheet *hl_css_stylesheet_create_ua_css();
+int hl_css_stylesheet_append_data(css_stylesheet *sheet,
+        const uint8_t *data, size_t len);
+int hl_css_stylesheet_data_done(css_stylesheet *sheet);
+int hl_css_stylesheet_destroy(css_stylesheet *sheet);
 
-css_select_ctx* _hilayout_css_select_ctx_create(HLCSS* css);
-int _hilayout_css_select_ctx_destroy(css_select_ctx* ctx);
+// css_select_ctx
+css_select_ctx *hl_css_select_ctx_create(HLCSS *css);
+int hl_css_select_ctx_destroy(css_select_ctx *ctx);
 
-int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
-        void *node, hidomlayout_layout_handler *handler);
-
+// css_select_results
 css_select_results *hl_get_node_style(const css_media *media,
         css_select_ctx *select_ctx, void *node);
 
-css_select_results* _hilayout_css_select_style(const HLCSS* css, void *node,
+css_select_results* hl_css_select_style(const HLCSS* css, void *node,
         const css_media *media, const css_stylesheet *inline_style,
         css_select_handler *handler);
 
-int _hilayout_css_select_result_destroy(css_select_results *result);
+int hl_css_select_result_destroy(css_select_results *result);
 
+
+// select node style
+int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
+        void *node, hidomlayout_layout_handler *handler);
 
 
 #ifdef __cplusplus

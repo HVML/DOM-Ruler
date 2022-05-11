@@ -862,19 +862,19 @@ int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HLDomElementNode *root, hi
     context.vh = m.height;
 
     // create css select context
-    css_select_ctx* select_ctx = _hilayout_css_select_ctx_create(css);
+    css_select_ctx* select_ctx = hl_css_select_ctx_create(css);
 
     int ret = _hilayout_select_child_style(&m, select_ctx, root, handler);
     if (ret != HILAYOUT_OK)
     {
         HL_LOGD("%s|select child style failed.|code=%d\n", __func__, ret);
-        _hilayout_css_select_ctx_destroy(select_ctx);
+        hl_css_select_ctx_destroy(select_ctx);
         return ret;
     }
     context.root_style = LAYOUT(root)->computed_style;
 
     _hilayout_layout_node(&context, root, 0, 0, media->width, media->height, 0, handler);
-    _hilayout_css_select_ctx_destroy(select_ctx);
+    hl_css_select_ctx_destroy(select_ctx);
     return ret;
 }
 

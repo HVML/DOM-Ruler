@@ -150,12 +150,12 @@ int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
     context.vh = m.height;
 
     // create css select context
-    css_select_ctx* select_ctx = _hilayout_css_select_ctx_create(css);
+    css_select_ctx* select_ctx = hl_css_select_ctx_create(css);
 
     ret = hl_select_child_style(&m, select_ctx, root, handler);
     if (ret != HILAYOUT_OK) {
         HL_LOGD("%s|select child style failed.|code=%d\n", __func__, ret);
-        _hilayout_css_select_ctx_destroy(select_ctx);
+        hl_css_select_ctx_destroy(select_ctx);
         return ret;
     }
 
@@ -165,7 +165,7 @@ int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
     hl_layout_node(&context, root, 0, 0, media->width, media->height, 0,
             handler);
 #endif
-    _hilayout_css_select_ctx_destroy(select_ctx);
+    hl_css_select_ctx_destroy(select_ctx);
 
     return ret;
 }

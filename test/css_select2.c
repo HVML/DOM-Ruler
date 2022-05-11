@@ -141,7 +141,7 @@ int main(int argc, char **argv)
     uint8_t val;
 
     HLDomElementNode* node_select = title;
-    style = _hilayout_css_select_style(css, node_select, &media, NULL, NULL);
+    style = hl_css_select_style(css, node_select, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     HL_LOGD("################################\n");
     HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select), color_shade);
@@ -152,14 +152,14 @@ int main(int argc, char **argv)
     val = css_computed_width(style->styles[CSS_PSEUDO_ELEMENT_NONE], &len, &unit);
     HL_LOGW("tag=%s|id=%s|len=%d|unit=%d\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select), len, unit);
 
-    _hilayout_css_select_result_destroy(style);
+    hl_css_select_result_destroy(style);
 
     HL_LOGD("###################\n");
     node_select = title;
-    style = _hilayout_css_select_style(css, node_select, &media, NULL, NULL);
+    style = hl_css_select_style(css, node_select, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select), color_shade);
-    _hilayout_css_select_result_destroy(style);
+    hl_css_select_result_destroy(style);
 
     HLMedia hl_media = {
         .width = 1080,

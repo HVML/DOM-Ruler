@@ -1095,7 +1095,7 @@ css_select_results *hl_get_node_style(const css_media *media,
     css_stylesheet* inline_style = NULL;
     const char* style = hilayout_element_node_get_style(node);
     if (style != NULL) {
-        inline_style = _hilayout_css_stylesheet_inline_style_create(style,
+        inline_style = hl_css_stylesheet_inline_style_create(style,
                 strlen(style));
     }
 
@@ -1106,7 +1106,7 @@ css_select_results *hl_get_node_style(const css_media *media,
 
     if (error != CSS_OK || styles == NULL) {
         /* Failed selecting partial style -- bail out */
-        _hilayout_css_stylesheet_destroy(inline_style);
+        hl_css_stylesheet_destroy(inline_style);
         return NULL;
     }
 
@@ -1137,7 +1137,7 @@ css_select_results *hl_get_node_style(const css_media *media,
             /* TODO: perhaps this shouldn't be quite so
              * catastrophic? */
             css_select_results_destroy(styles);
-            _hilayout_css_stylesheet_destroy(inline_style);
+            hl_css_stylesheet_destroy(inline_style);
             return NULL;
         }
 
@@ -1146,11 +1146,11 @@ css_select_results *hl_get_node_style(const css_media *media,
         styles->styles[pseudo_element] = composed;
     }
 
-    _hilayout_css_stylesheet_destroy(inline_style);
+    hl_css_stylesheet_destroy(inline_style);
     return styles;
 }
 
-css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
+css_select_results *hl_css_select_style(const HLCSS* css, void *n,
         const css_media *media, const css_stylesheet *inlineStyleSheet,
         css_select_handler *handler)
 {
@@ -1170,7 +1170,7 @@ css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
 
     if (css->done != 1)
     {
-        _hilayout_css_stylesheet_data_done(css->sheet);
+        hl_css_stylesheet_data_done(css->sheet);
     }
 
     css_stylesheet* styleSheet = css->sheet;
@@ -1186,7 +1186,7 @@ css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
     if (code != CSS_OK)
     {
         fprintf(stderr, "css_select_ctx_append_sheet failed! code=%d\n", code);
-        _hilayout_css_select_ctx_destroy(select_ctx);
+        hl_css_select_ctx_destroy(select_ctx);
         return NULL;
     }
 
@@ -1194,7 +1194,7 @@ css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
     if (code != CSS_OK)
     {
         fprintf(stderr, "css_select_ctx_count_sheets failed! code=%d\n", code);
-        _hilayout_css_select_ctx_destroy(select_ctx);
+        hl_css_select_ctx_destroy(select_ctx);
         return NULL;
     }
 
@@ -1206,7 +1206,7 @@ css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
 
     if (error != CSS_OK || styles == NULL) {
         /* Failed selecting partial style -- bail out */
-        _hilayout_css_select_ctx_destroy(select_ctx);
+        hl_css_select_ctx_destroy(select_ctx);
         return NULL;
     }
 
@@ -1235,7 +1235,7 @@ css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
             /* TODO: perhaps this shouldn't be quite so
              * catastrophic? */
             css_select_results_destroy(styles);
-            _hilayout_css_select_ctx_destroy(select_ctx);
+            hl_css_select_ctx_destroy(select_ctx);
             return NULL;
         }
 
@@ -1244,11 +1244,11 @@ css_select_results *_hilayout_css_select_style(const HLCSS* css, void *n,
         styles->styles[pseudo_element] = composed;
     }
 
-    _hilayout_css_select_ctx_destroy(select_ctx);
+    hl_css_select_ctx_destroy(select_ctx);
     return styles;
 }
 
-int _hilayout_css_select_result_destroy(css_select_results *result)
+int hl_css_select_result_destroy(css_select_results *result)
 {
     if (result)
         return css_select_results_destroy(result);

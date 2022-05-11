@@ -102,7 +102,7 @@ int main(int argc, char **argv)
 
 
         HLDomElementNode* domNode = hilayout_element_node_create("h1");
-        style = _hilayout_css_select_style(css, domNode, &media, NULL, NULL);
+        style = hl_css_select_style(css, domNode, &media, NULL, NULL);
 
 		color_type = css_computed_color(
 				style->styles[CSS_PSEUDO_ELEMENT_NONE],
@@ -161,7 +161,7 @@ int main(int argc, char **argv)
             fprintf(stderr, "index=%d|values=%d\n", i, values[i]);
         }
 
-        _hilayout_css_select_result_destroy(style);
+        hl_css_select_result_destroy(style);
         hilayout_element_node_destroy(domNode);
 	}
 
