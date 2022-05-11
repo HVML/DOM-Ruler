@@ -166,6 +166,8 @@ int hl_find_font(HLContext *ctx, void *node,
         hidomlayout_layout_handler *handler);
 int hl_find_background(void *node, hidomlayout_layout_handler *handler);
 
+void hl_destroy_svg_values(HLUsedSvgValues *svg);
+
 #ifdef __cplusplus
 }
 #endif

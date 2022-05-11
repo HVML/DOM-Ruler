@@ -78,6 +78,9 @@ typedef struct HiLayoutNode {
     css_select_results* select_styles;
     css_computed_style* computed_style;
 
+    // Origin Node
+    void *origin;
+    hidomlayout_layout_handler *origin_op;
 } HiLayoutNode;
 
 #ifdef __cplusplus
@@ -85,6 +88,17 @@ extern "C" {
 #endif
 
 HiLayoutNode *hl_layout(void *node, hidomlayout_layout_handler *handler);
+
+HiLayoutNode *hi_layout_node_from_origin_node(void *node,
+        hidomlayout_layout_handler *handler);
+void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
+        hidomlayout_layout_handler **handler);
+
+HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node);
+void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent);
+HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node);
+HiLayoutNode *hi_layout_node_next(HiLayoutNode *node);
+bool hi_layout_node_is_root(HiLayoutNode *node);
 
 #ifdef __cplusplus
 }

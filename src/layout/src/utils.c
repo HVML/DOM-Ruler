@@ -608,3 +608,65 @@ int hl_find_background(void *node, hidomlayout_layout_handler *handler)
     return HILAYOUT_OK;
 }
 
+void hl_destroy_svg_values(HLUsedSvgValues* svg)
+{
+    if (svg == NULL)
+    {
+        return;
+    }
+    // baseline_shift
+    // clip-path
+    free(svg->clip_path);
+    // clip-rule
+    // color
+    // direction
+    // display
+    // enable-background
+    // comp-op
+    // fill
+    free(svg->fill_string);
+    // fill-opacity
+    // fill-rule
+    // filter
+    free(svg->filter);
+    // flood-color
+    // flood-opacity
+    // font-family
+    free(svg->font_family);
+    // font-size
+    // font-stretch
+    // font-style
+    // font-variant
+    // font-weight
+    // marker-end
+    free(svg->marker_end);
+    // mask
+    free(svg->mask);
+    // marker-mid
+    free(svg->marker_mid);
+    // marker-start
+    free(svg->marker_start);
+    // opacity
+    // overflow
+    // shape-rendering
+    // text-rendering
+    // stop-color
+    // stop-opacity
+    // stroke
+    free(svg->stroke_string);
+    // stroke-dasharray
+    free(svg->stroke_dasharray);
+    // stroke-dashoffset
+    // stroke-linecap
+    // stroke-linejoin
+    // stroke-miterlimit
+    // stroke-opacity
+    // stroke-width
+    // text-anchor
+    // text-decoration
+    // unicode-bidi
+    // letter-spacing
+    // visibility
+    // writing-mode
+    free(svg);
+}
