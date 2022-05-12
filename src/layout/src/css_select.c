@@ -210,3 +210,67 @@ named_parent_node(void *pw, void *n, const css_qname *qname, void **parent)
 
     return CSS_OK;
 }
+
+static int
+dom_node_get_previous_sibling(HiLayoutNode *node, HiLayoutNode **result)
+{
+    /* Attr nodes have no previous siblings */
+    if (hi_layout_node_get_type(node) == DOM_ATTRIBUTE_NODE) {
+        *result = NULL;
+        return CSS_OK;
+    }
+
+    *result = hi_layout_node_get_previous(node);
+    return CSS_OK;
+}
+
+/**
+ * Callback to find a named sibling node.
+ *
+ * \param pw       HTML document
+ * \param node     DOM node
+ * \param qname    Node name to search for
+ * \param sibling  Pointer to location to receive sibling
+ * \return CSS_OK.
+ *
+ * \post \a sibling will contain the result, or NULL if there is no match
+ */
+static css_error
+named_sibling_node(void *pw, void *node, const css_qname *qname, void **sibling)
+{
+    HiLayoutNode *n = node;
+    HiLayoutNode *prev;
+    int err;
+
+    *sibling = NULL;
+
+    /* Find sibling element */
+    dom_node_get_previous_sibling(n, &n);
+
+    while (n != NULL) {
+        HLNodeType type = hi_layout_node_get_type(n);
+
+        if (type == DOM_ELEMENT_NODE)
+            break;
+
+        dom_node_get_previous_sibling(n, &prev);
+        n = prev;
+    }
+
+    if (n != NULL) {
+        const char *name = hi_layout_node_get_name(node);
+        if (name && !n->inner_tag) {
+            n->inner_tag = to_lwc_string(name);
+        }
+
+        bool match = false;
+        if (lwc_string_caseless_isequal(n->inner_tag, qname->name,
+                    &match) == lwc_error_ok && match)
+        {
+            *sibling = n;
+        }
+    }
+
+    return CSS_OK;
+}
+
