@@ -60,24 +60,6 @@
 #define HL_INNER_CSS_SELECT_ATTACH "hl_inner_css_select_attach"
 #define HL_INNER_LAYOUT_ATTACH "hl_inner_layout_attach"
 
-typedef enum {
-    DOM_ELEMENT_NODE        = 1,
-    DOM_ATTRIBUTE_NODE      = 2,
-    DOM_TEXT_NODE           = 3,
-    DOM_CDATA_SECTION_NODE      = 4,
-    DOM_ENTITY_REFERENCE_NODE   = 5,
-    DOM_ENTITY_NODE         = 6,
-    DOM_PROCESSING_INSTRUCTION_NODE = 7,
-    DOM_COMMENT_NODE        = 8,
-    DOM_DOCUMENT_NODE       = 9,
-    DOM_DOCUMENT_TYPE_NODE      = 10,
-    DOM_DOCUMENT_FRAGMENT_NODE  = 11,
-    DOM_NOTATION_NODE       = 12,
-
-    /* And a count of the number of node types */
-    DOM_NODE_TYPE_COUNT
-} HLDomElementNodeType;
-
 typedef struct HiLayoutNode HiLayoutNode;
 
 typedef struct HLDomElementNode_ {
@@ -110,7 +92,7 @@ typedef struct HLDomElementNode_ {
     lwc_string** inner_classes;
     int inner_classes_count;
 
-    HLDomElementNodeType inner_dom_type;
+    HLNodeType inner_dom_type;
     // end for hicss inner
 
     double min_w;

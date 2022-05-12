@@ -79,8 +79,8 @@ lwc_string *to_lwc_string(const char* str)
  * \return CSS_OK on success,
  *         CSS_NOMEM on memory exhaustion.
  */
-static
-css_error node_name(void *pw, void *node, css_qname *qname)
+static css_error
+node_name(void *pw, void *node, css_qname *qname)
 {
     HiLayoutNode *n = node;
 
@@ -97,3 +97,118 @@ css_error node_name(void *pw, void *node, css_qname *qname)
     return CSS_OK;
 }
 
+/**
+ * Callback to retrieve a node's classes.
+ *
+ * \param pw         HTML document
+ * \param node       DOM node
+ * \param classes    Pointer to location to receive class name array
+ * \param n_classes  Pointer to location to receive length of class name array
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ *
+ * \note The returned array will be destroyed by libcss. Therefore, it must
+ *       be allocated using the same allocator as used by libcss during style
+ *       selection.
+ */
+static css_error
+node_classes(void *pw, void *node, lwc_string ***classes, uint32_t *n_classes)
+{
+    HiLayoutNode *n = node;
+
+    if (n->nr_inner_classes == 0) {
+        int nr_clses = 0;
+        const char **clses = hi_layout_node_get_classes(n, &nr_clses);
+        n->inner_classes = (lwc_string**)calloc(nr_clses, sizeof(lwc_string*));
+        for (int i = 0; i < nr_clses; i++) {
+            n->inner_classes[i]= to_lwc_string(clses[i]);
+        }
+        n->nr_inner_classes = nr_clses;
+    }
+
+    if (n->nr_inner_classes > 0) {
+        *classes = n->inner_classes;
+        *n_classes = n->nr_inner_classes;
+
+        for (int i = 0; i < n->nr_inner_classes; i++) {
+            (void) lwc_string_ref((*classes)[i]);
+        }
+    } else {
+        *n_classes = 0;
+        *classes = NULL;
+    }
+    return CSS_OK;
+}
+
+/**
+ * Callback to retrieve a node's ID.
+ *
+ * \param pw    HTML document
+ * \param node  DOM node
+ * \param id    Pointer to location to receive id value
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ */
+static css_error
+node_id(void *pw, void *node, lwc_string **id)
+{
+    HiLayoutNode *n = node;
+
+    const char *nid = hi_layout_node_get_id(n);
+    if (nid == NULL) {
+        *id = NULL;
+        return CSS_OK;
+    }
+
+    if (n->inner_id == NULL) {
+        n->inner_id = to_lwc_string(nid);
+    }
+
+    *id = lwc_string_ref(n->inner_id);
+    return CSS_OK;
+}
+
+/**
+ * Callback to find a named parent node
+ *
+ * \param pw      HTML document
+ * \param node    DOM node
+ * \param qname   Node name to search for
+ * \param parent  Pointer to location to receive parent
+ * \return CSS_OK.
+ *
+ * \post \a parent will contain the result, or NULL if there is no match
+ */
+static css_error
+named_parent_node(void *pw, void *n, const css_qname *qname, void **parent)
+{
+    HiLayoutNode *node = n;
+
+    *parent = NULL;
+
+    for (node = hi_layout_node_get_parent(node); node != NULL;
+            node = hi_layout_node_get_parent(node)) {
+
+#if 0 // TODO
+        if (node->inner_dom_type != DOM_ELEMENT_NODE) {
+            continue;
+        }
+#endif
+
+        const char *name = hi_layout_node_get_name(node);
+        assert(name != NULL);
+        if (!node->inner_tag) {
+            node->inner_tag = to_lwc_string(name);
+        }
+
+        bool match = false;
+        if (lwc_string_caseless_isequal(node->inner_tag, qname->name,
+                    &match) == lwc_error_ok && match)
+        {
+            *parent = node;
+        }
+        break;
+    }
+
+    return CSS_OK;
+}

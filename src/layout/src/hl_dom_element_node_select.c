@@ -212,7 +212,7 @@ css_error named_sibling_node(void *pw, void *node, const css_qname *qname, void 
     dom_node_get_previous_sibling(n, &n);
 
     while (n != NULL) {
-        HLDomElementNodeType type = n->inner_dom_type;
+        HLNodeType type = n->inner_dom_type;
 
         if (type == DOM_ELEMENT_NODE)
             break;
@@ -255,7 +255,7 @@ css_error named_generic_sibling_node(void *pw, void *node, const css_qname *qnam
     dom_node_get_previous_sibling(n, &n);
 
     while (n != NULL) {
-        HLDomElementNodeType type = n->inner_dom_type;
+        HLNodeType type = n->inner_dom_type;
         lwc_string *name;
 
         if (type == DOM_ELEMENT_NODE) {
@@ -321,7 +321,7 @@ css_error sibling_node(void *pw, void *node, void **sibling)
     dom_node_get_previous_sibling(n, &n);
 
     while (n != NULL) {
-        HLDomElementNodeType type = n->inner_dom_type;
+        HLNodeType type = n->inner_dom_type;
         if (type == DOM_ELEMENT_NODE)
             break;
 
@@ -592,7 +592,7 @@ node_count_siblings_check(HLDomElementNode *node,
               bool check_name,
               lwc_string *name)
 {
-    HLDomElementNodeType type;
+    HLNodeType type;
     int ret = 0;
     int exc;
 
