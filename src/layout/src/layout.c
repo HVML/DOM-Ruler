@@ -872,8 +872,4 @@ int hilayout_do_layout_ex(HLMedia* media, HLCSS* css, HiLayoutNode *root, hidoml
     return ret;
 }
 
-int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
-{
-    return 0;
-}
 
