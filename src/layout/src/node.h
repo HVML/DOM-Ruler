@@ -119,6 +119,13 @@ typedef struct HiLayoutNode {
     GHashTable *inner_data;   // inner data key(string) -> value(HLAttachData)
     HLAttachData *attach_data; // attach data
 
+    // begin for hicss inner
+    lwc_string *inner_tag;
+    lwc_string *inner_id;
+    lwc_string **inner_classes;
+    int nr_inner_classes;
+    // end for hicss inner
+
     // Origin Node
     void *origin;
     hidomlayout_node_op *origin_op;

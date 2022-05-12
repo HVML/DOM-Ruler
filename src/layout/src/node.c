@@ -96,6 +96,20 @@ void hi_layout_node_destroy(HiLayoutNode *node)
         free(node->attach_data);
     }
     free(node);
+
+    if (node->inner_tag) {
+        lwc_string_unref(node->inner_tag);
+    }
+    if (node->inner_id) {
+        lwc_string_unref(node->inner_id);
+    }
+
+    if (node->inner_classes) {
+        for (int i = 0; i < node->nr_inner_classes; i++) {
+            lwc_string_unref(node->inner_classes[i]);
+        }
+        free(node->inner_classes);
+    }
 }
 
 int hi_layout_node_set_attach_data(HiLayoutNode *node,
