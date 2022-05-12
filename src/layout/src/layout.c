@@ -526,6 +526,37 @@ int hl_solve_width(HiLayoutNode *box,
     return width;
 }
 
+int hl_computed_z_index(HiLayoutNode *node)
+{
+    int32_t index = 0;
+    int8_t val = css_computed_z_index(node->computed_style, &index);
+    switch (val) {
+    case CSS_Z_INDEX_INHERIT:
+        {
+            HiLayoutNode *parent = hi_layout_node_get_parent(node);
+            if (parent) {
+                index = parent->box_values.z_index;
+            }
+            else {
+                index = 0;
+            }
+        }
+        break;
+
+    case CSS_Z_INDEX_AUTO:
+        break;
+
+    case CSS_Z_INDEX_SET:
+        index = FIXTOINT(index);
+        break;
+
+    default:
+        break;
+    }
+    node->box_values.z_index = index;
+    return index;
+}
+
 int hl_block_find_dimensions(HLContext* ctx,
         HiLayoutNode *node,
         int container_width,
