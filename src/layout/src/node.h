@@ -56,8 +56,6 @@
 #include <libcss/libcss.h>
 #include <glib.h>
 
-#define LAYOUT(node)            (hl_layout(node, op))
-
 typedef struct HLAttachData_ {
     void* data;
     HlDestroyCallback callback;
@@ -156,8 +154,6 @@ void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
 
 
 // BEGIN: HiLayoutNode  < ----- > Origin Node
-HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op);
-
 HiLayoutNode *hi_layout_node_from_origin_node(void *node,
         hidomlayout_node_op *op);
 void *hi_layout_node_to_origin_node(HiLayoutNode *layout,

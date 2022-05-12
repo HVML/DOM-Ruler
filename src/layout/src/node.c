@@ -469,11 +469,6 @@ void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
 }
 
 // BEGIN: HiLayoutNode  < ----- > Origin Node
-HiLayoutNode *hl_layout(void *node, hidomlayout_node_op *op)
-{
-    return (HiLayoutNode*) op->get_attach(node, NULL);
-}
-
 HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
         hidomlayout_node_op *op)
 {
