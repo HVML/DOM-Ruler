@@ -60,6 +60,7 @@ list(APPEND hidomlayout_SOURCES
     src/node.c
     src/select.c
     src/utils.c
+    src/css_select.c
     src/layout.c
     src/layout_grid.c
     src/hl_dom_element_node.c

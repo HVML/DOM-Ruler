@@ -59,3 +59,41 @@
  * Style selection callbacks                                                  *
  ******************************************************************************/
 
+lwc_string *to_lwc_string(const char* str)
+{
+    if (str == NULL) {
+        return NULL;
+    }
+
+    lwc_string *result = NULL;
+    lwc_intern_string(str, strlen(str), &result);
+    return result;
+}
+
+/**
+ * Callback to retrieve a node's name.
+ *
+ * \param pw     HTML document
+ * \param node   DOM node
+ * \param qname  Pointer to location to receive node name
+ * \return CSS_OK on success,
+ *         CSS_NOMEM on memory exhaustion.
+ */
+static
+css_error node_name(void *pw, void *node, css_qname *qname)
+{
+    HiLayoutNode *n = node;
+
+    const char *name = hi_layout_node_get_name(n);
+    if (name == NULL) {
+        qname->name = NULL;
+        return CSS_NOMEM;
+    }
+
+    if (!n->inner_tag) {
+        n->inner_tag = to_lwc_string(name);
+    }
+    qname->name = lwc_string_ref(n->inner_tag);
+    return CSS_OK;
+}
+
