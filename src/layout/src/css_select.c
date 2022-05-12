@@ -186,7 +186,7 @@ dom_node_get_previous_sibling(HiLayoutNode *node, HiLayoutNode **result)
         return CSS_OK;
     }
 
-    *result = hi_layout_node_get_previous(node);
+    *result = hi_layout_node_previous(node);
     return CSS_OK;
 }
 
@@ -892,7 +892,7 @@ typedef struct _HlCSSDataPackage {
     void* libcss_node_data;
 } HlCSSDataPackage;
 
-void destroy_hl_css_data_package(void* data);
+static void destroy_hl_css_data_package(void* data);
 
 static css_error
 set_libcss_node_data(void *pw, void *n, void *libcss_node_data)
@@ -1057,16 +1057,239 @@ static css_error node_presentational_hint( void *pw, void *node,
     return CSS_OK;
 }
 
-#if 0
-static void destroy_hl_css_data_package(void* data)
+css_select_handler hl_css_select_handler = {
+    CSS_SELECT_HANDLER_VERSION_1,
+
+    node_name,
+    node_classes,
+    node_id,
+    named_ancestor_node,
+    named_parent_node,
+    named_sibling_node,
+    named_generic_sibling_node,
+    parent_node,
+    sibling_node,
+    node_has_name,
+    node_has_class,
+    node_has_id,
+    node_has_attribute,
+    node_has_attribute_equal,
+    node_has_attribute_dashmatch,
+    node_has_attribute_includes,
+    node_has_attribute_prefix,
+    node_has_attribute_suffix,
+    node_has_attribute_substring,
+    node_is_root,
+    node_count_siblings,
+    node_is_empty,
+    node_is_link,
+    node_is_visited,
+    node_is_hover,
+    node_is_active,
+    node_is_focus,
+    node_is_enabled,
+    node_is_disabled,
+    node_is_checked,
+    node_is_target,
+    node_is_lang,
+    node_presentational_hint,
+    ua_default_for_property,
+    compute_font_size,
+    set_libcss_node_data,
+    get_libcss_node_data
+};
+
+void
+destroy_hl_css_data_package(void* data)
 {
     if (data == NULL) {
         return;
     }
     HlCSSDataPackage* pkg = (HlCSSDataPackage*)data;
-    css_libcss_node_data_handler(&selection_handler, CSS_NODE_MODIFIED,
+    css_libcss_node_data_handler(&hl_css_select_handler, CSS_NODE_MODIFIED,
             NULL, pkg->node, NULL, pkg->libcss_node_data);
     free(pkg);
+}
+
+#if 0
+css_select_results *hl_get_node_style(const css_media *media,
+        css_select_ctx *select_ctx, HiLayoutNode *node)
+{
+    if (media == NULL || select_ctx == NULL || node == NULL) {
+        HL_LOGW("get node style failed.\n");
+        return NULL;
+    }
+
+    // prepare inline style
+    css_stylesheet* inline_style = NULL;
+    const char* style = hilayout_element_node_get_style(node);
+    if (style != NULL) {
+        inline_style = hl_css_stylesheet_inline_style_create(style,
+                strlen(style));
+    }
+
+    /* Select style for node */
+    css_select_results *styles;
+    css_error error = css_select_style(select_ctx, node, media, inline_style,
+            &hl_css_select_handler, NULL, &styles);
+
+    if (error != CSS_OK || styles == NULL) {
+        /* Failed selecting partial style -- bail out */
+        hl_css_stylesheet_destroy(inline_style);
+        return NULL;
+    }
+
+    int pseudo_element;
+    css_computed_style *composed = NULL;
+    for (pseudo_element = CSS_PSEUDO_ELEMENT_NONE + 1;
+            pseudo_element < CSS_PSEUDO_ELEMENT_COUNT;
+            pseudo_element++) {
+
+        if (pseudo_element == CSS_PSEUDO_ELEMENT_FIRST_LETTER ||
+                pseudo_element == CSS_PSEUDO_ELEMENT_FIRST_LINE)
+            /* TODO: Handle first-line and first-letter pseudo
+             *       element computed style completion */
+            continue;
+
+        if (styles->styles[pseudo_element] == NULL)
+            /* There were no rules concerning this pseudo element */
+            continue;
+
+        /* Complete the pseudo element's computed style, by composing
+         * with the base element's style */
+        error = css_computed_style_compose(
+                styles->styles[CSS_PSEUDO_ELEMENT_NONE],
+                styles->styles[pseudo_element],
+                compute_font_size, NULL,
+                &composed);
+        if (error != CSS_OK) {
+            /* TODO: perhaps this shouldn't be quite so
+             * catastrophic? */
+            css_select_results_destroy(styles);
+            hl_css_stylesheet_destroy(inline_style);
+            return NULL;
+        }
+
+        /* Replace select_results style with composed style */
+        css_computed_style_destroy(styles->styles[pseudo_element]);
+        styles->styles[pseudo_element] = composed;
+    }
+
+    hl_css_stylesheet_destroy(inline_style);
+    return styles;
+}
+
+css_select_results *hl_css_select_style(const HLCSS* css, void *n,
+        const css_media *media, const css_stylesheet *inlineStyleSheet,
+        css_select_handler *handler)
+{
+    css_computed_style *composed;
+    css_select_results *styles;
+    int pseudo_element;
+    css_error error;
+    css_error code;
+    css_select_ctx *select_ctx;
+    uint32_t count;
+
+    if (css == NULL || css->sheet == NULL)
+    {
+        HL_LOGW("css select style param error.\n");
+        return NULL;
+    }
+
+    if (css->done != 1)
+    {
+        hl_css_stylesheet_data_done(css->sheet);
+    }
+
+    css_stylesheet* styleSheet = css->sheet;
+
+    code = css_select_ctx_create(&select_ctx);
+    if (code != CSS_OK)
+    {
+        fprintf(stderr, "css_select_ctx_create failed! code=%d\n", code);
+        return NULL;
+    }
+
+    code = css_select_ctx_append_sheet(select_ctx, styleSheet, CSS_ORIGIN_AUTHOR, NULL);
+    if (code != CSS_OK)
+    {
+        fprintf(stderr, "css_select_ctx_append_sheet failed! code=%d\n", code);
+        hl_css_select_ctx_destroy(select_ctx);
+        return NULL;
+    }
+
+    code = css_select_ctx_count_sheets(select_ctx, &count);
+    if (code != CSS_OK)
+    {
+        fprintf(stderr, "css_select_ctx_count_sheets failed! code=%d\n", code);
+        hl_css_select_ctx_destroy(select_ctx);
+        return NULL;
+    }
+
+    fprintf(stderr, "created selection context with %i sheets\n", count);
+
+    /* Select style for node */
+    error = css_select_style(select_ctx, n, media, inlineStyleSheet,
+            handler ? handler : &selection_handler, NULL, &styles);
+
+    if (error != CSS_OK || styles == NULL) {
+        /* Failed selecting partial style -- bail out */
+        hl_css_select_ctx_destroy(select_ctx);
+        return NULL;
+    }
+
+    for (pseudo_element = CSS_PSEUDO_ELEMENT_NONE + 1;
+            pseudo_element < CSS_PSEUDO_ELEMENT_COUNT;
+            pseudo_element++) {
+
+        if (pseudo_element == CSS_PSEUDO_ELEMENT_FIRST_LETTER ||
+                pseudo_element == CSS_PSEUDO_ELEMENT_FIRST_LINE)
+            /* TODO: Handle first-line and first-letter pseudo
+             *       element computed style completion */
+            continue;
+
+        if (styles->styles[pseudo_element] == NULL)
+            /* There were no rules concerning this pseudo element */
+            continue;
+
+        /* Complete the pseudo element's computed style, by composing
+         * with the base element's style */
+        error = css_computed_style_compose(
+                styles->styles[CSS_PSEUDO_ELEMENT_NONE],
+                styles->styles[pseudo_element],
+                compute_font_size, NULL,
+                &composed);
+        if (error != CSS_OK) {
+            /* TODO: perhaps this shouldn't be quite so
+             * catastrophic? */
+            css_select_results_destroy(styles);
+            hl_css_select_ctx_destroy(select_ctx);
+            return NULL;
+        }
+
+        /* Replace select_results style with composed style */
+        css_computed_style_destroy(styles->styles[pseudo_element]);
+        styles->styles[pseudo_element] = composed;
+    }
+
+    hl_css_select_ctx_destroy(select_ctx);
+    return styles;
+}
+
+int hl_css_select_result_destroy(css_select_results *result)
+{
+    if (result)
+        return css_select_results_destroy(result);
+}
+
+css_fixed css_screen_dpi = F_90;
+css_fixed css_baseline_pixel_density = F_96;
+static inline css_fixed css_pixels_css_to_physical(
+        css_fixed css_pixels)
+{
+    return FDIV(FMUL(css_pixels, css_screen_dpi),
+            css_baseline_pixel_density);
 }
 
 #endif

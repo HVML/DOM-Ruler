@@ -769,7 +769,7 @@ int hl_layout_node(HLContext *ctx, HiLayoutNode *node, int x, int y,
                             &left);
                 }
                 hl_block_find_dimensions(ctx, child, cw, ch, 0, 0);
-                HiLayoutNode *previous = hi_layout_node_get_previous(child);
+                HiLayoutNode *previous = hi_layout_node_previous(child);
                 if (previous != NULL
                         && (previous->layout_type == LAYOUT_BLOCK
                             || previous->layout_type == LAYOUT_GRID)
