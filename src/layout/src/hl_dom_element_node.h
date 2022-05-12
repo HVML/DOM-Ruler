@@ -134,9 +134,7 @@ const char* hl_element_node_get_inner_attr(HLDomElementNode* node, const char* a
 int hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
 void* hl_element_node_get_inner_data(HLDomElementNode* node, const char* key);
 
-void *hl_dom_element_node_first_child(void *node);
-void *hl_dom_element_node_next_child(void *node);
-
+// HLDomElelementNode op
 void hl_dom_element_node_set_attach(void *node, void *data,
         cb_free_attach_data cb_free);
 

@@ -502,6 +502,21 @@ void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
     return layout->origin;
 }
 
+const char *hi_layout_node_get_name(HiLayoutNode *node)
+{
+    return node->origin_op->get_name(node);
+}
+
+const char *hi_layout_node_get_id(HiLayoutNode *node)
+{
+    return node->origin_op->get_id(node);
+}
+
+const char **hi_layout_node_get_classes(HiLayoutNode *node, int *nr_classes)
+{
+    return node->origin_op->get_classes(node, nr_classes);
+}
+
 HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node)
 {
     void *origin = node->origin_op->get_parent(node->origin);

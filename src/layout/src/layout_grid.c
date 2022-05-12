@@ -603,11 +603,14 @@ int hl_layout_child_node_grid(HLContext* ctx, HiLayoutNode *node, int level)
 
     int cl = level + 1;
     // layout with grid-row-start/end, grid-column-start/end
-    hl_for_each_child(ctx, node, hl_layout_child_with_grid_rc_row_column, grid_template);
+    hl_for_each_child(ctx, node, hl_layout_child_with_grid_rc_row_column,
+            grid_template);
     // layout with grid-row-start/end
-    hl_for_each_child(ctx, node, hl_layout_child_with_grid_rc_row, grid_template);
+    hl_for_each_child(ctx, node, hl_layout_child_with_grid_rc_row,
+            grid_template);
     // layout auto
-    hl_for_each_child(ctx, node, hl_layout_child_with_grid_rc_auto, grid_template);
+    hl_for_each_child(ctx, node, hl_layout_child_with_grid_rc_auto,
+            grid_template);
     // free grid tree
     hl_for_each_child(ctx, node, hl_free_grid_item, grid_template);
     // while for layout child call hl_layout_node

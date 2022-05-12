@@ -159,6 +159,9 @@ HiLayoutNode *hi_layout_node_from_origin_node(void *node,
 void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
         hidomlayout_node_op **op);
 
+const char *hi_layout_node_get_name(HiLayoutNode *node);
+const char *hi_layout_node_get_id(HiLayoutNode *node);
+const char **hi_layout_node_get_classes(HiLayoutNode *node, int *nr_classes);
 HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node);
 void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent);
 HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node);
