@@ -101,8 +101,10 @@ typedef struct HLDomElementNode_ {
     double min_h;
     double max_h;
 
-    // begin
-    HiLayoutNode layout;
+    // begin layout attach
+    HiLayoutNode *layout;
+    cb_free_attach_data layout_free_cb;
+    // end layout attch
 
 } HLDomElementNode;
 
@@ -119,15 +121,19 @@ void* hl_element_node_get_inner_data(HLDomElementNode* node, const char* key);
 // HLDomElelementNode op
 void hl_dom_element_node_set_attach(void *node, void *data,
         cb_free_attach_data cb_free);
-
 void *hl_dom_element_node_get_attach(void *node, cb_free_attach_data *cb_free);
-
-void *hl_dom_element_node_parent(void *node);
+HLNodeType hl_dom_element_node_get_type(void *node);
+const char *hl_dom_element_node_get_name(void *node);
+const char *hl_dom_element_node_get_id(void *node);
+const char **hl_dom_element_node_get_classes(void *node, int *nr_classes);
+const char *hl_dom_element_node_get_attr(void *node, const char *attr);
 void hl_dom_element_node_set_parent(void *node, void *parent);
+void *hl_dom_element_node_get_parent(void *node);
 void *hl_dom_element_node_first_child(void *node);
-void *hl_dom_element_node_next_child(void *node);
+void *hl_dom_element_node_next(void *node);
+void *hl_dom_element_node_previous(void *node);
 bool hl_dom_element_node_is_root(void *node);
-HiLayoutNode *hl_dom_element_node_layout(void *node);
+// End HLDomElelementNode op
 
 #ifdef __cplusplus
 }

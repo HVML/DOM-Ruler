@@ -99,11 +99,11 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     node->tag = strdup(tag);
     node->inner_tag = hl_lwc_string_dup(tag);
 
-    node->layout.box_values.w = UNKNOWN_WIDTH;
-    node->layout.box_values.display = HL_DISPLAY_BLOCK;
-    node->layout.box_values.position = HL_POSITION_RELATIVE;
-    node->layout.box_values.visibility = HL_VISIBILITY_VISIBLE;
-    node->layout.box_values.opacity = 1.0f;
+    node->layout->box_values.w = UNKNOWN_WIDTH;
+    node->layout->box_values.display = HL_DISPLAY_BLOCK;
+    node->layout->box_values.position = HL_POSITION_RELATIVE;
+    node->layout->box_values.visibility = HL_VISIBILITY_VISIBLE;
+    node->layout->box_values.opacity = 1.0f;
 
     node->min_w = 0;
     node->max_w = UNKNOWN_MAX_WIDTH;
@@ -229,46 +229,37 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         free(node->inner_classes);
     }
 
-    if (node->layout.text_values.font_family)
-    {
-        free(node->layout.text_values.font_family);
-    }
-
-    hl_destroy_svg_values(node->layout.svg_values);
-    if (node->layout.select_styles)
-    {
-        css_select_results_destroy(node->layout.select_styles);
-    }
+    node->layout_free_cb(node->layout);
     free(node);
 }
 
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node)
 {
-    return node ? & node->layout.box_values : NULL;
+    return node ? & node->layout->box_values : NULL;
 }
 
 const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node)
 {
-    return node ? & node->layout.background_values : NULL;
+    return node ? & node->layout->background_values : NULL;
 }
 
 const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNode* node)
 {
-    return node ? & node->layout.text_values : NULL;
+    return node ? & node->layout->text_values : NULL;
 }
 
 
 HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node)
 {
-    css_computed_style* style = node->layout.computed_style;
+    css_computed_style* style = node->layout->computed_style;
     if (style == NULL)
     {
         return NULL;
     }
 
-    hl_destroy_svg_values(node->layout.svg_values);
+    hl_destroy_svg_values(node->layout->svg_values);
     HLUsedSvgValues* svg = (HLUsedSvgValues*)calloc(1, sizeof(HLUsedSvgValues));
-    node->layout.svg_values = svg;
+    node->layout->svg_values = svg;
     // baseline_shift
     svg->baseline_shift = css_computed_baseline_shift(style);
     // clip-path
@@ -922,8 +913,7 @@ void* hilayout_element_node_get_attach_data(const HLDomElementNode* node, uint32
     return attach->data;
 }
 
-
-
+// Begin HLDomElelementNode op
 void hl_dom_element_node_set_attach(void *node, void *data,
         cb_free_attach_data cb_free)
 {
@@ -934,35 +924,71 @@ void *hl_dom_element_node_get_attach(void *node, cb_free_attach_data *cb_free)
     return NULL;
 }
 
-void *hl_dom_element_node_parent(void *node)
+HLNodeType hl_dom_element_node_get_type(void *node)
 {
-    return node ? ((HLDomElementNode*)node)->parent : NULL;
+    return ((HLDomElementNode*)node)->inner_dom_type;
+}
+
+const char *hl_dom_element_node_get_name(void *node)
+{
+    return ((HLDomElementNode*)node)->tag;
+}
+
+const char *hl_dom_element_node_get_id(void *node)
+{
+    return hilayout_element_node_get_common_attr((HLDomElementNode*)node,
+            HL_COMMON_ATTR_ID);
+}
+
+const char **hl_dom_element_node_get_classes(void *node, int *nr_classes)
+{
+}
+
+const char *hl_dom_element_node_get_attr(void *n, const char *name)
+{
+    HLDomElementNode *node = (HLDomElementNode*)n;
+    if (strcmp(name, ATTR_ID) == 0) {
+        return hilayout_element_node_get_common_attr(node,
+            HL_COMMON_ATTR_ID);
+    }
+    else if (strcmp(name, ATTR_NAME) == 0) {
+        return hilayout_element_node_get_common_attr(node,
+            HL_COMMON_ATTR_NAME);
+    }
+    else if (strcmp(name, ATTR_CLASS) == 0) {
+        return hilayout_element_node_get_common_attr(node,
+            HL_COMMON_ATTR_CLASS_NAME);
+    }
+    return NULL;
 }
 
 void hl_dom_element_node_set_parent(void *node, void *parent)
 {
-    if (node) {
-        ((HLDomElementNode*)node)->parent = (HLDomElementNode*)parent;
-    }
+    ((HLDomElementNode*)node)->parent = (HLDomElementNode*)parent;
+}
+
+void *hl_dom_element_node_get_parent(void *node)
+{
+    return ((HLDomElementNode*)node)->parent;
 }
 
 void *hl_dom_element_node_first_child(void *node)
 {
-    return node ? ((HLDomElementNode*)node)->first_child : NULL;
+    return ((HLDomElementNode*)node)->first_child;
 }
 
-void *hl_dom_element_node_next_child(void *node)
+void *hl_dom_element_node_next(void *node)
 {
-    return node ? ((HLDomElementNode*)node)->next : NULL;
+    return ((HLDomElementNode*)node)->next;
+}
+
+void *hl_dom_element_node_previous(void *node)
+{
+    return ((HLDomElementNode*)node)->previous;
 }
 
 bool hl_dom_element_node_is_root(void *node)
 {
-    if (node == NULL) {
-        return false;
-    }
-
-
     HLDomElementNode *parent = ((HLDomElementNode*)node)->parent;
     if (parent != NULL) {
         return false;
@@ -970,8 +996,5 @@ bool hl_dom_element_node_is_root(void *node)
     return true;
 }
 
+// End HLDomElelementNode op
 
-HiLayoutNode *hl_dom_element_node_layout(void *node)
-{
-    return &((HLDomElementNode*)node)->layout;
-}

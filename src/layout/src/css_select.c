@@ -1121,7 +1121,7 @@ css_select_results *hl_get_node_style(const css_media *media,
 
     // prepare inline style
     css_stylesheet* inline_style = NULL;
-    const char* style = hi_layout_node_get_attr(node, ATTR_NAME_STYLE);
+    const char* style = hi_layout_node_get_attr(node, ATTR_STYLE);
     if (style != NULL) {
         inline_style = hl_css_stylesheet_inline_style_create(style,
                 strlen(style));

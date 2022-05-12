@@ -59,7 +59,10 @@
 #define HL_INNER_CSS_SELECT_ATTACH  "hl_inner_css_select_attach"
 #define HL_INNER_LAYOUT_ATTACH      "hl_inner_layout_attach"
 
-#define ATTR_NAME_STYLE             "style"
+#define ATTR_ID                "id"
+#define ATTR_STYLE             "style"
+#define ATTR_CLASS             "class"
+#define ATTR_NAME              "name"
 
 typedef struct HLAttachData_ {
     void* data;
