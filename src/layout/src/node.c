@@ -516,6 +516,11 @@ void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
     return layout->origin;
 }
 
+HLNodeType hi_layout_node_get_type(HiLayoutNode *node)
+{
+    return node->origin_op->get_type(node);
+}
+
 const char *hi_layout_node_get_name(HiLayoutNode *node)
 {
     return node->origin_op->get_name(node);
