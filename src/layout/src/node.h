@@ -59,6 +59,8 @@
 #define HL_INNER_CSS_SELECT_ATTACH  "hl_inner_css_select_attach"
 #define HL_INNER_LAYOUT_ATTACH      "hl_inner_layout_attach"
 
+#define ATTR_NAME_STYLE             "style"
+
 typedef struct HLAttachData_ {
     void* data;
     HlDestroyCallback callback;

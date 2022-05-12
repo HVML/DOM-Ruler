@@ -1111,7 +1111,6 @@ destroy_hl_css_data_package(void* data)
     free(pkg);
 }
 
-#if 0
 css_select_results *hl_get_node_style(const css_media *media,
         css_select_ctx *select_ctx, HiLayoutNode *node)
 {
@@ -1122,7 +1121,7 @@ css_select_results *hl_get_node_style(const css_media *media,
 
     // prepare inline style
     css_stylesheet* inline_style = NULL;
-    const char* style = hilayout_element_node_get_style(node);
+    const char* style = hi_layout_node_get_attr(node, ATTR_NAME_STYLE);
     if (style != NULL) {
         inline_style = hl_css_stylesheet_inline_style_create(style,
                 strlen(style));
@@ -1191,37 +1190,33 @@ css_select_results *hl_css_select_style(const HLCSS* css, void *n,
     css_select_ctx *select_ctx;
     uint32_t count;
 
-    if (css == NULL || css->sheet == NULL)
-    {
+    if (css == NULL || css->sheet == NULL) {
         HL_LOGW("css select style param error.\n");
         return NULL;
     }
 
-    if (css->done != 1)
-    {
+    if (css->done != 1) {
         hl_css_stylesheet_data_done(css->sheet);
     }
 
     css_stylesheet* styleSheet = css->sheet;
 
     code = css_select_ctx_create(&select_ctx);
-    if (code != CSS_OK)
-    {
+    if (code != CSS_OK) {
         fprintf(stderr, "css_select_ctx_create failed! code=%d\n", code);
         return NULL;
     }
 
-    code = css_select_ctx_append_sheet(select_ctx, styleSheet, CSS_ORIGIN_AUTHOR, NULL);
-    if (code != CSS_OK)
-    {
+    code = css_select_ctx_append_sheet(select_ctx, styleSheet,
+            CSS_ORIGIN_AUTHOR, NULL);
+    if (code != CSS_OK) {
         fprintf(stderr, "css_select_ctx_append_sheet failed! code=%d\n", code);
         hl_css_select_ctx_destroy(select_ctx);
         return NULL;
     }
 
     code = css_select_ctx_count_sheets(select_ctx, &count);
-    if (code != CSS_OK)
-    {
+    if (code != CSS_OK) {
         fprintf(stderr, "css_select_ctx_count_sheets failed! code=%d\n", code);
         hl_css_select_ctx_destroy(select_ctx);
         return NULL;
@@ -1231,7 +1226,7 @@ css_select_results *hl_css_select_style(const HLCSS* css, void *n,
 
     /* Select style for node */
     error = css_select_style(select_ctx, n, media, inlineStyleSheet,
-            handler ? handler : &selection_handler, NULL, &styles);
+            handler ? handler : &hl_css_select_handler, NULL, &styles);
 
     if (error != CSS_OK || styles == NULL) {
         /* Failed selecting partial style -- bail out */
@@ -1292,4 +1287,3 @@ static inline css_fixed css_pixels_css_to_physical(
             css_baseline_pixel_density);
 }
 
-#endif
