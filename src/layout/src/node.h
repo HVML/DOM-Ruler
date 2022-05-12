@@ -16,7 +16,7 @@
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
-    Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
+    Copyright (C) 2021~2022 Beijing FMSoft Technologies Co., Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General License as published by
