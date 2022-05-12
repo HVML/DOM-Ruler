@@ -56,8 +56,6 @@
 #include <glib/ghash.h>
 
 
-#define HL_INNER_CSS_SELECT_ATTACH  "hl_inner_css_select_attach"
-#define HL_INNER_LAYOUT_ATTACH      "hl_inner_layout_attach"
 #define MAX_ATTACH_DATA_SIZE        10
 
 HiLayoutNode *hi_layout_node_create(void)

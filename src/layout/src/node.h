@@ -56,6 +56,9 @@
 #include <libcss/libcss.h>
 #include <glib.h>
 
+#define HL_INNER_CSS_SELECT_ATTACH  "hl_inner_css_select_attach"
+#define HL_INNER_LAYOUT_ATTACH      "hl_inner_layout_attach"
+
 typedef struct HLAttachData_ {
     void* data;
     HlDestroyCallback callback;
