@@ -534,6 +534,11 @@ const char **hi_layout_node_get_classes(HiLayoutNode *node, int *nr_classes)
     return node->origin_op->get_classes(node, nr_classes);
 }
 
+const char *hi_layout_node_get_attr(HiLayoutNode *node, const char *attr)
+{
+    return node->origin_op->get_attr(node, attr);
+}
+
 HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node)
 {
     void *origin = node->origin_op->get_parent(node->origin);

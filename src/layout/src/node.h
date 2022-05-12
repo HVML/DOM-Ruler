@@ -173,6 +173,7 @@ HLNodeType hi_layout_node_get_type(HiLayoutNode *node);
 const char *hi_layout_node_get_name(HiLayoutNode *node);
 const char *hi_layout_node_get_id(HiLayoutNode *node);
 const char **hi_layout_node_get_classes(HiLayoutNode *node, int *nr_classes);
+const char *hi_layout_node_get_attr(HiLayoutNode *node, const char *attr);
 HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node);
 void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent);
 HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node);
