@@ -124,8 +124,6 @@ typedef struct HiLayoutNode {
     lwc_string *inner_id;
     lwc_string **inner_classes;
     int nr_inner_classes;
-
-//    HLNodeType inner_dom_type;
     // end for hicss inner
 
     // Origin Node

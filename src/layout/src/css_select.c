@@ -189,11 +189,9 @@ named_parent_node(void *pw, void *n, const css_qname *qname, void **parent)
     for (node = hi_layout_node_get_parent(node); node != NULL;
             node = hi_layout_node_get_parent(node)) {
 
-#if 0 // TODO
-        if (node->inner_dom_type != DOM_ELEMENT_NODE) {
+        if (hi_layout_node_get_type(node) != DOM_ELEMENT_NODE) {
             continue;
         }
-#endif
 
         const char *name = hi_layout_node_get_name(node);
         assert(name != NULL);
