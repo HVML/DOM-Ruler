@@ -62,8 +62,12 @@ static inline
 bool hl_verify_handler(hidomlayout_node_op *op)
 {
     if (!op || !op->set_attach || !op->get_attach
+            || !op->get_type || !op->get_name
+            || !op->get_id || !op->get_classes
+            || !op->get_attr
             || !op->set_parent || !op->get_parent
             || !op->first_child || !op->next
+            || !op->previous
             || !op->is_root) {
         return false;
     }
@@ -79,11 +83,12 @@ int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
         return HILAYOUT_BADPARM;
     }
 
-    return 0;
+    HiLayoutNode *node = hi_layout_node_from_origin_node(root, op);
+    return hi_layout_do_layout(media, css, node);
 }
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 {
-    return 0;
+    return hidomlayout_layout(media, css, root, hl_dom_element_node_get_op());
 }
 

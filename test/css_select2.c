@@ -54,7 +54,9 @@
 #include "node.h"
 #include "select.h"
 #include "layout.h"
+#include "hl_dom_element_node.h"
 #include "hidomlayout.h"
+
 /*
  
    <div id="root">
@@ -74,9 +76,9 @@
 
 int main(int argc, char **argv)
 {
-	css_error code;
-	size_t size;
-	const char data[] = "h1 { color: red } "
+    css_error code;
+    size_t size;
+    const char data[] = "h1 { color: red } "
         "#root { display: block; } "
         "#title { position: relative; left:20%; width: 100%; height: 20%; color: #123; } "
         "#description { position: relative; width: 100%; height: 10%; color: #124; } "
@@ -84,13 +86,13 @@ int main(int argc, char **argv)
         "#indicator { position: relative; width: 100%; height: 10%; color: #126; } "
         "hiweb { position: relative; width: 100%; height: 25%; color: #127; } "
         "hijs { position: relative; width: 100%; height: 50%; color: #128; }";
-	css_select_ctx *select_ctx;
-	uint32_t count;
-	unsigned int hh;
-	css_stylesheet_params params;
-	css_media media = {
-		.type = CSS_MEDIA_SCREEN,
-	};
+    css_select_ctx *select_ctx;
+    uint32_t count;
+    unsigned int hh;
+    css_stylesheet_params params;
+    css_media media = {
+        .type = CSS_MEDIA_SCREEN,
+    };
 
     HLCSS* css = hilayout_css_create();
     if (css == NULL)
@@ -141,7 +143,9 @@ int main(int argc, char **argv)
     uint8_t val;
 
     HLDomElementNode* node_select = title;
-    style = hl_css_select_style(css, node_select, &media, NULL, NULL);
+    HiLayoutNode *layout_node = hi_layout_node_from_origin_node(node_select,
+                    hl_dom_element_node_get_op());
+    style = hl_css_select_style(css, layout_node, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     HL_LOGD("################################\n");
     HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select), color_shade);
@@ -156,7 +160,9 @@ int main(int argc, char **argv)
 
     HL_LOGD("###################\n");
     node_select = title;
-    style = hl_css_select_style(css, node_select, &media, NULL, NULL);
+    layout_node = hi_layout_node_from_origin_node(node_select,
+                    hl_dom_element_node_get_op());
+    style = hl_css_select_style(css, layout_node, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select), color_shade);
     hl_css_select_result_destroy(style);
@@ -174,6 +180,6 @@ int main(int argc, char **argv)
     hilayout_css_destroy(css);
 #endif
 
-	return 0;
+    return 0;
 }
 

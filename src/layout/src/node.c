@@ -577,7 +577,7 @@ const char *hi_layout_node_get_attr(HiLayoutNode *node, const char *attr)
 HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node)
 {
     void *origin = node->origin_op->get_parent(node->origin);
-    return hi_layout_node_from_origin_node(origin, NULL);
+    return hi_layout_node_from_origin_node(origin, node->origin_op);
 }
 
 void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent)
@@ -588,19 +588,19 @@ void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent)
 HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node)
 {
     void *origin = node->origin_op->first_child(node->origin);
-    return hi_layout_node_from_origin_node(origin, NULL);
+    return hi_layout_node_from_origin_node(origin,  node->origin_op);
 }
 
 HiLayoutNode *hi_layout_node_next(HiLayoutNode *node)
 {
     void *origin = node->origin_op->next(node->origin);
-    return hi_layout_node_from_origin_node(origin, NULL);
+    return hi_layout_node_from_origin_node(origin, node->origin_op);
 }
 
 HiLayoutNode *hi_layout_node_previous(HiLayoutNode *node)
 {
     void *origin = node->origin_op->previous(node->origin);
-    return hi_layout_node_from_origin_node(origin, NULL);
+    return hi_layout_node_from_origin_node(origin, node->origin_op);
 }
 
 bool hi_layout_node_is_root(HiLayoutNode *node)

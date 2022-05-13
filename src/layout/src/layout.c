@@ -809,7 +809,7 @@ int hl_layout_node(HLContext *ctx, HiLayoutNode *node, int x, int y,
     return HILAYOUT_OK;
 }
 
-int hilayout_do_layout_ex(HLMedia *media, HLCSS *css, HiLayoutNode *root)
+int hi_layout_do_layout(HLMedia *media, HLCSS *css, HiLayoutNode *root)
 {
     if (media == NULL || root == NULL || css == NULL || css->sheet == NULL) {
         HL_LOGE("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n",

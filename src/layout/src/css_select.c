@@ -1178,7 +1178,7 @@ css_select_results *hl_get_node_style(const css_media *media,
     return styles;
 }
 
-css_select_results *hl_css_select_style(const HLCSS* css, void *n,
+css_select_results *hl_css_select_style(const HLCSS* css, HiLayoutNode *n,
         const css_media *media, const css_stylesheet *inlineStyleSheet,
         css_select_handler *handler)
 {

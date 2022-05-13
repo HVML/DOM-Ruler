@@ -103,7 +103,7 @@ void print_node_info(HLDomElementNode* node, void* user_data)
 
 int main(int argc, char **argv)
 {
-	size_t size;
+    size_t size;
     const char html[] = " \
            <div id=\"root\"> \n\
                 <div id=\"title\"></div> \n\
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
                 <div id=\"indicator\"></div>\n\
            </div> \
         ";
-	const char data[] = "h1 { color: red } \n"
+    const char data[] = "h1 { color: red } \n"
         "#root { display: block; } \n"
         "#title { position: relative; left:20%; width: 100%; height: 10%; color: #123; } \n"
         "#page { position: relative; width: 100%; height: 80%; color: #125; } \n"
@@ -206,7 +206,7 @@ int main(int argc, char **argv)
 
     hilayout_element_node_set_general_attr(hijs, "xsmKey", "xsmValue2222222");
     fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_general_attr(hijs, "xsmKey"));
-    
+
     fprintf(stderr, ".......................HL_PROP_CATEGORY_BOX=%d\n", HL_PROP_CATEGORY_BOX);
     hilayout_element_node_set_common_attr(hijs, HL_PROP_ID_WIDTH, "privateValue1111");
     fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, hilayout_element_node_get_common_attr(hijs, HL_PROP_ID_WIDTH));
@@ -267,6 +267,6 @@ int main(int argc, char **argv)
     hilayout_element_node_destroy(hijs);
     hilayout_element_node_destroy(hijs2);
 
-	return 0;
+    return 0;
 }
 
