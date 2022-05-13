@@ -88,12 +88,6 @@ typedef struct HLDomElementNode_ {
 
     HLNodeType inner_dom_type;
 
-    double min_w;
-    double max_w;
-
-    double min_h;
-    double max_h;
-
     // begin layout attach
     HiLayoutNode *layout;
     cb_free_attach_data layout_free_cb;
@@ -105,7 +99,6 @@ typedef struct HLDomElementNode_ {
 extern "C" {
 #endif
 
-bool hl_node_is_root(HLDomElementNode *n);
 int hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
 const char* hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
 int hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
