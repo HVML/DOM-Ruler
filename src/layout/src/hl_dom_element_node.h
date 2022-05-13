@@ -86,14 +86,7 @@ typedef struct HLDomElementNode_ {
     // class name
     GList* class_list;
 
-    // begin for hicss inner
-    lwc_string* inner_tag;
-    lwc_string* inner_id;
-    lwc_string** inner_classes;
-    int inner_classes_count;
-
     HLNodeType inner_dom_type;
-    // end for hicss inner
 
     double min_w;
     double max_w;

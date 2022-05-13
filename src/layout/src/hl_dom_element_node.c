@@ -79,7 +79,6 @@ HLDomElementNode* hilayout_element_node_create(const char* tag)
     }
 
     node->tag = strdup(tag);
-    node->inner_tag = hl_lwc_string_dup(tag);
 
     node->min_w = 0;
     node->max_w = UNKNOWN_MAX_WIDTH;
@@ -108,16 +107,6 @@ void hl_fill_inner_classes(HLDomElementNode* node, const char* classes)
         return;
     }
 
-    if (node->inner_classes)
-    {
-        for (int i = 0; i < node->inner_classes_count; i++)
-        {
-            hl_lwc_string_destroy(node->inner_classes[i]);
-        }
-        node->inner_classes_count = 0;
-        free(node->inner_classes);
-    }
-
     g_list_free_full(node->class_list, hl_destroy_class_list_item);
     node->class_list = NULL;
 
@@ -125,17 +114,9 @@ void hl_fill_inner_classes(HLDomElementNode* node, const char* classes)
     char* c = strtok(value, _HILAYOUT_WHITESPACE);
     while (c != NULL) {
         node->class_list = g_list_append(node->class_list, strdup(c));
-        node->inner_classes_count++;
         c = strtok(NULL, _HILAYOUT_WHITESPACE);
     }
     free(value);
-
-    node->inner_classes = (lwc_string**)calloc(node->inner_classes_count, sizeof(lwc_string*));
-    int i = 0;
-    for (GList* it = node->class_list; it; it = it->next)
-    {
-        node->inner_classes[i++]= hl_lwc_string_dup((const char*)it->data);
-    }
 }
 
 void hilayout_element_node_destroy(HLDomElementNode *node)
@@ -191,18 +172,6 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
     if (node->class_list)
     {
         g_list_free_full(node->class_list, hl_destroy_class_list_item);
-    }
-
-    hl_lwc_string_destroy(node->inner_tag);
-    hl_lwc_string_destroy(node->inner_id);
-
-    if (node->inner_classes)
-    {
-        for (int i = 0; i < node->inner_classes_count; i++)
-        {
-            hl_lwc_string_destroy(node->inner_classes[i]);
-        }
-        free(node->inner_classes);
     }
 
     if (node->layout && node->layout_free_cb) {
@@ -566,21 +535,8 @@ int hilayout_element_node_set_common_attr(HLDomElementNode* node, HLCommonAttrib
         node->common_attrs = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, hl_destroy_common_attr_value);
     }
 
-    switch (attr_id)
-    {
-        case HL_COMMON_ATTR_ID:
-            {
-                if (node->inner_id)
-                {
-                    hl_lwc_string_destroy(node->inner_id);
-                }
-                node->inner_id = hl_lwc_string_dup(attr_value);
-            }
-            break;
-
-        case HL_COMMON_ATTR_CLASS_NAME:
-            hl_fill_inner_classes(node, attr_value);
-            break;
+    if (attr_id == HL_COMMON_ATTR_CLASS_NAME) {
+        hl_fill_inner_classes(node, attr_value);
     }
 
     return g_hash_table_insert(node->common_attrs, (gpointer)attr_id, (gpointer)strdup(attr_value));
