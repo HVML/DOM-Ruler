@@ -53,6 +53,7 @@
 #include <libcss/libcss.h>
 #include "node.h"
 #include "select.h"
+#include "hl_dom_element_node.h"
 
 int main(int argc, char **argv)
 {
@@ -102,7 +103,9 @@ int main(int argc, char **argv)
 
 
         HLDomElementNode* domNode = hilayout_element_node_create("h1");
-        style = hl_css_select_style(css, domNode, &media, NULL, NULL);
+        HiLayoutNode *layout_node = hi_layout_node_from_origin_node(domNode,
+                        hl_dom_element_node_get_op());
+        style = hl_css_select_style(css, layout_node, &media, NULL, NULL);
 
 		color_type = css_computed_color(
 				style->styles[CSS_PSEUDO_ELEMENT_NONE],
