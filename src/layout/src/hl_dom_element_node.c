@@ -237,25 +237,37 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
 
 const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node)
 {
-    return node ? & node->layout->box_values : NULL;
+    if (node && node->layout) {
+        return &node->layout->box_values;
+    }
+    return NULL;
 }
 
 const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node)
 {
-    return node ? & node->layout->background_values : NULL;
+    if (node && node->layout) {
+        return &node->layout->background_values;
+    }
+    return NULL;
 }
 
 const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNode* node)
 {
-    return node ? & node->layout->text_values : NULL;
+    if (node && node->layout) {
+        return &node->layout->text_values;
+    }
+    return NULL;
 }
 
 
 HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node)
 {
-    css_computed_style* style = node->layout->computed_style;
-    if (style == NULL)
-    {
+    css_computed_style* style = NULL;
+    if (node && node->layout) {
+        style = node->layout->computed_style;
+    }
+
+    if (style == NULL) {
         return NULL;
     }
 
