@@ -60,7 +60,16 @@
 
 HiLayoutNode *hi_layout_node_create(void)
 {
-    return (HiLayoutNode*) calloc(1, sizeof(HiLayoutNode));
+    HiLayoutNode *node = (HiLayoutNode*) calloc(1, sizeof(HiLayoutNode));
+    if (!node) {
+        return NULL;
+    }
+    node->box_values.w = UNKNOWN_WIDTH;
+    node->box_values.display = HL_DISPLAY_BLOCK;
+    node->box_values.position = HL_POSITION_RELATIVE;
+    node->box_values.visibility = HL_VISIBILITY_VISIBLE;
+    node->box_values.opacity = 1.0f;
+    return node;
 }
 
 void hi_layout_node_destroy(HiLayoutNode *node)
