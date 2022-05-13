@@ -551,27 +551,27 @@ void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
 
 HLNodeType hi_layout_node_get_type(HiLayoutNode *node)
 {
-    return node->origin_op->get_type(node);
+    return node->origin_op->get_type(node->origin);
 }
 
 const char *hi_layout_node_get_name(HiLayoutNode *node)
 {
-    return node->origin_op->get_name(node);
+    return node->origin_op->get_name(node->origin);
 }
 
 const char *hi_layout_node_get_id(HiLayoutNode *node)
 {
-    return node->origin_op->get_id(node);
+    return node->origin_op->get_id(node->origin);
 }
 
 int hi_layout_node_get_classes(HiLayoutNode *node, char ***classes)
 {
-    return node->origin_op->get_classes(node, classes);
+    return node->origin_op->get_classes(node->origin, classes);
 }
 
 const char *hi_layout_node_get_attr(HiLayoutNode *node, const char *attr)
 {
-    return node->origin_op->get_attr(node, attr);
+    return node->origin_op->get_attr(node->origin, attr);
 }
 
 HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node)

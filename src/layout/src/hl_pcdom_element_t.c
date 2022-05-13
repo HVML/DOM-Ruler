@@ -115,13 +115,21 @@ HLNodeType hl_pcdom_element_t_get_type(void *n)
 const char *hl_pcdom_element_t_get_name(void *n)
 {
     pcdom_element_t *elem = (pcdom_element_t *)n;
-    return pcdom_element_tag_name(elem, NULL);
+    const char *name = NULL;
+    if (elem->node.type == PCDOM_NODE_TYPE_TEXT) {
+        name = "TEXT";
+    }
+    else {
+        name = pcdom_element_tag_name(elem, NULL);
+    }
+    return name;
 }
 
 const char *hl_pcdom_element_t_get_id(void *n)
 {
     pcdom_element_t *elem = (pcdom_element_t *)n;
-    return pcdom_element_get_attribute(elem, ATTR_ID, strlen(ATTR_ID), NULL);
+    const char *id = pcdom_element_get_attribute(elem, ATTR_ID, strlen(ATTR_ID), NULL);
+    return id;
 }
 
 #define WHITESPACE      " "
@@ -166,7 +174,11 @@ void hl_pcdom_element_t_set_parent(void *n, void *parent)
 void *hl_pcdom_element_t_get_parent(void *n)
 {
     pcdom_node_t *node = (pcdom_node_t *)n;
-    return node->parent;
+    pcdom_node_t *parent = node->parent;
+    if (parent && parent->type == PCDOM_NODE_TYPE_DOCUMENT) {
+        return NULL;
+    }
+    return parent;
 }
 
 void *hl_pcdom_element_t_first_child(void *n)
@@ -178,7 +190,11 @@ void *hl_pcdom_element_t_first_child(void *n)
 void *hl_pcdom_element_t_next(void *n)
 {
     pcdom_node_t *node = (pcdom_node_t *)n;
-    return node->next;
+    pcdom_node_t *next = pcdom_node_next(node);
+    if (next && next->type == PCDOM_NODE_TYPE_UNDEF) {
+        return NULL;
+    }
+    return next;
 }
 
 void *hl_pcdom_element_t_previous(void *n)
@@ -190,10 +206,10 @@ void *hl_pcdom_element_t_previous(void *n)
 bool hl_pcdom_element_t_is_root(void *n)
 {
     pcdom_node_t *node = (pcdom_node_t *)n;
-    if (node->parent != NULL) {
-        return false;
+    if (node->parent == NULL || node->parent->type == PCDOM_NODE_TYPE_DOCUMENT) {
+        return true;
     }
-    return true;
+    return false;
 }
 
 hidomlayout_node_op hl_pcdom_element_t_op = {

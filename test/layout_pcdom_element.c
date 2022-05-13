@@ -50,9 +50,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "purc/purc.h"
 #include "hidomlayout.h"
 #include "node.h"
 #include "hl_dom_element_node.h"
+#include "hl_pcdom_element_t.h"
 /*
  
    <div id="root">
@@ -101,8 +103,23 @@ void print_node_info(HLDomElementNode* node, void* user_data)
     fprintf(stderr, "................................node=%s|id=%s\n", hilayout_element_node_get_tag_name(node), hilayout_element_node_get_id(node));
 }
 
+void print_layout_node(HLContext *ctx, HiLayoutNode *node, void *user_data)
+{
+    if (hi_layout_node_get_type(node) == DOM_UNDEF) {
+        fprintf(stderr, "................................node=UNDEF\n");
+    }
+    else {
+        const char * name = hi_layout_node_get_name(node);
+        fprintf(stderr, "................................node=%s\n", name);
+    }
+}
+
 int main(int argc, char **argv)
 {
+    purc_instance_extra_info info = {};
+    int ret = purc_init_ex (PURC_MODULE_HTML, "cn.fmsoft.hybridos.test",
+            "test_layout", &info);
+
     size_t size;
     const char html[] = " \
            <div id=\"root\"> \n\
@@ -132,61 +149,19 @@ int main(int argc, char **argv)
 
     fprintf(stderr, "####################################### css  ###########################\n");
     const char* css_data = data;
-    if (argc > 1)
-    {
+    if (argc > 1) {
         css_data = readCSS(argv[1]);
     }
     fprintf(stderr, "%s\n", css_data);
 
     HLCSS* css = hilayout_css_create();
-    if (css == NULL)
-    {
+    if (css == NULL) {
         HL_LOGE("create HLCSS failed.\n");
         return HILAYOUT_INVALID;
     }
 
     hilayout_css_append_data(css, css_data, strlen(css_data));
 
-
-    HLDomElementNode* root = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(root, "root");
-
-    HLDomElementNode* title = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(title, "title");
-
-    HLDomElementNode* description = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(description, "description");
-
-    char page_inline_style[] = "display:grid;";
-    HLDomElementNode* page = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(page, "page");
-//    hilayout_element_node_set_style(page, page_inline_style);
-
-    HLDomElementNode* indicator = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(indicator, "indicator");
-
-
-    HLDomElementNode* hiweb = hilayout_element_node_create("hiweb");
-    hilayout_element_node_set_id(hiweb, "hiweb");
-
-    HLDomElementNode* hiweb2 = hilayout_element_node_create("hiweb");
-    hilayout_element_node_set_id(hiweb2, "hiweb2");
-
-    HLDomElementNode* hijs = hilayout_element_node_create("hijs");
-    hilayout_element_node_set_id(hijs, "hijs");
-
-    HLDomElementNode* hijs2 = hilayout_element_node_create("hijs");
-    hilayout_element_node_set_id(hijs2, "hijs2");
-
-    hilayout_element_node_append_as_last_child(title, root);
-    hilayout_element_node_append_as_last_child(description, root);
-    hilayout_element_node_append_as_last_child(page, root);
-    hilayout_element_node_append_as_last_child(indicator, root);
-
-    hilayout_element_node_append_as_last_child(hiweb, page);
-    hilayout_element_node_append_as_last_child(hiweb2, page);
-    hilayout_element_node_append_as_last_child(hijs, page);
-    hilayout_element_node_append_as_last_child(hijs2, page);
 
     HLMedia hl_media = {
         .width = 1280,
@@ -195,77 +170,22 @@ int main(int argc, char **argv)
         .density = 72
     };
 
+
+    pchtml_html_document_t *doc = pchtml_html_document_create();
+    ret = pchtml_html_document_parse_with_buf(doc, html, strlen(html));
+    fprintf(stderr, "##############parser html ret=%d\n", ret);
+
+    pcdom_document_t *document = pcdom_interface_document(doc);
+    pcdom_element_t *root = document->element;
     fprintf(stderr, "####################################### layout ###########################\n");
-    hilayout_do_layout(&hl_media, css, root);
+    ret = hilayout_do_pcdom_layout(&hl_media, css, root);
+    fprintf(stderr, "##############layout html ret=%d\n", ret);
 
-    const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(hijs);
-    fprintf(stderr, "############### txtVaule=%p|txt->family=%s\n", txtVaule, txtVaule->font_family);
-
-    hilayout_element_node_set_general_attr(hijs, "xsmKey", "xsmValue");
-    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_general_attr(hijs, "xsmKey"));
-
-    hilayout_element_node_set_general_attr(hijs, "xsmKey", "xsmValue2222222");
-    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_general_attr(hijs, "xsmKey"));
-
-    fprintf(stderr, ".......................HL_PROP_CATEGORY_BOX=%d\n", HL_PROP_CATEGORY_BOX);
-    hilayout_element_node_set_common_attr(hijs, HL_PROP_ID_WIDTH, "privateValue1111");
-    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, hilayout_element_node_get_common_attr(hijs, HL_PROP_ID_WIDTH));
-
-    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_BACKGROUND_COLOR, hilayout_element_node_get_common_attr(hijs, HL_PROP_ID_BACKGROUND_COLOR));
-
-    hl_element_node_set_inner_attr(hijs, "innerKey", "innerValue2222");
-    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, hl_element_node_get_inner_attr(hijs, "innerKey2"));
-
-    char* buf = (char*)malloc(100);
-    strcpy(buf, "this is test buf for userdata.\n");
-    hilayout_element_node_set_user_data(hijs, "userData", buf, destory_user_data);
-    void* udata = hilayout_element_node_get_user_data(hijs, "userData");
-    fprintf(stderr, "############### test get user data key=userData | value =%s\n",  (char*)udata);
-
-    buf = (char*)malloc(100);
-    strcpy(buf, "this is test buf for inner data.\n");
-    hl_element_node_set_inner_data(hijs, "innerData", buf, destory_user_data);
-    udata = hl_element_node_get_inner_data(hijs, "innerData");
-    fprintf(stderr, "############### test get inner data key=innerData | value =%s\n",  (char*)udata);
-
-    char* class_name = "   aa bb cc dd ee ff   ";
-    hilayout_element_node_set_class(hijs, class_name);
-    const char* get_name = hilayout_element_node_get_class(hijs);
-    fprintf(stderr, ".....................set class = %s\n", class_name);
-    fprintf(stderr, ".....................get class = %s\n", get_name);
-
-    fprintf(stderr, " hilayout_element_node_has_class xsm=%d\n", hilayout_element_node_has_class(hijs, "xsm"));
-    fprintf(stderr, " hilayout_element_node_has_class aa=%d\n", hilayout_element_node_has_class(hijs, "aa"));
-    fprintf(stderr, " hilayout_element_node_has_class bb=%d\n", hilayout_element_node_has_class(hijs, "bb"));
-    fprintf(stderr, " hilayout_element_node_has_class cc=%d\n", hilayout_element_node_has_class(hijs, "cc"));
-    fprintf(stderr, " hilayout_element_node_has_class dd=%d\n", hilayout_element_node_has_class(hijs, "dd"));
-    fprintf(stderr, " hilayout_element_node_has_class ee=%d\n", hilayout_element_node_has_class(hijs, "ee"));
-    fprintf(stderr, " hilayout_element_node_has_class ff=%d\n", hilayout_element_node_has_class(hijs, "ff"));
-
-    fprintf(stderr, " hilayout_element_node_include_class xsm=%d\n", hilayout_element_node_include_class(hijs, "xsm"));
-    fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
-
-    fprintf(stderr, " hilayout_element_node_exclude_class zxx=%d\n", hilayout_element_node_exclude_class(hijs, "zxx"));
-    fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
-
-    fprintf(stderr, " hilayout_element_node_exclude_class ff=%d\n", hilayout_element_node_exclude_class(hijs, "ff"));
-    fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
 
     hilayout_css_destroy(css);
+    pchtml_html_document_destroy(doc);
 
-
-    hilayout_element_node_depth_first_search_tree(root, print_node_info, NULL);
-
-
-    hilayout_element_node_destroy(root);
-    hilayout_element_node_destroy(title);
-    hilayout_element_node_destroy(page);
-    hilayout_element_node_destroy(description);
-    hilayout_element_node_destroy(indicator);
-    hilayout_element_node_destroy(hiweb);
-    hilayout_element_node_destroy(hiweb2);
-    hilayout_element_node_destroy(hijs);
-    hilayout_element_node_destroy(hijs2);
+    purc_cleanup ();
 
     return 0;
 }
