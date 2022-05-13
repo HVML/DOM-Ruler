@@ -940,8 +940,19 @@ const char *hl_dom_element_node_get_id(void *node)
             HL_COMMON_ATTR_ID);
 }
 
-int hl_dom_element_node_get_classes(HiLayoutNode *node, char ***classes)
+int hl_dom_element_node_get_classes(void *n, char ***classes)
 {
+    HLDomElementNode *node = (HLDomElementNode*)n;
+    int size = g_list_length(node->class_list);
+
+    char **cls = (char**)calloc(size, sizeof(char*));
+    GList *it = NULL;
+    int i = 0;
+    for (it = node->class_list; it; it = it->next) {
+        cls[i++]= strdup((const char*)it->data);
+    }
+    *classes = cls;
+    return size;
 }
 
 const char *hl_dom_element_node_get_attr(void *n, const char *name)
