@@ -529,9 +529,9 @@ const char *hi_layout_node_get_id(HiLayoutNode *node)
     return node->origin_op->get_id(node);
 }
 
-const char **hi_layout_node_get_classes(HiLayoutNode *node, int *nr_classes)
+int hi_layout_node_get_classes(HiLayoutNode *node, char ***classes)
 {
-    return node->origin_op->get_classes(node, nr_classes);
+    return node->origin_op->get_classes(node, classes);
 }
 
 const char *hi_layout_node_get_attr(HiLayoutNode *node, const char *attr)

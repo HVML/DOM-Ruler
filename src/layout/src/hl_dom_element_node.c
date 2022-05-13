@@ -144,7 +144,7 @@ void hl_fill_inner_classes(HLDomElementNode* node, const char* classes)
 
     g_list_free_full(node->class_list, hl_destroy_class_list_item);
     node->class_list = NULL;
-    
+
     char* value = strdup(classes);
     char* c = strtok(value, _HILAYOUT_WHITESPACE);
     while (c != NULL) {
@@ -940,7 +940,7 @@ const char *hl_dom_element_node_get_id(void *node)
             HL_COMMON_ATTR_ID);
 }
 
-const char **hl_dom_element_node_get_classes(void *node, int *nr_classes)
+int hl_dom_element_node_get_classes(HiLayoutNode *node, char ***classes)
 {
 }
 

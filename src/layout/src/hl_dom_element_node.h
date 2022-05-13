@@ -125,7 +125,7 @@ void *hl_dom_element_node_get_attach(void *node, cb_free_attach_data *cb_free);
 HLNodeType hl_dom_element_node_get_type(void *node);
 const char *hl_dom_element_node_get_name(void *node);
 const char *hl_dom_element_node_get_id(void *node);
-const char **hl_dom_element_node_get_classes(void *node, int *nr_classes);
+int hl_dom_element_node_get_classes(HiLayoutNode *node, char ***classes);
 const char *hl_dom_element_node_get_attr(void *node, const char *attr);
 void hl_dom_element_node_set_parent(void *node, void *parent);
 void *hl_dom_element_node_get_parent(void *node);

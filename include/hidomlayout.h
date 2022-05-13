@@ -153,7 +153,7 @@ typedef struct hidomlayout_node_op {
     HLNodeType (*get_type)(void *node);
     const char *(*get_name)(void *node);
     const char *(*get_id)(void *node);
-    const char **(*get_classes)(void *node, int *nr_classes);
+    int (*get_classes)(void *node, char ***classes);
     const char *(*get_attr)(void *node, const char *attr);
     void (*set_parent)(void *node, void *parent);
     void *(*get_parent)(void *node);
