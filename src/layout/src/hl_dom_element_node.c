@@ -229,7 +229,9 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         free(node->inner_classes);
     }
 
-    node->layout_free_cb(node->layout);
+    if (node->layout && node->layout_free_cb) {
+        node->layout_free_cb(node->layout);
+    }
     free(node);
 }
 
