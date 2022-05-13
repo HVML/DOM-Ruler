@@ -58,89 +58,89 @@
 #include <glib/ghash.h>
 
 
-void hl_pcdom_element_set_attach(void *n, void *data,
+void hl_pcdom_element_t_set_attach(void *n, void *data,
         cb_free_attach_data cb_free)
 {
 }
 
-void *hl_pcdom_element_get_attach(void *n, cb_free_attach_data *cb_free)
+void *hl_pcdom_element_t_get_attach(void *n, cb_free_attach_data *cb_free)
 {
     return NULL;
 }
 
-HLNodeType hl_pcdom_element_get_type(void *node)
+HLNodeType hl_pcdom_element_t_get_type(void *node)
 {
     return 0;
 }
 
-const char *hl_pcdom_element_get_name(void *node)
+const char *hl_pcdom_element_t_get_name(void *node)
 {
     return NULL;
 }
 
-const char *hl_pcdom_element_get_id(void *node)
+const char *hl_pcdom_element_t_get_id(void *node)
 {
     return NULL;
 }
 
-int hl_pcdom_element_get_classes(void *n, char ***classes)
+int hl_pcdom_element_t_get_classes(void *n, char ***classes)
 {
     return 0;
 }
 
-const char *hl_pcdom_element_get_attr(void *n, const char *name)
+const char *hl_pcdom_element_t_get_attr(void *n, const char *name)
 {
     return NULL;
 }
 
-void hl_pcdom_element_set_parent(void *node, void *parent)
+void hl_pcdom_element_t_set_parent(void *node, void *parent)
 {
 }
 
-void *hl_pcdom_element_get_parent(void *node)
-{
-    return NULL;
-}
-
-void *hl_pcdom_element_first_child(void *node)
+void *hl_pcdom_element_t_get_parent(void *node)
 {
     return NULL;
 }
 
-void *hl_pcdom_element_next(void *node)
+void *hl_pcdom_element_t_first_child(void *node)
 {
     return NULL;
 }
 
-void *hl_pcdom_element_previous(void *node)
+void *hl_pcdom_element_t_next(void *node)
 {
     return NULL;
 }
 
-bool hl_pcdom_element_is_root(void *node)
+void *hl_pcdom_element_t_previous(void *node)
+{
+    return NULL;
+}
+
+bool hl_pcdom_element_t_is_root(void *node)
 {
     return false;
 }
 
-hidomlayout_node_op hl_pcdom_element_op = {
-    .set_attach = hl_pcdom_element_set_attach,
-    .get_attach = hl_pcdom_element_get_attach,
-    .get_type = hl_pcdom_element_get_type,
-    .get_name = hl_pcdom_element_get_name,
-    .get_id = hl_pcdom_element_get_id,
-    .get_classes = hl_pcdom_element_get_classes,
-    .get_attr = hl_pcdom_element_get_attr,
-    .set_parent = hl_pcdom_element_set_parent,
-    .get_parent = hl_pcdom_element_get_parent,
-    .first_child = hl_pcdom_element_first_child,
-    .next = hl_pcdom_element_next,
-    .previous = hl_pcdom_element_previous,
-    .is_root = hl_pcdom_element_is_root
+hidomlayout_node_op hl_pcdom_element_t_op = {
+    .set_attach = hl_pcdom_element_t_set_attach,
+    .get_attach = hl_pcdom_element_t_get_attach,
+    .get_type = hl_pcdom_element_t_get_type,
+    .get_name = hl_pcdom_element_t_get_name,
+    .get_id = hl_pcdom_element_t_get_id,
+    .get_classes = hl_pcdom_element_t_get_classes,
+    .get_attr = hl_pcdom_element_t_get_attr,
+    .set_parent = hl_pcdom_element_t_set_parent,
+    .get_parent = hl_pcdom_element_t_get_parent,
+    .first_child = hl_pcdom_element_t_first_child,
+    .next = hl_pcdom_element_t_next,
+    .previous = hl_pcdom_element_t_previous,
+    .is_root = hl_pcdom_element_t_is_root
 };
 
-hidomlayout_node_op *hl_pcdom_element_get_op()
+hidomlayout_node_op *hl_pcdom_element_t_get_op()
 {
-    return &hl_pcdom_element_op;
+    return &hl_pcdom_element_t_op;
 }
 
 

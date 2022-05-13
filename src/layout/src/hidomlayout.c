@@ -54,6 +54,7 @@
 #include "select.h"
 
 #include "hl_dom_element_node.h"
+#include "hl_pcdom_element_t.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -92,3 +93,7 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
     return hidomlayout_layout(media, css, root, hl_dom_element_node_get_op());
 }
 
+int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root)
+{
+    return hidomlayout_layout(media, css, root, hl_pcdom_element_t_get_op());
+}

@@ -50,6 +50,7 @@
 #ifndef _HI_DOMLAYOUT_H_
 #define _HI_DOMLAYOUT_H_
 
+#include "purc/purc.h"
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -1292,6 +1293,19 @@ uint32_t hilayout_element_node_get_children_count(HLDomElementNode* node);
  * Since: 1.0
  */
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
+
+/**
+ * layout pcdom tree
+ *
+ * @param media: the pointer to the HLMedia
+ * @param css: the pointer to the HLCSS
+ * @param root: the pointer to the pcdom_element_t
+ *
+ * Returns: zero if success; an error code (!=0) otherwise.
+ *
+ * Since: 1.1
+ */
+int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root);
 
 /**
  * Specifies the type of function which is called when travel the dom tree.

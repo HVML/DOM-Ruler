@@ -47,8 +47,8 @@
  */
 
 
-#ifndef _HL_DOM_ELEMENT_NODE_H
-#define _HL_DOM_ELEMENT_NODE_H
+#ifndef _HL_PCDOM_ELEMENT_T_H
+#define _HL_PCDOM_ELEMENT_T_H
 
 #include "hidomlayout.h"
 #include "node.h"
@@ -57,25 +57,25 @@
 #include <glib.h>
 #include <glib/ghash.h>
 
-void hl_pcdom_element_set_attach(void *node, void *data,
+void hl_pcdom_element_t_set_attach(void *node, void *data,
         cb_free_attach_data cb_free);
-void *hl_pcdom_element_get_attach(void *node, cb_free_attach_data *cb_free);
-HLNodeType hl_pcdom_element_get_type(void *node);
-const char *hl_pcdom_element_get_name(void *node);
-const char *hl_pcdom_element_get_id(void *node);
-int hl_pcdom_element_get_classes(void *node, char ***classes);
-const char *hl_pcdom_element_get_attr(void *node, const char *attr);
-void hl_pcdom_element_set_parent(void *node, void *parent);
-void *hl_pcdom_element_get_parent(void *node);
-void *hl_pcdom_element_first_child(void *node);
-void *hl_pcdom_element_next(void *node);
-void *hl_pcdom_element_previous(void *node);
-bool hl_pcdom_element_is_root(void *node);
+void *hl_pcdom_element_t_get_attach(void *node, cb_free_attach_data *cb_free);
+HLNodeType hl_pcdom_element_t_get_type(void *node);
+const char *hl_pcdom_element_t_get_name(void *node);
+const char *hl_pcdom_element_t_get_id(void *node);
+int hl_pcdom_element_t_get_classes(void *node, char ***classes);
+const char *hl_pcdom_element_t_get_attr(void *node, const char *attr);
+void hl_pcdom_element_t_set_parent(void *node, void *parent);
+void *hl_pcdom_element_t_get_parent(void *node);
+void *hl_pcdom_element_t_first_child(void *node);
+void *hl_pcdom_element_t_next(void *node);
+void *hl_pcdom_element_t_previous(void *node);
+bool hl_pcdom_element_t_is_root(void *node);
 
-hidomlayout_node_op *hl_pcdom_element_get_op();
+hidomlayout_node_op *hl_pcdom_element_t_get_op();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // _HL_DOM_ELEMENT_NODE_H
+#endif // _HL_PCDOM_ELEMENT_T_H
