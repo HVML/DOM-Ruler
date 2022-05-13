@@ -914,14 +914,24 @@ void* hilayout_element_node_get_attach_data(const HLDomElementNode* node, uint32
 }
 
 // Begin HLDomElelementNode op
-void hl_dom_element_node_set_attach(void *node, void *data,
+void hl_dom_element_node_set_attach(void *n, void *data,
         cb_free_attach_data cb_free)
 {
+    HLDomElementNode *node = (HLDomElementNode*)n;
+    if (node->layout && node->layout != data && node->layout_free_cb) {
+        node->layout_free_cb(node->layout);
+    }
+    node->layout = data;
+    node->layout_free_cb = cb_free;
 }
 
-void *hl_dom_element_node_get_attach(void *node, cb_free_attach_data *cb_free)
+void *hl_dom_element_node_get_attach(void *n, cb_free_attach_data *cb_free)
 {
-    return NULL;
+    HLDomElementNode *node = (HLDomElementNode*)n;
+    if (cb_free) {
+        *cb_free = node->layout_free_cb;
+    }
+    return node->layout;
 }
 
 HLNodeType hl_dom_element_node_get_type(void *node)
