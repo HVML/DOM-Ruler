@@ -921,5 +921,26 @@ bool hl_dom_element_node_is_root(void *node)
     return true;
 }
 
+hidomlayout_node_op hl_dom_element_node_op = {
+    .set_attach = hl_dom_element_node_set_attach,
+    .get_attach = hl_dom_element_node_get_attach,
+    .get_type = hl_dom_element_node_get_type,
+    .get_name = hl_dom_element_node_get_name,
+    .get_id = hl_dom_element_node_get_id,
+    .get_classes = hl_dom_element_node_get_classes,
+    .get_attr = hl_dom_element_node_get_attr,
+    .set_parent = hl_dom_element_node_set_parent,
+    .get_parent = hl_dom_element_node_get_parent,
+    .first_child = hl_dom_element_node_first_child,
+    .next = hl_dom_element_node_next,
+    .previous = hl_dom_element_node_previous,
+    .is_root = hl_dom_element_node_is_root
+};
+
+hidomlayout_node_op *hl_dom_element_node_get_op()
+{
+    return &hl_dom_element_node_op;
+}
+
 // End HLDomElelementNode op
 
