@@ -110,3 +110,16 @@ list(APPEND layout_test_SOURCES
 include_directories(${layout_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 add_executable(layout_test ${layout_test_SOURCES})
 target_link_libraries(layout_test hidomlayout ${GLIB_LIBRARIES})
+
+# layout_pcdom_element
+list(APPEND layout_pcdom_element_INCLUDE_DIRECTORIES
+    ${CMAKE_SOURCE_DIR}/include
+)
+
+list(APPEND layout_pcdom_element_SOURCES
+    ${CMAKE_SOURCE_DIR}/test/layout_pcdom_element.c
+)
+
+include_directories(${layout_pcdom_element_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
+add_executable(layout_pcdom_element ${layout_pcdom_element_SOURCES})
+target_link_libraries(layout_pcdom_element hidomlayout ${GLIB_LIBRARIES})
