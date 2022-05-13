@@ -120,6 +120,8 @@ uint8_t hl_computed_display(const css_computed_style *style, bool root);
 
 
 void hl_destroy_svg_values(HLUsedSvgValues *svg);
+lwc_string *hl_lwc_string_dup(const char *str);
+void hl_lwc_string_destroy(lwc_string *str);
 
 #ifdef __cplusplus
 }

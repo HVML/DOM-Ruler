@@ -63,24 +63,6 @@
 #define AUTO INT_MIN
 
 
-lwc_string* hl_lwc_string_dup(const char* str)
-{
-    if (str == NULL)
-    {
-        return NULL;
-    }
-
-    lwc_string* result = NULL;
-    lwc_intern_string(str, strlen(str), &result);
-    return result;
-}
-
-void hl_lwc_string_destroy(lwc_string* str)
-{
-    if (str)
-        lwc_string_unref(str);
-}
-
 HLDomElementNode* hilayout_element_node_create(const char* tag)
 {
     if (tag == NULL)

@@ -88,8 +88,7 @@ void hi_layout_node_destroy(HiLayoutNode *node)
         css_select_results_destroy(node->select_styles);
     }
 
-    if (node->inner_data)
-    {
+    if (node->inner_data) {
         g_hash_table_destroy(node->inner_data);
     }
 
@@ -505,6 +504,33 @@ HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
     if (!layout) {
         return NULL;
     }
+
+    // inner_id
+    const char *id = op->get_id(origin);
+    if (id) {
+        layout->inner_id = hl_lwc_string_dup(id);
+    }
+
+    // inner_tag
+    const char *name = op->get_name(origin);
+    if (name) {
+        layout->inner_tag = hl_lwc_string_dup(name);
+    }
+    // inner_classes
+    char **classes = NULL;
+    int nr_classes = op->get_classes(origin, &classes);
+    if (nr_classes > 0) {
+        layout->inner_classes = (lwc_string**)calloc(nr_classes,
+                sizeof(lwc_string*));
+        for (int i = 0; i < nr_classes; i++) {
+            layout->inner_classes[i++]= hl_lwc_string_dup(classes[i]);
+            free(classes[i]);
+        }
+        layout->nr_inner_classes = nr_classes;
+        free(classes);
+    }
+
+
     layout->origin = origin;
     layout->origin_op = op;
     op->set_attach(origin, layout, cb_hi_layout_node_destroy);
