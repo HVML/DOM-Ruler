@@ -61,65 +61,139 @@
 void hl_pcdom_element_t_set_attach(void *n, void *data,
         cb_free_attach_data cb_free)
 {
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    if (node->attach && node->attach != data && node->attach_destroy_f) {
+        node->attach_destroy_f(node->attach);
+    }
+    node->attach = data;
+    node->attach_destroy_f = cb_free;
 }
 
 void *hl_pcdom_element_t_get_attach(void *n, cb_free_attach_data *cb_free)
 {
-    return NULL;
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    if (cb_free) {
+        *cb_free = node->attach_destroy_f;
+    }
+    return node->attach;
 }
 
-HLNodeType hl_pcdom_element_t_get_type(void *node)
+HLNodeType hl_pcdom_element_t_get_type(void *n)
 {
-    return 0;
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    switch (node->type) {
+    case PCDOM_NODE_TYPE_UNDEF:
+        return DOM_UNDEF;
+    case PCDOM_NODE_TYPE_ELEMENT:
+        return DOM_ELEMENT_NODE;
+    case PCDOM_NODE_TYPE_ATTRIBUTE:
+        return DOM_ATTRIBUTE_NODE;
+    case PCDOM_NODE_TYPE_TEXT:
+        return DOM_TEXT_NODE;
+    case PCDOM_NODE_TYPE_CDATA_SECTION:
+        return DOM_CDATA_SECTION_NODE;
+    case PCDOM_NODE_TYPE_ENTITY_REFERENCE:
+        return DOM_ENTITY_REFERENCE_NODE;
+    case PCDOM_NODE_TYPE_ENTITY:
+        return DOM_ENTITY_NODE;
+    case PCDOM_NODE_TYPE_PROCESSING_INSTRUCTION:
+        return DOM_PROCESSING_INSTRUCTION_NODE;
+    case PCDOM_NODE_TYPE_COMMENT:
+        return DOM_COMMENT_NODE;
+    case PCDOM_NODE_TYPE_DOCUMENT:
+        return DOM_DOCUMENT_NODE;
+    case PCDOM_NODE_TYPE_DOCUMENT_TYPE:
+        return DOM_DOCUMENT_TYPE_NODE;
+    case PCDOM_NODE_TYPE_DOCUMENT_FRAGMENT:
+        return DOM_DOCUMENT_FRAGMENT_NODE;
+    case PCDOM_NODE_TYPE_NOTATION:
+        return DOM_NOTATION_NODE;
+    }
+    return DOM_UNDEF;
 }
 
-const char *hl_pcdom_element_t_get_name(void *node)
+const char *hl_pcdom_element_t_get_name(void *n)
 {
-    return NULL;
+    pcdom_element_t *elem = (pcdom_element_t *)n;
+    return pcdom_element_tag_name(elem, NULL);
 }
 
-const char *hl_pcdom_element_t_get_id(void *node)
+const char *hl_pcdom_element_t_get_id(void *n)
 {
-    return NULL;
+    pcdom_element_t *elem = (pcdom_element_t *)n;
+    return pcdom_element_get_attribute(elem, ATTR_ID, strlen(ATTR_ID), NULL);
 }
 
+#define WHITESPACE      " "
 int hl_pcdom_element_t_get_classes(void *n, char ***classes)
 {
-    return 0;
+    pcdom_element_t *elem = (pcdom_element_t *)n;
+    *classes = NULL;
+    const char *cls =  pcdom_element_get_attribute(elem, ATTR_CLASS,
+            strlen(ATTR_CLASS), NULL);
+    if (cls == NULL) {
+        return 0;
+    }
+    int nr_classes = 0;
+    char *value = strdup(cls);
+    char *c = strtok(value, WHITESPACE);
+    while (c != NULL) {
+        nr_classes++;
+        char **space = (char **)realloc(*classes, sizeof(char *) * nr_classes);
+        if (space == NULL) {
+            return nr_classes - 1;
+        }
+        *classes = space;
+        (*classes)[nr_classes - 1] = strdup(c);
+        c = strtok(NULL, WHITESPACE);
+    }
+    free(value);
+    return nr_classes;
 }
 
 const char *hl_pcdom_element_t_get_attr(void *n, const char *name)
 {
-    return NULL;
+    pcdom_element_t *elem = (pcdom_element_t *)n;
+    return pcdom_element_get_attribute(elem, name, strlen(name), NULL);
 }
 
-void hl_pcdom_element_t_set_parent(void *node, void *parent)
+void hl_pcdom_element_t_set_parent(void *n, void *parent)
 {
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    node->parent = (pcdom_node_t *)parent;
 }
 
-void *hl_pcdom_element_t_get_parent(void *node)
+void *hl_pcdom_element_t_get_parent(void *n)
 {
-    return NULL;
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    return node->parent;
 }
 
-void *hl_pcdom_element_t_first_child(void *node)
+void *hl_pcdom_element_t_first_child(void *n)
 {
-    return NULL;
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    return node->first_child;
 }
 
-void *hl_pcdom_element_t_next(void *node)
+void *hl_pcdom_element_t_next(void *n)
 {
-    return NULL;
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    return node->next;
 }
 
-void *hl_pcdom_element_t_previous(void *node)
+void *hl_pcdom_element_t_previous(void *n)
 {
-    return NULL;
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    return node->prev;
 }
 
-bool hl_pcdom_element_t_is_root(void *node)
+bool hl_pcdom_element_t_is_root(void *n)
 {
-    return false;
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    if (node->parent != NULL) {
+        return false;
+    }
+    return true;
 }
 
 hidomlayout_node_op hl_pcdom_element_t_op = {

@@ -127,6 +127,7 @@ typedef enum {
 } LayoutType;
 
 typedef enum {
+    DOM_UNDEF               = 0,
     DOM_ELEMENT_NODE        = 1,
     DOM_ATTRIBUTE_NODE      = 2,
     DOM_TEXT_NODE           = 3,
