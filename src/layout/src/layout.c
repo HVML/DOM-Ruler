@@ -581,9 +581,11 @@ void hl_computed_offsets(const HLContext *len_ctx,
     css_fixed value = 0;
     css_unit unit = CSS_UNIT_PX;
 
+#if 1
     assert(containing_block->box_values.w != UNKNOWN_WIDTH &&
             containing_block->box_values.w != HL_AUTO &&
             containing_block->box_values.h != HL_AUTO);
+#endif
 
     /* left */
     type = css_computed_left(box->computed_style, &value, &unit);
@@ -647,7 +649,7 @@ int hl_layout_node(HLContext *ctx, HiLayoutNode *node, int x, int y,
         int container_width, int container_height, int level)
 {
     if (node == NULL) {
-        HL_LOGD("layout node|level=%d|node=%p\n", level, node);
+        HL_LOGD("layout node|level=%d|node=%p(%p)|name=%s|id=%s\n", level, node, node->origin, hi_layout_node_get_name(node), hi_layout_node_get_id(node));
         return HILAYOUT_OK;
     }
 
@@ -657,6 +659,10 @@ int hl_layout_node(HLContext *ctx, HiLayoutNode *node, int x, int y,
     hl_computed_z_index(node);
     hl_find_background(node);
     hl_find_font(ctx, node);
+
+    if (hi_layout_node_get_type(node) == DOM_TEXT_NODE) {
+        return HILAYOUT_OK;
+    }
 
     if (hi_layout_node_is_root(node)) {
         node->box_values.w = container_width;
@@ -691,6 +697,9 @@ int hl_layout_node(HLContext *ctx, HiLayoutNode *node, int x, int y,
             hl_block_find_dimensions(ctx, node, container_width,
                     container_height, 0, 0);
             break;
+
+        case LAYOUT_NONE:
+            return HILAYOUT_OK;
 
         default:
             hl_block_find_dimensions(ctx, node, container_width,

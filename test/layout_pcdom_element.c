@@ -126,26 +126,25 @@ int main(int argc, char **argv)
                 <div id=\"title\"></div> \n\
                 <div id=\"description\"></div>\n\
                 <div id=\"page\"> \n\
-                    <hiweb></hiweb> \n\
-                    <hijs></hijs>\n \
                 </div> \n\
                 <div id=\"indicator\"></div>\n\
            </div> \
         ";
     const char data[] = "h1 { color: red } \n"
-        "#root { display: block; } \n"
+        "html { display: block; } \n"
+        "head, link, meta, script, style, title { display: none; } \n"
+        "body { display: block;  height: 100%; } \n"
+        "address, article, aside, div, footer, header, hgroup, layer, main, nav, section {\n"
+        "        display: block;"
+        "}\n"
+        "#root { display: block; height:100%} \n"
         "#title { position: relative; left:20%; width: 100%; height: 10%; color: #123; } \n"
         "#page { position: relative; width: 100%; height: 80%; color: #125; } \n"
         "#indicator { position: relative; width: 100%; height: 10%; color: #126; } \n"
-        "#description { position: relative; width: 100%; height: 0%; color: #124; } \n"
-        "hiweb { position: relative; width: 50%; height: 50%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
-        "hiweb2 { position: relative; width: 50%; height: 50%; color: #127; font-family: \"Times New Roman\", Times, serif; font-size:10;} \n"
-        "hijs { position: relative; width: 50%; height: 50%; color: #127; } \n"
-        "hijs2 { position: relative; width: 50%; height: 50%; color: #128; background:red;} \n";
+        "#description { position: relative; width: 100%; height: 0%; color: #124; } \n";
 
     fprintf(stderr, "####################################### html ###########################\n");
     fprintf(stderr, "%s\n", html);
-
 
     fprintf(stderr, "####################################### css  ###########################\n");
     const char* css_data = data;
@@ -170,16 +169,13 @@ int main(int argc, char **argv)
         .density = 72
     };
 
-
     pchtml_html_document_t *doc = pchtml_html_document_create();
     ret = pchtml_html_document_parse_with_buf(doc, html, strlen(html));
-    fprintf(stderr, "##############parser html ret=%d\n", ret);
 
     pcdom_document_t *document = pcdom_interface_document(doc);
     pcdom_element_t *root = document->element;
     fprintf(stderr, "####################################### layout ###########################\n");
     ret = hilayout_do_pcdom_layout(&hl_media, css, root);
-    fprintf(stderr, "##############layout html ret=%d\n", ret);
 
 
     hilayout_css_destroy(css);
