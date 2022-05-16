@@ -233,4 +233,3 @@ hidomlayout_node_op *hl_pcdom_element_t_get_op()
     return &hl_pcdom_element_t_op;
 }
 
-

@@ -829,6 +829,19 @@ int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root_node,
         hidomlayout_node_op *handler);
 
 /**
+ * Get HLUsedBoxValues of the node
+ *
+ * @param node: the pointer to the node
+ * @param handler: the handler to handle node
+ *
+ * Returns: HLUsedBoxValues pointer if success; NULL otherwise.
+ *
+ * Since: 1.1
+ */
+const HLUsedBoxValues* hidomlayout_get_layout_box(void *node,
+        hidomlayout_node_op *handler);
+
+/**
  * Create a HLCSS object
  *
  * Returns: A valid HLCSS object if success, NULL otherwise.
@@ -1295,6 +1308,7 @@ uint32_t hilayout_element_node_get_children_count(HLDomElementNode* node);
  */
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 
+
 /**
  * layout pcdom tree
  *
@@ -1307,6 +1321,17 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
  * Since: 1.1
  */
 int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root);
+
+/**
+ * Get HLUsedBoxValues of the pcdom_element_t
+ *
+ * @param node: the pointer to the pcdom_element_t
+ *
+ * Returns: HLUsedBoxValues pointer if success; NULL otherwise.
+ *
+ * Since: 1.1
+ */
+const HLUsedBoxValues *hilayout_get_pcdom_layout_box(pcdom_element_t *node);
 
 /**
  * Specifies the type of function which is called when travel the dom tree.
