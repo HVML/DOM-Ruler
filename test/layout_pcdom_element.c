@@ -97,21 +97,30 @@ void destory_user_data(void* data)
 
 }
 
-
-void print_node_info(HLDomElementNode* node, void* user_data)
+void print_layout_info(pcdom_element_t *node) 
 {
-    fprintf(stderr, "................................node=%s|id=%s\n", hilayout_element_node_get_tag_name(node), hilayout_element_node_get_id(node));
+    if (node->node.type == PCDOM_NODE_TYPE_TEXT
+            || node->node.type == PCDOM_NODE_TYPE_UNDEF) {
+        return;
+    }
+
+    const char *name = pcdom_element_tag_name(node, NULL);
+    const char *id = pcdom_element_get_attribute(node, "id", 2, NULL);
+    const HLUsedBoxValues *box = hilayout_get_pcdom_layout_box(node);
+
+    fprintf(stderr, "node|name=%s|id=%s|(x,y,w,h)=(%f,%f,%f,%f)\n", name, id,
+            box->x, box->y, box->w, box->h);
 }
 
-void print_layout_node(HLContext *ctx, HiLayoutNode *node, void *user_data)
+void print_layout_result(pcdom_element_t *elem)
 {
-    if (hi_layout_node_get_type(node) == DOM_UNDEF) {
-        fprintf(stderr, "................................node=UNDEF\n");
+    print_layout_info(elem);
+    pcdom_element_t *child = (pcdom_element_t *)elem->node.first_child;
+    while(child) {
+        print_layout_result(child);
+        child = (pcdom_element_t *)child->node.next;
     }
-    else {
-        const char * name = hi_layout_node_get_name(node);
-        fprintf(stderr, "................................node=%s\n", name);
-    }
+
 }
 
 int main(int argc, char **argv)
@@ -177,6 +186,7 @@ int main(int argc, char **argv)
     fprintf(stderr, "####################################### layout ###########################\n");
     ret = hilayout_do_pcdom_layout(&hl_media, css, root);
 
+    print_layout_result(root);
 
     hilayout_css_destroy(css);
     pchtml_html_document_destroy(doc);
