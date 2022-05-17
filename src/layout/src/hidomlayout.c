@@ -63,8 +63,7 @@
 static inline
 bool hl_verify_handler(HiDOMLayoutNodeOp *op)
 {
-    if (!op || !op->set_attach || !op->get_attach
-            || !op->get_type || !op->get_name
+    if (!op || !op->get_type || !op->get_name
             || !op->get_id || !op->get_classes
             || !op->get_attr
             || !op->set_parent || !op->get_parent

@@ -58,26 +58,6 @@
 #include <glib/ghash.h>
 
 
-void hl_pcdom_element_t_set_attach(void *n, void *data,
-        cb_free_attach_data cb_free)
-{
-    pcdom_node_t *node = (pcdom_node_t *)n;
-    if (node->attach && node->attach != data && node->attach_destroy_f) {
-        node->attach_destroy_f(node->attach);
-    }
-    node->attach = data;
-    node->attach_destroy_f = cb_free;
-}
-
-void *hl_pcdom_element_t_get_attach(void *n, cb_free_attach_data *cb_free)
-{
-    pcdom_node_t *node = (pcdom_node_t *)n;
-    if (cb_free) {
-        *cb_free = node->attach_destroy_f;
-    }
-    return node->attach;
-}
-
 HLNodeType hl_pcdom_element_t_get_type(void *n)
 {
     pcdom_node_t *node = (pcdom_node_t *)n;
@@ -213,8 +193,6 @@ bool hl_pcdom_element_t_is_root(void *n)
 }
 
 HiDOMLayoutNodeOp hl_pcdom_element_t_op = {
-    .set_attach = hl_pcdom_element_t_set_attach,
-    .get_attach = hl_pcdom_element_t_get_attach,
     .get_type = hl_pcdom_element_t_get_type,
     .get_name = hl_pcdom_element_t_get_name,
     .get_id = hl_pcdom_element_t_get_id,

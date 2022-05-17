@@ -818,26 +818,6 @@ void *hilayout_element_node_get_attach_data(const HLDomElementNode *node,
 }
 
 // Begin HLDomElelementNode op
-void hl_dom_element_node_set_attach(void *n, void *data,
-        cb_free_attach_data cb_free)
-{
-    HLDomElementNode *node = (HLDomElementNode*)n;
-    if (node->layout && node->layout != data && node->layout_free_cb) {
-        node->layout_free_cb(node->layout);
-    }
-    node->layout = data;
-    node->layout_free_cb = cb_free;
-}
-
-void *hl_dom_element_node_get_attach(void *n, cb_free_attach_data *cb_free)
-{
-    HLDomElementNode *node = (HLDomElementNode*)n;
-    if (cb_free) {
-        *cb_free = node->layout_free_cb;
-    }
-    return node->layout;
-}
-
 HLNodeType hl_dom_element_node_get_type(void *node)
 {
     return ((HLDomElementNode*)node)->inner_dom_type;
@@ -922,8 +902,6 @@ bool hl_dom_element_node_is_root(void *node)
 }
 
 HiDOMLayoutNodeOp hl_dom_element_node_op = {
-    .set_attach = hl_dom_element_node_set_attach,
-    .get_attach = hl_dom_element_node_get_attach,
     .get_type = hl_dom_element_node_get_type,
     .get_name = hl_dom_element_node_get_name,
     .get_id = hl_dom_element_node_get_id,

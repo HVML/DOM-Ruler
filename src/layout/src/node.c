@@ -48,6 +48,7 @@
 
 #include "node.h"
 #include "utils.h"
+#include "internal.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -489,36 +490,39 @@ void hl_for_each_child(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
 }
 
 // BEGIN: HiLayoutNode  < ----- > Origin Node
-HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
-        HiDOMLayoutNodeOp *op)
+HiLayoutNode *hi_layout_node_from_origin_node(struct HiDOMLayoutCtxt *ctxt,
+        void *origin)
 {
-    if (!origin) {
+    if (!ctxt) {
         return NULL;
     }
 
-    HiLayoutNode *layout =  op->get_attach(origin, NULL);
+    HiLayoutNode *layout = (HiLayoutNode*)g_hash_table_lookup(ctxt->node_map,
+            (gpointer)origin);
     if (layout) {
         return layout;
     }
+
     layout = hi_layout_node_create();
     if (!layout) {
         return NULL;
     }
+    layout->ctxt = ctxt;
 
     // inner_id
-    const char *id = op->get_id(origin);
+    const char *id = ctxt->origin_op->get_id(origin);
     if (id) {
         layout->inner_id = hl_lwc_string_dup(id);
     }
 
     // inner_tag
-    const char *name = op->get_name(origin);
+    const char *name = ctxt->origin_op->get_name(origin);
     if (name) {
         layout->inner_tag = hl_lwc_string_dup(name);
     }
     // inner_classes
     char **classes = NULL;
-    int nr_classes = op->get_classes(origin, &classes);
+    int nr_classes = ctxt->origin_op->get_classes(origin, &classes);
     if (nr_classes > 0) {
         layout->inner_classes = (lwc_string**)calloc(nr_classes,
                 sizeof(lwc_string*));
@@ -532,8 +536,7 @@ HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
 
 
     layout->origin = origin;
-    layout->origin_op = op;
-    op->set_attach(origin, layout, cb_hi_layout_node_destroy);
+    layout->ctxt = ctxt;
     return layout;
 }
 
@@ -544,68 +547,68 @@ void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
         return NULL;
     }
     if (op) {
-        *op = layout->origin_op;
+        *op = layout->ctxt->origin_op;
     }
     return layout->origin;
 }
 
 HLNodeType hi_layout_node_get_type(HiLayoutNode *node)
 {
-    return node->origin_op->get_type(node->origin);
+    return node->ctxt->origin_op->get_type(node->origin);
 }
 
 const char *hi_layout_node_get_name(HiLayoutNode *node)
 {
-    return node->origin_op->get_name(node->origin);
+    return node->ctxt->origin_op->get_name(node->origin);
 }
 
 const char *hi_layout_node_get_id(HiLayoutNode *node)
 {
-    return node->origin_op->get_id(node->origin);
+    return node->ctxt->origin_op->get_id(node->origin);
 }
 
 int hi_layout_node_get_classes(HiLayoutNode *node, char ***classes)
 {
-    return node->origin_op->get_classes(node->origin, classes);
+    return node->ctxt->origin_op->get_classes(node->origin, classes);
 }
 
 const char *hi_layout_node_get_attr(HiLayoutNode *node, const char *attr)
 {
-    return node->origin_op->get_attr(node->origin, attr);
+    return node->ctxt->origin_op->get_attr(node->origin, attr);
 }
 
 HiLayoutNode *hi_layout_node_get_parent(HiLayoutNode *node)
 {
-    void *origin = node->origin_op->get_parent(node->origin);
-    return hi_layout_node_from_origin_node(origin, node->origin_op);
+    void *origin = node->ctxt->origin_op->get_parent(node->origin);
+    return hi_layout_node_from_origin_node(node->ctxt, origin);
 }
 
 void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent)
 {
-    node->origin_op->set_parent(node->origin, parent->origin);
+    node->ctxt->origin_op->set_parent(node->origin, parent->origin);
 }
 
 HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node)
 {
-    void *origin = node->origin_op->first_child(node->origin);
-    return hi_layout_node_from_origin_node(origin,  node->origin_op);
+    void *origin = node->ctxt->origin_op->first_child(node->origin);
+    return hi_layout_node_from_origin_node(origin,  node->ctxt->origin_op);
 }
 
 HiLayoutNode *hi_layout_node_next(HiLayoutNode *node)
 {
-    void *origin = node->origin_op->next(node->origin);
-    return hi_layout_node_from_origin_node(origin, node->origin_op);
+    void *origin = node->ctxt->origin_op->next(node->origin);
+    return hi_layout_node_from_origin_node(node->ctxt, origin);
 }
 
 HiLayoutNode *hi_layout_node_previous(HiLayoutNode *node)
 {
-    void *origin = node->origin_op->previous(node->origin);
-    return hi_layout_node_from_origin_node(origin, node->origin_op);
+    void *origin = node->ctxt->origin_op->previous(node->origin);
+    return hi_layout_node_from_origin_node(node->ctxt, origin);
 }
 
 bool hi_layout_node_is_root(HiLayoutNode *node)
 {
-    return node->origin_op->is_root(node->origin);
+    return node->ctxt->origin_op->is_root(node->origin);
 }
 
 // END: HiLayoutNode  < ----- > Origin Node

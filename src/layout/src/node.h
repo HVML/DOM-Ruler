@@ -137,7 +137,8 @@ typedef struct HiLayoutNode {
 
     // Origin Node
     void *origin;
-    HiDOMLayoutNodeOp *origin_op;
+
+    struct HiDOMLayoutCtxt *ctxt;
 } HiLayoutNode;
 
 #ifdef __cplusplus
@@ -171,8 +172,8 @@ void hl_for_each_child(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
 void cb_hi_layout_node_destroy(void *n);
 
 // BEGIN: HiLayoutNode  < ----- > Origin Node
-HiLayoutNode *hi_layout_node_from_origin_node(void *node,
-        HiDOMLayoutNodeOp *op);
+HiLayoutNode *hi_layout_node_from_origin_node(struct HiDOMLayoutCtxt *ctxt,
+        void *origin);
 void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
         HiDOMLayoutNodeOp **op);
 
