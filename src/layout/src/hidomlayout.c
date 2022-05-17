@@ -98,7 +98,7 @@ int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root)
     return hidomlayout_layout_ex(media, css, root, hl_pcdom_element_t_get_op());
 }
 
-const HLUsedBoxValues* hidomlayout_get_layout_box(void *node,
+const HLBox* hidomlayout_get_layout_box(void *node,
         HiDOMLayoutNodeOp *handler)
 {
     if (!node) {
@@ -109,7 +109,7 @@ const HLUsedBoxValues* hidomlayout_get_layout_box(void *node,
     return layout ? &layout->box_values : NULL;
 }
 
-const HLUsedBoxValues *hilayout_get_pcdom_layout_box(pcdom_element_t *node)
+const HLBox *hilayout_get_pcdom_layout_box(pcdom_element_t *node)
 {
     return hidomlayout_get_layout_box(node, hl_pcdom_element_t_get_op());
 }

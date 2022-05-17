@@ -265,7 +265,7 @@ typedef struct HLDomElementNode_ HLDomElementNode;
 typedef struct HLCSS_ HLCSS;
 typedef float hl_real_t;
 
-typedef struct HLUsedBoxValues_ {
+typedef struct HLBox_ {
     hl_real_t x;
     hl_real_t y;
     hl_real_t w;
@@ -297,7 +297,7 @@ typedef struct HLUsedBoxValues_ {
     HLPositionEnum position;
     HLVisibilityEnum visibility;
     hl_real_t opacity;
-} HLUsedBoxValues;
+} HLBox;
 
 typedef struct HLUsedBackgroundValues_ {
     uint32_t color;
@@ -825,7 +825,7 @@ int hidomlayout_append_data(struct HiDOMLayout *layout, const char *css,
 int hidomlayout_layout(struct HiDOMLayout *layout, void *root,
         HiDOMLayoutNodeOp *op);
 
-const HLUsedBoxValues *hidomlayout_get_node_box(struct HiDOMLayout *layout,
+const HLBox *hidomlayout_get_node_box(struct HiDOMLayout *layout,
         void *node);
 
 void hidomlayout_destroy(struct HiDOMLayout *layout);
@@ -846,16 +846,16 @@ int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root_node,
         HiDOMLayoutNodeOp *handler);
 
 /**
- * Get HLUsedBoxValues of the node
+ * Get HLBox of the node
  *
  * @param node: the pointer to the node
  * @param handler: the handler to handle node
  *
- * Returns: HLUsedBoxValues pointer if success; NULL otherwise.
+ * Returns: HLBox pointer if success; NULL otherwise.
  *
  * Since: 1.1
  */
-const HLUsedBoxValues* hidomlayout_get_layout_box(void *node,
+const HLBox* hidomlayout_get_layout_box(void *node,
         HiDOMLayoutNodeOp *handler);
 
 /**
@@ -1190,15 +1190,15 @@ void* hilayout_element_node_get_attach_data(const HLDomElementNode* node, uint32
 void hilayout_element_node_destroy(HLDomElementNode *node);
 
 /**
- * Get HLUsedBoxValues of the HLDomElementNode
+ * Get HLBox of the HLDomElementNode
  *
  * @param node: the pointer to the HLDomElementNode
  *
- * Returns: HLUsedBoxValues pointer if success; NULL otherwise.
+ * Returns: HLBox pointer if success; NULL otherwise.
  *
  * Since: 1.0
  */
-const HLUsedBoxValues* hilayout_element_node_get_used_box_value(HLDomElementNode* node);
+const HLBox* hilayout_element_node_get_used_box_value(HLDomElementNode* node);
 
 /**
  * Get HLUsedBackgroundValues of the HLDomElementNode
@@ -1340,15 +1340,15 @@ int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root);
 
 /**
- * Get HLUsedBoxValues of the pcdom_element_t
+ * Get HLBox of the pcdom_element_t
  *
  * @param node: the pointer to the pcdom_element_t
  *
- * Returns: HLUsedBoxValues pointer if success; NULL otherwise.
+ * Returns: HLBox pointer if success; NULL otherwise.
  *
  * Since: 1.1
  */
-const HLUsedBoxValues *hilayout_get_pcdom_layout_box(pcdom_element_t *node);
+const HLBox *hilayout_get_pcdom_layout_box(pcdom_element_t *node);
 
 /**
  * Specifies the type of function which is called when travel the dom tree.

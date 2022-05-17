@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     HL_LOGW("test|get attribute|attr=style|value=%s\n", value);
 
     // output test
-    const HLUsedBoxValues* box = hilayout_element_node_get_used_box_value(root);
+    const HLBox* box = hilayout_element_node_get_used_box_value(root);
     HL_LOGW("test|get box value|ret=%p\n", box);
 
     const HLUsedBackgroundValues* bg = hilayout_element_node_get_used_background_value(root);

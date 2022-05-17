@@ -106,7 +106,7 @@ void print_layout_info(pcdom_element_t *node)
 
     const char *name = pcdom_element_tag_name(node, NULL);
     const char *id = pcdom_element_get_attribute(node, "id", 2, NULL);
-    const HLUsedBoxValues *box = hilayout_get_pcdom_layout_box(node);
+    const HLBox *box = hilayout_get_pcdom_layout_box(node);
 
     fprintf(stderr, "node|name=%s|id=%s|(x,y,w,h)=(%f,%f,%f,%f)\n", name, id,
             box->x, box->y, box->w, box->h);

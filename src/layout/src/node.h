@@ -107,7 +107,7 @@ typedef struct HiLayoutNode {
     LayoutType layout_type;
 
     // begin for layout output
-    HLUsedBoxValues box_values;
+    HLBox box_values;
     HLUsedBackgroundValues background_values;
     HLUsedTextValues text_values;
     HLUsedSvgValues *svg_values;

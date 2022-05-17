@@ -160,7 +160,7 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
     free(node);
 }
 
-const HLUsedBoxValues *hilayout_element_node_get_used_box_value(
+const HLBox *hilayout_element_node_get_used_box_value(
         HLDomElementNode *node)
 {
     if (node && node->layout) {
