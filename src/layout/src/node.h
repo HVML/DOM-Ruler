@@ -167,6 +167,7 @@ typedef void (*each_child_callback)(HLContext *ctx, HiLayoutNode *node,
 void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
         each_child_callback callback, void *user_data);
 
+void cb_hi_layout_node_destroy(void *n);
 
 // BEGIN: HiLayoutNode  < ----- > Origin Node
 HiLayoutNode *hi_layout_node_from_origin_node(void *node,

@@ -76,6 +76,50 @@ bool hl_verify_handler(HiDOMLayoutNodeOp *op)
     return true;
 }
 
+struct HiDOMLayout *hidomlayout_create(uint32_t width, uint32_t height,
+        uint32_t dpi, uint32_t density)
+{
+    struct HiDOMLayout *layout = (struct HiDOMLayout *)calloc(1,
+            sizeof(struct HiDOMLayout));
+    if (layout == NULL) {
+        return NULL;
+    }
+    layout->width = width;
+    layout->height = height;
+    layout->dpi = dpi;
+    layout->density = density;
+
+    layout->node_map = g_hash_table_new_full(g_direct_hash,
+            g_direct_equal, NULL, cb_hi_layout_node_destroy);
+    if (layout->node_map == NULL) {
+        hidomlayout_destroy(layout);
+        return NULL;
+    }
+    return layout;
+}
+
+int hidomlayout_append_css(struct HiDOMLayout *layout, const char *css,
+        size_t nr_css)
+{
+    return 0;
+}
+
+int hidomlayout_layout(struct HiDOMLayout *layout, void *root_node,
+        HiDOMLayoutNodeOp *op)
+{
+    return 0;
+}
+
+const HLBox *hidomlayout_get_node_box(struct HiDOMLayout *layout,
+        void *node)
+{
+    return 0;
+}
+
+void hidomlayout_destroy(struct HiDOMLayout *layout)
+{
+}
+
 int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root,
         HiDOMLayoutNodeOp *op)
 {
