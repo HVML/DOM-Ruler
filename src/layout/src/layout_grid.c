@@ -56,7 +56,7 @@
 #include <string.h>
 #include <glib.h>
 
-int hl_solve_grid_child_width_height(HLContext* ctx, HiLayoutNode *layout,
+int hl_solve_grid_child_width_height(struct HiDOMLayoutCtxt* ctx, HiLayoutNode *layout,
         int grid_w, int grid_h)
 {
     int width = 0;
@@ -186,7 +186,7 @@ int hl_solve_grid_child_width_height(HLContext* ctx, HiLayoutNode *layout,
     return HILAYOUT_OK;
 }
 
-int hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template,
+int hl_find_grid_child_position(struct HiDOMLayoutCtxt* ctx, HLGridTemplate* grid_template,
         HiLayoutNode *node, HLGridItem* row_column)
 {
     // no set
@@ -228,7 +228,7 @@ int hl_find_grid_child_position(HLContext* ctx, HLGridTemplate* grid_template,
     return 0;
 }
 
-int hl_layout_grid_child(HLContext *ctx, HLGridTemplate *grid_template,
+int hl_layout_grid_child(struct HiDOMLayoutCtxt *ctx, HLGridTemplate *grid_template,
         HiLayoutNode *node, int level)
 {
     HLGridItem *node_row_column = hl_grid_item_create(node);
@@ -236,7 +236,7 @@ int hl_layout_grid_child(HLContext *ctx, HLGridTemplate *grid_template,
     hl_grid_item_destroy(node_row_column);
 }
 
-HLGridItem* hl_get_grid_item(HLContext* ctx, HiLayoutNode *node)
+HLGridItem* hl_get_grid_item(struct HiDOMLayoutCtxt* ctx, HiLayoutNode *node)
 {
     HLGridItem* item = (HLGridItem*)hi_layout_node_get_inner_data(node,
             HL_INNER_LAYOUT_ATTACH);
@@ -260,7 +260,7 @@ HLGridItem* hl_destroy_grid_item(HiLayoutNode *node)
     hi_layout_node_set_inner_data(node, HL_INNER_LAYOUT_ATTACH, NULL, NULL);
 }
 
-void hl_layout_child_with_grid_rc_row_column(HLContext *ctx,
+void hl_layout_child_with_grid_rc_row_column(struct HiDOMLayoutCtxt *ctx,
         HiLayoutNode *node, void *user_data)
 {
     HLGridTemplate *grid_template = (HLGridTemplate*)user_data;
@@ -372,7 +372,7 @@ void hl_layout_child_with_grid_rc_row_column(HLContext *ctx,
     }
 }
 
-void hl_layout_child_with_grid_rc_row(HLContext *ctx,
+void hl_layout_child_with_grid_rc_row(struct HiDOMLayoutCtxt *ctx,
         HiLayoutNode *node, void *user_data)
 {
     HLGridTemplate *grid_template = (HLGridTemplate*)user_data;
@@ -476,7 +476,7 @@ void hl_layout_child_with_grid_rc_row(HLContext *ctx,
     }
 }
 
-void hl_layout_child_with_grid_rc_auto(HLContext *ctx,
+void hl_layout_child_with_grid_rc_auto(struct HiDOMLayoutCtxt *ctx,
         HiLayoutNode *node, void *user_data)
 {
     HLGridTemplate *grid_template = (HLGridTemplate*)user_data;
@@ -591,13 +591,13 @@ void hl_layout_child_with_grid_rc_auto(HLContext *ctx,
     }
 }
 
-void hl_free_grid_item(HLContext* ctx,
+void hl_free_grid_item(struct HiDOMLayoutCtxt* ctx,
         HiLayoutNode *node, void* user_data)
 {
     hl_destroy_grid_item(node);
 }
 
-int hl_layout_child_node_grid(HLContext* ctx, HiLayoutNode *node, int level)
+int hl_layout_child_node_grid(struct HiDOMLayoutCtxt* ctx, HiLayoutNode *node, int level)
 {
     HLGridTemplate* grid_template = hl_grid_template_create(ctx, node);
 

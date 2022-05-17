@@ -58,8 +58,9 @@ extern "C" {
 
 int hl_computed_z_index(HiLayoutNode *node);
 
-int hi_layout_do_layout(HLMedia *media, HLCSS *css, HiLayoutNode *root);
-int hl_layout_child_node_grid(HLContext* ctx, HiLayoutNode *node, int level);
+int hi_layout_do_layout(struct HiDOMLayoutCtxt* ctx, HiLayoutNode *root);
+int hl_layout_child_node_grid(struct HiDOMLayoutCtxt* ctx, HiLayoutNode *node,
+        int level);
 
 #ifdef __cplusplus
 }

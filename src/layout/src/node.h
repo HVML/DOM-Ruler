@@ -52,6 +52,7 @@
 
 #include "hidomlayout.h"
 #include "utils.h"
+#include "internal.h"
 
 #include <libcss/libcss.h>
 #include <glib.h>
@@ -152,19 +153,19 @@ int hi_layout_node_set_inner_data(HiLayoutNode *node, const char *key,
 void *hi_layout_node_get_inner_data(HiLayoutNode *node, const char *key);
 
 int hl_find_background(HiLayoutNode *node);
-int hl_find_font(HLContext *ctx, HiLayoutNode *node);
+int hl_find_font(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node);
 
 HLGridItem *hl_grid_item_create(HiLayoutNode *node);
 void hl_grid_item_destroy(HLGridItem*);
 
-HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
+HLGridTemplate *hl_grid_template_create(const struct HiDOMLayoutCtxt *ctx,
         HiLayoutNode *node);
 void hl_grid_template_destroy(HLGridTemplate*);
 
-typedef void (*each_child_callback)(HLContext *ctx, HiLayoutNode *node,
+typedef void (*each_child_callback)(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
         void *user_data);
 
-void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
+void hl_for_each_child(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
         each_child_callback callback, void *user_data);
 
 void cb_hi_layout_node_destroy(void *n);

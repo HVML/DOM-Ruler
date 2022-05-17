@@ -121,7 +121,7 @@ int hl_select_child_style(const css_media *media, css_select_ctx *select_ctx,
 }
 
 
-void hl_calculate_mbp_width(const HLContext *len_ctx,
+void hl_calculate_mbp_width(const struct HiDOMLayoutCtxt *len_ctx,
             const css_computed_style *style, unsigned int side,
             bool margin, bool border, bool padding,
             int *fixed, float *frac)
@@ -164,7 +164,7 @@ void hl_calculate_mbp_width(const HLContext *len_ctx,
     }
 }
 
-void hl_handle_box_sizing(const HLContext *len_ctx, HiLayoutNode *node,
+void hl_handle_box_sizing(const struct HiDOMLayoutCtxt *len_ctx, HiLayoutNode *node,
         int available_width, bool setwidth, int *dimension)
 {
     enum css_box_sizing_e bs;
@@ -189,7 +189,7 @@ void hl_handle_box_sizing(const HLContext *len_ctx, HiLayoutNode *node,
     }
 }
 
-void hl_find_dimensions(const HLContext *len_ctx, int available_width,
+void hl_find_dimensions(const struct HiDOMLayoutCtxt *len_ctx, int available_width,
                int viewport_height, HiLayoutNode *box,
                const css_computed_style *style,
                int *width, int *height,
@@ -535,7 +535,7 @@ int hl_computed_z_index(HiLayoutNode *node)
     return index;
 }
 
-int hl_block_find_dimensions(HLContext *ctx,
+int hl_block_find_dimensions(struct HiDOMLayoutCtxt *ctx,
         HiLayoutNode *node,
         int container_width,
         int container_height,
@@ -568,7 +568,7 @@ int hl_block_find_dimensions(HLContext *ctx,
     node->box_values.h = sh;
 }
 
-void hl_computed_offsets(const HLContext *len_ctx,
+void hl_computed_offsets(const struct HiDOMLayoutCtxt *len_ctx,
                HiLayoutNode *box,
                HiLayoutNode *containing_block,
                int *top,
@@ -645,7 +645,7 @@ void hl_computed_offsets(const HLContext *len_ctx,
 }
 
 
-int hl_layout_node(HLContext *ctx, HiLayoutNode *node, int x, int y,
+int hl_layout_node(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node, int x, int y,
         int container_width, int container_height, int level)
 {
     if (node == NULL) {
@@ -818,31 +818,24 @@ int hl_layout_node(HLContext *ctx, HiLayoutNode *node, int x, int y,
     return HILAYOUT_OK;
 }
 
-int hi_layout_do_layout(HLMedia *media, HLCSS *css, HiLayoutNode *root)
+int hi_layout_do_layout(struct HiDOMLayoutCtxt *ctxt, HiLayoutNode *root)
 {
-    if (media == NULL || root == NULL || css == NULL || css->sheet == NULL) {
-        HL_LOGE("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n",
-                __func__, media, root, css, css->sheet);
+    if (ctxt == NULL || ctxt->css == NULL || ctxt->css->sheet == NULL) {
         return HILAYOUT_BADPARM;
     }
 
-    HLContext context = {
-        .media = media,
-        .css = css,
-        .root = root,
-    };
-    hl_set_media_dpi(&context, media->dpi);
-    hl_set_baseline_pixel_density(&context, media->density);
+    hl_set_media_dpi(ctxt, ctxt->dpi);
+    hl_set_baseline_pixel_density(ctxt, ctxt->density);
 
     css_media m;
     m.type = CSS_MEDIA_SCREEN;
-    m.width  = hl_css_pixels_physical_to_css(&context, INTTOFIX(media->width));
-    m.height = hl_css_pixels_physical_to_css(&context, INTTOFIX(media->height));
-    context.vw = m.width;
-    context.vh = m.height;
+    m.width  = hl_css_pixels_physical_to_css(ctxt, INTTOFIX(ctxt->width));
+    m.height = hl_css_pixels_physical_to_css(ctxt, INTTOFIX(ctxt->height));
+    ctxt->vw = m.width;
+    ctxt->vh = m.height;
 
     // create css select context
-    css_select_ctx *select_ctx = hl_css_select_ctx_create(css);
+    css_select_ctx *select_ctx = hl_css_select_ctx_create(ctxt->css);
 
     int ret = hl_select_child_style(&m, select_ctx, root);
     if (ret != HILAYOUT_OK) {
@@ -850,9 +843,9 @@ int hi_layout_do_layout(HLMedia *media, HLCSS *css, HiLayoutNode *root)
         hl_css_select_ctx_destroy(select_ctx);
         return ret;
     }
-    context.root_style = root->computed_style;
+    ctxt->root_style = root->computed_style;
 
-    hl_layout_node(&context, root, 0, 0, media->width, media->height, 0);
+    hl_layout_node(ctxt, root, 0, 0, ctxt->width, ctxt->height, 0);
     hl_css_select_ctx_destroy(select_ctx);
     return ret;
 }

@@ -146,6 +146,7 @@ void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt)
 int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root,
         HiDOMLayoutNodeOp *op)
 {
+#if 0
     if (!media || !css || !root || !hl_verify_handler(op)) {
         HL_LOGE("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n",
                 __func__, media, root, css, css->sheet);
@@ -154,6 +155,8 @@ int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root,
 
     HiLayoutNode *node = hi_layout_node_from_origin_node(root, op);
     return hi_layout_do_layout(media, css, node);
+#endif
+    return HILAYOUT_BADPARM;
 }
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)

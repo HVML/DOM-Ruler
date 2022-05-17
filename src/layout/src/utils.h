@@ -50,6 +50,7 @@
 #define _HL_UTILS_H_
 
 #include "hidomlayout.h"
+#include "internal.h"
 #include <libcss/libcss.h>
 
 // top, right, bottom, left
@@ -80,33 +81,20 @@
 
 struct HiLayoutNode;
 
-typedef struct HLContext_ {
-    HLMedia *media;
-    HLCSS *css;
-    css_fixed hl_css_media_dpi;
-    css_fixed hl_css_baseline_pixel_density;
-
-    int vw;
-    int vh;
-    const css_computed_style *root_style;
-
-    struct HiLayoutNode *root;
-} HLContext;
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-css_fixed hl_css_pixels_css_to_physical(const HLContext *ctx,
+css_fixed hl_css_pixels_css_to_physical(const struct HiDOMLayoutCtxt *ctx,
         css_fixed css_pixels);
-css_fixed hl_css_pixels_physical_to_css(const HLContext *ctx,
+css_fixed hl_css_pixels_physical_to_css(const struct HiDOMLayoutCtxt *ctx,
         css_fixed physical_pixels);
-int hl_set_media_dpi(HLContext *ctx, int dpi);
-int hl_set_baseline_pixel_density(HLContext *ctx, int density);
+int hl_set_media_dpi(struct HiDOMLayoutCtxt *ctx, int dpi);
+int hl_set_baseline_pixel_density(struct HiDOMLayoutCtxt *ctx, int density);
 
-css_unit hl_css_utils_fudge_viewport_units(const HLContext *ctx, css_unit unit);
-css_fixed hl_css_len2pt(const HLContext *ctx, css_fixed length, css_unit unit);
-css_fixed hl_css_len2px(const HLContext *ctx,
+css_unit hl_css_utils_fudge_viewport_units(const struct HiDOMLayoutCtxt *ctx, css_unit unit);
+css_fixed hl_css_len2pt(const struct HiDOMLayoutCtxt *ctx, css_fixed length, css_unit unit);
+css_fixed hl_css_len2px(const struct HiDOMLayoutCtxt *ctx,
         css_fixed length, css_unit unit, const css_computed_style *style);
 
 uint8_t hl_computed_min_height(

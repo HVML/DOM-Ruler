@@ -213,7 +213,7 @@ int hl_find_background(HiLayoutNode *node)
     return HILAYOUT_OK;
 }
 
-int hl_find_font(HLContext *ctx, HiLayoutNode *node)
+int hl_find_font(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node)
 {
     lwc_string **families;
     css_fixed length = 0;
@@ -378,7 +378,7 @@ void hl_grid_item_destroy(HLGridItem *p)
     }
 }
 
-HLGridTemplate *hl_grid_template_create(const HLContext *ctx,
+HLGridTemplate *hl_grid_template_create(const struct HiDOMLayoutCtxt *ctx,
         HiLayoutNode *node)
 {
     if (node == NULL) {
@@ -474,7 +474,7 @@ void hl_grid_template_destroy(HLGridTemplate *p)
     free(p);
 }
 
-void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
+void hl_for_each_child(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
         each_child_callback callback, void *user_data)
 {
     if (ctx == NULL || node == NULL || callback == NULL) {
