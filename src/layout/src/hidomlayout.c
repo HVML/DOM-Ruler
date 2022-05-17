@@ -143,45 +143,16 @@ void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt)
     free(ctxt);
 }
 
-int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root,
-        HiDOMLayoutNodeOp *op)
+int hidomlayout_layout_hldom_element_node(struct HiDOMLayoutCtxt *ctxt,
+        HLDomElementNode *root_node)
 {
-#if 0
-    if (!media || !css || !root || !hl_verify_handler(op)) {
-        HL_LOGE("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n",
-                __func__, media, root, css, css->sheet);
-        return HILAYOUT_BADPARM;
-    }
-
-    HiLayoutNode *node = hi_layout_node_from_origin_node(root, op);
-    return hi_layout_do_layout(media, css, node);
-#endif
-    return HILAYOUT_BADPARM;
+    return hidomlayout_layout(ctxt, root_node, hl_dom_element_node_get_op());
 }
 
-int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
+int hidomlayout_layout_pcdom_element_t(struct HiDOMLayoutCtxt *ctxt,
+        pcdom_element_t *root_node)
 {
-    return hidomlayout_layout_ex(media, css, root, hl_dom_element_node_get_op());
+    return hidomlayout_layout(ctxt, root_node, hl_pcdom_element_t_get_op());
 }
 
-int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root)
-{
-    return hidomlayout_layout_ex(media, css, root, hl_pcdom_element_t_get_op());
-}
-
-const HLBox* hidomlayout_get_layout_box(void *node,
-        HiDOMLayoutNodeOp *handler)
-{
-    if (!node) {
-        return NULL;
-    }
-
-    HiLayoutNode *layout = hi_layout_node_from_origin_node(node, handler);
-    return layout ? &layout->box_values : NULL;
-}
-
-const HLBox *hilayout_get_pcdom_layout_box(pcdom_element_t *node)
-{
-    return hidomlayout_get_layout_box(node, hl_pcdom_element_t_get_op());
-}
 

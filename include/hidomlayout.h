@@ -882,33 +882,32 @@ const HLBox *hidomlayout_get_node_box(struct HiDOMLayoutCtxt *ctxt,
  */
 void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt);
 
+
 /**
- * layout dom tree
+ * layout HLDomElementNode
  *
- * @param media: the pointer to the HLMedia
- * @param css: the pointer to the HLCSS
- * @param root_node: the pointer to the root node
- * @param handler: the handler to handle root node
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param root_node: the pointer to the root node HLDomElementNode
  *
  * Returns: zero if success; an error code (!=0) otherwise.
  *
- * Since: 1.1
+ * Since: 1.2
  */
-int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root_node,
-        HiDOMLayoutNodeOp *handler);
+int hidomlayout_layout_hldom_element_node(struct HiDOMLayoutCtxt *ctxt,
+        HLDomElementNode *root_node);
 
 /**
- * Get HLBox of the node
+ * layout pcdom_element_t
  *
- * @param node: the pointer to the node
- * @param handler: the handler to handle node
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param root_node: the pointer to the root node pcdom_element_t
  *
- * Returns: HLBox pointer if success; NULL otherwise.
+ * Returns: zero if success; an error code (!=0) otherwise.
  *
- * Since: 1.1
+ * Since: 1.2
  */
-const HLBox* hidomlayout_get_layout_box(void *node,
-        HiDOMLayoutNodeOp *handler);
+int hidomlayout_layout_pcdom_element_t(struct HiDOMLayoutCtxt *ctxt,
+        pcdom_element_t *root_node);
 
 /**
  * Create a HLCSS object
@@ -1362,45 +1361,6 @@ HLDomElementNode* hilayout_element_node_get_next(HLDomElementNode* node);
  * Since: 1.0
  */
 uint32_t hilayout_element_node_get_children_count(HLDomElementNode* node);
-
-
-/**
- * layout dom tree
- *
- * @param media: the pointer to the HLMedia 
- * @param css: the pointer to the HLCSS
- * @param root: the pointer to the HLDomElementNode
- *
- * Returns: zero if success; an error code (!=0) otherwise.
- *
- * Since: 1.0
- */
-int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
-
-
-/**
- * layout pcdom tree
- *
- * @param media: the pointer to the HLMedia
- * @param css: the pointer to the HLCSS
- * @param root: the pointer to the pcdom_element_t
- *
- * Returns: zero if success; an error code (!=0) otherwise.
- *
- * Since: 1.1
- */
-int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root);
-
-/**
- * Get HLBox of the pcdom_element_t
- *
- * @param node: the pointer to the pcdom_element_t
- *
- * Returns: HLBox pointer if success; NULL otherwise.
- *
- * Since: 1.1
- */
-const HLBox *hilayout_get_pcdom_layout_box(pcdom_element_t *node);
 
 /**
  * Specifies the type of function which is called when travel the dom tree.
