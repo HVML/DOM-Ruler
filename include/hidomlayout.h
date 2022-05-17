@@ -1263,6 +1263,7 @@ void *hilayout_element_node_get_attach_data(const HLDomElementNode *node,
 void hilayout_element_node_destroy(HLDomElementNode *node);
 
 /**
+ * @deprecated since 1.2
  * Get HLBox of the HLDomElementNode
  *
  * @param ctxt: the pointer to the HiDOMLayoutCtxt
@@ -1277,6 +1278,7 @@ hilayout_element_node_get_used_box_value(struct HiDOMLayoutCtxt *ctxt,
         HLDomElementNode *node);
 
 /**
+ * @deprecated since 1.2
  * Get HLUsedBackgroundValues of the HLDomElementNode
  *
  * @param ctxt: the pointer to the HiDOMLayoutCtxt
@@ -1291,6 +1293,7 @@ hilayout_element_node_get_used_background_value(struct HiDOMLayoutCtxt *ctxt,
         HLDomElementNode *node);
 
 /**
+ * @deprecated since 1.2
  * Get HLUsedTextValues of the HLDomElementNode
  *
  * @param ctxt: the pointer to the HiDOMLayoutCtxt
@@ -1305,6 +1308,7 @@ hilayout_element_node_get_used_text_value(struct HiDOMLayoutCtxt *ctxt,
         HLDomElementNode *node);
 
 /**
+ * @deprecated since 1.2
  * Get HLUsedSvgValues of the HLDomElementNode
  *
  * @param ctxt: the pointer to the HiDOMLayoutCtxt
