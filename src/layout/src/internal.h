@@ -46,72 +46,45 @@
  \endverbatim
  */
 
+#ifndef _HL_INTERNAL_H
+#define _HL_INTERNAL_H
 
 #include "hidomlayout.h"
-#include "internal.h"
-#include "layout.h"
+#include <libcss/libcss.h>
 
-#include "utils.h"
-#include "select.h"
+#include <glib.h>
+#include <glib/ghash.h>
 
-#include "hl_dom_element_node.h"
-#include "hl_pcdom_element_t.h"
+struct HiLayoutNode;
 
-#include <stdio.h>
-#include <stdlib.h>
+typedef struct HiDOMLayout {
+    // media
+    uint32_t width;
+    uint32_t height;
+    uint32_t dpi;
+    uint32_t density;
 
-static inline
-bool hl_verify_handler(HiDOMLayoutNodeOp *op)
-{
-    if (!op || !op->set_attach || !op->get_attach
-            || !op->get_type || !op->get_name
-            || !op->get_id || !op->get_classes
-            || !op->get_attr
-            || !op->set_parent || !op->get_parent
-            || !op->first_child || !op->next
-            || !op->previous
-            || !op->is_root) {
-        return false;
-    }
-    return true;
+    // css
+    HLCSS *css;
+    css_fixed hl_css_media_dpi;
+    css_fixed hl_css_baseline_pixel_density;
+
+    int vw;
+    int vh;
+    const css_computed_style *root_style;
+
+    struct HiLayoutNode *root;
+
+    GHashTable *node_map; // key(real node pointer) -> value(HiLayoutNode *)
+} HiDOMLayout;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef __cplusplus
 }
+#endif
 
-int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root,
-        HiDOMLayoutNodeOp *op)
-{
-    if (!media || !css || !root || !hl_verify_handler(op)) {
-        HL_LOGE("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n",
-                __func__, media, root, css, css->sheet);
-        return HILAYOUT_BADPARM;
-    }
-
-    HiLayoutNode *node = hi_layout_node_from_origin_node(root, op);
-    return hi_layout_do_layout(media, css, node);
-}
-
-int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
-{
-    return hidomlayout_layout_ex(media, css, root, hl_dom_element_node_get_op());
-}
-
-int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root)
-{
-    return hidomlayout_layout_ex(media, css, root, hl_pcdom_element_t_get_op());
-}
-
-const HLBox* hidomlayout_get_layout_box(void *node,
-        HiDOMLayoutNodeOp *handler)
-{
-    if (!node) {
-        return NULL;
-    }
-
-    HiLayoutNode *layout = hi_layout_node_from_origin_node(node, handler);
-    return layout ? &layout->box_values : NULL;
-}
-
-const HLBox *hilayout_get_pcdom_layout_box(pcdom_element_t *node)
-{
-    return hidomlayout_get_layout_box(node, hl_pcdom_element_t_get_op());
-}
+#endif // _HL_INTERNAL_H
 
