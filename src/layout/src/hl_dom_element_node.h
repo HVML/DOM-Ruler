@@ -88,11 +88,6 @@ typedef struct HLDomElementNode_ {
 
     HLNodeType inner_dom_type;
 
-    // begin layout attach
-    HiLayoutNode *layout;
-    cb_free_attach_data layout_free_cb;
-    // end layout attch
-
 } HLDomElementNode;
 
 #ifdef __cplusplus

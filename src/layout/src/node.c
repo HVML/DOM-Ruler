@@ -493,7 +493,7 @@ void hl_for_each_child(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
 HiLayoutNode *hi_layout_node_from_origin_node(struct HiDOMLayoutCtxt *ctxt,
         void *origin)
 {
-    if (!ctxt) {
+    if (!ctxt || !origin) {
         return NULL;
     }
 
@@ -537,6 +537,7 @@ HiLayoutNode *hi_layout_node_from_origin_node(struct HiDOMLayoutCtxt *ctxt,
 
     layout->origin = origin;
     layout->ctxt = ctxt;
+    g_hash_table_insert(ctxt->node_map, (gpointer)origin, (gpointer)layout);
     return layout;
 }
 
@@ -591,7 +592,7 @@ void hi_layout_node_set_parent(HiLayoutNode *node, HiLayoutNode *parent)
 HiLayoutNode *hi_layout_node_first_child(HiLayoutNode *node)
 {
     void *origin = node->ctxt->origin_op->first_child(node->origin);
-    return hi_layout_node_from_origin_node(origin,  node->ctxt->origin_op);
+    return hi_layout_node_from_origin_node(node->ctxt,  origin);
 }
 
 HiLayoutNode *hi_layout_node_next(HiLayoutNode *node)

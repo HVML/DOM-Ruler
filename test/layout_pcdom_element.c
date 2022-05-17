@@ -108,8 +108,10 @@ void print_layout_info(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *node)
     const char *id = pcdom_element_get_attribute(node, "id", 2, NULL);
     const HLBox *box = hidomlayout_get_node_box(ctxt, node);
 
-    fprintf(stderr, "node|name=%s|id=%s|(x,y,w,h)=(%f,%f,%f,%f)\n", name, id,
+    if (box) {
+        fprintf(stderr, "node|name=%s|id=%s|(x,y,w,h)=(%f,%f,%f,%f)\n", name, id,
             box->x, box->y, box->w, box->h);
+    }
 }
 
 void print_layout_result(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *elem)

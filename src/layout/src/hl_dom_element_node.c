@@ -48,6 +48,7 @@
 
 #include "node.h"
 #include "utils.h"
+#include "internal.h"
 #include "hl_dom_element_node.h"
 #include "libcss/libcss.h"
 
@@ -154,55 +155,76 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
         g_list_free_full(node->class_list, hl_destroy_class_list_item);
     }
 
-    if (node->layout && node->layout_free_cb) {
-        node->layout_free_cb(node->layout);
-    }
     free(node);
 }
 
-const HLBox *hilayout_element_node_get_used_box_value(
+const HLBox *
+hilayout_element_node_get_used_box_value(struct HiDOMLayoutCtxt *ctxt,
         HLDomElementNode *node)
 {
-    if (node && node->layout) {
-        return &node->layout->box_values;
+    if (!ctxt || !node) {
+        return NULL;
+    }
+    HiLayoutNode *layout = (HiLayoutNode*)g_hash_table_lookup(ctxt->node_map,
+            (gpointer)node);
+    if (layout) {
+        return &layout->box_values;
     }
     return NULL;
 }
 
-const HLUsedBackgroundValues *hilayout_element_node_get_used_background_value(
+const HLUsedBackgroundValues *
+hilayout_element_node_get_used_background_value(struct HiDOMLayoutCtxt *ctxt,
         HLDomElementNode *node)
 {
-    if (node && node->layout) {
-        return &node->layout->background_values;
+    if (!ctxt || !node) {
+        return NULL;
+    }
+    HiLayoutNode *layout = (HiLayoutNode*)g_hash_table_lookup(ctxt->node_map,
+            (gpointer)node);
+    if (layout) {
+        return &layout->background_values;
     }
     return NULL;
 }
 
-const HLUsedTextValues *hilayout_element_node_get_used_text_value(
+const HLUsedTextValues *
+hilayout_element_node_get_used_text_value(struct HiDOMLayoutCtxt *ctxt,
         HLDomElementNode *node)
 {
-    if (node && node->layout) {
-        return &node->layout->text_values;
+    if (!ctxt || !node) {
+        return NULL;
+    }
+    HiLayoutNode *layout = (HiLayoutNode*)g_hash_table_lookup(ctxt->node_map,
+            (gpointer)node);
+    if (layout) {
+        return &layout->text_values;
     }
     return NULL;
 }
 
 
-HLUsedSvgValues *hilayout_element_node_get_used_svg_value(
+HLUsedSvgValues *
+hilayout_element_node_get_used_svg_value(struct HiDOMLayoutCtxt *ctxt,
         HLDomElementNode *node)
 {
+    if (!ctxt || !node) {
+        return NULL;
+    }
+    HiLayoutNode *layout = (HiLayoutNode*)g_hash_table_lookup(ctxt->node_map,
+            (gpointer)node);
     css_computed_style *style = NULL;
-    if (node && node->layout) {
-        style = node->layout->computed_style;
+    if (layout) {
+        style = layout->computed_style;
     }
 
     if (style == NULL) {
         return NULL;
     }
 
-    hl_destroy_svg_values(node->layout->svg_values);
+    hl_destroy_svg_values(layout->svg_values);
     HLUsedSvgValues *svg = (HLUsedSvgValues*)calloc(1, sizeof(HLUsedSvgValues));
-    node->layout->svg_values = svg;
+    layout->svg_values = svg;
 
     // baseline_shift
     svg->baseline_shift = css_computed_baseline_shift(style);

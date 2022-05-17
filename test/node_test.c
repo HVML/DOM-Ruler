@@ -78,16 +78,6 @@ int main(int argc, char **argv)
     value = hilayout_element_node_get_style(root);
     HL_LOGW("test|get attribute|attr=style|value=%s\n", value);
 
-    // output test
-    const HLBox* box = hilayout_element_node_get_used_box_value(root);
-    HL_LOGW("test|get box value|ret=%p\n", box);
-
-    const HLUsedBackgroundValues* bg = hilayout_element_node_get_used_background_value(root);
-    HL_LOGW("test|get bg value|ret=%p\n", bg);
-
-    const HLUsedTextValues* text = hilayout_element_node_get_used_text_value(root);
-    HL_LOGW("test|get text value|ret=%p\n", text);
-
     // test append as last child
     char name[20];
     int index = 0;

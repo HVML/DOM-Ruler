@@ -373,7 +373,7 @@ typedef enum {
 typedef struct HLUsedTextValues_ {
     uint32_t color;
 
-    char* font_family;
+    char *font_family;
     hl_real_t font_size;
     HLFontWeight font_weight;
 
@@ -382,7 +382,7 @@ typedef struct HLUsedTextValues_ {
     hl_real_t text_indent;
     HLTextJustify text_justify;
     HLTextOverflow text_overflow;
-    char* text_overflow_string;
+    char *text_overflow_string;
     hl_real_t text_shadow_h;
     hl_real_t text_shadow_v;
     hl_real_t text_shadow_blur;
@@ -695,7 +695,7 @@ typedef enum HLStrokeDasharrayEnum_ {
 
 typedef struct HLUsedSvgValues_ {
     HLBaseLineShiftEnum baseline_shift;
-    char* clip_path;
+    char *clip_path;
     HLClipRuleEnum clip_rule;
 
     HLColorEnum color_type;
@@ -710,7 +710,7 @@ typedef struct HLUsedSvgValues_ {
 
     // fill
     HLFillEnum fill_type;
-    char* fill_string;
+    char *fill_string;
     uint32_t fill_color;
 
     HLFillOpacityEnum fill_opacity_type;
@@ -718,7 +718,7 @@ typedef struct HLUsedSvgValues_ {
 
     HLFillRuleEnum fill_rule;
 
-    char* filter;
+    char *filter;
 
     HLFloodColorEnum flood_color_type;
     uint32_t flood_color;
@@ -727,7 +727,7 @@ typedef struct HLUsedSvgValues_ {
     hl_real_t flood_opacity;
 
     HLFontFamilyEnum font_family_type;
-    char* font_family;
+    char *font_family;
 
     HLFontSizeEnum font_size_type;
     HL_UNIT_ENUM font_size_unit;
@@ -738,10 +738,10 @@ typedef struct HLUsedSvgValues_ {
     HLFontVariantEnum font_variant;
     HLSvgFontWeightEnum font_weight;
 
-    char* marker_end;
-    char* mask;
-    char* marker_mid;
-    char* marker_start;
+    char *marker_end;
+    char *mask;
+    char *marker_mid;
+    char *marker_start;
 
     HLOpacityEnum opacity_type;
     hl_real_t opacity;
@@ -757,12 +757,12 @@ typedef struct HLUsedSvgValues_ {
 
     // stroke
     HLStrokeEnum stroke_type;
-    char* stroke_string;
+    char *stroke_string;
     uint32_t stroke_color;
 
     HLStrokeDasharrayEnum stroke_dasharray_type;
     size_t stroke_dasharray_count;
-    hl_real_t* stroke_dasharray;
+    hl_real_t *stroke_dasharray;
 
     HLStrokeDashoffsetEnum stroke_dashoffset_type;
     HL_UNIT_ENUM stroke_dashoffset_unit;
@@ -913,7 +913,7 @@ int hidomlayout_layout_pcdom_element_t(struct HiDOMLayoutCtxt *ctxt,
  *
  * Since: 1.0
  */
-HLCSS* hilayout_css_create();
+HLCSS *hilayout_css_create();
 
 /**
  * Add css data into HLcss object.
@@ -926,7 +926,7 @@ HLCSS* hilayout_css_create();
  *
  * Since: 1.0
  */
-int hilayout_css_append_data(HLCSS* css, const char* data, size_t len);
+int hilayout_css_append_data(HLCSS *css, const char *data, size_t len);
 
 /**
  * Free a HiCSS.
@@ -937,7 +937,7 @@ int hilayout_css_append_data(HLCSS* css, const char* data, size_t len);
  *
  * Since: 1.0
  */
-int hilayout_css_destroy(HLCSS* css);
+int hilayout_css_destroy(HLCSS *css);
 
 /**
  * Create a HLDomElementNode object
@@ -948,7 +948,7 @@ int hilayout_css_destroy(HLCSS* css);
  *
  * Since: 1.0
  */
-HLDomElementNode* hilayout_element_node_create(const char* tag_name);
+HLDomElementNode *hilayout_element_node_create(const char *tag_name);
 
 /**
  * Get the tag name of the HLDomElementNode
@@ -959,7 +959,7 @@ HLDomElementNode* hilayout_element_node_create(const char* tag_name);
  *
  * Since: 1.0
  */
-const char* hilayout_element_node_get_tag_name(HLDomElementNode* node);
+const char *hilayout_element_node_get_tag_name(HLDomElementNode *node);
 
 /**
  * Set the common attribute for the HLDomElementNode
@@ -972,7 +972,8 @@ const char* hilayout_element_node_get_tag_name(HLDomElementNode* node);
  *
  * Since: 1.0
  */
-int hilayout_element_node_set_common_attr (HLDomElementNode* node, HLCommonAttribute attr_id, const char* value);
+int hilayout_element_node_set_common_attr(HLDomElementNode *node,
+        HLCommonAttribute attr_id, const char *value);
 
 /**
  * Get the common attribute of the HLDomElementNode
@@ -984,7 +985,8 @@ int hilayout_element_node_set_common_attr (HLDomElementNode* node, HLCommonAttri
  *
  * Since: 1.0
  */
-const char* hilayout_element_node_get_common_attr (const HLDomElementNode* node, HLCommonAttribute attr_id);
+const char *hilayout_element_node_get_common_attr(const HLDomElementNode *node,
+        HLCommonAttribute attr_id);
 
 /**
  * Set id attribute for the HLDomElementNode
@@ -996,9 +998,10 @@ const char* hilayout_element_node_get_common_attr (const HLDomElementNode* node,
  *
  * Since: 1.0
  */
-static inline int hilayout_element_node_set_id (HLDomElementNode* node, const char* id)
+static inline int
+hilayout_element_node_set_id(HLDomElementNode *node, const char *id)
 {
-    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_ID, id);
+    return hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_ID, id);
 }
 
 /**
@@ -1010,9 +1013,10 @@ static inline int hilayout_element_node_set_id (HLDomElementNode* node, const ch
  *
  * Since: 1.0
  */
-static inline const char* hilayout_element_node_get_id (const HLDomElementNode* node)
+static inline const char *
+hilayout_element_node_get_id(const HLDomElementNode *node)
 {
-    return hilayout_element_node_get_common_attr (node, HL_COMMON_ATTR_ID);
+    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_ID);
 }
 
 /**
@@ -1025,9 +1029,11 @@ static inline const char* hilayout_element_node_get_id (const HLDomElementNode* 
  *
  * Since: 1.0
  */
-static inline int hilayout_element_node_set_class (HLDomElementNode* node, const char* class_name)
+static inline int
+hilayout_element_node_set_class(HLDomElementNode *node, const char *class_name)
 {
-    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_CLASS_NAME, class_name);
+    return hilayout_element_node_set_common_attr(node,
+            HL_COMMON_ATTR_CLASS_NAME, class_name);
 }
 
 /**
@@ -1039,9 +1045,11 @@ static inline int hilayout_element_node_set_class (HLDomElementNode* node, const
  *
  * Since: 1.0
  */
-static inline const char* hilayout_element_node_get_class (const HLDomElementNode* node)
+static inline const char *
+hilayout_element_node_get_class(const HLDomElementNode *node)
 {
-    return hilayout_element_node_get_common_attr (node, HL_COMMON_ATTR_CLASS_NAME);
+    return hilayout_element_node_get_common_attr(node,
+            HL_COMMON_ATTR_CLASS_NAME);
 }
 
 /**
@@ -1054,7 +1062,8 @@ static inline const char* hilayout_element_node_get_class (const HLDomElementNod
  *
  * Since: 1.0
  */
-int hilayout_element_node_has_class (HLDomElementNode* node, const char* class_name);
+int hilayout_element_node_has_class(HLDomElementNode *node,
+        const char *class_name);
 
 /**
  * add class into the element node.
@@ -1066,7 +1075,8 @@ int hilayout_element_node_has_class (HLDomElementNode* node, const char* class_n
  *
  * Since: 1.0
  */
-int hilayout_element_node_include_class (HLDomElementNode* node, const char* class_name);
+int hilayout_element_node_include_class(HLDomElementNode *node,
+        const char *class_name);
 
 /**
  * remove class from the element node.
@@ -1078,7 +1088,8 @@ int hilayout_element_node_include_class (HLDomElementNode* node, const char* cla
  *
  * Since: 1.0
  */
-int hilayout_element_node_exclude_class (HLDomElementNode* node, const char* class_name);
+int hilayout_element_node_exclude_class(HLDomElementNode *node,
+        const char *class_name);
 
 /**
  * Set style attribute for the HLDomElementNode
@@ -1090,9 +1101,11 @@ int hilayout_element_node_exclude_class (HLDomElementNode* node, const char* cla
  *
  * Since: 1.0
  */
-static inline int hilayout_element_node_set_style (HLDomElementNode* node, const char* style)
+static inline int
+hilayout_element_node_set_style (HLDomElementNode *node, const char *style)
 {
-    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_STYLE, style);
+    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_STYLE,
+            style);
 }
 
 /**
@@ -1104,9 +1117,10 @@ static inline int hilayout_element_node_set_style (HLDomElementNode* node, const
  *
  * Since: 1.0
  */
-static inline const char* hilayout_element_node_get_style (const HLDomElementNode* node)
+static inline const char *
+hilayout_element_node_get_style(const HLDomElementNode *node)
 {
-    return hilayout_element_node_get_common_attr (node, HL_COMMON_ATTR_STYLE);
+    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_STYLE);
 }
 
 /**
@@ -1119,9 +1133,10 @@ static inline const char* hilayout_element_node_get_style (const HLDomElementNod
  *
  * Since: 1.0
  */
-static inline int hilayout_element_node_set_name (HLDomElementNode* node, const char* name)
+static inline int
+hilayout_element_node_set_name(HLDomElementNode *node, const char *name)
 {
-    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_NAME, name);
+    return hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_NAME, name);
 }
 
 /**
@@ -1133,7 +1148,8 @@ static inline int hilayout_element_node_set_name (HLDomElementNode* node, const 
  *
  * Since: 1.0
  */
-static inline const char* hilayout_element_node_get_name (const HLDomElementNode* node)
+static inline const char *
+hilayout_element_node_get_name(const HLDomElementNode *node)
 {
     return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_NAME);
 }
@@ -1149,7 +1165,8 @@ static inline const char* hilayout_element_node_get_name (const HLDomElementNode
  *
  * Since: 1.0
  */
-int hilayout_element_node_set_general_attr (HLDomElementNode* node, const char* attr_name, const char* attr_value);
+int hilayout_element_node_set_general_attr(HLDomElementNode *node,
+        const char *attr_name, const char *attr_value);
 
 /**
  * get general attribute for the HLDomElementNode
@@ -1161,16 +1178,19 @@ int hilayout_element_node_set_general_attr (HLDomElementNode* node, const char* 
  *
  * Since: 1.0
  */
-const char* hilayout_element_node_get_general_attr (const HLDomElementNode* node, const char* attr_name);
+const char *
+hilayout_element_node_get_general_attr(const HLDomElementNode *node,
+        const char *attr_name);
 
 /**
- * Specifies the type of function which is called when the element node is destroyed.
+ * Specifies the type of function which is called when the element node is
+ * destroyed.
  *
  * @param data: the user data
  *
  * Since: 1.0
  */
-typedef void  (*HlDestroyCallback)(void* data);
+typedef void  (*HlDestroyCallback)(void *data);
 
 /**
  * Set user data for the HLDomElementNode
@@ -1184,7 +1204,8 @@ typedef void  (*HlDestroyCallback)(void* data);
  *
  * Since: 1.0
  */
-int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
+int hilayout_element_node_set_user_data(HLDomElementNode *node,
+        const char *key, void *data, HlDestroyCallback destroy_callback);
 
 /**
  * Get user data of the HLDomElementNode
@@ -1196,7 +1217,8 @@ int hilayout_element_node_set_user_data(HLDomElementNode* node, const char* key,
  *
  * Since: 1.0
  */
-void* hilayout_element_node_get_user_data(const HLDomElementNode* node, const char* key);
+void *hilayout_element_node_get_user_data(const HLDomElementNode *node,
+        const char *key);
 
 extern const uint32_t MAX_ATTACH_DATA_SIZE;
 
@@ -1212,7 +1234,8 @@ extern const uint32_t MAX_ATTACH_DATA_SIZE;
  *
  * Since: 1.0
  */
-int hilayout_element_node_set_attach_data(HLDomElementNode* node, uint32_t index, void* data, HlDestroyCallback destroy_callback);
+int hilayout_element_node_set_attach_data(HLDomElementNode *node,
+        uint32_t index, void *data, HlDestroyCallback destroy_callback);
 
 /**
  * Get user attach data of the HLDomElementNode
@@ -1224,14 +1247,16 @@ int hilayout_element_node_set_attach_data(HLDomElementNode* node, uint32_t index
  *
  * Since: 1.0
  */
-void* hilayout_element_node_get_attach_data(const HLDomElementNode* node, uint32_t index);
+void *hilayout_element_node_get_attach_data(const HLDomElementNode *node,
+        uint32_t index);
 
 /**
  * Free a HLDomElementNode.
  *
  * @param node: the pointer to the HLDomElementNode
  *
- * Frees the space used by the HLDomElementNode, including the HLDomElementNode itself.
+ * Frees the space used by the HLDomElementNode, including the
+ * HLDomElementNode itself.
  *
  * Since: 1.0
  */
@@ -1240,46 +1265,58 @@ void hilayout_element_node_destroy(HLDomElementNode *node);
 /**
  * Get HLBox of the HLDomElementNode
  *
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
  * @param node: the pointer to the HLDomElementNode
  *
  * Returns: HLBox pointer if success; NULL otherwise.
  *
  * Since: 1.0
  */
-const HLBox* hilayout_element_node_get_used_box_value(HLDomElementNode* node);
+const HLBox *
+hilayout_element_node_get_used_box_value(struct HiDOMLayoutCtxt *ctxt,
+        HLDomElementNode *node);
 
 /**
  * Get HLUsedBackgroundValues of the HLDomElementNode
  *
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
  * @param node: the pointer to the HLDomElementNode
  *
  * Returns: HLUsedBackgroundValues pointer if success; NULL otherwise.
  *
  * Since: 1.0
  */
-const HLUsedBackgroundValues* hilayout_element_node_get_used_background_value(HLDomElementNode* node);
+const HLUsedBackgroundValues *
+hilayout_element_node_get_used_background_value(struct HiDOMLayoutCtxt *ctxt,
+        HLDomElementNode *node);
 
 /**
  * Get HLUsedTextValues of the HLDomElementNode
  *
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
  * @param node: the pointer to the HLDomElementNode
  *
  * Returns: HLUsedTextValues pointer if success; NULL otherwise.
  *
  * Since: 1.0
  */
-const HLUsedTextValues* hilayout_element_node_get_used_text_value(HLDomElementNode* node);
+const HLUsedTextValues *
+hilayout_element_node_get_used_text_value(struct HiDOMLayoutCtxt *ctxt,
+        HLDomElementNode *node);
 
 /**
  * Get HLUsedSvgValues of the HLDomElementNode
  *
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
  * @param node: the pointer to the HLDomElementNode
  *
  * Returns: HLUsedSvgValues pointer if success; NULL otherwise.
  *
  * Since: 1.0
  */
-HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node);
+HLUsedSvgValues *
+hilayout_element_node_get_used_svg_value(struct HiDOMLayoutCtxt *ctxt,
+        HLDomElementNode *node);
 
 /**
  * add child node for the HLDomElementNode
@@ -1291,7 +1328,8 @@ HLUsedSvgValues* hilayout_element_node_get_used_svg_value(HLDomElementNode* node
  *
  * Since: 1.0
  */
-int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent);
+int hilayout_element_node_append_as_last_child(HLDomElementNode *node,
+        HLDomElementNode *parent);
 
 /**
  * get parent node of the HLDomElementNode
@@ -1302,7 +1340,7 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElem
  *
  * Since: 1.0
  */
-HLDomElementNode* hilayout_element_node_get_parent(HLDomElementNode* node);
+HLDomElementNode *hilayout_element_node_get_parent(HLDomElementNode *node);
 
 /**
  * get the first child node of the HLDomElementNode
@@ -1313,7 +1351,7 @@ HLDomElementNode* hilayout_element_node_get_parent(HLDomElementNode* node);
  *
  * Since: 1.0
  */
-HLDomElementNode* hilayout_element_node_get_first_child(HLDomElementNode* node);
+HLDomElementNode *hilayout_element_node_get_first_child(HLDomElementNode *node);
 
 /**
  * get the last child node of the HLDomElementNode
@@ -1324,7 +1362,7 @@ HLDomElementNode* hilayout_element_node_get_first_child(HLDomElementNode* node);
  *
  * Since: 1.0
  */
-HLDomElementNode* hilayout_element_node_get_last_child(HLDomElementNode* node);
+HLDomElementNode *hilayout_element_node_get_last_child(HLDomElementNode *node);
 
 /**
  * get the previous child node of the HLDomElementNode
@@ -1335,7 +1373,7 @@ HLDomElementNode* hilayout_element_node_get_last_child(HLDomElementNode* node);
  *
  * Since: 1.0
  */
-HLDomElementNode* hilayout_element_node_get_prev(HLDomElementNode* node);
+HLDomElementNode *hilayout_element_node_get_prev(HLDomElementNode *node);
 
 /**
  * get the next child node of the HLDomElementNode
@@ -1346,7 +1384,7 @@ HLDomElementNode* hilayout_element_node_get_prev(HLDomElementNode* node);
  *
  * Since: 1.0
  */
-HLDomElementNode* hilayout_element_node_get_next(HLDomElementNode* node);
+HLDomElementNode *hilayout_element_node_get_next(HLDomElementNode *node);
 
 /**
  * get the children count node of the HLDomElementNode
@@ -1357,7 +1395,7 @@ HLDomElementNode* hilayout_element_node_get_next(HLDomElementNode* node);
  *
  * Since: 1.0
  */
-uint32_t hilayout_element_node_get_children_count(HLDomElementNode* node);
+uint32_t hilayout_element_node_get_children_count(HLDomElementNode *node);
 
 /**
  * Specifies the type of function which is called when travel the dom tree.
@@ -1367,7 +1405,7 @@ uint32_t hilayout_element_node_get_children_count(HLDomElementNode* node);
  *
  * Since: 1.0
  */
-typedef void (*NodeCallback)(HLDomElementNode* node, void* user_data);
+typedef void (*NodeCallback)(HLDomElementNode *node, void *user_data);
 
 /**
  * travel the children of the element node
@@ -1378,7 +1416,8 @@ typedef void (*NodeCallback)(HLDomElementNode* node, void* user_data);
  *
  * Since: 1.0
  */
-void hilayout_element_node_for_each_child(HLDomElementNode* node, NodeCallback callback, void* user_data);
+void hilayout_element_node_for_each_child(HLDomElementNode *node,
+        NodeCallback callback, void *user_data);
 
 /**
  * travel the children of the dom tree
@@ -1389,7 +1428,8 @@ void hilayout_element_node_for_each_child(HLDomElementNode* node, NodeCallback c
  *
  * Since: 1.0
  */
-void hilayout_element_node_depth_first_search_tree(HLDomElementNode* node, NodeCallback callback, void* user_data);
+void hilayout_element_node_depth_first_search_tree(HLDomElementNode *node,
+        NodeCallback callback, void *user_data);
 
 /**@}*/
 

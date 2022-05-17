@@ -115,7 +115,10 @@ int hidomlayout_append_css(struct HiDOMLayoutCtxt *ctxt, const char *css,
 int hidomlayout_layout(struct HiDOMLayoutCtxt *ctxt, void *root_node,
         HiDOMLayoutNodeOp *op)
 {
-    return 0;
+    ctxt->origin_root = root_node;
+    ctxt->origin_op = op;
+    HiLayoutNode *layout_node = hi_layout_node_from_origin_node(ctxt, root_node);
+    return hi_layout_do_layout(ctxt, layout_node);
 }
 
 const HLBox *hidomlayout_get_node_box(struct HiDOMLayoutCtxt *ctxt,

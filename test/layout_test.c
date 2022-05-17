@@ -186,17 +186,10 @@ int main(int argc, char **argv)
     hilayout_element_node_append_as_last_child(hijs, page);
     hilayout_element_node_append_as_last_child(hijs2, page);
 
-    HLMedia hl_media = {
-        .width = 1280,
-        .height = 720,
-        .dpi = 72,
-        .density = 72
-    };
-
     fprintf(stderr, "####################################### layout ###########################\n");
     hidomlayout_layout_hldom_element_node(ctxt, root);
 
-    const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(hijs);
+    const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(ctxt, hijs);
     fprintf(stderr, "############### txtVaule=%p|txt->family=%s\n", txtVaule, txtVaule->font_family);
 
     hilayout_element_node_set_general_attr(hijs, "xsmKey", "xsmValue");

@@ -95,6 +95,9 @@ int main(int argc, char **argv)
 
     hilayout_css_append_data(css, data, strlen(data));
 
+    struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1080, 720, 72, 27);
+    ctxt->origin_op = hl_dom_element_node_get_op();
+
     /* select style for each of h1 to h6 */
     for (hh = 1; hh < 2; hh++) {
         css_select_results *style;
@@ -103,8 +106,7 @@ int main(int argc, char **argv)
 
 
         HLDomElementNode* domNode = hilayout_element_node_create("h1");
-        HiLayoutNode *layout_node = hi_layout_node_from_origin_node(domNode,
-                        hl_dom_element_node_get_op());
+        HiLayoutNode *layout_node = hi_layout_node_from_origin_node(ctxt, domNode);
         style = hl_css_select_style(css, layout_node, &media, NULL, NULL);
 
         color_type = css_computed_color(
@@ -170,6 +172,7 @@ int main(int argc, char **argv)
 
 
     hilayout_css_destroy(css);
+    hidomlayout_destroy(ctxt);
 
     return 0;
 }
