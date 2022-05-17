@@ -138,15 +138,13 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "%s\n", css_data);
 
-    HLCSS* css = hilayout_css_create();
-    if (css == NULL)
-    {
-        HL_LOGE("create HLCSS failed.\n");
+    struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1280, 720, 72, 27);
+    if (ctxt == NULL) {
+        HL_LOGE("create HiDOMLayoutCtxt failed.\n");
         return HILAYOUT_INVALID;
     }
 
-    hilayout_css_append_data(css, css_data, strlen(css_data));
-
+    hidomlayout_append_css(ctxt, css_data, strlen(css_data));
 
     HLDomElementNode* root = hilayout_element_node_create("div");
     hilayout_element_node_set_id(root, "root");
@@ -196,7 +194,7 @@ int main(int argc, char **argv)
     };
 
     fprintf(stderr, "####################################### layout ###########################\n");
-    hilayout_do_layout(&hl_media, css, root);
+    hidomlayout_layout_hldom_element_node(ctxt, root);
 
     const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(hijs);
     fprintf(stderr, "############### txtVaule=%p|txt->family=%s\n", txtVaule, txtVaule->font_family);
@@ -250,8 +248,6 @@ int main(int argc, char **argv)
 
     fprintf(stderr, " hilayout_element_node_exclude_class ff=%d\n", hilayout_element_node_exclude_class(hijs, "ff"));
     fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
-
-    hilayout_css_destroy(css);
 
 
     hilayout_element_node_depth_first_search_tree(root, print_node_info, NULL);

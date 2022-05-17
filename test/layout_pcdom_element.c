@@ -97,7 +97,7 @@ void destory_user_data(void* data)
 
 }
 
-void print_layout_info(pcdom_element_t *node) 
+void print_layout_info(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *node)
 {
     if (node->node.type == PCDOM_NODE_TYPE_TEXT
             || node->node.type == PCDOM_NODE_TYPE_UNDEF) {
@@ -106,18 +106,18 @@ void print_layout_info(pcdom_element_t *node)
 
     const char *name = pcdom_element_tag_name(node, NULL);
     const char *id = pcdom_element_get_attribute(node, "id", 2, NULL);
-    const HLBox *box = hilayout_get_pcdom_layout_box(node);
+    const HLBox *box = hidomlayout_get_node_box(ctxt, node);
 
     fprintf(stderr, "node|name=%s|id=%s|(x,y,w,h)=(%f,%f,%f,%f)\n", name, id,
             box->x, box->y, box->w, box->h);
 }
 
-void print_layout_result(pcdom_element_t *elem)
+void print_layout_result(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *elem)
 {
-    print_layout_info(elem);
+    print_layout_info(ctxt, elem);
     pcdom_element_t *child = (pcdom_element_t *)elem->node.first_child;
     while(child) {
-        print_layout_result(child);
+        print_layout_result(ctxt, child);
         child = (pcdom_element_t *)child->node.next;
     }
 
@@ -162,21 +162,13 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "%s\n", css_data);
 
-    HLCSS* css = hilayout_css_create();
-    if (css == NULL) {
-        HL_LOGE("create HLCSS failed.\n");
+    struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1280, 720, 72, 27);
+    if (ctxt == NULL) {
+        HL_LOGE("create HiDOMLayoutCtxt failed.\n");
         return HILAYOUT_INVALID;
     }
 
-    hilayout_css_append_data(css, css_data, strlen(css_data));
-
-
-    HLMedia hl_media = {
-        .width = 1280,
-        .height = 720,
-        .dpi = 72,
-        .density = 72
-    };
+    hidomlayout_append_css(ctxt, css_data, strlen(css_data));
 
     pchtml_html_document_t *doc = pchtml_html_document_create();
     ret = pchtml_html_document_parse_with_buf(doc, html, strlen(html));
@@ -184,12 +176,12 @@ int main(int argc, char **argv)
     pcdom_document_t *document = pcdom_interface_document(doc);
     pcdom_element_t *root = document->element;
     fprintf(stderr, "####################################### layout ###########################\n");
-    ret = hilayout_do_pcdom_layout(&hl_media, css, root);
+    ret = hidomlayout_layout_pcdom_element_t(ctxt, root);
 
-    print_layout_result(root);
+    print_layout_result(ctxt, root);
 
-    hilayout_css_destroy(css);
     pchtml_html_document_destroy(doc);
+    hidomlayout_destroy(ctxt);
 
     purc_cleanup ();
 

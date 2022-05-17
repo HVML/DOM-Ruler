@@ -142,9 +142,12 @@ int main(int argc, char **argv)
     css_fixed len = 0;
     uint8_t val;
 
+    struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1080, 720, 72, 27);
+    ctxt->origin_op = hl_dom_element_node_get_op();
+
     HLDomElementNode* node_select = title;
-    HiLayoutNode *layout_node = hi_layout_node_from_origin_node(node_select,
-                    hl_dom_element_node_get_op());
+    HiLayoutNode *layout_node = hi_layout_node_from_origin_node(ctxt, node_select);
+
     style = hl_css_select_style(css, layout_node, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     HL_LOGD("################################\n");
@@ -160,24 +163,18 @@ int main(int argc, char **argv)
 
     HL_LOGD("###################\n");
     node_select = title;
-    layout_node = hi_layout_node_from_origin_node(node_select,
-                    hl_dom_element_node_get_op());
+    layout_node = hi_layout_node_from_origin_node(ctxt, node_select);
+
     style = hl_css_select_style(css, layout_node, &media, NULL, NULL);
     color_type = css_computed_color( style->styles[CSS_PSEUDO_ELEMENT_NONE], &color_shade);
     HL_LOGW("tag=%s|id=%s|color=%x\n", hilayout_element_node_get_tag_name(node_select), hilayout_element_node_get_id(node_select), color_shade);
     hl_css_select_result_destroy(style);
 
-    HLMedia hl_media = {
-        .width = 1080,
-        .height = 720,
-        .dpi = 72,
-        .density = 72
-    };
-
     HL_LOGD("############################\n");
-    hilayout_do_layout(&hl_media, css, root);
 
     hilayout_css_destroy(css);
+
+    hidomlayout_destroy(ctxt);
 #endif
 
     return 0;
