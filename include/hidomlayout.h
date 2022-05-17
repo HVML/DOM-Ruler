@@ -805,7 +805,7 @@ typedef struct HLMedia_ {
 } HLMedia;
 
 
-struct HiDOMLayout;
+struct HiDOMLayoutCtxt;
 
 #ifdef __cplusplus
 extern "C" {
@@ -817,24 +817,24 @@ extern "C" {
  */
 
 /**
- *  create HiDOMLayout
+ *  create HiDOMLayoutCtxt
  *
  * @param width: media width
  * @param height: media height
  * @param dpi: media dpi
  * @param density: media density
  *
- * Returns: HiDOMLayout pointer if success; NULL otherwise.
+ * Returns: HiDOMLayoutCtxt pointer if success; NULL otherwise.
  *
  * Since: 1.2
  */
-struct HiDOMLayout *hidomlayout_create(uint32_t width, uint32_t height,
+struct HiDOMLayoutCtxt *hidomlayout_create(uint32_t width, uint32_t height,
         uint32_t dpi, uint32_t density);
 
 /**
- * Add css data into HiDOMLayout.
+ * Add css data into HiDOMLayoutCtxt.
  *
- * @param layout: the pointer to the HiDOMLayout
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
  * @param css: the css data
  * @param nr_css: The length of css data , in bytes
  *
@@ -842,13 +842,13 @@ struct HiDOMLayout *hidomlayout_create(uint32_t width, uint32_t height,
  *
  * Since: 1.2
  */
-int hidomlayout_append_css(struct HiDOMLayout *layout, const char *css,
+int hidomlayout_append_css(struct HiDOMLayoutCtxt *ctxt, const char *css,
         size_t nr_css);
 
 /**
  * layout dom tree
  *
- * @param layout: the pointer to the HiDOMLayout
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
  * @param root_node: the pointer to the root node
  * @param op: the opinter to HiDOMLayoutNodeOp
  *
@@ -856,31 +856,31 @@ int hidomlayout_append_css(struct HiDOMLayout *layout, const char *css,
  *
  * Since: 1.2
  */
-int hidomlayout_layout(struct HiDOMLayout *layout, void *root_node,
+int hidomlayout_layout(struct HiDOMLayoutCtxt *ctxt, void *root_node,
         HiDOMLayoutNodeOp *op);
 
 /**
  * Get HLBox of the node
  *
- * @param layout: the pointer to the HiDOMLayout
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
  * @param node: the pointer to the node
  *
  * Returns: HLBox pointer if success; NULL otherwise.
  *
  * Since: 1.2
  */
-const HLBox *hidomlayout_get_node_box(struct HiDOMLayout *layout,
+const HLBox *hidomlayout_get_node_box(struct HiDOMLayoutCtxt *ctxt,
         void *node);
 
 
 /**
- * Destroy HiDOMLayout
+ * Destroy HiDOMLayoutCtxt
  *
- * @param layout: the pointer to the HiDOMLayout
+ * @param ctxt: the pointer to the HiDOMLayoutCtxt
  *
  * Since: 1.2
  */
-void hidomlayout_destroy(struct HiDOMLayout *layout);
+void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt);
 
 /**
  * layout dom tree
@@ -1051,7 +1051,7 @@ static inline const char* hilayout_element_node_get_class (const HLDomElementNod
 /**
  * Checks whether the class exists in the element node.
  *
- * @param node: the pointer to the HiDOMLayout.
+ * @param node: the pointer to the node.
  * @param class_name: the class name
  *
  * Returns: zero if class name exists; (!=0) otherwise.
@@ -1063,7 +1063,7 @@ int hilayout_element_node_has_class (HLDomElementNode* node, const char* class_n
 /**
  * add class into the element node.
  *
- * @param node: the pointer to the HiDOMLayout.
+ * @param node: the pointer to the node.
  * @param class_name: the class name
  *
  * Returns: zero if success; an error code (!=0) otherwise.
@@ -1075,7 +1075,7 @@ int hilayout_element_node_include_class (HLDomElementNode* node, const char* cla
 /**
  * remove class from the element node.
  *
- * @param node: the pointer to the HiDOMLayout.
+ * @param node: the pointer to the node.
  * @param class_name: the class name
  *
  * Returns: zero if success; an error code (!=0) otherwise.

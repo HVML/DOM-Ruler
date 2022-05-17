@@ -76,48 +76,56 @@ bool hl_verify_handler(HiDOMLayoutNodeOp *op)
     return true;
 }
 
-struct HiDOMLayout *hidomlayout_create(uint32_t width, uint32_t height,
+struct HiDOMLayoutCtxt *hidomlayout_create(uint32_t width, uint32_t height,
         uint32_t dpi, uint32_t density)
 {
-    struct HiDOMLayout *layout = (struct HiDOMLayout *)calloc(1,
-            sizeof(struct HiDOMLayout));
-    if (layout == NULL) {
+    struct HiDOMLayoutCtxt *ctxt = (struct HiDOMLayoutCtxt *)calloc(1,
+            sizeof(struct HiDOMLayoutCtxt));
+    if (ctxt == NULL) {
         return NULL;
     }
-    layout->width = width;
-    layout->height = height;
-    layout->dpi = dpi;
-    layout->density = density;
+    ctxt->width = width;
+    ctxt->height = height;
+    ctxt->dpi = dpi;
+    ctxt->density = density;
 
-    layout->node_map = g_hash_table_new_full(g_direct_hash,
+    ctxt->node_map = g_hash_table_new_full(g_direct_hash,
             g_direct_equal, NULL, cb_hi_layout_node_destroy);
-    if (layout->node_map == NULL) {
-        hidomlayout_destroy(layout);
+    if (ctxt->node_map == NULL) {
+        hidomlayout_destroy(ctxt);
         return NULL;
     }
-    return layout;
+    return ctxt;
 }
 
-int hidomlayout_append_css(struct HiDOMLayout *layout, const char *css,
+int hidomlayout_append_css(struct HiDOMLayoutCtxt *ctxt, const char *css,
         size_t nr_css)
 {
     return 0;
 }
 
-int hidomlayout_layout(struct HiDOMLayout *layout, void *root_node,
+int hidomlayout_layout(struct HiDOMLayoutCtxt *ctxt, void *root_node,
         HiDOMLayoutNodeOp *op)
 {
     return 0;
 }
 
-const HLBox *hidomlayout_get_node_box(struct HiDOMLayout *layout,
+const HLBox *hidomlayout_get_node_box(struct HiDOMLayoutCtxt *ctxt,
         void *node)
 {
     return 0;
 }
 
-void hidomlayout_destroy(struct HiDOMLayout *layout)
+void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt)
 {
+    if (ctxt->css) {
+        hilayout_css_destroy(ctxt->css);
+    }
+
+    if (ctxt->node_map) {
+        g_hash_table_destroy(ctxt->node_map);
+    }
+    free(ctxt);
 }
 
 int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root,

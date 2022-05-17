@@ -57,7 +57,7 @@
 
 struct HiLayoutNode;
 
-typedef struct HiDOMLayout {
+struct HiDOMLayoutCtxt {
     // media
     uint32_t width;
     uint32_t height;
@@ -76,7 +76,7 @@ typedef struct HiDOMLayout {
     struct HiLayoutNode *root;
 
     GHashTable *node_map; // key(real node pointer) -> value(HiLayoutNode *)
-} HiDOMLayout;
+};
 
 #ifdef __cplusplus
 extern "C" {
