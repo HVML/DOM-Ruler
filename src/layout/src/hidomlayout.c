@@ -75,7 +75,7 @@ bool hl_verify_handler(hidomlayout_node_op *op)
     return true;
 }
 
-int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
+int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root,
         hidomlayout_node_op *op)
 {
     if (!media || !css || !root || !hl_verify_handler(op)) {
@@ -90,12 +90,12 @@ int hidomlayout_layout(HLMedia *media, HLCSS *css, void *root,
 
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root)
 {
-    return hidomlayout_layout(media, css, root, hl_dom_element_node_get_op());
+    return hidomlayout_layout_ex(media, css, root, hl_dom_element_node_get_op());
 }
 
 int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root)
 {
-    return hidomlayout_layout(media, css, root, hl_pcdom_element_t_get_op());
+    return hidomlayout_layout_ex(media, css, root, hl_pcdom_element_t_get_op());
 }
 
 const HLUsedBoxValues* hidomlayout_get_layout_box(void *node,
