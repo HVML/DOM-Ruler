@@ -804,9 +804,29 @@ typedef struct HLMedia_ {
     unsigned int density;
 } HLMedia;
 
+
+struct hidomlayout;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+struct hidomlayout *hidomlayout_create(uint32_t width, uint32_t height,
+        uint32_t dpi, uint32_t density);
+
+int hidomlayout_append_data(struct hidomlayout *layout, const char *css,
+        size_t len);
+
+#if 0
+int hidomlayout_layout(struct hidomlayout *layout, void *root,
+        hidomlayout_node_op *handler);
+#endif
+
+const HLUsedBoxValues *hidomlayout_get_node_box(struct hidomlayout *layout,
+        void *node);
+
+void hidomlayout_destroy(struct hidomlayout *layout);
 
 /**
  * @defgroup hiDOMLayout API
