@@ -75,7 +75,11 @@ struct HiDOMLayoutCtxt {
 
     struct HiLayoutNode *root;
 
-    GHashTable *node_map; // key(real node pointer) -> value(HiLayoutNode *)
+    // Origin Root Node
+    void *origin_root;
+    HiDOMLayoutNodeOp *origin_op;
+
+    GHashTable *node_map; // key(origin node pointer) -> value(HiLayoutNode *)
 };
 
 #ifdef __cplusplus

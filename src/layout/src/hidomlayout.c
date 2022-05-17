@@ -101,7 +101,16 @@ struct HiDOMLayoutCtxt *hidomlayout_create(uint32_t width, uint32_t height,
 int hidomlayout_append_css(struct HiDOMLayoutCtxt *ctxt, const char *css,
         size_t nr_css)
 {
-    return 0;
+    if (!ctxt || !css) {
+        return HILAYOUT_BADPARM;
+    }
+    if (!ctxt->css) {
+        ctxt->css = hilayout_css_create();
+        if (!ctxt->css) {
+            return HILAYOUT_NOMEM;
+        }
+    }
+    return hilayout_css_append_data(ctxt->css, css, nr_css);
 }
 
 int hidomlayout_layout(struct HiDOMLayoutCtxt *ctxt, void *root_node,
@@ -113,11 +122,17 @@ int hidomlayout_layout(struct HiDOMLayoutCtxt *ctxt, void *root_node,
 const HLBox *hidomlayout_get_node_box(struct HiDOMLayoutCtxt *ctxt,
         void *node)
 {
-    return 0;
+    HiLayoutNode *layout = (HiLayoutNode*)g_hash_table_lookup(ctxt->node_map,
+            (gpointer)node);
+    return layout ? &layout->box_values : NULL;
 }
 
 void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt)
 {
+    if (!ctxt) {
+        return;
+    }
+
     if (ctxt->css) {
         hilayout_css_destroy(ctxt->css);
     }
