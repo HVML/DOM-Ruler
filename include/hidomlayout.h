@@ -816,18 +816,70 @@ extern "C" {
  * @{
  */
 
+/**
+ *  create HiDOMLayout
+ *
+ * @param width: media width
+ * @param height: media height
+ * @param dpi: media dpi
+ * @param density: media density
+ *
+ * Returns: HiDOMLayout pointer if success; NULL otherwise.
+ *
+ * Since: 1.2
+ */
 struct HiDOMLayout *hidomlayout_create(uint32_t width, uint32_t height,
         uint32_t dpi, uint32_t density);
 
-int hidomlayout_append_data(struct HiDOMLayout *layout, const char *css,
-        size_t len);
+/**
+ * Add css data into HiDOMLayout.
+ *
+ * @param layout: the pointer to the HiDOMLayout
+ * @param css: the css data
+ * @param nr_css: The length of css data , in bytes
+ *
+ * Returns: 0 if success; an error code (!=0) otherwise.
+ *
+ * Since: 1.2
+ */
+int hidomlayout_append_css(struct HiDOMLayout *layout, const char *css,
+        size_t nr_css);
 
-int hidomlayout_layout(struct HiDOMLayout *layout, void *root,
+/**
+ * layout dom tree
+ *
+ * @param layout: the pointer to the HiDOMLayout
+ * @param root_node: the pointer to the root node
+ * @param op: the opinter to HiDOMLayoutNodeOp
+ *
+ * Returns: zero if success; an error code (!=0) otherwise.
+ *
+ * Since: 1.2
+ */
+int hidomlayout_layout(struct HiDOMLayout *layout, void *root_node,
         HiDOMLayoutNodeOp *op);
 
+/**
+ * Get HLBox of the node
+ *
+ * @param layout: the pointer to the HiDOMLayout
+ * @param node: the pointer to the node
+ *
+ * Returns: HLBox pointer if success; NULL otherwise.
+ *
+ * Since: 1.2
+ */
 const HLBox *hidomlayout_get_node_box(struct HiDOMLayout *layout,
         void *node);
 
+
+/**
+ * Destroy HiDOMLayout
+ *
+ * @param layout: the pointer to the HiDOMLayout
+ *
+ * Since: 1.2
+ */
 void hidomlayout_destroy(struct HiDOMLayout *layout);
 
 /**
