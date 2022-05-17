@@ -120,7 +120,7 @@ void *hl_dom_element_node_next(void *node);
 void *hl_dom_element_node_previous(void *node);
 bool hl_dom_element_node_is_root(void *node);
 
-hidomlayout_node_op *hl_dom_element_node_get_op();
+HiDOMLayoutNodeOp *hl_dom_element_node_get_op();
 // End HLDomElelementNode op
 
 #ifdef __cplusplus

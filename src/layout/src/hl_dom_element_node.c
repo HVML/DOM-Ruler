@@ -921,7 +921,7 @@ bool hl_dom_element_node_is_root(void *node)
     return true;
 }
 
-hidomlayout_node_op hl_dom_element_node_op = {
+HiDOMLayoutNodeOp hl_dom_element_node_op = {
     .set_attach = hl_dom_element_node_set_attach,
     .get_attach = hl_dom_element_node_get_attach,
     .get_type = hl_dom_element_node_get_type,
@@ -937,7 +937,7 @@ hidomlayout_node_op hl_dom_element_node_op = {
     .is_root = hl_dom_element_node_is_root
 };
 
-hidomlayout_node_op *hl_dom_element_node_get_op()
+HiDOMLayoutNodeOp *hl_dom_element_node_get_op()
 {
     return &hl_dom_element_node_op;
 }

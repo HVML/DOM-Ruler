@@ -136,7 +136,7 @@ typedef struct HiLayoutNode {
 
     // Origin Node
     void *origin;
-    hidomlayout_node_op *origin_op;
+    HiDOMLayoutNodeOp *origin_op;
 } HiLayoutNode;
 
 #ifdef __cplusplus
@@ -170,9 +170,9 @@ void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
 
 // BEGIN: HiLayoutNode  < ----- > Origin Node
 HiLayoutNode *hi_layout_node_from_origin_node(void *node,
-        hidomlayout_node_op *op);
+        HiDOMLayoutNodeOp *op);
 void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
-        hidomlayout_node_op **op);
+        HiDOMLayoutNodeOp **op);
 
 HLNodeType hi_layout_node_get_type(HiLayoutNode *node);
 const char *hi_layout_node_get_name(HiLayoutNode *node);

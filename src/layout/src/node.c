@@ -490,7 +490,7 @@ void hl_for_each_child(HLContext *ctx, HiLayoutNode *node,
 
 // BEGIN: HiLayoutNode  < ----- > Origin Node
 HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
-        hidomlayout_node_op *op)
+        HiDOMLayoutNodeOp *op)
 {
     if (!origin) {
         return NULL;
@@ -538,7 +538,7 @@ HiLayoutNode *hi_layout_node_from_origin_node(void *origin,
 }
 
 void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
-        hidomlayout_node_op **op)
+        HiDOMLayoutNodeOp **op)
 {
     if (!layout->origin) {
         return NULL;

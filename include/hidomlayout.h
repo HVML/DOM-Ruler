@@ -148,7 +148,7 @@ typedef enum {
 
 typedef void (*cb_free_attach_data) (void *data);
 
-typedef struct hidomlayout_node_op {
+typedef struct HiDOMLayoutNodeOp {
     void (*set_attach)(void *node, void *data, cb_free_attach_data cb_free);
     void *(*get_attach)(void *node, cb_free_attach_data *cb_free);
 
@@ -163,7 +163,7 @@ typedef struct hidomlayout_node_op {
     void *(*next)(void *node);
     void *(*previous)(void *node);
     bool (*is_root)(void *node);
-} hidomlayout_node_op;
+} HiDOMLayoutNodeOp;
 
 // property
 
@@ -805,31 +805,30 @@ typedef struct HLMedia_ {
 } HLMedia;
 
 
-struct hidomlayout;
+struct HiDOMLayout;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-struct hidomlayout *hidomlayout_create(uint32_t width, uint32_t height,
-        uint32_t dpi, uint32_t density);
-
-int hidomlayout_append_data(struct hidomlayout *layout, const char *css,
-        size_t len);
-
-int hidomlayout_layout(struct hidomlayout *layout, void *root,
-        hidomlayout_node_op *handler);
-
-const HLUsedBoxValues *hidomlayout_get_node_box(struct hidomlayout *layout,
-        void *node);
-
-void hidomlayout_destroy(struct hidomlayout *layout);
-
 /**
  * @defgroup hiDOMLayout API
  * @{
  */
+
+struct HiDOMLayout *hidomlayout_create(uint32_t width, uint32_t height,
+        uint32_t dpi, uint32_t density);
+
+int hidomlayout_append_data(struct HiDOMLayout *layout, const char *css,
+        size_t len);
+
+int hidomlayout_layout(struct HiDOMLayout *layout, void *root,
+        HiDOMLayoutNodeOp *op);
+
+const HLUsedBoxValues *hidomlayout_get_node_box(struct HiDOMLayout *layout,
+        void *node);
+
+void hidomlayout_destroy(struct HiDOMLayout *layout);
 
 /**
  * layout dom tree
@@ -844,7 +843,7 @@ void hidomlayout_destroy(struct hidomlayout *layout);
  * Since: 1.1
  */
 int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root_node,
-        hidomlayout_node_op *handler);
+        HiDOMLayoutNodeOp *handler);
 
 /**
  * Get HLUsedBoxValues of the node
@@ -857,7 +856,7 @@ int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root_node,
  * Since: 1.1
  */
 const HLUsedBoxValues* hidomlayout_get_layout_box(void *node,
-        hidomlayout_node_op *handler);
+        HiDOMLayoutNodeOp *handler);
 
 /**
  * Create a HLCSS object

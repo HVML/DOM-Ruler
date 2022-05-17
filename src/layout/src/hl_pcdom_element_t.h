@@ -72,7 +72,7 @@ void *hl_pcdom_element_t_next(void *node);
 void *hl_pcdom_element_t_previous(void *node);
 bool hl_pcdom_element_t_is_root(void *node);
 
-hidomlayout_node_op *hl_pcdom_element_t_get_op();
+HiDOMLayoutNodeOp *hl_pcdom_element_t_get_op();
 
 #ifdef __cplusplus
 }

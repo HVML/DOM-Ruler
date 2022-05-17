@@ -60,7 +60,7 @@
 #include <stdlib.h>
 
 static inline
-bool hl_verify_handler(hidomlayout_node_op *op)
+bool hl_verify_handler(HiDOMLayoutNodeOp *op)
 {
     if (!op || !op->set_attach || !op->get_attach
             || !op->get_type || !op->get_name
@@ -76,7 +76,7 @@ bool hl_verify_handler(hidomlayout_node_op *op)
 }
 
 int hidomlayout_layout_ex(HLMedia *media, HLCSS *css, void *root,
-        hidomlayout_node_op *op)
+        HiDOMLayoutNodeOp *op)
 {
     if (!media || !css || !root || !hl_verify_handler(op)) {
         HL_LOGE("%s|media=%p|root=%p|css=%p|style_sheet=%p|param error\n",
@@ -99,7 +99,7 @@ int hilayout_do_pcdom_layout(HLMedia* media, HLCSS* css, pcdom_element_t *root)
 }
 
 const HLUsedBoxValues* hidomlayout_get_layout_box(void *node,
-        hidomlayout_node_op *handler)
+        HiDOMLayoutNodeOp *handler)
 {
     if (!node) {
         return NULL;
