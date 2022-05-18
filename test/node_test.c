@@ -56,7 +56,7 @@
 int main(int argc, char **argv)
 {
 
-    HLDomElementNode* root = hilayout_element_node_create("div");
+    HLDomElement* root = hilayout_element_node_create("div");
 
     // test get tag name
     const char* tag_name = hilayout_element_node_get_tag_name(root);
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     {
         HL_LOGW("\n");
         HL_LOGW("test|add node|index=%d\n", index);
-        HLDomElementNode* div = hilayout_element_node_create("div");
+        HLDomElement* div = hilayout_element_node_create("div");
         hilayout_element_node_append_as_last_child(div, root);
     }
 

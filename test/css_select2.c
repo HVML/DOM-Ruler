@@ -104,26 +104,26 @@ int main(int argc, char **argv)
     hilayout_css_append_data(css, data, strlen(data));
 
 
-    HLDomElementNode* root = hilayout_element_node_create("div");
+    HLDomElement* root = hilayout_element_node_create("div");
     hilayout_element_node_set_id(root,  "root");
 
-    HLDomElementNode* title = hilayout_element_node_create("div");
+    HLDomElement* title = hilayout_element_node_create("div");
     hilayout_element_node_set_id(title, "title");
 
-    HLDomElementNode* description = hilayout_element_node_create("div");
+    HLDomElement* description = hilayout_element_node_create("div");
     hilayout_element_node_set_id(description, "description");
 
-    HLDomElementNode* page = hilayout_element_node_create("div");
+    HLDomElement* page = hilayout_element_node_create("div");
     hilayout_element_node_set_id(page, "page");
 
-    HLDomElementNode* indicator = hilayout_element_node_create("div");
+    HLDomElement* indicator = hilayout_element_node_create("div");
     hilayout_element_node_set_id(indicator, "indicator");
 
 
-    HLDomElementNode* hiweb = hilayout_element_node_create("hiweb");
+    HLDomElement* hiweb = hilayout_element_node_create("hiweb");
     hilayout_element_node_set_id(hiweb, "hiweb");
 
-    HLDomElementNode* hijs = hilayout_element_node_create("hijs");
+    HLDomElement* hijs = hilayout_element_node_create("hijs");
     hilayout_element_node_set_id(hijs, "hijs");
 
     hilayout_element_node_append_as_last_child(title, root);
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
     struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1080, 720, 72, 27);
     ctxt->origin_op = hl_dom_element_node_get_op();
 
-    HLDomElementNode* node_select = title;
+    HLDomElement* node_select = title;
     HiLayoutNode *layout_node = hi_layout_node_from_origin_node(ctxt, node_select);
 
     style = hl_css_select_style(css, layout_node, &media, NULL, NULL);

@@ -146,7 +146,7 @@ void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt)
 }
 
 int hidomlayout_layout_hldom_elements(struct HiDOMLayoutCtxt *ctxt,
-        HLDomElementNode *root_node)
+        HLDomElement *root_node)
 {
     return hidomlayout_layout(ctxt, root_node, hl_dom_element_node_get_op());
 }

@@ -64,17 +64,17 @@
 #define AUTO INT_MIN
 
 
-HLDomElementNode *hilayout_element_node_create(const char *tag)
+HLDomElement *hilayout_element_node_create(const char *tag)
 {
     if (tag == NULL) {
-        HL_LOGE("create HLDomElementNode failed. tag=%s\n", tag);
+        HL_LOGE("create HLDomElement failed. tag=%s\n", tag);
         return NULL;
     }
 
-    HLDomElementNode *node = (HLDomElementNode*)calloc(1,
-            sizeof(HLDomElementNode));
+    HLDomElement *node = (HLDomElement*)calloc(1,
+            sizeof(HLDomElement));
     if (node == NULL) {
-        HL_LOGE("create HLDomElementNode failed. %d\n", HILAYOUT_NOMEM);
+        HL_LOGE("create HLDomElement failed. %d\n", HILAYOUT_NOMEM);
         return NULL;
     }
 
@@ -82,7 +82,7 @@ HLDomElementNode *hilayout_element_node_create(const char *tag)
     return node;
 }
 
-const char *hilayout_element_node_get_tag_name(HLDomElementNode *node)
+const char *hilayout_element_node_get_tag_name(HLDomElement *node)
 {
     return node ? node->tag : NULL;
 }
@@ -93,7 +93,7 @@ void hl_destroy_class_list_item (gpointer data)
 }
 
 static const char _HILAYOUT_WHITESPACE[] = " ";
-void hl_fill_inner_classes(HLDomElementNode *node, const char *classes)
+void hl_fill_inner_classes(HLDomElement *node, const char *classes)
 {
     if (node == NULL || classes == NULL || strlen(classes) == 0) {
         return;
@@ -111,7 +111,7 @@ void hl_fill_inner_classes(HLDomElementNode *node, const char *classes)
     free(value);
 }
 
-void hilayout_element_node_destroy(HLDomElementNode *node)
+void hilayout_element_node_destroy(HLDomElement *node)
 {
     if (node == NULL) {
         return;
@@ -160,7 +160,7 @@ void hilayout_element_node_destroy(HLDomElementNode *node)
 
 const HLBox *
 hilayout_element_node_get_used_box_value(struct HiDOMLayoutCtxt *ctxt,
-        HLDomElementNode *node)
+        HLDomElement *node)
 {
     if (!ctxt || !node) {
         return NULL;
@@ -175,7 +175,7 @@ hilayout_element_node_get_used_box_value(struct HiDOMLayoutCtxt *ctxt,
 
 const HLUsedBackgroundValues *
 hilayout_element_node_get_used_background_value(struct HiDOMLayoutCtxt *ctxt,
-        HLDomElementNode *node)
+        HLDomElement *node)
 {
     if (!ctxt || !node) {
         return NULL;
@@ -190,7 +190,7 @@ hilayout_element_node_get_used_background_value(struct HiDOMLayoutCtxt *ctxt,
 
 const HLUsedTextValues *
 hilayout_element_node_get_used_text_value(struct HiDOMLayoutCtxt *ctxt,
-        HLDomElementNode *node)
+        HLDomElement *node)
 {
     if (!ctxt || !node) {
         return NULL;
@@ -206,7 +206,7 @@ hilayout_element_node_get_used_text_value(struct HiDOMLayoutCtxt *ctxt,
 
 HLUsedSvgValues *
 hilayout_element_node_get_used_svg_value(struct HiDOMLayoutCtxt *ctxt,
-        HLDomElementNode *node)
+        HLDomElement *node)
 {
     if (!ctxt || !node) {
         return NULL;
@@ -445,8 +445,8 @@ hilayout_element_node_get_used_svg_value(struct HiDOMLayoutCtxt *ctxt,
     return svg;
 }
 
-int hilayout_element_node_append_as_last_child(HLDomElementNode *node,
-        HLDomElementNode *parent)
+int hilayout_element_node_append_as_last_child(HLDomElement *node,
+        HLDomElement *parent)
 {
     if (node == NULL || parent == NULL) {
         return HILAYOUT_BADPARM;
@@ -462,7 +462,7 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode *node,
         return HILAYOUT_OK;
     }
 
-    HLDomElementNode *last = parent->last_child;
+    HLDomElement *last = parent->last_child;
     last->next = node;
     parent->last_child = node;
 
@@ -472,32 +472,32 @@ int hilayout_element_node_append_as_last_child(HLDomElementNode *node,
     return HILAYOUT_OK;
 }
 
-HLDomElementNode *hilayout_element_node_get_parent(HLDomElementNode *node)
+HLDomElement *hilayout_element_node_get_parent(HLDomElement *node)
 {
     return node ? node->parent : NULL;
 }
 
-HLDomElementNode *hilayout_element_node_get_first_child(HLDomElementNode *node)
+HLDomElement *hilayout_element_node_get_first_child(HLDomElement *node)
 {
     return node ? node->first_child: NULL;
 }
 
-HLDomElementNode *hilayout_element_node_get_last_child(HLDomElementNode *node)
+HLDomElement *hilayout_element_node_get_last_child(HLDomElement *node)
 {
     return node ? node->last_child : NULL;
 }
 
-HLDomElementNode *hilayout_element_node_get_prev(HLDomElementNode *node)
+HLDomElement *hilayout_element_node_get_prev(HLDomElement *node)
 {
     return node ? node->previous : NULL;
 }
 
-HLDomElementNode *hilayout_element_node_get_next(HLDomElementNode *node)
+HLDomElement *hilayout_element_node_get_next(HLDomElement *node)
 {
     return node ? node->next : NULL;
 }
 
-uint32_t hilayout_element_node_get_children_count(HLDomElementNode *node)
+uint32_t hilayout_element_node_get_children_count(HLDomElement *node)
 {
     return node ? node->n_children: 0;
 }
@@ -507,7 +507,7 @@ void hl_destroy_common_attr_value (gpointer data)
     free(data);
 }
 
-int hl_verify_common_attr_id(const HLDomElementNode *node,
+int hl_verify_common_attr_id(const HLDomElement *node,
         HLCommonAttribute attr_id)
 {
     if (attr_id >= 0 && attr_id < HL_COMMON_ATTR_COUNT) {
@@ -516,7 +516,7 @@ int hl_verify_common_attr_id(const HLDomElementNode *node,
     return HILAYOUT_BADPARM;
 }
 
-int hilayout_element_node_set_common_attr(HLDomElementNode *node,
+int hilayout_element_node_set_common_attr(HLDomElement *node,
         HLCommonAttribute attr_id, const char *attr_value)
 {
     if (node == NULL || attr_value == NULL) {
@@ -540,7 +540,7 @@ int hilayout_element_node_set_common_attr(HLDomElementNode *node,
             (gpointer)strdup(attr_value));
 }
 
-const char *hilayout_element_node_get_common_attr(const HLDomElementNode *node,
+const char *hilayout_element_node_get_common_attr(const HLDomElement *node,
         HLCommonAttribute attr_id)
 {
     if (node == NULL || node->common_attrs == NULL) {
@@ -566,7 +566,7 @@ void hl_destroy_general_attr_value (gpointer data)
     free(data);
 }
 
-int hilayout_element_node_set_general_attr(HLDomElementNode *node,
+int hilayout_element_node_set_general_attr(HLDomElement *node,
         const char *attr_name, const char *attr_value)
 {
     if (node == NULL || attr_name == NULL || attr_value == NULL) {
@@ -582,7 +582,7 @@ int hilayout_element_node_set_general_attr(HLDomElementNode *node,
             (gpointer)strdup(attr_name), (gpointer)strdup(attr_value));
 }
 
-const char *hilayout_element_node_get_general_attr(const HLDomElementNode *node,
+const char *hilayout_element_node_get_general_attr(const HLDomElement *node,
         const char *attr_name)
 {
     if (node == NULL || attr_name == NULL || node->general_attrs == NULL) {
@@ -601,7 +601,7 @@ void hl_destroy_inner_attr_value (gpointer data)
     free(data);
 }
 
-int hl_element_node_set_inner_attr(HLDomElementNode *node,
+int hl_element_node_set_inner_attr(HLDomElement *node,
         const char *attr_name, const char *attr_value)
 {
     if (node == NULL || attr_name == NULL || attr_value == NULL) {
@@ -617,7 +617,7 @@ int hl_element_node_set_inner_attr(HLDomElementNode *node,
             (gpointer)strdup(attr_value));
 }
 
-const char *hl_element_node_get_inner_attr(HLDomElementNode *node,
+const char *hl_element_node_get_inner_attr(HLDomElement *node,
         const char *attr_name)
 {
     if (node == NULL || attr_name == NULL || node->inner_attrs == NULL) {
@@ -641,7 +641,7 @@ void hl_destroy_attach_data_value (gpointer data)
     free(attach);
 }
 
-int hilayout_element_node_set_user_data(HLDomElementNode *node,
+int hilayout_element_node_set_user_data(HLDomElement *node,
         const char *key, void *data, HlDestroyCallback destroy_callback)
 {
     if (node == NULL || key == NULL) {
@@ -664,7 +664,7 @@ int hilayout_element_node_set_user_data(HLDomElementNode *node,
             (gpointer)attach);
 }
 
-void *hilayout_element_node_get_user_data(const HLDomElementNode *node,
+void *hilayout_element_node_get_user_data(const HLDomElement *node,
         const char *key)
 {
     if (node == NULL || key == NULL || node->user_data == NULL) {
@@ -675,7 +675,7 @@ void *hilayout_element_node_get_user_data(const HLDomElementNode *node,
     return attach ? attach->data : NULL;
 }
 
-int hl_element_node_set_inner_data(HLDomElementNode *node, const char *key,
+int hl_element_node_set_inner_data(HLDomElement *node, const char *key,
         void *data, HlDestroyCallback destroy_callback)
 {
     if (node == NULL || key == NULL) {
@@ -698,7 +698,7 @@ int hl_element_node_set_inner_data(HLDomElementNode *node, const char *key,
             (gpointer)attach);
 }
 
-void *hl_element_node_get_inner_data(HLDomElementNode *node, const char *key)
+void *hl_element_node_get_inner_data(HLDomElement *node, const char *key)
 {
     if (node == NULL || key == NULL) {
         return NULL;
@@ -713,7 +713,7 @@ gint hl_comp_class_name (gconstpointer a, gconstpointer b)
     return strcmp((const char*)a, (const char*)b);
 }
 
-int hilayout_element_node_has_class (HLDomElementNode *node,
+int hilayout_element_node_has_class (HLDomElement *node,
         const char *class_name)
 {
     GList *ret = g_list_find_custom(node->class_list, class_name,
@@ -721,7 +721,7 @@ int hilayout_element_node_has_class (HLDomElementNode *node,
     return ret ? 1 : 0;
 }
 
-int hilayout_element_node_include_class (HLDomElementNode *node,
+int hilayout_element_node_include_class (HLDomElement *node,
         const char *class_name)
 {
     if (node == NULL || class_name == NULL) {
@@ -748,7 +748,7 @@ int hilayout_element_node_include_class (HLDomElementNode *node,
     return 0;
 }
 
-int hilayout_element_node_exclude_class(HLDomElementNode *node,
+int hilayout_element_node_exclude_class(HLDomElement *node,
         const char *class_name)
 {
     GList *ret = g_list_find_custom(node->class_list,
@@ -776,21 +776,21 @@ int hilayout_element_node_exclude_class(HLDomElementNode *node,
     free(buf);
 }
 
-void hilayout_element_node_for_each_child(HLDomElementNode *node,
+void hilayout_element_node_for_each_child(HLDomElement *node,
         NodeCallback callback, void *user_data)
 {
     if (node == NULL || callback == NULL) {
         return;
     }
 
-    HLDomElementNode *child = node->first_child;
+    HLDomElement *child = node->first_child;
     while(child) {
         callback(child, user_data);
         child = child->next;
     }
 }
 
-void hilayout_element_node_depth_first_search_tree(HLDomElementNode *node,
+void hilayout_element_node_depth_first_search_tree(HLDomElement *node,
         NodeCallback callback, void *user_data)
 {
     if (node == NULL || callback == NULL) {
@@ -798,7 +798,7 @@ void hilayout_element_node_depth_first_search_tree(HLDomElementNode *node,
     }
     callback(node, user_data);
 
-    HLDomElementNode *child = node->first_child;
+    HLDomElement *child = node->first_child;
     while(child) {
         hilayout_element_node_depth_first_search_tree(child,
                 callback, user_data);
@@ -807,7 +807,7 @@ void hilayout_element_node_depth_first_search_tree(HLDomElementNode *node,
 }
 
 const uint32_t MAX_ATTACH_DATA_SIZE = 10;
-int hilayout_element_node_set_attach_data(HLDomElementNode *node,
+int hilayout_element_node_set_attach_data(HLDomElement *node,
         uint32_t index, void *data, HlDestroyCallback destroy_callback)
 {
     if (node == NULL || index >= MAX_ATTACH_DATA_SIZE) {
@@ -829,7 +829,7 @@ int hilayout_element_node_set_attach_data(HLDomElementNode *node,
     return HILAYOUT_OK;
 }
 
-void *hilayout_element_node_get_attach_data(const HLDomElementNode *node,
+void *hilayout_element_node_get_attach_data(const HLDomElement *node,
         uint32_t index)
 {
     if (node == NULL || index >= MAX_ATTACH_DATA_SIZE) {
@@ -842,23 +842,23 @@ void *hilayout_element_node_get_attach_data(const HLDomElementNode *node,
 // Begin HLDomElelementNode op
 HLNodeType hl_dom_element_node_get_type(void *node)
 {
-    return ((HLDomElementNode*)node)->inner_dom_type;
+    return ((HLDomElement*)node)->inner_dom_type;
 }
 
 const char *hl_dom_element_node_get_name(void *node)
 {
-    return ((HLDomElementNode*)node)->tag;
+    return ((HLDomElement*)node)->tag;
 }
 
 const char *hl_dom_element_node_get_id(void *node)
 {
-    return hilayout_element_node_get_common_attr((HLDomElementNode*)node,
+    return hilayout_element_node_get_common_attr((HLDomElement*)node,
             HL_COMMON_ATTR_ID);
 }
 
 int hl_dom_element_node_get_classes(void *n, char ***classes)
 {
-    HLDomElementNode *node = (HLDomElementNode*)n;
+    HLDomElement *node = (HLDomElement*)n;
     int size = g_list_length(node->class_list);
 
     char **cls = (char**)calloc(size, sizeof(char*));
@@ -873,7 +873,7 @@ int hl_dom_element_node_get_classes(void *n, char ***classes)
 
 const char *hl_dom_element_node_get_attr(void *n, const char *name)
 {
-    HLDomElementNode *node = (HLDomElementNode*)n;
+    HLDomElement *node = (HLDomElement*)n;
     if (strcmp(name, ATTR_ID) == 0) {
         return hilayout_element_node_get_common_attr(node,
             HL_COMMON_ATTR_ID);
@@ -891,32 +891,32 @@ const char *hl_dom_element_node_get_attr(void *n, const char *name)
 
 void hl_dom_element_node_set_parent(void *node, void *parent)
 {
-    ((HLDomElementNode*)node)->parent = (HLDomElementNode*)parent;
+    ((HLDomElement*)node)->parent = (HLDomElement*)parent;
 }
 
 void *hl_dom_element_node_get_parent(void *node)
 {
-    return ((HLDomElementNode*)node)->parent;
+    return ((HLDomElement*)node)->parent;
 }
 
 void *hl_dom_element_node_first_child(void *node)
 {
-    return ((HLDomElementNode*)node)->first_child;
+    return ((HLDomElement*)node)->first_child;
 }
 
 void *hl_dom_element_node_next(void *node)
 {
-    return ((HLDomElementNode*)node)->next;
+    return ((HLDomElement*)node)->next;
 }
 
 void *hl_dom_element_node_previous(void *node)
 {
-    return ((HLDomElementNode*)node)->previous;
+    return ((HLDomElement*)node)->previous;
 }
 
 bool hl_dom_element_node_is_root(void *node)
 {
-    HLDomElementNode *parent = ((HLDomElementNode*)node)->parent;
+    HLDomElement *parent = ((HLDomElement*)node)->parent;
     if (parent != NULL) {
         return false;
     }

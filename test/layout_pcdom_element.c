@@ -72,8 +72,8 @@
  
 #define FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
 
-int hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
-const char* hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
+int hl_element_node_set_inner_attr(HLDomElement* node, const char* attr_name, const char* attr_value);
+const char* hl_element_node_get_inner_attr(HLDomElement* node, const char* attr_name);
 
 char* readCSS(char* filename)
 {

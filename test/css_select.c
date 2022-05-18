@@ -105,7 +105,7 @@ int main(int argc, char **argv)
         css_color color_shade;
 
 
-        HLDomElementNode* domNode = hilayout_element_node_create("h1");
+        HLDomElement* domNode = hilayout_element_node_create("h1");
         HiLayoutNode *layout_node = hi_layout_node_from_origin_node(ctxt, domNode);
         style = hl_css_select_style(css, layout_node, &media, NULL, NULL);
 

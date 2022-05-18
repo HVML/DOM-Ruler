@@ -62,12 +62,12 @@
 
 typedef struct HiLayoutNode HiLayoutNode;
 
-typedef struct HLDomElementNode_ {
-    struct HLDomElementNode_* parent;  /**< Parent node */
-    struct HLDomElementNode_* first_child; /**< First child node */
-    struct HLDomElementNode_* last_child;  /**< Last child node */
-    struct HLDomElementNode_* previous;    /**< Previous sibling */
-    struct HLDomElementNode_* next;        /**< Next sibling */
+typedef struct HLDomElement_ {
+    struct HLDomElement_* parent;  /**< Parent node */
+    struct HLDomElement_* first_child; /**< First child node */
+    struct HLDomElement_* last_child;  /**< Last child node */
+    struct HLDomElement_* previous;    /**< Previous sibling */
+    struct HLDomElement_* next;        /**< Next sibling */
     uint32_t n_children;        // child count;
 
     char* tag;
@@ -88,16 +88,16 @@ typedef struct HLDomElementNode_ {
 
     HLNodeType inner_dom_type;
 
-} HLDomElementNode;
+} HLDomElement;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
-const char* hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
-int hl_element_node_set_inner_data(HLDomElementNode* node, const char* key, void* data, HlDestroyCallback destroy_callback);
-void* hl_element_node_get_inner_data(HLDomElementNode* node, const char* key);
+int hl_element_node_set_inner_attr(HLDomElement* node, const char* attr_name, const char* attr_value);
+const char* hl_element_node_get_inner_attr(HLDomElement* node, const char* attr_name);
+int hl_element_node_set_inner_data(HLDomElement* node, const char* key, void* data, HlDestroyCallback destroy_callback);
+void* hl_element_node_get_inner_data(HLDomElement* node, const char* key);
 
 // HLDomElelementNode op
 void hl_dom_element_node_set_attach(void *node, void *data,

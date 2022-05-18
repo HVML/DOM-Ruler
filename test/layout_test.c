@@ -70,8 +70,8 @@
  
 #define FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
 
-int hl_element_node_set_inner_attr(HLDomElementNode* node, const char* attr_name, const char* attr_value);
-const char* hl_element_node_get_inner_attr(HLDomElementNode* node, const char* attr_name);
+int hl_element_node_set_inner_attr(HLDomElement* node, const char* attr_name, const char* attr_value);
+const char* hl_element_node_get_inner_attr(HLDomElement* node, const char* attr_name);
 
 char* readCSS(char* filename)
 {
@@ -96,7 +96,7 @@ void destory_user_data(void* data)
 }
 
 
-void print_node_info(HLDomElementNode* node, void* user_data)
+void print_node_info(HLDomElement* node, void* user_data)
 {
     fprintf(stderr, "................................node=%s|id=%s\n", hilayout_element_node_get_tag_name(node), hilayout_element_node_get_id(node));
 }
@@ -146,34 +146,34 @@ int main(int argc, char **argv)
 
     hidomlayout_append_css(ctxt, css_data, strlen(css_data));
 
-    HLDomElementNode* root = hilayout_element_node_create("div");
+    HLDomElement* root = hilayout_element_node_create("div");
     hilayout_element_node_set_id(root, "root");
 
-    HLDomElementNode* title = hilayout_element_node_create("div");
+    HLDomElement* title = hilayout_element_node_create("div");
     hilayout_element_node_set_id(title, "title");
 
-    HLDomElementNode* description = hilayout_element_node_create("div");
+    HLDomElement* description = hilayout_element_node_create("div");
     hilayout_element_node_set_id(description, "description");
 
     char page_inline_style[] = "display:grid;";
-    HLDomElementNode* page = hilayout_element_node_create("div");
+    HLDomElement* page = hilayout_element_node_create("div");
     hilayout_element_node_set_id(page, "page");
 //    hilayout_element_node_set_style(page, page_inline_style);
 
-    HLDomElementNode* indicator = hilayout_element_node_create("div");
+    HLDomElement* indicator = hilayout_element_node_create("div");
     hilayout_element_node_set_id(indicator, "indicator");
 
 
-    HLDomElementNode* hiweb = hilayout_element_node_create("hiweb");
+    HLDomElement* hiweb = hilayout_element_node_create("hiweb");
     hilayout_element_node_set_id(hiweb, "hiweb");
 
-    HLDomElementNode* hiweb2 = hilayout_element_node_create("hiweb");
+    HLDomElement* hiweb2 = hilayout_element_node_create("hiweb");
     hilayout_element_node_set_id(hiweb2, "hiweb2");
 
-    HLDomElementNode* hijs = hilayout_element_node_create("hijs");
+    HLDomElement* hijs = hilayout_element_node_create("hijs");
     hilayout_element_node_set_id(hijs, "hijs");
 
-    HLDomElementNode* hijs2 = hilayout_element_node_create("hijs");
+    HLDomElement* hijs2 = hilayout_element_node_create("hijs");
     hilayout_element_node_set_id(hijs2, "hijs2");
 
     hilayout_element_node_append_as_last_child(title, root);
