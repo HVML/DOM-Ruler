@@ -866,7 +866,7 @@ int hidomlayout_layout(struct HiDOMLayoutCtxt *ctxt, void *root_node,
  *
  * Since: 1.2
  */
-const HLBox *hidomlayout_get_node_box(struct HiDOMLayoutCtxt *ctxt,
+const HLBox *hidomlayout_get_element_bounding_box(struct HiDOMLayoutCtxt *ctxt,
         void *node);
 
 
@@ -890,7 +890,7 @@ void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt);
  *
  * Since: 1.2
  */
-int hidomlayout_layout_hldom_element_node(struct HiDOMLayoutCtxt *ctxt,
+int hidomlayout_layout_hldom_elements(struct HiDOMLayoutCtxt *ctxt,
         HLDomElementNode *root_node);
 
 /**
@@ -903,7 +903,7 @@ int hidomlayout_layout_hldom_element_node(struct HiDOMLayoutCtxt *ctxt,
  *
  * Since: 1.2
  */
-int hidomlayout_layout_pcdom_element_t(struct HiDOMLayoutCtxt *ctxt,
+int hidomlayout_layout_pcdom_elements(struct HiDOMLayoutCtxt *ctxt,
         pcdom_element_t *root_node);
 
 /**

@@ -106,7 +106,7 @@ void print_layout_info(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *node)
 
     const char *name = pcdom_element_tag_name(node, NULL);
     const char *id = pcdom_element_get_attribute(node, "id", 2, NULL);
-    const HLBox *box = hidomlayout_get_node_box(ctxt, node);
+    const HLBox *box = hidomlayout_get_element_bounding_box(ctxt, node);
 
     if (box) {
         fprintf(stderr, "node|name=%s|id=%s|(x,y,w,h)=(%f,%f,%f,%f)\n", name, id,
@@ -178,7 +178,7 @@ int main(int argc, char **argv)
     pcdom_document_t *document = pcdom_interface_document(doc);
     pcdom_element_t *root = document->element;
     fprintf(stderr, "####################################### layout ###########################\n");
-    ret = hidomlayout_layout_pcdom_element_t(ctxt, root);
+    ret = hidomlayout_layout_pcdom_elements(ctxt, root);
 
     print_layout_result(ctxt, root);
 

@@ -187,7 +187,7 @@ int main(int argc, char **argv)
     hilayout_element_node_append_as_last_child(hijs2, page);
 
     fprintf(stderr, "####################################### layout ###########################\n");
-    hidomlayout_layout_hldom_element_node(ctxt, root);
+    hidomlayout_layout_hldom_elements(ctxt, root);
 
     const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(ctxt, hijs);
     fprintf(stderr, "############### txtVaule=%p|txt->family=%s\n", txtVaule, txtVaule->font_family);
