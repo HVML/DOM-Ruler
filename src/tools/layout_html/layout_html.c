@@ -194,7 +194,7 @@ static int read_option_args(int argc, char **argv)
         case 'c':
             run_info.css_content = load_file(optarg);
             if (run_info.css_content == NULL
-                    || strlen(run_info.css_content)) {
+                    || strlen(run_info.css_content) == 0) {
                 fprintf(stderr, "layout_html: load %s failed.\n", optarg);
                 return -1;
             }
@@ -301,11 +301,16 @@ failed:
     pchtml_html_document_destroy(doc);
     hidomlayout_destroy(ctxt);
 
-    if (run_info.html_content) {
-        free (run_info.html_content);
+    if (run_info.default_css) {
+        free (run_info.default_css);
     }
+
     if (run_info.css_content) {
         free (run_info.css_content);
+    }
+
+    if (run_info.html_content) {
+        free (run_info.html_content);
     }
 
     purc_cleanup ();
