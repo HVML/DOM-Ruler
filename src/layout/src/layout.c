@@ -582,7 +582,7 @@ void hl_computed_offsets(const struct HiDOMLayoutCtxt *len_ctx,
     css_unit unit = CSS_UNIT_PX;
 
 #if 1
-    assert(containing_block->box_values.w != UNKNOWN_WIDTH &&
+    assert(containing_block->box_values.w != HL_UNKNOWN &&
             containing_block->box_values.w != HL_AUTO &&
             containing_block->box_values.h != HL_AUTO);
 #endif

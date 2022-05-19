@@ -227,8 +227,26 @@ void print_layout_info(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *node)
     const HLBox *box = hidomlayout_get_element_bounding_box(ctxt, node);
 
     if (box) {
-        fprintf(stderr, "node|name=%s|id=%s|(x,y,w,h)=(%f,%f,%f,%f)\n", name, id,
-            box->x, box->y, box->w, box->h);
+        fprintf(stderr, "node|name=%s|id=%s", name, id);
+        if (box->display == HL_DISPLAY_NONE) {
+            fprintf(stderr, "|display=none\n");
+        }
+        else {
+            fprintf(stderr, "|display=%d|(x,y,w,h)=(", box->display);
+            fprintf(stderr, "%d, %d", (int)box->x, (int)box->y);
+            if (box->w == HL_AUTO) {
+                fprintf(stderr, "0");
+            }
+            else {
+                fprintf(stderr, ", %d", (int)box->w);
+            }
+            if (box->h == HL_AUTO) {
+                fprintf(stderr, ", 0)\n");
+            }
+            else {
+                fprintf(stderr, ", %d)\n", (int)box->h);
+            }
+        }
     }
 }
 

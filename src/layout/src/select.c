@@ -274,6 +274,44 @@ int hl_css_select_ctx_destroy(css_select_ctx* ctx)
     return HILAYOUT_OK;
 }
 
+void hl_computed_node_display(HiLayoutNode *node)
+{
+    bool root = hi_layout_node_is_root(node);
+    uint8_t value = css_computed_display(node->computed_style, root);
+
+    switch (value) {
+    case CSS_DISPLAY_BLOCK:
+        node->layout_type = LAYOUT_BLOCK;
+        node->box_values.display = HL_DISPLAY_BLOCK;
+        break;
+
+    case CSS_DISPLAY_INLINE_BLOCK:
+        node->layout_type = LAYOUT_INLINE_BLOCK;
+        node->box_values.display = HL_DISPLAY_INLINE_BLOCK;
+        break;
+
+    case CSS_DISPLAY_GRID:
+        node->layout_type = LAYOUT_GRID;
+        node->box_values.display = HL_DISPLAY_GRID;
+        break;
+
+    case CSS_DISPLAY_INLINE_GRID:
+        node->layout_type = LAYOUT_INLINE_GRID;
+        node->box_values.display = HL_DISPLAY_INLINE_GRID;
+        break;
+
+    case CSS_DISPLAY_NONE:
+        node->layout_type = LAYOUT_NONE;
+        node->box_values.display = HL_DISPLAY_NONE;
+        break;
+
+    default:
+        node->layout_type = LAYOUT_BLOCK;
+        node->box_values.display = HL_DISPLAY_BLOCK;
+        break;
+    }
+}
+
 int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
         HiLayoutNode *node)
 {
@@ -284,8 +322,7 @@ int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
         }
         node->select_styles = result;
         node->computed_style = result->styles[CSS_PSEUDO_ELEMENT_NONE];
-        node->layout_type = hl_computed_display(node->computed_style,
-                hi_layout_node_is_root(node));
+        hl_computed_node_display(node);
         return HILAYOUT_OK;
     }
     return HILAYOUT_SELECT_STYLE_ERR;

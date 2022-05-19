@@ -79,6 +79,9 @@
 
 // log end
 
+#define HL_AUTO         INT_MIN
+#define HL_UNKNOWN   INT_MAX
+
 // error code begin
 #define HILAYOUT_OK                 0
 #define HILAYOUT_NOMEM              1

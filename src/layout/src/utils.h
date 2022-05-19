@@ -59,9 +59,6 @@
 #define HL_BOTTOM       2
 #define HL_LEFT         3
 
-#define HL_AUTO         INT_MIN
-#define UNKNOWN_WIDTH   INT_MAX
-
 /* Fixed point percentage (a) of an integer (b), to an integer */
 #define HL_FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
 
@@ -103,8 +100,6 @@ uint8_t hl_computed_min_height(
 uint8_t hl_computed_min_width(
         const css_computed_style *style,
         css_fixed *length, css_unit *unit);
-
-uint8_t hl_computed_display(const css_computed_style *style, bool root);
 
 
 void hl_destroy_svg_values(HLUsedSvgValues *svg);

@@ -58,7 +58,7 @@
 #include <glib.h>
 #include <glib/ghash.h>
 
-#define UNKNOWN_WIDTH INT_MAX
+#define HL_UNKNOWN INT_MAX
 #define UNKNOWN_MAX_WIDTH INT_MAX
 #define UNKNOWN_MAX_HEIGHT INT_MAX
 #define AUTO INT_MIN

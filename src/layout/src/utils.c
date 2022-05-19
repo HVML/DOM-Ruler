@@ -284,38 +284,6 @@ uint8_t hl_computed_min_width(
 }
 
 
-uint8_t hl_computed_display(const css_computed_style *style, bool root)
-{
-    uint8_t value = css_computed_display(style, root);
-
-    switch (value) {
-    case CSS_DISPLAY_BLOCK:
-        return LAYOUT_BLOCK;
-
-    case CSS_DISPLAY_INLINE_BLOCK:
-        return LAYOUT_INLINE_BLOCK;
-#if 1
-    case CSS_DISPLAY_GRID:
-        return LAYOUT_GRID;
-
-    case CSS_DISPLAY_INLINE_GRID:
-        return LAYOUT_INLINE_GRID;
-#else
-    case CSS_DISPLAY_GRID:
-        return LAYOUT_BLOCK;
-
-    case CSS_DISPLAY_INLINE_GRID:
-        return LAYOUT_INLINE_BLOCK;
-#endif
-    case CSS_DISPLAY_NONE:
-        return LAYOUT_NONE;
-
-    default:
-        return LAYOUT_BLOCK;
-    }
-}
-
-
 void hl_destroy_svg_values(HLUsedSvgValues* svg)
 {
     if (svg == NULL)
