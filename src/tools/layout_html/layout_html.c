@@ -48,6 +48,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <getopt.h>
 #include <string.h>
 
 #include "purc/purc.h"
@@ -67,32 +68,150 @@
 
 
  */
- 
-#define FPCT_OF_INT_TOINT(a, b) (FIXTOINT(FDIV((a * b), F_100)))
 
-int hl_element_node_set_inner_attr(HLDomElement* node, const char* attr_name, const char* attr_value);
-const char* hl_element_node_get_inner_attr(HLDomElement* node, const char* attr_name);
+#define  LAYOUT_HTML_VERSION        "1.2.0"
 
-char* readCSS(char* filename)
+struct layout_info {
+    char *html_content;
+    char *css_content;
+};
+
+struct layout_info run_info;
+
+static void print_copying(void)
 {
-    char* text;
-    FILE* fp = fopen(filename,"r");
-    fseek(fp,0,SEEK_END);
-
-    long size = ftell(fp);
-    text = (char*)malloc(size+1);
-    rewind(fp); 
-    fread(text, sizeof(char), size, fp);
-    text[size] = '\0';
-    return text;
+    fprintf (stdout,
+        "\n"
+        "layout_html - A standalone program based-on HiDomLahyout for lay out\n"
+        "and stylizer the DOM nodes by using CSS (Cascaded Style Sheets).\n"
+        "\n"
+        "This program is free software: you can redistribute it and/or modify\n"
+        "it under the terms of the GNU Lesser General Public License as\n"
+        "published by the Free Software Foundation, either version 3 of the\n"
+        "License, or (at your option) any later version.\n"
+        "\n"
+        "This program is distributed in the hope that it will be useful,\n"
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+        "GNU Lesser General Public License for more details.\n"
+        "\n"
+        "You should have received a copy of the GNU Lesser General Public\n"
+        "License along with this program. If not, see "
+        "<https://www.gnu.org/licenses/>.\n"
+        );
+    fprintf (stdout, "\n");
 }
 
-void destory_user_data(void* data)
+/* Command line help. */
+static void print_usage(void)
 {
-    fprintf(stderr, "................................user data is callback\n");
-    fprintf(stderr, "data is %s\n", (char*)data);
-    free(data);
+    printf("load_html (%s) - "
+           "layout_html - A standalone program based-on HiDomLahyout for lay out\n"
+           "and stylizer the DOM nodes by using CSS (Cascaded Style Sheets).\n\n",
+           LAYOUT_HTML_VERSION);
 
+    printf(
+           "Usage: "
+           "layout_html [ options ... ]\n\n"
+           ""
+           "The following options can be supplied to the command:\n\n"
+           ""
+           "  -f --file=<html_file>        - The initial HTML file to load.\n"
+           "  -c --css=<css_file>          - The initial CSS file to load.\n"
+           "  -v --version                 - Display version information and exit.\n"
+           "  -h --help                    - This help.\n"
+           "\n"
+          );
+}
+
+static char *load_file(const char *file)
+{
+    FILE *f = fopen(file, "r");
+    char *buf = NULL;
+
+    if (f) {
+        if (fseek(f, 0, SEEK_END))
+            goto failed;
+
+        long len = ftell(f);
+        if (len < 0)
+            goto failed;
+
+        buf = malloc(len + 1);
+        if (buf == NULL)
+            goto failed;
+
+        fseek(f, 0, SEEK_SET);
+        if (fread(buf, 1, len, f) < (size_t)len) {
+            free(buf);
+            buf = NULL;
+        }
+        buf[len] = '\0';
+
+failed:
+        fclose(f);
+    }
+
+    return buf;
+}
+
+static char short_options[] = "f:c:vh";
+static struct option long_opts[] = {
+    {"file"           , required_argument , NULL , 'f' } ,
+    {"css"            , required_argument , NULL , 'c' } ,
+    {"version"        , no_argument       , NULL , 'v' } ,
+    {"help"           , no_argument       , NULL , 'h' } ,
+    {0, 0, 0, 0}
+};
+
+static int read_option_args(int argc, char **argv)
+{
+    int o, idx = 0;
+    if (argc == 1) {
+        print_usage ();
+        return -1;
+    }
+
+    while ((o = getopt_long(argc, argv, short_options, long_opts, &idx)) >= 0) {
+        if (-1 == o || EOF == o)
+            break;
+        switch (o) {
+        case 'h':
+            print_usage ();
+            return -1;
+        case 'v':
+            fprintf (stdout, "layout_html: %s\n", PURC_VERSION_STRING);
+            return -1;
+        case 'f':
+            run_info.html_content = load_file(optarg);
+            if (run_info.html_content == NULL
+                    || strlen(run_info.html_content) == 0) {
+                fprintf(stderr, "layout_html: load %s failed.\n", optarg);
+                return -1;
+            }
+            break;
+        case 'c':
+            run_info.css_content = load_file(optarg);
+            if (run_info.css_content == NULL
+                    || strlen(run_info.css_content)) {
+                fprintf(stderr, "layout_html: load %s failed.\n", optarg);
+                return -1;
+            }
+            break;
+        case '?':
+            print_usage ();
+            return -1;
+        default:
+            return -1;
+        }
+    }
+
+    if (optind < argc) {
+        print_usage ();
+        return -1;
+    }
+
+    return 0;
 }
 
 void print_layout_info(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *node)
@@ -125,63 +244,55 @@ void print_layout_result(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *elem)
 
 int main(int argc, char **argv)
 {
+    int ret;
+    print_copying();
+    if (read_option_args (argc, argv)) {
+        return EXIT_FAILURE;
+    }
+
     purc_instance_extra_info info = {};
-    int ret = purc_init_ex (PURC_MODULE_HTML, "cn.fmsoft.hybridos.test",
+    ret = purc_init_ex (PURC_MODULE_HTML, "cn.fmsoft.hybridos.test",
             "test_layout", &info);
 
     size_t size;
-    const char html[] = " \
-           <div id=\"root\"> \n\
-                <div id=\"title\"></div> \n\
-                <div id=\"description\"></div>\n\
-                <div id=\"page\"> \n\
-                </div> \n\
-                <div id=\"indicator\"></div>\n\
-           </div> \
-        ";
-    const char data[] = "h1 { color: red } \n"
-        "html { display: block; } \n"
-        "head, link, meta, script, style, title { display: none; } \n"
-        "body { display: block;  height: 100%; } \n"
-        "address, article, aside, div, footer, header, hgroup, layer, main, nav, section {\n"
-        "        display: block;"
-        "}\n"
-        "#root { display: block; height:100%} \n"
-        "#title { position: relative; left:20%; width: 100%; height: 10%; color: #123; } \n"
-        "#page { position: relative; width: 100%; height: 80%; color: #125; } \n"
-        "#indicator { position: relative; width: 100%; height: 10%; color: #126; } \n"
-        "#description { position: relative; width: 100%; height: 0%; color: #124; } \n";
-
-    fprintf(stderr, "####################################### html ###########################\n");
-    fprintf(stderr, "%s\n", html);
-
-    fprintf(stderr, "####################################### css  ###########################\n");
-    const char* css_data = data;
-    if (argc > 1) {
-        css_data = readCSS(argv[1]);
-    }
-    fprintf(stderr, "%s\n", css_data);
+    const char* css_data = run_info.css_content;
 
     struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1280, 720, 72, 27);
     if (ctxt == NULL) {
-        HL_LOGE("create HiDOMLayoutCtxt failed.\n");
         return HILAYOUT_INVALID;
     }
 
     hidomlayout_append_css(ctxt, css_data, strlen(css_data));
 
     pchtml_html_document_t *doc = pchtml_html_document_create();
-    ret = pchtml_html_document_parse_with_buf(doc, html, strlen(html));
+    ret = pchtml_html_document_parse_with_buf(doc, run_info.html_content,
+            strlen(run_info.html_content));
+    if (ret) {
+        fprintf(stderr, "Failed to parse html.");
+        goto failed;
+    }
 
     pcdom_document_t *document = pcdom_interface_document(doc);
     pcdom_element_t *root = document->element;
-    fprintf(stderr, "####################################### layout ###########################\n");
+
     ret = hidomlayout_layout_pcdom_elements(ctxt, root);
+    if (ret) {
+        fprintf(stderr, "Failed to layout html.");
+        goto failed;
+    }
 
     print_layout_result(ctxt, root);
 
+failed:
     pchtml_html_document_destroy(doc);
     hidomlayout_destroy(ctxt);
+
+    if (run_info.html_content) {
+        free (run_info.html_content);
+    }
+    if (run_info.css_content) {
+        free (run_info.css_content);
+    }
 
     purc_cleanup ();
 
