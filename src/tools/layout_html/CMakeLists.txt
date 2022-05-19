@@ -32,8 +32,8 @@
 #   Or,
 #
 #   As this program is a library, any link to this program must follow
-#   GNU Lesser General License version 3 (LGPLv3). If you cannot accept
-#   LGPLv3, you need to be licensed from FMSoft.
+#   GNU Lesser General License version 3 (LLGPLv3). If you cannot accept
+#   LLGPLv3, you need to be licensed from FMSoft.
 #
 #   If you have got a commercial license of this program, please use it
 #   under the terms and conditions of the commercial license.
@@ -44,8 +44,17 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-add_subdirectory(third-party)
-add_subdirectory(layout)
-add_subdirectory(test)
-add_subdirectory(tools)
+project(layout_html)
 
+# layout_html
+list(APPEND layout_html_INCLUDE_DIRECTORIES
+    ${CMAKE_SOURCE_DIR}/src/layout/include
+)
+
+list(APPEND layout_html_SOURCES
+    ${CMAKE_SOURCE_DIR}/src/tools/layout_html/layout_html.c
+)
+
+include_directories(${layout_html_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
+add_executable(layout_html ${layout_html_SOURCES})
+target_link_libraries(layout_html hidomlayout ${GLIB_LIBRARIES})
