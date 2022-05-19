@@ -50,9 +50,9 @@ project(hidomlayout VERSION 1.2.0)
 
 list(APPEND hidomlayout_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
-    ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
-    ${CMAKE_SOURCE_DIR}/src/css/libcss/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libparserutils/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libwapcaplet/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libcss/include
     ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 

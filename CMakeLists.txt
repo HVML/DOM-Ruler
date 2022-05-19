@@ -52,4 +52,4 @@ find_package(GLIB 2.0 REQUIRED)
 find_package(PurC)
 
 add_subdirectory(src)
-add_subdirectory(test)
+

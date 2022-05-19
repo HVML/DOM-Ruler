@@ -50,14 +50,14 @@ add_definitions(-D_DEBUG)
 # node
 list(APPEND node_test_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
-    ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
-    ${CMAKE_SOURCE_DIR}/src/css/libcss/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libparserutils/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libwapcaplet/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libcss/include
     ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
 list(APPEND node_test_SOURCES
-    ${CMAKE_SOURCE_DIR}/test/node_test.c
+    ${CMAKE_SOURCE_DIR}/src/test/node_test.c
 )
 
 include_directories(${node_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
@@ -67,14 +67,14 @@ target_link_libraries(node_test hidomlayout ${GLIB_LIBRARIES})
 # css
 list(APPEND css_select_test_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
-    ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
-    ${CMAKE_SOURCE_DIR}/src/css/libcss/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libparserutils/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libwapcaplet/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libcss/include
     ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
 list(APPEND css_select_test_SOURCES
-    ${CMAKE_SOURCE_DIR}/test/css_select.c
+    ${CMAKE_SOURCE_DIR}/src/test/css_select.c
 )
 
 include_directories(${css_select_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
@@ -83,14 +83,14 @@ target_link_libraries(css_select_test hidomlayout ${GLIB_LIBRARIES})
 
 list(APPEND css_select_test2_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src/css/libparserutils/include
-    ${CMAKE_SOURCE_DIR}/src/css/libwapcaplet/include
-    ${CMAKE_SOURCE_DIR}/src/css/libcss/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libparserutils/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libwapcaplet/include
+    ${CMAKE_SOURCE_DIR}/src/third-party/libcss/include
     ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
 list(APPEND css_select_test2_SOURCES
-    ${CMAKE_SOURCE_DIR}/test/css_select2.c
+    ${CMAKE_SOURCE_DIR}/src/test/css_select2.c
 )
 
 include_directories(${css_select_test2_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
@@ -104,7 +104,7 @@ list(APPEND layout_test_INCLUDE_DIRECTORIES
 )
 
 list(APPEND layout_test_SOURCES
-    ${CMAKE_SOURCE_DIR}/test/layout_test.c
+    ${CMAKE_SOURCE_DIR}/src/test/layout_test.c
 )
 
 include_directories(${layout_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
@@ -117,7 +117,7 @@ list(APPEND layout_pcdom_element_INCLUDE_DIRECTORIES
 )
 
 list(APPEND layout_pcdom_element_SOURCES
-    ${CMAKE_SOURCE_DIR}/test/layout_pcdom_element.c
+    ${CMAKE_SOURCE_DIR}/src/test/layout_pcdom_element.c
 )
 
 include_directories(${layout_pcdom_element_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
