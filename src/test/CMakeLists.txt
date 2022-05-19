@@ -49,7 +49,7 @@ add_definitions(-D_DEBUG)
 
 # node
 list(APPEND node_test_INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/layout/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libwapcaplet/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libcss/include
@@ -66,7 +66,7 @@ target_link_libraries(node_test hidomlayout ${GLIB_LIBRARIES})
 
 # css
 list(APPEND css_select_test_INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/layout/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libwapcaplet/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libcss/include
@@ -82,7 +82,7 @@ add_executable(css_select_test ${css_select_test_SOURCES})
 target_link_libraries(css_select_test hidomlayout ${GLIB_LIBRARIES})
 
 list(APPEND css_select_test2_INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/layout/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libwapcaplet/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libcss/include
@@ -100,7 +100,7 @@ target_link_libraries(css_select_test2 hidomlayout ${GLIB_LIBRARIES})
 
 # layout_test
 list(APPEND layout_test_INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/layout/include
 )
 
 list(APPEND layout_test_SOURCES
@@ -113,7 +113,7 @@ target_link_libraries(layout_test hidomlayout ${GLIB_LIBRARIES})
 
 # layout_pcdom_element
 list(APPEND layout_pcdom_element_INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/src/layout/include
 )
 
 list(APPEND layout_pcdom_element_SOURCES

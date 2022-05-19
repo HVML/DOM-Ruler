@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: libhidomlayout
 Description: hidomlayout library
-Version: 0.1
+Version: 1.2
 Requires: glib-2.0
 Libs: -L${libdir} -lhidomlayout
 Cflags: -I${includedir}

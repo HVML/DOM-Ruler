@@ -49,10 +49,10 @@ project(hidomlayout VERSION 1.2.0)
 #add_definitions(-D_DEBUG)
 
 list(APPEND hidomlayout_INCLUDE_DIRECTORIES
-    ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libwapcaplet/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libcss/include
+    ${CMAKE_SOURCE_DIR}/src/layout/include
     ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
@@ -77,5 +77,5 @@ target_link_libraries(hidomlayout css  ${PURC_LIBRARIES})
 
 configure_file(hidomlayout.pc.in hidomlayout.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hidomlayout.pc DESTINATION lib/pkgconfig)
-install(FILES ${CMAKE_SOURCE_DIR}/include/hidomlayout.h DESTINATION include)
+install(FILES ${CMAKE_SOURCE_DIR}/src/layout/include/hidomlayout.h DESTINATION include)
 install(TARGETS hidomlayout DESTINATION lib)
