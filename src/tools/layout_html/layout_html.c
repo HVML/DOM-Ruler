@@ -50,28 +50,29 @@
 #include <stdio.h>
 #include <getopt.h>
 #include <string.h>
+#include <libgen.h>
+#include <limits.h>
 
 #include "purc/purc.h"
 #include "hidomlayout.h"
 
-/*
- 
-   <div id="root">
-        <div id="title"></div>
-        <div id="description"></div>
-        <div id="page">
-            <hiweb></hiweb>
-            <hijs></hijs>
-        </div>
-        <div id="indicator"></div>
-   </div>
-
-
- */
-
 #define  LAYOUT_HTML_VERSION        "1.2.0"
 
+// get path from env or __FILE__/../<rel> otherwise
+#define getpath_from_env_or_rel(_path, _len, _env, _rel) do {  \
+    const char *p = getenv(_env);                                      \
+    if (p) {                                                           \
+        snprintf(_path, _len, "%s", p);                                \
+    } else {                                                           \
+        char tmp[PATH_MAX+1];                                          \
+        snprintf(tmp, sizeof(tmp), __FILE__);                          \
+        const char *folder = dirname(tmp);                             \
+        snprintf(_path, _len, "%s/%s", folder, _rel);                  \
+    }                                                                  \
+} while (0)
+
 struct layout_info {
+    char *default_css;
     char *html_content;
     char *css_content;
 };
@@ -239,7 +240,14 @@ void print_layout_result(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *elem)
         print_layout_result(ctxt, child);
         child = (pcdom_element_t *)child->node.next;
     }
+}
 
+void load_default_css()
+{
+    const char* env = "LAYOUT_HTML_DFAULT_CSS";
+    char css_path[PATH_MAX+1] =  {0};
+    getpath_from_env_or_rel(css_path, sizeof(css_path), env, "html.css");
+    run_info.default_css = load_file(css_path);
 }
 
 int main(int argc, char **argv)
@@ -252,7 +260,7 @@ int main(int argc, char **argv)
 
     purc_instance_extra_info info = {};
     ret = purc_init_ex (PURC_MODULE_HTML, "cn.fmsoft.hybridos.test",
-            "test_layout", &info);
+            "layout_html", &info);
 
     size_t size;
     const char* css_data = run_info.css_content;
@@ -260,6 +268,12 @@ int main(int argc, char **argv)
     struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1280, 720, 72, 27);
     if (ctxt == NULL) {
         return HILAYOUT_INVALID;
+    }
+
+    load_default_css();
+    if (run_info.default_css && strlen(run_info.default_css)) {
+        hidomlayout_append_css(ctxt, run_info.default_css,
+                strlen(run_info.default_css));
     }
 
     hidomlayout_append_css(ctxt, css_data, strlen(css_data));
