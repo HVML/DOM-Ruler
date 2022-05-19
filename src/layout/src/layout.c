@@ -833,6 +833,7 @@ int hi_layout_do_layout(struct HiDOMLayoutCtxt *ctxt, HiLayoutNode *root)
     m.height = hl_css_pixels_physical_to_css(ctxt, INTTOFIX(ctxt->height));
     ctxt->vw = m.width;
     ctxt->vh = m.height;
+    ctxt->root = root;
 
     // create css select context
     css_select_ctx *select_ctx = hl_css_select_ctx_create(ctxt->css);
