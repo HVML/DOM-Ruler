@@ -1,4 +1,4 @@
-# hiLayout
+# DOM Layout Ruler
 
 - [Introduction](#introduction)
 - [Dependencies](#dependencies)
@@ -9,19 +9,21 @@
 
 ## Introduction
 
-hiDOMLayout is a library to maintain a DOM tree, lay out and stylize the DOM nodes by using CSS (Cascaded Style Sheets).
-It integrates LibCSS (MIT licensed), LibParserUtils (MIT licensed) and LibWapcaplet (MIT licensed) from open source community.
+DOM Layout Ruler is a library to maintain a DOM tree, lay out and stylize
+the DOM elements by using CSS (Cascaded Style Sheets). It integrates LibCSS
+(MIT licensed), LibParserUtils (MIT licensed) and LibWapcaplet (MIT licensed)
+from open source community.
 
 ## Dependencies
 
-hiDOMLayout depends on the following libraries:
+DOM Layout Ruler depends on the following libraries:
 
 - [GLib](https://developer.gnome.org/glib/stable/)
 
 ## Building
 
 We recommend that you use a latest Linux distribution with long term support,
-for example, Ubuntu Linux LTS 18.04 or 20.04.
+for example, Ubuntu Linux LTS 18.04 or later.
 
 On Ubuntu Linux LTS 18.04 or 20.04, you should run `apt install <package_name>`
 to install the following packages:
@@ -31,7 +33,7 @@ to install the following packages:
  * Dependent libraries (all are optional):
     * libglib2.0-dev
 
-hiDOMLayout uses cmake to configure and build the project.
+DOM Layout Ruler uses cmake to configure and build the project.
 
 ```
 $ mkdir build
@@ -277,7 +279,7 @@ int hilayout_css_destroy(HLCSS* css);
 
 ## Copying
 
-Copyright (C) 2021 FMSoft <https://www.fmsoft.cn>
+Copyright (C) 2021, 2022 FMSoft <https://www.fmsoft.cn>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General License as published by
