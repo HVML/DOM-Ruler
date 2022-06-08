@@ -1,4 +1,4 @@
-# DOM Layout Ruler
+# DOM Ruler
 
 - [Introduction](#introduction)
 - [Dependencies](#dependencies)
@@ -9,14 +9,14 @@
 
 ## Introduction
 
-DOM Layout Ruler is a library to maintain a DOM tree, lay out and stylize
+DOM Ruler is a library to maintain a DOM tree, lay out and stylize
 the DOM elements by using CSS (Cascaded Style Sheets). It integrates LibCSS
 (MIT licensed), LibParserUtils (MIT licensed) and LibWapcaplet (MIT licensed)
 from open source community.
 
 ## Dependencies
 
-DOM Layout Ruler depends on the following libraries:
+DOM Ruler depends on the following libraries:
 
 - [GLib](https://developer.gnome.org/glib/stable/)
 
@@ -33,7 +33,7 @@ to install the following packages:
  * Dependent libraries (all are optional):
     * libglib2.0-dev
 
-DOM Layout Ruler uses cmake to configure and build the project.
+DOM Ruler uses cmake to configure and build the project.
 
 ```
 $ mkdir build
@@ -77,7 +77,7 @@ int hilayout_css_append_data(HLCSS* css, const char* data, size_t len);
 int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 ```
 
-* free memory 
+* free memory
 
 ```
 void hilayout_element_node_destroy(HLDomElementNode *node);
