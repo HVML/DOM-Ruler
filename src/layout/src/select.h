@@ -67,7 +67,7 @@ extern "C" {
 #endif
 
 // css_stylesheet
-css_stylesheet *hl_hilayout_css_stylesheet_create(const char *charset,
+css_stylesheet *hl_domruler_css_stylesheet_create(const char *charset,
         const char *url, bool allow_quirks, bool inline_style);
 css_stylesheet *hl_css_stylesheet_inline_style_create(const uint8_t *data,
         size_t len);

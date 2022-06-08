@@ -56,26 +56,26 @@
 int main(int argc, char **argv)
 {
 
-    HLDomElement* root = hilayout_element_node_create("div");
+    HLDomElement* root = domruler_element_node_create("div");
 
     // test get tag name
-    const char* tag_name = hilayout_element_node_get_tag_name(root);
+    const char* tag_name = domruler_element_node_get_tag_name(root);
     HL_LOGW("test|get tag name|tag=%s\n", tag_name);
 
     // test set attribute
-    hilayout_element_node_set_id(root, "idAttribute");
-    hilayout_element_node_set_class(root, "classA classB classC");
-    hilayout_element_node_set_style(root, "color=#33333; width=10px;");
+    domruler_element_node_set_id(root, "idAttribute");
+    domruler_element_node_set_class(root, "classA classB classC");
+    domruler_element_node_set_style(root, "color=#33333; width=10px;");
 
 
     // test get attribute
-    const char* value = hilayout_element_node_get_id(root);
+    const char* value = domruler_element_node_get_id(root);
     HL_LOGW("test|get attribute|attr=id|value=%s\n", value);
 
-    value = hilayout_element_node_get_class(root);
+    value = domruler_element_node_get_class(root);
     HL_LOGW("test|get attribute|attr=class|value=%s\n", value);
 
-    value = hilayout_element_node_get_style(root);
+    value = domruler_element_node_get_style(root);
     HL_LOGW("test|get attribute|attr=style|value=%s\n", value);
 
     // test append as last child
@@ -85,12 +85,12 @@ int main(int argc, char **argv)
     {
         HL_LOGW("\n");
         HL_LOGW("test|add node|index=%d\n", index);
-        HLDomElement* div = hilayout_element_node_create("div");
-        hilayout_element_node_append_as_last_child(div, root);
+        HLDomElement* div = domruler_element_node_create("div");
+        domruler_element_node_append_as_last_child(div, root);
     }
 
 
-    hilayout_element_node_destroy(root);
+    domruler_element_node_destroy(root);
 	return 0;
 }
 

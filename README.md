@@ -19,6 +19,7 @@ from open source community.
 DOM Ruler depends on the following libraries:
 
 - [GLib](https://developer.gnome.org/glib/stable/)
+- [PurC](https://github.com/HVML/purc)
 
 ## Building
 
@@ -48,40 +49,40 @@ $ make install
 * create HLDomElementNode and set attribute
 
 ```
-HLDomElementNode* hilayout_element_node_create(const char* tag_name);
+HLDomElementNode* domruler_element_node_create(const char* tag_name);
 
 // set common attribute
-int hilayout_element_node_set_id (HLDomElementNode* node, const char* id);
-int hilayout_element_node_set_class (HLDomElementNode* node, const char* class_name);
-int hilayout_element_node_set_style (HLDomElementNode* node, const char* style);
-int hilayout_element_node_set_name (HLDomElementNode* node, const char* name);
-int hilayout_element_node_set_common_attr (HLDomElementNode* node, HLCommonAttribute attr_id, const char* value);
+int domruler_element_node_set_id (HLDomElementNode* node, const char* id);
+int domruler_element_node_set_class (HLDomElementNode* node, const char* class_name);
+int domruler_element_node_set_style (HLDomElementNode* node, const char* style);
+int domruler_element_node_set_name (HLDomElementNode* node, const char* name);
+int domruler_element_node_set_common_attr (HLDomElementNode* node, HLCommonAttribute attr_id, const char* value);
 ```
 
 * build tree
 
 ```
-int hilayout_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent);
+int domruler_element_node_append_as_last_child(HLDomElementNode* node, HLDomElementNode* parent);
 ```
 
 * create HLCSS and append css data
 
 ```
-HLCSS* hilayout_css_create();
-int hilayout_css_append_data(HLCSS* css, const char* data, size_t len);
+HLCSS* domruler_css_create();
+int domruler_css_append_data(HLCSS* css, const char* data, size_t len);
 ```
 
 * layout
 
 ```
-int hilayout_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
+int domruler_do_layout(HLMedia* media, HLCSS* css, HLDomElementNode *root);
 ```
 
 * free memory
 
 ```
-void hilayout_element_node_destroy(HLDomElementNode *node);
-int hilayout_css_destroy(HLCSS* css);
+void domruler_element_node_destroy(HLDomElementNode *node);
+int domruler_css_destroy(HLCSS* css);
 ```
 
 ## CSS property support

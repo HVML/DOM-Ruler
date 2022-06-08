@@ -98,7 +98,7 @@ void destory_user_data(void* data)
 
 void print_node_info(HLDomElement* node, void* user_data)
 {
-    fprintf(stderr, "................................node=%s|id=%s\n", hilayout_element_node_get_tag_name(node), hilayout_element_node_get_id(node));
+    fprintf(stderr, "................................node=%s|id=%s\n", domruler_element_node_get_tag_name(node), domruler_element_node_get_id(node));
 }
 
 int main(int argc, char **argv)
@@ -146,71 +146,71 @@ int main(int argc, char **argv)
 
     domruler_append_css(ctxt, css_data, strlen(css_data));
 
-    HLDomElement* root = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(root, "root");
+    HLDomElement* root = domruler_element_node_create("div");
+    domruler_element_node_set_id(root, "root");
 
-    HLDomElement* title = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(title, "title");
+    HLDomElement* title = domruler_element_node_create("div");
+    domruler_element_node_set_id(title, "title");
 
-    HLDomElement* description = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(description, "description");
+    HLDomElement* description = domruler_element_node_create("div");
+    domruler_element_node_set_id(description, "description");
 
     char page_inline_style[] = "display:grid;";
-    HLDomElement* page = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(page, "page");
-//    hilayout_element_node_set_style(page, page_inline_style);
+    HLDomElement* page = domruler_element_node_create("div");
+    domruler_element_node_set_id(page, "page");
+//    domruler_element_node_set_style(page, page_inline_style);
 
-    HLDomElement* indicator = hilayout_element_node_create("div");
-    hilayout_element_node_set_id(indicator, "indicator");
+    HLDomElement* indicator = domruler_element_node_create("div");
+    domruler_element_node_set_id(indicator, "indicator");
 
 
-    HLDomElement* hiweb = hilayout_element_node_create("hiweb");
-    hilayout_element_node_set_id(hiweb, "hiweb");
+    HLDomElement* hiweb = domruler_element_node_create("hiweb");
+    domruler_element_node_set_id(hiweb, "hiweb");
 
-    HLDomElement* hiweb2 = hilayout_element_node_create("hiweb");
-    hilayout_element_node_set_id(hiweb2, "hiweb2");
+    HLDomElement* hiweb2 = domruler_element_node_create("hiweb");
+    domruler_element_node_set_id(hiweb2, "hiweb2");
 
-    HLDomElement* hijs = hilayout_element_node_create("hijs");
-    hilayout_element_node_set_id(hijs, "hijs");
+    HLDomElement* hijs = domruler_element_node_create("hijs");
+    domruler_element_node_set_id(hijs, "hijs");
 
-    HLDomElement* hijs2 = hilayout_element_node_create("hijs");
-    hilayout_element_node_set_id(hijs2, "hijs2");
+    HLDomElement* hijs2 = domruler_element_node_create("hijs");
+    domruler_element_node_set_id(hijs2, "hijs2");
 
-    hilayout_element_node_append_as_last_child(title, root);
-    hilayout_element_node_append_as_last_child(description, root);
-    hilayout_element_node_append_as_last_child(page, root);
-    hilayout_element_node_append_as_last_child(indicator, root);
+    domruler_element_node_append_as_last_child(title, root);
+    domruler_element_node_append_as_last_child(description, root);
+    domruler_element_node_append_as_last_child(page, root);
+    domruler_element_node_append_as_last_child(indicator, root);
 
-    hilayout_element_node_append_as_last_child(hiweb, page);
-    hilayout_element_node_append_as_last_child(hiweb2, page);
-    hilayout_element_node_append_as_last_child(hijs, page);
-    hilayout_element_node_append_as_last_child(hijs2, page);
+    domruler_element_node_append_as_last_child(hiweb, page);
+    domruler_element_node_append_as_last_child(hiweb2, page);
+    domruler_element_node_append_as_last_child(hijs, page);
+    domruler_element_node_append_as_last_child(hijs2, page);
 
     fprintf(stderr, "####################################### layout ###########################\n");
     domruler_layout_hldom_elements(ctxt, root);
 
-    const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(ctxt, hijs);
+    const HLUsedTextValues* txtVaule = domruler_element_node_get_used_text_value(ctxt, hijs);
     fprintf(stderr, "############### txtVaule=%p|txt->family=%s\n", txtVaule, txtVaule->font_family);
 
-    hilayout_element_node_set_general_attr(hijs, "xsmKey", "xsmValue");
-    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_general_attr(hijs, "xsmKey"));
+    domruler_element_node_set_general_attr(hijs, "xsmKey", "xsmValue");
+    fprintf(stderr, "############### test get attr =%s\n", domruler_element_node_get_general_attr(hijs, "xsmKey"));
 
-    hilayout_element_node_set_general_attr(hijs, "xsmKey", "xsmValue2222222");
-    fprintf(stderr, "############### test get attr =%s\n", hilayout_element_node_get_general_attr(hijs, "xsmKey"));
+    domruler_element_node_set_general_attr(hijs, "xsmKey", "xsmValue2222222");
+    fprintf(stderr, "############### test get attr =%s\n", domruler_element_node_get_general_attr(hijs, "xsmKey"));
 
     fprintf(stderr, ".......................HL_PROP_CATEGORY_BOX=%d\n", HL_PROP_CATEGORY_BOX);
-    hilayout_element_node_set_common_attr(hijs, HL_PROP_ID_WIDTH, "privateValue1111");
-    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, hilayout_element_node_get_common_attr(hijs, HL_PROP_ID_WIDTH));
+    domruler_element_node_set_common_attr(hijs, HL_PROP_ID_WIDTH, "privateValue1111");
+    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, domruler_element_node_get_common_attr(hijs, HL_PROP_ID_WIDTH));
 
-    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_BACKGROUND_COLOR, hilayout_element_node_get_common_attr(hijs, HL_PROP_ID_BACKGROUND_COLOR));
+    fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_BACKGROUND_COLOR, domruler_element_node_get_common_attr(hijs, HL_PROP_ID_BACKGROUND_COLOR));
 
     hl_element_node_set_inner_attr(hijs, "innerKey", "innerValue2222");
     fprintf(stderr, "############### test get attr id=%d | value =%s\n", HL_PROP_ID_WIDTH, hl_element_node_get_inner_attr(hijs, "innerKey2"));
 
     char* buf = (char*)malloc(100);
     strcpy(buf, "this is test buf for userdata.\n");
-    hilayout_element_node_set_user_data(hijs, "userData", buf, destory_user_data);
-    void* udata = hilayout_element_node_get_user_data(hijs, "userData");
+    domruler_element_node_set_user_data(hijs, "userData", buf, destory_user_data);
+    void* udata = domruler_element_node_get_user_data(hijs, "userData");
     fprintf(stderr, "############### test get user data key=userData | value =%s\n",  (char*)udata);
 
     buf = (char*)malloc(100);
@@ -220,41 +220,41 @@ int main(int argc, char **argv)
     fprintf(stderr, "############### test get inner data key=innerData | value =%s\n",  (char*)udata);
 
     char* class_name = "   aa bb cc dd ee ff   ";
-    hilayout_element_node_set_class(hijs, class_name);
-    const char* get_name = hilayout_element_node_get_class(hijs);
+    domruler_element_node_set_class(hijs, class_name);
+    const char* get_name = domruler_element_node_get_class(hijs);
     fprintf(stderr, ".....................set class = %s\n", class_name);
     fprintf(stderr, ".....................get class = %s\n", get_name);
 
-    fprintf(stderr, " hilayout_element_node_has_class xsm=%d\n", hilayout_element_node_has_class(hijs, "xsm"));
-    fprintf(stderr, " hilayout_element_node_has_class aa=%d\n", hilayout_element_node_has_class(hijs, "aa"));
-    fprintf(stderr, " hilayout_element_node_has_class bb=%d\n", hilayout_element_node_has_class(hijs, "bb"));
-    fprintf(stderr, " hilayout_element_node_has_class cc=%d\n", hilayout_element_node_has_class(hijs, "cc"));
-    fprintf(stderr, " hilayout_element_node_has_class dd=%d\n", hilayout_element_node_has_class(hijs, "dd"));
-    fprintf(stderr, " hilayout_element_node_has_class ee=%d\n", hilayout_element_node_has_class(hijs, "ee"));
-    fprintf(stderr, " hilayout_element_node_has_class ff=%d\n", hilayout_element_node_has_class(hijs, "ff"));
+    fprintf(stderr, " domruler_element_node_has_class xsm=%d\n", domruler_element_node_has_class(hijs, "xsm"));
+    fprintf(stderr, " domruler_element_node_has_class aa=%d\n", domruler_element_node_has_class(hijs, "aa"));
+    fprintf(stderr, " domruler_element_node_has_class bb=%d\n", domruler_element_node_has_class(hijs, "bb"));
+    fprintf(stderr, " domruler_element_node_has_class cc=%d\n", domruler_element_node_has_class(hijs, "cc"));
+    fprintf(stderr, " domruler_element_node_has_class dd=%d\n", domruler_element_node_has_class(hijs, "dd"));
+    fprintf(stderr, " domruler_element_node_has_class ee=%d\n", domruler_element_node_has_class(hijs, "ee"));
+    fprintf(stderr, " domruler_element_node_has_class ff=%d\n", domruler_element_node_has_class(hijs, "ff"));
 
-    fprintf(stderr, " hilayout_element_node_include_class xsm=%d\n", hilayout_element_node_include_class(hijs, "xsm"));
-    fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
+    fprintf(stderr, " domruler_element_node_include_class xsm=%d\n", domruler_element_node_include_class(hijs, "xsm"));
+    fprintf(stderr, ".....................get class = %s\n", domruler_element_node_get_class(hijs));
 
-    fprintf(stderr, " hilayout_element_node_exclude_class zxx=%d\n", hilayout_element_node_exclude_class(hijs, "zxx"));
-    fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
+    fprintf(stderr, " domruler_element_node_exclude_class zxx=%d\n", domruler_element_node_exclude_class(hijs, "zxx"));
+    fprintf(stderr, ".....................get class = %s\n", domruler_element_node_get_class(hijs));
 
-    fprintf(stderr, " hilayout_element_node_exclude_class ff=%d\n", hilayout_element_node_exclude_class(hijs, "ff"));
-    fprintf(stderr, ".....................get class = %s\n", hilayout_element_node_get_class(hijs));
-
-
-    hilayout_element_node_depth_first_search_tree(root, print_node_info, NULL);
+    fprintf(stderr, " domruler_element_node_exclude_class ff=%d\n", domruler_element_node_exclude_class(hijs, "ff"));
+    fprintf(stderr, ".....................get class = %s\n", domruler_element_node_get_class(hijs));
 
 
-    hilayout_element_node_destroy(root);
-    hilayout_element_node_destroy(title);
-    hilayout_element_node_destroy(page);
-    hilayout_element_node_destroy(description);
-    hilayout_element_node_destroy(indicator);
-    hilayout_element_node_destroy(hiweb);
-    hilayout_element_node_destroy(hiweb2);
-    hilayout_element_node_destroy(hijs);
-    hilayout_element_node_destroy(hijs2);
+    domruler_element_node_depth_first_search_tree(root, print_node_info, NULL);
+
+
+    domruler_element_node_destroy(root);
+    domruler_element_node_destroy(title);
+    domruler_element_node_destroy(page);
+    domruler_element_node_destroy(description);
+    domruler_element_node_destroy(indicator);
+    domruler_element_node_destroy(hiweb);
+    domruler_element_node_destroy(hiweb2);
+    domruler_element_node_destroy(hijs);
+    domruler_element_node_destroy(hijs2);
 
     return 0;
 }

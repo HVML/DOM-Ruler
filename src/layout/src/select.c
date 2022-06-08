@@ -53,7 +53,7 @@
 #include <string.h>
 
 #define DEFAULT_CHARSET "UTF-8"
-#define DEFAULT_URL "hilayout_css_select"
+#define DEFAULT_URL "domruler_css_select"
 #define UNUSED(x) ((x) = (x))
 
 const char default_ua_css[] = "div { display: block; }"
@@ -187,7 +187,7 @@ css_stylesheet *hl_css_stylesheet_inline_style_create(
 }
 
 
-HLCSS *hilayout_css_create()
+HLCSS *domruler_css_create()
 {
     css_stylesheet *sheet = hlhl_css_stylesheet_create(DEFAULT_CHARSET,
             DEFAULT_URL, true, false);
@@ -204,14 +204,14 @@ HLCSS *hilayout_css_create()
     return css;
 }
 
-int hilayout_css_append_data(HLCSS *css, const char *data, size_t len)
+int domruler_css_append_data(HLCSS *css, const char *data, size_t len)
 {
     if (css)
         return hl_css_stylesheet_append_data(css->sheet, data, len);
     return HILAYOUT_BADPARM;
 }
 
-int hilayout_css_destroy(HLCSS *css)
+int domruler_css_destroy(HLCSS *css)
 {
     if (css == NULL)
         return HILAYOUT_OK;

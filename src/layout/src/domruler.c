@@ -104,12 +104,12 @@ int domruler_append_css(struct DOMRulerCtxt *ctxt, const char *css,
         return HILAYOUT_BADPARM;
     }
     if (!ctxt->css) {
-        ctxt->css = hilayout_css_create();
+        ctxt->css = domruler_css_create();
         if (!ctxt->css) {
             return HILAYOUT_NOMEM;
         }
     }
-    return hilayout_css_append_data(ctxt->css, css, nr_css);
+    return domruler_css_append_data(ctxt->css, css, nr_css);
 }
 
 int domruler_layout(struct DOMRulerCtxt *ctxt, void *root_node,
@@ -136,7 +136,7 @@ void domruler_destroy(struct DOMRulerCtxt *ctxt)
     }
 
     if (ctxt->css) {
-        hilayout_css_destroy(ctxt->css);
+        domruler_css_destroy(ctxt->css);
     }
 
     if (ctxt->node_map) {

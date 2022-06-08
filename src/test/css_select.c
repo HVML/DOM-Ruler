@@ -86,14 +86,14 @@ int main(int argc, char **argv)
         .type = CSS_MEDIA_SCREEN,
     };
 
-    HLCSS* css = hilayout_css_create();
+    HLCSS* css = domruler_css_create();
     if (css == NULL)
     {
         HL_LOGE("create HLCSS failed.\n");
         return HILAYOUT_INVALID;
     }
 
-    hilayout_css_append_data(css, data, strlen(data));
+    domruler_css_append_data(css, data, strlen(data));
 
     struct DOMRulerCtxt *ctxt = domruler_create(1080, 720, 72, 27);
     ctxt->origin_op = hl_dom_element_node_get_op();
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
         css_color color_shade;
 
 
-        HLDomElement* domNode = hilayout_element_node_create("h1");
+        HLDomElement* domNode = domruler_element_node_create("h1");
         HiLayoutNode *layout_node = hi_layout_node_from_origin_node(ctxt, domNode);
         style = hl_css_select_style(css, layout_node, &media, NULL, NULL);
 
@@ -167,11 +167,11 @@ int main(int argc, char **argv)
         }
 
         hl_css_select_result_destroy(style);
-        hilayout_element_node_destroy(domNode);
+        domruler_element_node_destroy(domNode);
     }
 
 
-    hilayout_css_destroy(css);
+    domruler_css_destroy(css);
     domruler_destroy(ctxt);
 
     return 0;

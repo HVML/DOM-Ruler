@@ -64,7 +64,7 @@
 #define AUTO INT_MIN
 
 
-HLDomElement *hilayout_element_node_create(const char *tag)
+HLDomElement *domruler_element_node_create(const char *tag)
 {
     if (tag == NULL) {
         HL_LOGE("create HLDomElement failed. tag=%s\n", tag);
@@ -82,7 +82,7 @@ HLDomElement *hilayout_element_node_create(const char *tag)
     return node;
 }
 
-const char *hilayout_element_node_get_tag_name(HLDomElement *node)
+const char *domruler_element_node_get_tag_name(HLDomElement *node)
 {
     return node ? node->tag : NULL;
 }
@@ -111,7 +111,7 @@ void hl_fill_inner_classes(HLDomElement *node, const char *classes)
     free(value);
 }
 
-void hilayout_element_node_destroy(HLDomElement *node)
+void domruler_element_node_destroy(HLDomElement *node)
 {
     if (node == NULL) {
         return;
@@ -159,7 +159,7 @@ void hilayout_element_node_destroy(HLDomElement *node)
 }
 
 const HLBox *
-hilayout_element_node_get_used_box_value(struct DOMRulerCtxt *ctxt,
+domruler_element_node_get_used_box_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node)
 {
     if (!ctxt || !node) {
@@ -174,7 +174,7 @@ hilayout_element_node_get_used_box_value(struct DOMRulerCtxt *ctxt,
 }
 
 const HLUsedBackgroundValues *
-hilayout_element_node_get_used_background_value(struct DOMRulerCtxt *ctxt,
+domruler_element_node_get_used_background_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node)
 {
     if (!ctxt || !node) {
@@ -189,7 +189,7 @@ hilayout_element_node_get_used_background_value(struct DOMRulerCtxt *ctxt,
 }
 
 const HLUsedTextValues *
-hilayout_element_node_get_used_text_value(struct DOMRulerCtxt *ctxt,
+domruler_element_node_get_used_text_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node)
 {
     if (!ctxt || !node) {
@@ -205,7 +205,7 @@ hilayout_element_node_get_used_text_value(struct DOMRulerCtxt *ctxt,
 
 
 HLUsedSvgValues *
-hilayout_element_node_get_used_svg_value(struct DOMRulerCtxt *ctxt,
+domruler_element_node_get_used_svg_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node)
 {
     if (!ctxt || !node) {
@@ -445,7 +445,7 @@ hilayout_element_node_get_used_svg_value(struct DOMRulerCtxt *ctxt,
     return svg;
 }
 
-int hilayout_element_node_append_as_last_child(HLDomElement *node,
+int domruler_element_node_append_as_last_child(HLDomElement *node,
         HLDomElement *parent)
 {
     if (node == NULL || parent == NULL) {
@@ -472,32 +472,32 @@ int hilayout_element_node_append_as_last_child(HLDomElement *node,
     return HILAYOUT_OK;
 }
 
-HLDomElement *hilayout_element_node_get_parent(HLDomElement *node)
+HLDomElement *domruler_element_node_get_parent(HLDomElement *node)
 {
     return node ? node->parent : NULL;
 }
 
-HLDomElement *hilayout_element_node_get_first_child(HLDomElement *node)
+HLDomElement *domruler_element_node_get_first_child(HLDomElement *node)
 {
     return node ? node->first_child: NULL;
 }
 
-HLDomElement *hilayout_element_node_get_last_child(HLDomElement *node)
+HLDomElement *domruler_element_node_get_last_child(HLDomElement *node)
 {
     return node ? node->last_child : NULL;
 }
 
-HLDomElement *hilayout_element_node_get_prev(HLDomElement *node)
+HLDomElement *domruler_element_node_get_prev(HLDomElement *node)
 {
     return node ? node->previous : NULL;
 }
 
-HLDomElement *hilayout_element_node_get_next(HLDomElement *node)
+HLDomElement *domruler_element_node_get_next(HLDomElement *node)
 {
     return node ? node->next : NULL;
 }
 
-uint32_t hilayout_element_node_get_children_count(HLDomElement *node)
+uint32_t domruler_element_node_get_children_count(HLDomElement *node)
 {
     return node ? node->n_children: 0;
 }
@@ -516,7 +516,7 @@ int hl_verify_common_attr_id(const HLDomElement *node,
     return HILAYOUT_BADPARM;
 }
 
-int hilayout_element_node_set_common_attr(HLDomElement *node,
+int domruler_element_node_set_common_attr(HLDomElement *node,
         HLCommonAttribute attr_id, const char *attr_value)
 {
     if (node == NULL || attr_value == NULL) {
@@ -540,7 +540,7 @@ int hilayout_element_node_set_common_attr(HLDomElement *node,
             (gpointer)strdup(attr_value));
 }
 
-const char *hilayout_element_node_get_common_attr(const HLDomElement *node,
+const char *domruler_element_node_get_common_attr(const HLDomElement *node,
         HLCommonAttribute attr_id)
 {
     if (node == NULL || node->common_attrs == NULL) {
@@ -566,7 +566,7 @@ void hl_destroy_general_attr_value (gpointer data)
     free(data);
 }
 
-int hilayout_element_node_set_general_attr(HLDomElement *node,
+int domruler_element_node_set_general_attr(HLDomElement *node,
         const char *attr_name, const char *attr_value)
 {
     if (node == NULL || attr_name == NULL || attr_value == NULL) {
@@ -582,7 +582,7 @@ int hilayout_element_node_set_general_attr(HLDomElement *node,
             (gpointer)strdup(attr_name), (gpointer)strdup(attr_value));
 }
 
-const char *hilayout_element_node_get_general_attr(const HLDomElement *node,
+const char *domruler_element_node_get_general_attr(const HLDomElement *node,
         const char *attr_name)
 {
     if (node == NULL || attr_name == NULL || node->general_attrs == NULL) {
@@ -641,7 +641,7 @@ void hl_destroy_attach_data_value (gpointer data)
     free(attach);
 }
 
-int hilayout_element_node_set_user_data(HLDomElement *node,
+int domruler_element_node_set_user_data(HLDomElement *node,
         const char *key, void *data, HlDestroyCallback destroy_callback)
 {
     if (node == NULL || key == NULL) {
@@ -664,7 +664,7 @@ int hilayout_element_node_set_user_data(HLDomElement *node,
             (gpointer)attach);
 }
 
-void *hilayout_element_node_get_user_data(const HLDomElement *node,
+void *domruler_element_node_get_user_data(const HLDomElement *node,
         const char *key)
 {
     if (node == NULL || key == NULL || node->user_data == NULL) {
@@ -713,7 +713,7 @@ gint hl_comp_class_name (gconstpointer a, gconstpointer b)
     return strcmp((const char*)a, (const char*)b);
 }
 
-int hilayout_element_node_has_class (HLDomElement *node,
+int domruler_element_node_has_class (HLDomElement *node,
         const char *class_name)
 {
     GList *ret = g_list_find_custom(node->class_list, class_name,
@@ -721,18 +721,18 @@ int hilayout_element_node_has_class (HLDomElement *node,
     return ret ? 1 : 0;
 }
 
-int hilayout_element_node_include_class (HLDomElement *node,
+int domruler_element_node_include_class (HLDomElement *node,
         const char *class_name)
 {
     if (node == NULL || class_name == NULL) {
         return HILAYOUT_BADPARM;
     }
 
-    if (hilayout_element_node_has_class(node, class_name)) {
+    if (domruler_element_node_has_class(node, class_name)) {
         return 0;
     }
 
-    const char *classes = hilayout_element_node_get_class (node);
+    const char *classes = domruler_element_node_get_class (node);
     size_t len = (classes ? strlen(classes) : 0)  + strlen(class_name) + 2;
     char *buf = (char*) malloc(len);
     if (classes) {
@@ -743,12 +743,12 @@ int hilayout_element_node_include_class (HLDomElement *node,
     else {
         strcpy(buf, class_name);
     }
-    hilayout_element_node_set_class(node, buf);
+    domruler_element_node_set_class(node, buf);
     free(buf);
     return 0;
 }
 
-int hilayout_element_node_exclude_class(HLDomElement *node,
+int domruler_element_node_exclude_class(HLDomElement *node,
         const char *class_name)
 {
     GList *ret = g_list_find_custom(node->class_list,
@@ -757,7 +757,7 @@ int hilayout_element_node_exclude_class(HLDomElement *node,
         return 0;
     }
 
-    const char *classes = hilayout_element_node_get_class(node);
+    const char *classes = domruler_element_node_get_class(node);
     if (classes == NULL) {
         return 0;
     }
@@ -772,11 +772,11 @@ int hilayout_element_node_exclude_class(HLDomElement *node,
         strcat(buf, (const char*)it->data);
         strcat(buf, _HILAYOUT_WHITESPACE);
     }
-    hilayout_element_node_set_class(node, buf);
+    domruler_element_node_set_class(node, buf);
     free(buf);
 }
 
-void hilayout_element_node_for_each_child(HLDomElement *node,
+void domruler_element_node_for_each_child(HLDomElement *node,
         NodeCallback callback, void *user_data)
 {
     if (node == NULL || callback == NULL) {
@@ -790,7 +790,7 @@ void hilayout_element_node_for_each_child(HLDomElement *node,
     }
 }
 
-void hilayout_element_node_depth_first_search_tree(HLDomElement *node,
+void domruler_element_node_depth_first_search_tree(HLDomElement *node,
         NodeCallback callback, void *user_data)
 {
     if (node == NULL || callback == NULL) {
@@ -800,14 +800,14 @@ void hilayout_element_node_depth_first_search_tree(HLDomElement *node,
 
     HLDomElement *child = node->first_child;
     while(child) {
-        hilayout_element_node_depth_first_search_tree(child,
+        domruler_element_node_depth_first_search_tree(child,
                 callback, user_data);
         child = child->next;
     }
 }
 
 const uint32_t MAX_ATTACH_DATA_SIZE = 10;
-int hilayout_element_node_set_attach_data(HLDomElement *node,
+int domruler_element_node_set_attach_data(HLDomElement *node,
         uint32_t index, void *data, HlDestroyCallback destroy_callback)
 {
     if (node == NULL || index >= MAX_ATTACH_DATA_SIZE) {
@@ -829,7 +829,7 @@ int hilayout_element_node_set_attach_data(HLDomElement *node,
     return HILAYOUT_OK;
 }
 
-void *hilayout_element_node_get_attach_data(const HLDomElement *node,
+void *domruler_element_node_get_attach_data(const HLDomElement *node,
         uint32_t index)
 {
     if (node == NULL || index >= MAX_ATTACH_DATA_SIZE) {
@@ -852,7 +852,7 @@ const char *hl_dom_element_node_get_name(void *node)
 
 const char *hl_dom_element_node_get_id(void *node)
 {
-    return hilayout_element_node_get_common_attr((HLDomElement*)node,
+    return domruler_element_node_get_common_attr((HLDomElement*)node,
             HL_COMMON_ATTR_ID);
 }
 
@@ -875,15 +875,15 @@ const char *hl_dom_element_node_get_attr(void *n, const char *name)
 {
     HLDomElement *node = (HLDomElement*)n;
     if (strcmp(name, ATTR_ID) == 0) {
-        return hilayout_element_node_get_common_attr(node,
+        return domruler_element_node_get_common_attr(node,
             HL_COMMON_ATTR_ID);
     }
     else if (strcmp(name, ATTR_NAME) == 0) {
-        return hilayout_element_node_get_common_attr(node,
+        return domruler_element_node_get_common_attr(node,
             HL_COMMON_ATTR_NAME);
     }
     else if (strcmp(name, ATTR_CLASS) == 0) {
-        return hilayout_element_node_get_common_attr(node,
+        return domruler_element_node_get_common_attr(node,
             HL_COMMON_ATTR_CLASS_NAME);
     }
     return NULL;

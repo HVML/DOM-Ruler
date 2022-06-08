@@ -916,7 +916,7 @@ int domruler_layout_pcdom_elements(struct DOMRulerCtxt *ctxt,
  *
  * Since: 1.0
  */
-HLCSS *hilayout_css_create();
+HLCSS *domruler_css_create();
 
 /**
  * Add css data into HLcss object.
@@ -929,7 +929,7 @@ HLCSS *hilayout_css_create();
  *
  * Since: 1.0
  */
-int hilayout_css_append_data(HLCSS *css, const char *data, size_t len);
+int domruler_css_append_data(HLCSS *css, const char *data, size_t len);
 
 /**
  * Free a HiCSS.
@@ -940,7 +940,7 @@ int hilayout_css_append_data(HLCSS *css, const char *data, size_t len);
  *
  * Since: 1.0
  */
-int hilayout_css_destroy(HLCSS *css);
+int domruler_css_destroy(HLCSS *css);
 
 /**
  * Create a HLDomElement object
@@ -951,7 +951,7 @@ int hilayout_css_destroy(HLCSS *css);
  *
  * Since: 1.0
  */
-HLDomElement *hilayout_element_node_create(const char *tag_name);
+HLDomElement *domruler_element_node_create(const char *tag_name);
 
 /**
  * Get the tag name of the HLDomElement
@@ -962,7 +962,7 @@ HLDomElement *hilayout_element_node_create(const char *tag_name);
  *
  * Since: 1.0
  */
-const char *hilayout_element_node_get_tag_name(HLDomElement *node);
+const char *domruler_element_node_get_tag_name(HLDomElement *node);
 
 /**
  * Set the common attribute for the HLDomElement
@@ -975,7 +975,7 @@ const char *hilayout_element_node_get_tag_name(HLDomElement *node);
  *
  * Since: 1.0
  */
-int hilayout_element_node_set_common_attr(HLDomElement *node,
+int domruler_element_node_set_common_attr(HLDomElement *node,
         HLCommonAttribute attr_id, const char *value);
 
 /**
@@ -988,7 +988,7 @@ int hilayout_element_node_set_common_attr(HLDomElement *node,
  *
  * Since: 1.0
  */
-const char *hilayout_element_node_get_common_attr(const HLDomElement *node,
+const char *domruler_element_node_get_common_attr(const HLDomElement *node,
         HLCommonAttribute attr_id);
 
 /**
@@ -1002,9 +1002,9 @@ const char *hilayout_element_node_get_common_attr(const HLDomElement *node,
  * Since: 1.0
  */
 static inline int
-hilayout_element_node_set_id(HLDomElement *node, const char *id)
+domruler_element_node_set_id(HLDomElement *node, const char *id)
 {
-    return hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_ID, id);
+    return domruler_element_node_set_common_attr(node, HL_COMMON_ATTR_ID, id);
 }
 
 /**
@@ -1017,9 +1017,9 @@ hilayout_element_node_set_id(HLDomElement *node, const char *id)
  * Since: 1.0
  */
 static inline const char *
-hilayout_element_node_get_id(const HLDomElement *node)
+domruler_element_node_get_id(const HLDomElement *node)
 {
-    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_ID);
+    return domruler_element_node_get_common_attr(node, HL_COMMON_ATTR_ID);
 }
 
 /**
@@ -1033,9 +1033,9 @@ hilayout_element_node_get_id(const HLDomElement *node)
  * Since: 1.0
  */
 static inline int
-hilayout_element_node_set_class(HLDomElement *node, const char *class_name)
+domruler_element_node_set_class(HLDomElement *node, const char *class_name)
 {
-    return hilayout_element_node_set_common_attr(node,
+    return domruler_element_node_set_common_attr(node,
             HL_COMMON_ATTR_CLASS_NAME, class_name);
 }
 
@@ -1049,9 +1049,9 @@ hilayout_element_node_set_class(HLDomElement *node, const char *class_name)
  * Since: 1.0
  */
 static inline const char *
-hilayout_element_node_get_class(const HLDomElement *node)
+domruler_element_node_get_class(const HLDomElement *node)
 {
-    return hilayout_element_node_get_common_attr(node,
+    return domruler_element_node_get_common_attr(node,
             HL_COMMON_ATTR_CLASS_NAME);
 }
 
@@ -1065,7 +1065,7 @@ hilayout_element_node_get_class(const HLDomElement *node)
  *
  * Since: 1.0
  */
-int hilayout_element_node_has_class(HLDomElement *node,
+int domruler_element_node_has_class(HLDomElement *node,
         const char *class_name);
 
 /**
@@ -1078,7 +1078,7 @@ int hilayout_element_node_has_class(HLDomElement *node,
  *
  * Since: 1.0
  */
-int hilayout_element_node_include_class(HLDomElement *node,
+int domruler_element_node_include_class(HLDomElement *node,
         const char *class_name);
 
 /**
@@ -1091,7 +1091,7 @@ int hilayout_element_node_include_class(HLDomElement *node,
  *
  * Since: 1.0
  */
-int hilayout_element_node_exclude_class(HLDomElement *node,
+int domruler_element_node_exclude_class(HLDomElement *node,
         const char *class_name);
 
 /**
@@ -1105,9 +1105,9 @@ int hilayout_element_node_exclude_class(HLDomElement *node,
  * Since: 1.0
  */
 static inline int
-hilayout_element_node_set_style (HLDomElement *node, const char *style)
+domruler_element_node_set_style (HLDomElement *node, const char *style)
 {
-    return hilayout_element_node_set_common_attr (node, HL_COMMON_ATTR_STYLE,
+    return domruler_element_node_set_common_attr (node, HL_COMMON_ATTR_STYLE,
             style);
 }
 
@@ -1121,9 +1121,9 @@ hilayout_element_node_set_style (HLDomElement *node, const char *style)
  * Since: 1.0
  */
 static inline const char *
-hilayout_element_node_get_style(const HLDomElement *node)
+domruler_element_node_get_style(const HLDomElement *node)
 {
-    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_STYLE);
+    return domruler_element_node_get_common_attr(node, HL_COMMON_ATTR_STYLE);
 }
 
 /**
@@ -1137,9 +1137,9 @@ hilayout_element_node_get_style(const HLDomElement *node)
  * Since: 1.0
  */
 static inline int
-hilayout_element_node_set_name(HLDomElement *node, const char *name)
+domruler_element_node_set_name(HLDomElement *node, const char *name)
 {
-    return hilayout_element_node_set_common_attr(node, HL_COMMON_ATTR_NAME, name);
+    return domruler_element_node_set_common_attr(node, HL_COMMON_ATTR_NAME, name);
 }
 
 /**
@@ -1152,9 +1152,9 @@ hilayout_element_node_set_name(HLDomElement *node, const char *name)
  * Since: 1.0
  */
 static inline const char *
-hilayout_element_node_get_name(const HLDomElement *node)
+domruler_element_node_get_name(const HLDomElement *node)
 {
-    return hilayout_element_node_get_common_attr(node, HL_COMMON_ATTR_NAME);
+    return domruler_element_node_get_common_attr(node, HL_COMMON_ATTR_NAME);
 }
 
 /**
@@ -1168,7 +1168,7 @@ hilayout_element_node_get_name(const HLDomElement *node)
  *
  * Since: 1.0
  */
-int hilayout_element_node_set_general_attr(HLDomElement *node,
+int domruler_element_node_set_general_attr(HLDomElement *node,
         const char *attr_name, const char *attr_value);
 
 /**
@@ -1182,7 +1182,7 @@ int hilayout_element_node_set_general_attr(HLDomElement *node,
  * Since: 1.0
  */
 const char *
-hilayout_element_node_get_general_attr(const HLDomElement *node,
+domruler_element_node_get_general_attr(const HLDomElement *node,
         const char *attr_name);
 
 /**
@@ -1207,7 +1207,7 @@ typedef void  (*HlDestroyCallback)(void *data);
  *
  * Since: 1.0
  */
-int hilayout_element_node_set_user_data(HLDomElement *node,
+int domruler_element_node_set_user_data(HLDomElement *node,
         const char *key, void *data, HlDestroyCallback destroy_callback);
 
 /**
@@ -1220,7 +1220,7 @@ int hilayout_element_node_set_user_data(HLDomElement *node,
  *
  * Since: 1.0
  */
-void *hilayout_element_node_get_user_data(const HLDomElement *node,
+void *domruler_element_node_get_user_data(const HLDomElement *node,
         const char *key);
 
 extern const uint32_t MAX_ATTACH_DATA_SIZE;
@@ -1237,7 +1237,7 @@ extern const uint32_t MAX_ATTACH_DATA_SIZE;
  *
  * Since: 1.0
  */
-int hilayout_element_node_set_attach_data(HLDomElement *node,
+int domruler_element_node_set_attach_data(HLDomElement *node,
         uint32_t index, void *data, HlDestroyCallback destroy_callback);
 
 /**
@@ -1250,7 +1250,7 @@ int hilayout_element_node_set_attach_data(HLDomElement *node,
  *
  * Since: 1.0
  */
-void *hilayout_element_node_get_attach_data(const HLDomElement *node,
+void *domruler_element_node_get_attach_data(const HLDomElement *node,
         uint32_t index);
 
 /**
@@ -1263,7 +1263,7 @@ void *hilayout_element_node_get_attach_data(const HLDomElement *node,
  *
  * Since: 1.0
  */
-void hilayout_element_node_destroy(HLDomElement *node);
+void domruler_element_node_destroy(HLDomElement *node);
 
 /**
  * @deprecated since 1.2
@@ -1277,7 +1277,7 @@ void hilayout_element_node_destroy(HLDomElement *node);
  * Since: 1.0
  */
 const HLBox *
-hilayout_element_node_get_used_box_value(struct DOMRulerCtxt *ctxt,
+domruler_element_node_get_used_box_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node);
 
 /**
@@ -1292,7 +1292,7 @@ hilayout_element_node_get_used_box_value(struct DOMRulerCtxt *ctxt,
  * Since: 1.0
  */
 const HLUsedBackgroundValues *
-hilayout_element_node_get_used_background_value(struct DOMRulerCtxt *ctxt,
+domruler_element_node_get_used_background_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node);
 
 /**
@@ -1307,7 +1307,7 @@ hilayout_element_node_get_used_background_value(struct DOMRulerCtxt *ctxt,
  * Since: 1.0
  */
 const HLUsedTextValues *
-hilayout_element_node_get_used_text_value(struct DOMRulerCtxt *ctxt,
+domruler_element_node_get_used_text_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node);
 
 /**
@@ -1322,7 +1322,7 @@ hilayout_element_node_get_used_text_value(struct DOMRulerCtxt *ctxt,
  * Since: 1.0
  */
 HLUsedSvgValues *
-hilayout_element_node_get_used_svg_value(struct DOMRulerCtxt *ctxt,
+domruler_element_node_get_used_svg_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node);
 
 /**
@@ -1335,7 +1335,7 @@ hilayout_element_node_get_used_svg_value(struct DOMRulerCtxt *ctxt,
  *
  * Since: 1.0
  */
-int hilayout_element_node_append_as_last_child(HLDomElement *node,
+int domruler_element_node_append_as_last_child(HLDomElement *node,
         HLDomElement *parent);
 
 /**
@@ -1347,7 +1347,7 @@ int hilayout_element_node_append_as_last_child(HLDomElement *node,
  *
  * Since: 1.0
  */
-HLDomElement *hilayout_element_node_get_parent(HLDomElement *node);
+HLDomElement *domruler_element_node_get_parent(HLDomElement *node);
 
 /**
  * get the first child node of the HLDomElement
@@ -1358,7 +1358,7 @@ HLDomElement *hilayout_element_node_get_parent(HLDomElement *node);
  *
  * Since: 1.0
  */
-HLDomElement *hilayout_element_node_get_first_child(HLDomElement *node);
+HLDomElement *domruler_element_node_get_first_child(HLDomElement *node);
 
 /**
  * get the last child node of the HLDomElement
@@ -1369,7 +1369,7 @@ HLDomElement *hilayout_element_node_get_first_child(HLDomElement *node);
  *
  * Since: 1.0
  */
-HLDomElement *hilayout_element_node_get_last_child(HLDomElement *node);
+HLDomElement *domruler_element_node_get_last_child(HLDomElement *node);
 
 /**
  * get the previous child node of the HLDomElement
@@ -1380,7 +1380,7 @@ HLDomElement *hilayout_element_node_get_last_child(HLDomElement *node);
  *
  * Since: 1.0
  */
-HLDomElement *hilayout_element_node_get_prev(HLDomElement *node);
+HLDomElement *domruler_element_node_get_prev(HLDomElement *node);
 
 /**
  * get the next child node of the HLDomElement
@@ -1391,7 +1391,7 @@ HLDomElement *hilayout_element_node_get_prev(HLDomElement *node);
  *
  * Since: 1.0
  */
-HLDomElement *hilayout_element_node_get_next(HLDomElement *node);
+HLDomElement *domruler_element_node_get_next(HLDomElement *node);
 
 /**
  * get the children count node of the HLDomElement
@@ -1402,7 +1402,7 @@ HLDomElement *hilayout_element_node_get_next(HLDomElement *node);
  *
  * Since: 1.0
  */
-uint32_t hilayout_element_node_get_children_count(HLDomElement *node);
+uint32_t domruler_element_node_get_children_count(HLDomElement *node);
 
 /**
  * Specifies the type of function which is called when travel the dom tree.
@@ -1423,7 +1423,7 @@ typedef void (*NodeCallback)(HLDomElement *node, void *user_data);
  *
  * Since: 1.0
  */
-void hilayout_element_node_for_each_child(HLDomElement *node,
+void domruler_element_node_for_each_child(HLDomElement *node,
         NodeCallback callback, void *user_data);
 
 /**
@@ -1435,7 +1435,7 @@ void hilayout_element_node_for_each_child(HLDomElement *node,
  *
  * Since: 1.0
  */
-void hilayout_element_node_depth_first_search_tree(HLDomElement *node,
+void domruler_element_node_depth_first_search_tree(HLDomElement *node,
         NodeCallback callback, void *user_data);
 
 /**@}*/
