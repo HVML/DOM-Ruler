@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -50,7 +50,7 @@
 #ifndef _HL_NODE_H
 #define _HL_NODE_H
 
-#include "hidomlayout.h"
+#include "domruler.h"
 #include "utils.h"
 #include "internal.h"
 
@@ -138,7 +138,7 @@ typedef struct HiLayoutNode {
     // Origin Node
     void *origin;
 
-    struct HiDOMLayoutCtxt *ctxt;
+    struct DOMRulerCtxt *ctxt;
 } HiLayoutNode;
 
 #ifdef __cplusplus
@@ -154,28 +154,28 @@ int hi_layout_node_set_inner_data(HiLayoutNode *node, const char *key,
 void *hi_layout_node_get_inner_data(HiLayoutNode *node, const char *key);
 
 int hl_find_background(HiLayoutNode *node);
-int hl_find_font(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node);
+int hl_find_font(struct DOMRulerCtxt *ctx, HiLayoutNode *node);
 
 HLGridItem *hl_grid_item_create(HiLayoutNode *node);
 void hl_grid_item_destroy(HLGridItem*);
 
-HLGridTemplate *hl_grid_template_create(const struct HiDOMLayoutCtxt *ctx,
+HLGridTemplate *hl_grid_template_create(const struct DOMRulerCtxt *ctx,
         HiLayoutNode *node);
 void hl_grid_template_destroy(HLGridTemplate*);
 
-typedef void (*each_child_callback)(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
+typedef void (*each_child_callback)(struct DOMRulerCtxt *ctx, HiLayoutNode *node,
         void *user_data);
 
-void hl_for_each_child(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
+void hl_for_each_child(struct DOMRulerCtxt *ctx, HiLayoutNode *node,
         each_child_callback callback, void *user_data);
 
 void cb_hi_layout_node_destroy(void *n);
 
 // BEGIN: HiLayoutNode  < ----- > Origin Node
-HiLayoutNode *hi_layout_node_from_origin_node(struct HiDOMLayoutCtxt *ctxt,
+HiLayoutNode *hi_layout_node_from_origin_node(struct DOMRulerCtxt *ctxt,
         void *origin);
 void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
-        HiDOMLayoutNodeOp **op);
+        DOMRulerNodeOp **op);
 
 HLNodeType hi_layout_node_get_type(HiLayoutNode *node);
 const char *hi_layout_node_get_name(HiLayoutNode *node);

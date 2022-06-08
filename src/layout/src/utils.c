@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -46,7 +46,7 @@
  \endverbatim
  */
 
-#include "hidomlayout.h"
+#include "domruler.h"
 #include "utils.h"
 #include "node.h"
 #include "hl_dom_element_node.h"
@@ -66,7 +66,7 @@ int hl_default_css_baseline_pixel_density = 96;
  * \param[in] css_pixels  Length in css pixels.
  * \return length in physical pixels
  */
-css_fixed hl_css_pixels_css_to_physical(const struct HiDOMLayoutCtxt* ctx,
+css_fixed hl_css_pixels_css_to_physical(const struct DOMRulerCtxt* ctx,
         css_fixed css_pixels)
 {
     return FDIV(FMUL(css_pixels, ctx->hl_css_media_dpi),
@@ -79,14 +79,14 @@ css_fixed hl_css_pixels_css_to_physical(const struct HiDOMLayoutCtxt* ctx,
  * \param[in] physical_pixels  Length in physical pixels.
  * \return length in css pixels
  */
-css_fixed hl_css_pixels_physical_to_css(const struct HiDOMLayoutCtxt* ctx,
+css_fixed hl_css_pixels_physical_to_css(const struct DOMRulerCtxt* ctx,
         css_fixed physical_pixels)
 {
     return FDIV(FMUL(physical_pixels, ctx->hl_css_baseline_pixel_density),
             ctx->hl_css_media_dpi);
 }
 
-int hl_set_media_dpi(struct HiDOMLayoutCtxt *ctx, int dpi)
+int hl_set_media_dpi(struct DOMRulerCtxt *ctx, int dpi)
 {
     if (dpi <= 0)
     {
@@ -101,7 +101,7 @@ int hl_set_media_dpi(struct HiDOMLayoutCtxt *ctx, int dpi)
     return HILAYOUT_OK;
 }
 
-int hl_set_baseline_pixel_density(struct HiDOMLayoutCtxt* ctx, int density)
+int hl_set_baseline_pixel_density(struct DOMRulerCtxt* ctx, int density)
 {
     if (density <= 0) {
         density = hl_default_css_baseline_pixel_density;
@@ -115,7 +115,7 @@ int hl_set_baseline_pixel_density(struct HiDOMLayoutCtxt* ctx, int density)
     return HILAYOUT_OK;
 }
 
-css_unit hl_css_utils_fudge_viewport_units(const struct HiDOMLayoutCtxt *ctx, css_unit unit)
+css_unit hl_css_utils_fudge_viewport_units(const struct DOMRulerCtxt *ctx, css_unit unit)
 {
     switch (unit) {
         case CSS_UNIT_VI:
@@ -156,7 +156,7 @@ css_unit hl_css_utils_fudge_viewport_units(const struct HiDOMLayoutCtxt *ctx, cs
     return unit;
 }
 
-css_fixed hl_css_len2pt(const struct HiDOMLayoutCtxt *ctx, css_fixed length, css_unit unit)
+css_fixed hl_css_len2pt(const struct DOMRulerCtxt *ctx, css_fixed length, css_unit unit)
 {
     /* Length must not be relative */
     assert(unit != CSS_UNIT_EM &&
@@ -195,7 +195,7 @@ css_fixed hl_css_len2pt(const struct HiDOMLayoutCtxt *ctx, css_fixed length, css
     return 0;
 }
 
-css_fixed hl_css_len2px(const struct HiDOMLayoutCtxt *ctx,
+css_fixed hl_css_len2px(const struct DOMRulerCtxt *ctx,
         css_fixed length, css_unit unit, const css_computed_style *style)
 {
     /* We assume the screen and any other output has the same dpi */

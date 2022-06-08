@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -192,7 +192,7 @@ bool hl_pcdom_element_t_is_root(void *n)
     return false;
 }
 
-HiDOMLayoutNodeOp hl_pcdom_element_t_op = {
+DOMRulerNodeOp hl_pcdom_element_t_op = {
     .get_type = hl_pcdom_element_t_get_type,
     .get_name = hl_pcdom_element_t_get_name,
     .get_id = hl_pcdom_element_t_get_id,
@@ -206,7 +206,7 @@ HiDOMLayoutNodeOp hl_pcdom_element_t_op = {
     .is_root = hl_pcdom_element_t_is_root
 };
 
-HiDOMLayoutNodeOp *hl_pcdom_element_t_get_op()
+DOMRulerNodeOp *hl_pcdom_element_t_get_op()
 {
     return &hl_pcdom_element_t_op;
 }

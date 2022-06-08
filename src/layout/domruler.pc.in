@@ -3,9 +3,9 @@ exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
 
-Name: libhidomlayout
-Description: hidomlayout library
+Name: DOM Ruler
+Description: A library to maintain a DOM tree, lay out and stylize the DOM elements by using CSS.
 Version: 1.2
 Requires: glib-2.0
-Libs: -L${libdir} -lhidomlayout
+Libs: -L${libdir} -ldomruler
 Cflags: -I${includedir}

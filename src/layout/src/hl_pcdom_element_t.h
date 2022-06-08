@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -50,7 +50,7 @@
 #ifndef _HL_PCDOM_ELEMENT_T_H
 #define _HL_PCDOM_ELEMENT_T_H
 
-#include "hidomlayout.h"
+#include "domruler.h"
 #include "node.h"
 #include "libcss/libcss.h"
 
@@ -72,7 +72,7 @@ void *hl_pcdom_element_t_next(void *node);
 void *hl_pcdom_element_t_previous(void *node);
 bool hl_pcdom_element_t_is_root(void *node);
 
-HiDOMLayoutNodeOp *hl_pcdom_element_t_get_op();
+DOMRulerNodeOp *hl_pcdom_element_t_get_op();
 
 #ifdef __cplusplus
 }

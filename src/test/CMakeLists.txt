@@ -10,7 +10,7 @@
 #  https://www.fmsoft.cn/exception-list
 # 
 #
-#   This file is part of HiDOMLayout. hiDOMLayout is a library to
+#   This file is part of DOM Ruler. DOM Ruler is a library to
 #   maintain a DOM tree, lay out and stylize the DOM nodes by
 #   using CSS (Cascaded Style Sheets).
 #
@@ -62,7 +62,7 @@ list(APPEND node_test_SOURCES
 
 include_directories(${node_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 add_executable(node_test ${node_test_SOURCES})
-target_link_libraries(node_test hidomlayout ${GLIB_LIBRARIES})
+target_link_libraries(node_test domruler ${GLIB_LIBRARIES})
 
 # css
 list(APPEND css_select_test_INCLUDE_DIRECTORIES
@@ -79,7 +79,7 @@ list(APPEND css_select_test_SOURCES
 
 include_directories(${css_select_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 add_executable(css_select_test ${css_select_test_SOURCES})
-target_link_libraries(css_select_test hidomlayout ${GLIB_LIBRARIES})
+target_link_libraries(css_select_test domruler ${GLIB_LIBRARIES})
 
 list(APPEND css_select_test2_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/layout/include
@@ -95,7 +95,7 @@ list(APPEND css_select_test2_SOURCES
 
 include_directories(${css_select_test2_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 add_executable(css_select_test2 ${css_select_test2_SOURCES})
-target_link_libraries(css_select_test2 hidomlayout ${GLIB_LIBRARIES})
+target_link_libraries(css_select_test2 domruler ${GLIB_LIBRARIES})
 
 
 # layout_test
@@ -109,7 +109,7 @@ list(APPEND layout_test_SOURCES
 
 include_directories(${layout_test_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 add_executable(layout_test ${layout_test_SOURCES})
-target_link_libraries(layout_test hidomlayout ${GLIB_LIBRARIES})
+target_link_libraries(layout_test domruler ${GLIB_LIBRARIES})
 
 # layout_pcdom_element
 list(APPEND layout_pcdom_element_INCLUDE_DIRECTORIES
@@ -122,4 +122,4 @@ list(APPEND layout_pcdom_element_SOURCES
 
 include_directories(${layout_pcdom_element_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 add_executable(layout_pcdom_element ${layout_pcdom_element_SOURCES})
-target_link_libraries(layout_pcdom_element hidomlayout ${GLIB_LIBRARIES})
+target_link_libraries(layout_pcdom_element domruler ${GLIB_LIBRARIES})

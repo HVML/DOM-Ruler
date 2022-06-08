@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -50,7 +50,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "hidomlayout.h"
+#include "domruler.h"
 #include "node.h"
 #include "hl_dom_element_node.h"
 /*
@@ -138,13 +138,13 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "%s\n", css_data);
 
-    struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1280, 720, 72, 27);
+    struct DOMRulerCtxt *ctxt = domruler_create(1280, 720, 72, 27);
     if (ctxt == NULL) {
-        HL_LOGE("create HiDOMLayoutCtxt failed.\n");
+        HL_LOGE("create DOMRulerCtxt failed.\n");
         return HILAYOUT_INVALID;
     }
 
-    hidomlayout_append_css(ctxt, css_data, strlen(css_data));
+    domruler_append_css(ctxt, css_data, strlen(css_data));
 
     HLDomElement* root = hilayout_element_node_create("div");
     hilayout_element_node_set_id(root, "root");
@@ -187,7 +187,7 @@ int main(int argc, char **argv)
     hilayout_element_node_append_as_last_child(hijs2, page);
 
     fprintf(stderr, "####################################### layout ###########################\n");
-    hidomlayout_layout_hldom_elements(ctxt, root);
+    domruler_layout_hldom_elements(ctxt, root);
 
     const HLUsedTextValues* txtVaule = hilayout_element_node_get_used_text_value(ctxt, hijs);
     fprintf(stderr, "############### txtVaule=%p|txt->family=%s\n", txtVaule, txtVaule->font_family);

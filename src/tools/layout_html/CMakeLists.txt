@@ -10,7 +10,7 @@
 #  https://www.fmsoft.cn/exception-list
 # 
 #
-#   This file is part of HiDOMLayout. hiDOMLayout is a library to
+#   This file is part of DOM Ruler. DOM Ruler is a library to
 #   maintain a DOM tree, lay out and stylize the DOM nodes by
 #   using CSS (Cascaded Style Sheets).
 #
@@ -57,4 +57,4 @@ list(APPEND layout_html_SOURCES
 
 include_directories(${layout_html_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
 add_executable(layout_html ${layout_html_SOURCES})
-target_link_libraries(layout_html hidomlayout ${GLIB_LIBRARIES})
+target_link_libraries(layout_html domruler ${GLIB_LIBRARIES})

@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -95,7 +95,7 @@ int main(int argc, char **argv)
 
     hilayout_css_append_data(css, data, strlen(data));
 
-    struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1080, 720, 72, 27);
+    struct DOMRulerCtxt *ctxt = domruler_create(1080, 720, 72, 27);
     ctxt->origin_op = hl_dom_element_node_get_op();
 
     /* select style for each of h1 to h6 */
@@ -172,7 +172,7 @@ int main(int argc, char **argv)
 
 
     hilayout_css_destroy(css);
-    hidomlayout_destroy(ctxt);
+    domruler_destroy(ctxt);
 
     return 0;
 }

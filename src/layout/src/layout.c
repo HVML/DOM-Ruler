@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -121,7 +121,7 @@ int hl_select_child_style(const css_media *media, css_select_ctx *select_ctx,
 }
 
 
-void hl_calculate_mbp_width(const struct HiDOMLayoutCtxt *len_ctx,
+void hl_calculate_mbp_width(const struct DOMRulerCtxt *len_ctx,
             const css_computed_style *style, unsigned int side,
             bool margin, bool border, bool padding,
             int *fixed, float *frac)
@@ -164,7 +164,7 @@ void hl_calculate_mbp_width(const struct HiDOMLayoutCtxt *len_ctx,
     }
 }
 
-void hl_handle_box_sizing(const struct HiDOMLayoutCtxt *len_ctx, HiLayoutNode *node,
+void hl_handle_box_sizing(const struct DOMRulerCtxt *len_ctx, HiLayoutNode *node,
         int available_width, bool setwidth, int *dimension)
 {
     enum css_box_sizing_e bs;
@@ -189,7 +189,7 @@ void hl_handle_box_sizing(const struct HiDOMLayoutCtxt *len_ctx, HiLayoutNode *n
     }
 }
 
-void hl_find_dimensions(const struct HiDOMLayoutCtxt *len_ctx, int available_width,
+void hl_find_dimensions(const struct DOMRulerCtxt *len_ctx, int available_width,
                int viewport_height, HiLayoutNode *box,
                const css_computed_style *style,
                int *width, int *height,
@@ -535,7 +535,7 @@ int hl_computed_z_index(HiLayoutNode *node)
     return index;
 }
 
-int hl_block_find_dimensions(struct HiDOMLayoutCtxt *ctx,
+int hl_block_find_dimensions(struct DOMRulerCtxt *ctx,
         HiLayoutNode *node,
         int container_width,
         int container_height,
@@ -568,7 +568,7 @@ int hl_block_find_dimensions(struct HiDOMLayoutCtxt *ctx,
     node->box_values.h = sh;
 }
 
-void hl_computed_offsets(const struct HiDOMLayoutCtxt *len_ctx,
+void hl_computed_offsets(const struct DOMRulerCtxt *len_ctx,
                HiLayoutNode *box,
                HiLayoutNode *containing_block,
                int *top,
@@ -645,7 +645,7 @@ void hl_computed_offsets(const struct HiDOMLayoutCtxt *len_ctx,
 }
 
 
-int hl_layout_node(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node, int x, int y,
+int hl_layout_node(struct DOMRulerCtxt *ctx, HiLayoutNode *node, int x, int y,
         int container_width, int container_height, int level)
 {
     if (node == NULL) {
@@ -818,7 +818,7 @@ int hl_layout_node(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node, int x, int y
     return HILAYOUT_OK;
 }
 
-int hi_layout_do_layout(struct HiDOMLayoutCtxt *ctxt, HiLayoutNode *root)
+int hi_layout_do_layout(struct DOMRulerCtxt *ctxt, HiLayoutNode *root)
 {
     if (ctxt == NULL || ctxt->css == NULL || ctxt->css->sheet == NULL) {
         return HILAYOUT_BADPARM;

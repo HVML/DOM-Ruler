@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -51,7 +51,7 @@
 #include <string.h>
 
 #include "purc/purc.h"
-#include "hidomlayout.h"
+#include "domruler.h"
 #include "node.h"
 #include "hl_dom_element_node.h"
 #include "hl_pcdom_element_t.h"
@@ -97,7 +97,7 @@ void destory_user_data(void* data)
 
 }
 
-void print_layout_info(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *node)
+void print_layout_info(struct DOMRulerCtxt *ctxt, pcdom_element_t *node)
 {
     if (node->node.type == PCDOM_NODE_TYPE_TEXT
             || node->node.type == PCDOM_NODE_TYPE_UNDEF) {
@@ -106,7 +106,7 @@ void print_layout_info(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *node)
 
     const char *name = pcdom_element_tag_name(node, NULL);
     const char *id = pcdom_element_get_attribute(node, "id", 2, NULL);
-    const HLBox *box = hidomlayout_get_element_bounding_box(ctxt, node);
+    const HLBox *box = domruler_get_element_bounding_box(ctxt, node);
 
     if (box) {
         fprintf(stderr, "node|name=%s|id=%s|(x,y,w,h)=(%f,%f,%f,%f)\n", name, id,
@@ -114,7 +114,7 @@ void print_layout_info(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *node)
     }
 }
 
-void print_layout_result(struct HiDOMLayoutCtxt *ctxt, pcdom_element_t *elem)
+void print_layout_result(struct DOMRulerCtxt *ctxt, pcdom_element_t *elem)
 {
     print_layout_info(ctxt, elem);
     pcdom_element_t *child = (pcdom_element_t *)elem->node.first_child;
@@ -164,13 +164,13 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "%s\n", css_data);
 
-    struct HiDOMLayoutCtxt *ctxt = hidomlayout_create(1280, 720, 72, 27);
+    struct DOMRulerCtxt *ctxt = domruler_create(1280, 720, 72, 27);
     if (ctxt == NULL) {
-        HL_LOGE("create HiDOMLayoutCtxt failed.\n");
+        HL_LOGE("create DOMRulerCtxt failed.\n");
         return HILAYOUT_INVALID;
     }
 
-    hidomlayout_append_css(ctxt, css_data, strlen(css_data));
+    domruler_append_css(ctxt, css_data, strlen(css_data));
 
     pchtml_html_document_t *doc = pchtml_html_document_create();
     ret = pchtml_html_document_parse_with_buf(doc, html, strlen(html));
@@ -178,12 +178,12 @@ int main(int argc, char **argv)
     pcdom_document_t *document = pcdom_interface_document(doc);
     pcdom_element_t *root = document->element;
     fprintf(stderr, "####################################### layout ###########################\n");
-    ret = hidomlayout_layout_pcdom_elements(ctxt, root);
+    ret = domruler_layout_pcdom_elements(ctxt, root);
 
     print_layout_result(ctxt, root);
 
     pchtml_html_document_destroy(doc);
-    hidomlayout_destroy(ctxt);
+    domruler_destroy(ctxt);
 
     purc_cleanup ();
 

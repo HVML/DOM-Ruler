@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -49,7 +49,7 @@
 #ifndef _HL_UTILS_H_
 #define _HL_UTILS_H_
 
-#include "hidomlayout.h"
+#include "domruler.h"
 #include "internal.h"
 #include <libcss/libcss.h>
 
@@ -82,16 +82,16 @@ struct HiLayoutNode;
 extern "C" {
 #endif
 
-css_fixed hl_css_pixels_css_to_physical(const struct HiDOMLayoutCtxt *ctx,
+css_fixed hl_css_pixels_css_to_physical(const struct DOMRulerCtxt *ctx,
         css_fixed css_pixels);
-css_fixed hl_css_pixels_physical_to_css(const struct HiDOMLayoutCtxt *ctx,
+css_fixed hl_css_pixels_physical_to_css(const struct DOMRulerCtxt *ctx,
         css_fixed physical_pixels);
-int hl_set_media_dpi(struct HiDOMLayoutCtxt *ctx, int dpi);
-int hl_set_baseline_pixel_density(struct HiDOMLayoutCtxt *ctx, int density);
+int hl_set_media_dpi(struct DOMRulerCtxt *ctx, int dpi);
+int hl_set_baseline_pixel_density(struct DOMRulerCtxt *ctx, int density);
 
-css_unit hl_css_utils_fudge_viewport_units(const struct HiDOMLayoutCtxt *ctx, css_unit unit);
-css_fixed hl_css_len2pt(const struct HiDOMLayoutCtxt *ctx, css_fixed length, css_unit unit);
-css_fixed hl_css_len2px(const struct HiDOMLayoutCtxt *ctx,
+css_unit hl_css_utils_fudge_viewport_units(const struct DOMRulerCtxt *ctx, css_unit unit);
+css_fixed hl_css_len2pt(const struct DOMRulerCtxt *ctx, css_fixed length, css_unit unit);
+css_fixed hl_css_len2px(const struct DOMRulerCtxt *ctx,
         css_fixed length, css_unit unit, const css_computed_style *style);
 
 uint8_t hl_computed_min_height(

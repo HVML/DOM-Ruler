@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -49,7 +49,7 @@
 #ifndef _HL_INTERNAL_H
 #define _HL_INTERNAL_H
 
-#include "hidomlayout.h"
+#include "domruler.h"
 #include <libcss/libcss.h>
 
 #include <glib.h>
@@ -57,7 +57,7 @@
 
 struct HiLayoutNode;
 
-struct HiDOMLayoutCtxt {
+struct DOMRulerCtxt {
     // media
     uint32_t width;
     uint32_t height;
@@ -77,7 +77,7 @@ struct HiDOMLayoutCtxt {
 
     // Origin Root Node
     void *origin_root;
-    HiDOMLayoutNodeOp *origin_op;
+    DOMRulerNodeOp *origin_op;
 
     GHashTable *node_map; // key(origin node pointer) -> value(HiLayoutNode *)
 };

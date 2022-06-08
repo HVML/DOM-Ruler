@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -58,8 +58,8 @@ extern "C" {
 
 int hl_computed_z_index(HiLayoutNode *node);
 
-int hi_layout_do_layout(struct HiDOMLayoutCtxt* ctx, HiLayoutNode *root);
-int hl_layout_child_node_grid(struct HiDOMLayoutCtxt* ctx, HiLayoutNode *node,
+int hi_layout_do_layout(struct DOMRulerCtxt* ctx, HiLayoutNode *root);
+int hl_layout_child_node_grid(struct DOMRulerCtxt* ctx, HiLayoutNode *node,
         int level);
 
 #ifdef __cplusplus

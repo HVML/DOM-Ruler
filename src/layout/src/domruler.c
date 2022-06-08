@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -47,7 +47,7 @@
  */
 
 
-#include "hidomlayout.h"
+#include "domruler.h"
 #include "internal.h"
 #include "layout.h"
 
@@ -61,7 +61,7 @@
 #include <stdlib.h>
 
 static inline
-bool hl_verify_handler(HiDOMLayoutNodeOp *op)
+bool hl_verify_handler(DOMRulerNodeOp *op)
 {
     if (!op || !op->get_type || !op->get_name
             || !op->get_id || !op->get_classes
@@ -75,11 +75,11 @@ bool hl_verify_handler(HiDOMLayoutNodeOp *op)
     return true;
 }
 
-struct HiDOMLayoutCtxt *hidomlayout_create(uint32_t width, uint32_t height,
+struct DOMRulerCtxt *domruler_create(uint32_t width, uint32_t height,
         uint32_t dpi, uint32_t density)
 {
-    struct HiDOMLayoutCtxt *ctxt = (struct HiDOMLayoutCtxt *)calloc(1,
-            sizeof(struct HiDOMLayoutCtxt));
+    struct DOMRulerCtxt *ctxt = (struct DOMRulerCtxt *)calloc(1,
+            sizeof(struct DOMRulerCtxt));
     if (ctxt == NULL) {
         return NULL;
     }
@@ -91,13 +91,13 @@ struct HiDOMLayoutCtxt *hidomlayout_create(uint32_t width, uint32_t height,
     ctxt->node_map = g_hash_table_new_full(g_direct_hash,
             g_direct_equal, NULL, cb_hi_layout_node_destroy);
     if (ctxt->node_map == NULL) {
-        hidomlayout_destroy(ctxt);
+        domruler_destroy(ctxt);
         return NULL;
     }
     return ctxt;
 }
 
-int hidomlayout_append_css(struct HiDOMLayoutCtxt *ctxt, const char *css,
+int domruler_append_css(struct DOMRulerCtxt *ctxt, const char *css,
         size_t nr_css)
 {
     if (!ctxt || !css) {
@@ -112,8 +112,8 @@ int hidomlayout_append_css(struct HiDOMLayoutCtxt *ctxt, const char *css,
     return hilayout_css_append_data(ctxt->css, css, nr_css);
 }
 
-int hidomlayout_layout(struct HiDOMLayoutCtxt *ctxt, void *root_node,
-        HiDOMLayoutNodeOp *op)
+int domruler_layout(struct DOMRulerCtxt *ctxt, void *root_node,
+        DOMRulerNodeOp *op)
 {
     ctxt->origin_root = root_node;
     ctxt->origin_op = op;
@@ -121,7 +121,7 @@ int hidomlayout_layout(struct HiDOMLayoutCtxt *ctxt, void *root_node,
     return hi_layout_do_layout(ctxt, layout_node);
 }
 
-const HLBox *hidomlayout_get_element_bounding_box(struct HiDOMLayoutCtxt *ctxt,
+const HLBox *domruler_get_element_bounding_box(struct DOMRulerCtxt *ctxt,
         void *node)
 {
     HiLayoutNode *layout = (HiLayoutNode*)g_hash_table_lookup(ctxt->node_map,
@@ -129,7 +129,7 @@ const HLBox *hidomlayout_get_element_bounding_box(struct HiDOMLayoutCtxt *ctxt,
     return layout ? &layout->box_values : NULL;
 }
 
-void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt)
+void domruler_destroy(struct DOMRulerCtxt *ctxt)
 {
     if (!ctxt) {
         return;
@@ -145,16 +145,16 @@ void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt)
     free(ctxt);
 }
 
-int hidomlayout_layout_hldom_elements(struct HiDOMLayoutCtxt *ctxt,
+int domruler_layout_hldom_elements(struct DOMRulerCtxt *ctxt,
         HLDomElement *root_node)
 {
-    return hidomlayout_layout(ctxt, root_node, hl_dom_element_node_get_op());
+    return domruler_layout(ctxt, root_node, hl_dom_element_node_get_op());
 }
 
-int hidomlayout_layout_pcdom_elements(struct HiDOMLayoutCtxt *ctxt,
+int domruler_layout_pcdom_elements(struct DOMRulerCtxt *ctxt,
         pcdom_element_t *root_node)
 {
-    return hidomlayout_layout(ctxt, root_node, hl_pcdom_element_t_get_op());
+    return domruler_layout(ctxt, root_node, hl_pcdom_element_t_get_op());
 }
 
 

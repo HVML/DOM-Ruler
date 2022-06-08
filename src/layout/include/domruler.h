@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -47,8 +47,8 @@
  */
 
 
-#ifndef _HI_DOMLAYOUT_H_
-#define _HI_DOMLAYOUT_H_
+#ifndef _DOMRULER_H_
+#define _DOMRULER_H_
 
 #include "purc/purc.h"
 #include <stdio.h>
@@ -151,7 +151,7 @@ typedef enum {
 
 typedef void (*cb_free_attach_data) (void *data);
 
-typedef struct HiDOMLayoutNodeOp {
+typedef struct DOMRulerNodeOp {
     HLNodeType (*get_type)(void *node);
     const char *(*get_name)(void *node);
     const char *(*get_id)(void *node);
@@ -163,7 +163,7 @@ typedef struct HiDOMLayoutNodeOp {
     void *(*next)(void *node);
     void *(*previous)(void *node);
     bool (*is_root)(void *node);
-} HiDOMLayoutNodeOp;
+} DOMRulerNodeOp;
 
 // property
 
@@ -805,36 +805,36 @@ typedef struct HLMedia_ {
 } HLMedia;
 
 
-struct HiDOMLayoutCtxt;
+struct DOMRulerCtxt;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
- * @defgroup hiDOMLayout API
+ * @defgroup DOM Ruler API
  * @{
  */
 
 /**
- *  create HiDOMLayoutCtxt
+ *  create DOMRulerCtxt
  *
  * @param width: media width
  * @param height: media height
  * @param dpi: media dpi
  * @param density: media density
  *
- * Returns: HiDOMLayoutCtxt pointer if success; NULL otherwise.
+ * Returns: DOMRulerCtxt pointer if success; NULL otherwise.
  *
  * Since: 1.2
  */
-struct HiDOMLayoutCtxt *hidomlayout_create(uint32_t width, uint32_t height,
+struct DOMRulerCtxt *domruler_create(uint32_t width, uint32_t height,
         uint32_t dpi, uint32_t density);
 
 /**
- * Add css data into HiDOMLayoutCtxt.
+ * Add css data into DOMRulerCtxt.
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  * @param css: the css data
  * @param nr_css: The length of css data , in bytes
  *
@@ -842,71 +842,71 @@ struct HiDOMLayoutCtxt *hidomlayout_create(uint32_t width, uint32_t height,
  *
  * Since: 1.2
  */
-int hidomlayout_append_css(struct HiDOMLayoutCtxt *ctxt, const char *css,
+int domruler_append_css(struct DOMRulerCtxt *ctxt, const char *css,
         size_t nr_css);
 
 /**
  * layout dom tree
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  * @param root_node: the pointer to the root node
- * @param op: the opinter to HiDOMLayoutNodeOp
+ * @param op: the opinter to DOMRulerNodeOp
  *
  * Returns: zero if success; an error code (!=0) otherwise.
  *
  * Since: 1.2
  */
-int hidomlayout_layout(struct HiDOMLayoutCtxt *ctxt, void *root_node,
-        HiDOMLayoutNodeOp *op);
+int domruler_layout(struct DOMRulerCtxt *ctxt, void *root_node,
+        DOMRulerNodeOp *op);
 
 /**
  * Get HLBox of the node
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  * @param node: the pointer to the node
  *
  * Returns: HLBox pointer if success; NULL otherwise.
  *
  * Since: 1.2
  */
-const HLBox *hidomlayout_get_element_bounding_box(struct HiDOMLayoutCtxt *ctxt,
+const HLBox *domruler_get_element_bounding_box(struct DOMRulerCtxt *ctxt,
         void *node);
 
 
 /**
- * Destroy HiDOMLayoutCtxt
+ * Destroy DOMRulerCtxt
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  *
  * Since: 1.2
  */
-void hidomlayout_destroy(struct HiDOMLayoutCtxt *ctxt);
+void domruler_destroy(struct DOMRulerCtxt *ctxt);
 
 
 /**
  * layout HLDomElement
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  * @param root_node: the pointer to the root node HLDomElement
  *
  * Returns: zero if success; an error code (!=0) otherwise.
  *
  * Since: 1.2
  */
-int hidomlayout_layout_hldom_elements(struct HiDOMLayoutCtxt *ctxt,
+int domruler_layout_hldom_elements(struct DOMRulerCtxt *ctxt,
         HLDomElement *root_node);
 
 /**
  * layout pcdom_element_t
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  * @param root_node: the pointer to the root node pcdom_element_t
  *
  * Returns: zero if success; an error code (!=0) otherwise.
  *
  * Since: 1.2
  */
-int hidomlayout_layout_pcdom_elements(struct HiDOMLayoutCtxt *ctxt,
+int domruler_layout_pcdom_elements(struct DOMRulerCtxt *ctxt,
         pcdom_element_t *root_node);
 
 /**
@@ -1269,7 +1269,7 @@ void hilayout_element_node_destroy(HLDomElement *node);
  * @deprecated since 1.2
  * Get HLBox of the HLDomElement
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  * @param node: the pointer to the HLDomElement
  *
  * Returns: HLBox pointer if success; NULL otherwise.
@@ -1277,14 +1277,14 @@ void hilayout_element_node_destroy(HLDomElement *node);
  * Since: 1.0
  */
 const HLBox *
-hilayout_element_node_get_used_box_value(struct HiDOMLayoutCtxt *ctxt,
+hilayout_element_node_get_used_box_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node);
 
 /**
  * @deprecated since 1.2
  * Get HLUsedBackgroundValues of the HLDomElement
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  * @param node: the pointer to the HLDomElement
  *
  * Returns: HLUsedBackgroundValues pointer if success; NULL otherwise.
@@ -1292,14 +1292,14 @@ hilayout_element_node_get_used_box_value(struct HiDOMLayoutCtxt *ctxt,
  * Since: 1.0
  */
 const HLUsedBackgroundValues *
-hilayout_element_node_get_used_background_value(struct HiDOMLayoutCtxt *ctxt,
+hilayout_element_node_get_used_background_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node);
 
 /**
  * @deprecated since 1.2
  * Get HLUsedTextValues of the HLDomElement
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  * @param node: the pointer to the HLDomElement
  *
  * Returns: HLUsedTextValues pointer if success; NULL otherwise.
@@ -1307,14 +1307,14 @@ hilayout_element_node_get_used_background_value(struct HiDOMLayoutCtxt *ctxt,
  * Since: 1.0
  */
 const HLUsedTextValues *
-hilayout_element_node_get_used_text_value(struct HiDOMLayoutCtxt *ctxt,
+hilayout_element_node_get_used_text_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node);
 
 /**
  * @deprecated since 1.2
  * Get HLUsedSvgValues of the HLDomElement
  *
- * @param ctxt: the pointer to the HiDOMLayoutCtxt
+ * @param ctxt: the pointer to the DOMRulerCtxt
  * @param node: the pointer to the HLDomElement
  *
  * Returns: HLUsedSvgValues pointer if success; NULL otherwise.
@@ -1322,7 +1322,7 @@ hilayout_element_node_get_used_text_value(struct HiDOMLayoutCtxt *ctxt,
  * Since: 1.0
  */
 HLUsedSvgValues *
-hilayout_element_node_get_used_svg_value(struct HiDOMLayoutCtxt *ctxt,
+hilayout_element_node_get_used_svg_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node);
 
 /**
@@ -1444,4 +1444,4 @@ void hilayout_element_node_depth_first_search_tree(HLDomElement *node,
 }
 #endif
 
-#endif // _HI_DOMLAYOUT_H_
+#endif // _DOMRULER_H_

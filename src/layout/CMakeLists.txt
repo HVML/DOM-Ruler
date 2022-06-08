@@ -1,20 +1,20 @@
 #
-# 
+#
 #                           IMPORTANT NOTICE
-# 
+#
 #  The following open source license statement does not apply to any
 #  entity in the Exception List published by FMSoft.
-# 
-#  For more information, please visit:
-# 
-#  https://www.fmsoft.cn/exception-list
-# 
 #
-#   This file is part of HiDOMLayout. hiDOMLayout is a library to
+#  For more information, please visit:
+#
+#  https://www.fmsoft.cn/exception-list
+#
+#
+#   This file is part of DOM Ruler. DOM Ruler is a library to
 #   maintain a DOM tree, lay out and stylize the DOM nodes by
 #   using CSS (Cascaded Style Sheets).
 #
-#   Copyright (C) 2021 Beijing FMSoft Technologies Co., Ltd.
+#   Copyright (C) 2021, 2022 Beijing FMSoft Technologies Co., Ltd.
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU Lesser General License as published by
@@ -44,11 +44,11 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-project(hidomlayout VERSION 1.2.0)
+project(domruler VERSION 1.2.0)
 
 #add_definitions(-D_DEBUG)
 
-list(APPEND hidomlayout_INCLUDE_DIRECTORIES
+list(APPEND domruler_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/third-party/libparserutils/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libwapcaplet/include
     ${CMAKE_SOURCE_DIR}/src/third-party/libcss/include
@@ -56,7 +56,7 @@ list(APPEND hidomlayout_INCLUDE_DIRECTORIES
     ${CMAKE_SOURCE_DIR}/src/layout/src
 )
 
-list(APPEND hidomlayout_SOURCES
+list(APPEND domruler_SOURCES
     src/node.c
     src/select.c
     src/utils.c
@@ -65,17 +65,17 @@ list(APPEND hidomlayout_SOURCES
     src/layout_grid.c
     src/hl_dom_element_node.c
     src/hl_pcdom_element_t.c
-    src/hidomlayout.c
+    src/domruler.c
 )
 
-include_directories(${hidomlayout_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS} ${PURC_INCLUDE_DIRS})
+include_directories(${domruler_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS} ${PURC_INCLUDE_DIRS})
 link_directories(${GLIB_LIBRARIES})
-add_library(hidomlayout SHARED ${hidomlayout_SOURCES})
-set_target_properties(hidomlayout PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
-target_link_libraries(hidomlayout css  ${PURC_LIBRARIES})
+add_library(domruler SHARED ${domruler_SOURCES})
+set_target_properties(domruler PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
+target_link_libraries(domruler css  ${PURC_LIBRARIES})
 
 
-configure_file(hidomlayout.pc.in hidomlayout.pc @ONLY)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hidomlayout.pc DESTINATION lib/pkgconfig)
-install(FILES ${CMAKE_SOURCE_DIR}/src/layout/include/hidomlayout.h DESTINATION include)
-install(TARGETS hidomlayout DESTINATION lib)
+configure_file(domruler.pc.in domruler.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/domruler.pc DESTINATION lib/pkgconfig)
+install(FILES ${CMAKE_SOURCE_DIR}/src/layout/include/domruler.h DESTINATION include)
+install(TARGETS domruler DESTINATION lib)

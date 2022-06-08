@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -159,7 +159,7 @@ void hilayout_element_node_destroy(HLDomElement *node)
 }
 
 const HLBox *
-hilayout_element_node_get_used_box_value(struct HiDOMLayoutCtxt *ctxt,
+hilayout_element_node_get_used_box_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node)
 {
     if (!ctxt || !node) {
@@ -174,7 +174,7 @@ hilayout_element_node_get_used_box_value(struct HiDOMLayoutCtxt *ctxt,
 }
 
 const HLUsedBackgroundValues *
-hilayout_element_node_get_used_background_value(struct HiDOMLayoutCtxt *ctxt,
+hilayout_element_node_get_used_background_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node)
 {
     if (!ctxt || !node) {
@@ -189,7 +189,7 @@ hilayout_element_node_get_used_background_value(struct HiDOMLayoutCtxt *ctxt,
 }
 
 const HLUsedTextValues *
-hilayout_element_node_get_used_text_value(struct HiDOMLayoutCtxt *ctxt,
+hilayout_element_node_get_used_text_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node)
 {
     if (!ctxt || !node) {
@@ -205,7 +205,7 @@ hilayout_element_node_get_used_text_value(struct HiDOMLayoutCtxt *ctxt,
 
 
 HLUsedSvgValues *
-hilayout_element_node_get_used_svg_value(struct HiDOMLayoutCtxt *ctxt,
+hilayout_element_node_get_used_svg_value(struct DOMRulerCtxt *ctxt,
         HLDomElement *node)
 {
     if (!ctxt || !node) {
@@ -923,7 +923,7 @@ bool hl_dom_element_node_is_root(void *node)
     return true;
 }
 
-HiDOMLayoutNodeOp hl_dom_element_node_op = {
+DOMRulerNodeOp hl_dom_element_node_op = {
     .get_type = hl_dom_element_node_get_type,
     .get_name = hl_dom_element_node_get_name,
     .get_id = hl_dom_element_node_get_id,
@@ -937,7 +937,7 @@ HiDOMLayoutNodeOp hl_dom_element_node_op = {
     .is_root = hl_dom_element_node_is_root
 };
 
-HiDOMLayoutNodeOp *hl_dom_element_node_get_op()
+DOMRulerNodeOp *hl_dom_element_node_get_op()
 {
     return &hl_dom_element_node_op;
 }

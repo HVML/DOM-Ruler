@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -52,7 +52,7 @@
 
 #include <libcss/libcss.h>
 
-#include "hidomlayout.h"
+#include "domruler.h"
 
 #include "node.h"
 

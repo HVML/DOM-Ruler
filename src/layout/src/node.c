@@ -12,7 +12,7 @@
 /**
  \verbatim
 
-    This file is part of HiDOMLayout. hiDOMLayout is a library to
+    This file is part of DOM Ruler. DOM Ruler is a library to
     maintain a DOM tree, lay out and stylize the DOM nodes by
     using CSS (Cascaded Style Sheets).
 
@@ -214,7 +214,7 @@ int hl_find_background(HiLayoutNode *node)
     return HILAYOUT_OK;
 }
 
-int hl_find_font(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node)
+int hl_find_font(struct DOMRulerCtxt *ctx, HiLayoutNode *node)
 {
     lwc_string **families;
     css_fixed length = 0;
@@ -379,7 +379,7 @@ void hl_grid_item_destroy(HLGridItem *p)
     }
 }
 
-HLGridTemplate *hl_grid_template_create(const struct HiDOMLayoutCtxt *ctx,
+HLGridTemplate *hl_grid_template_create(const struct DOMRulerCtxt *ctx,
         HiLayoutNode *node)
 {
     if (node == NULL) {
@@ -475,7 +475,7 @@ void hl_grid_template_destroy(HLGridTemplate *p)
     free(p);
 }
 
-void hl_for_each_child(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
+void hl_for_each_child(struct DOMRulerCtxt *ctx, HiLayoutNode *node,
         each_child_callback callback, void *user_data)
 {
     if (ctx == NULL || node == NULL || callback == NULL) {
@@ -490,7 +490,7 @@ void hl_for_each_child(struct HiDOMLayoutCtxt *ctx, HiLayoutNode *node,
 }
 
 // BEGIN: HiLayoutNode  < ----- > Origin Node
-HiLayoutNode *hi_layout_node_from_origin_node(struct HiDOMLayoutCtxt *ctxt,
+HiLayoutNode *hi_layout_node_from_origin_node(struct DOMRulerCtxt *ctxt,
         void *origin)
 {
     if (!ctxt || !origin) {
@@ -542,7 +542,7 @@ HiLayoutNode *hi_layout_node_from_origin_node(struct HiDOMLayoutCtxt *ctxt,
 }
 
 void *hi_layout_node_to_origin_node(HiLayoutNode *layout,
-        HiDOMLayoutNodeOp **op)
+        DOMRulerNodeOp **op)
 {
     if (!layout->origin) {
         return NULL;
