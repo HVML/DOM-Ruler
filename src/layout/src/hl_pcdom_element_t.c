@@ -96,12 +96,18 @@ const char *hl_pcdom_element_t_get_name(void *n)
 {
     pcdom_element_t *elem = (pcdom_element_t *)n;
     const char *name = NULL;
+
+    /* VM: for node not element, return NULL */
     if (elem->node.type == PCDOM_NODE_TYPE_TEXT) {
         name = "TEXT";
     }
-    else {
+    else if (elem->node.type == PCDOM_NODE_TYPE_ELEMENT) {
         name = pcdom_element_tag_name(elem, NULL);
     }
+    else {
+        name = NULL;
+    }
+
     return name;
 }
 

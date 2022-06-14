@@ -872,6 +872,14 @@ int domruler_layout(struct DOMRulerCtxt *ctxt, void *root_node,
 const HLBox *domruler_get_element_bounding_box(struct DOMRulerCtxt *ctxt,
         void *node);
 
+/**
+ * Reset the elements cached by the DOMRulerCtxt.
+ *
+ * @param ctxt: the pointer to the DOMRulerCtxt
+ *
+ * Since: 1.2.1
+ */
+void domruler_reset_elements(struct DOMRulerCtxt *ctxt);
 
 /**
  * Destroy DOMRulerCtxt

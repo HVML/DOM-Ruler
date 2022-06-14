@@ -527,7 +527,9 @@ HiLayoutNode *hi_layout_node_from_origin_node(struct DOMRulerCtxt *ctxt,
         layout->inner_classes = (lwc_string**)calloc(nr_classes,
                 sizeof(lwc_string*));
         for (int i = 0; i < nr_classes; i++) {
-            layout->inner_classes[i++]= hl_lwc_string_dup(classes[i]);
+            // VM FIXED
+            // layout->inner_classes[i++]= hl_lwc_string_dup(classes[i]);
+            layout->inner_classes[i]= hl_lwc_string_dup(classes[i]);
             free(classes[i]);
         }
         layout->nr_inner_classes = nr_classes;

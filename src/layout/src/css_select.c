@@ -1106,7 +1106,8 @@ destroy_hl_css_data_package(void* data)
         return;
     }
     HlCSSDataPackage* pkg = (HlCSSDataPackage*)data;
-    css_libcss_node_data_handler(&hl_css_select_handler, CSS_NODE_MODIFIED,
+    /* VW: changed from CSS_NODE_MODIFIED to CSS_NODE_DELETED */
+    css_libcss_node_data_handler(&hl_css_select_handler, CSS_NODE_DELETED,
             NULL, pkg->node, NULL, pkg->libcss_node_data);
     free(pkg);
 }
@@ -1133,6 +1134,15 @@ css_select_results *hl_get_node_style(const css_media *media,
             &hl_css_select_handler, NULL, &styles);
 
     if (error != CSS_OK || styles == NULL) {
+        /* VW: clear the inner data if failed. */
+        HlCSSDataPackage* pkg = hi_layout_node_get_inner_data(node,
+                HL_INNER_CSS_SELECT_ATTACH);
+        if (pkg) {
+            free(pkg);
+        }
+        hi_layout_node_set_inner_data(node, HL_INNER_CSS_SELECT_ATTACH,
+                NULL, NULL);
+
         /* Failed selecting partial style -- bail out */
         hl_css_stylesheet_destroy(inline_style);
         return NULL;

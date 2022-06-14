@@ -145,6 +145,18 @@ void domruler_destroy(struct DOMRulerCtxt *ctxt)
     free(ctxt);
 }
 
+/* VM: reset elements for re-layout when DOM changed */
+void domruler_reset_elements(struct DOMRulerCtxt *ctxt)
+{
+    if (!ctxt) {
+        return;
+    }
+
+    if (ctxt->node_map) {
+        g_hash_table_remove_all(ctxt->node_map);
+    }
+}
+
 int domruler_layout_hldom_elements(struct DOMRulerCtxt *ctxt,
         HLDomElement *root_node)
 {
