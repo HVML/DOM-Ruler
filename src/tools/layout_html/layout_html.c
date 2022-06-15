@@ -224,7 +224,7 @@ void print_layout_info(struct DOMRulerCtxt *ctxt, pcdom_element_t *node)
 
     const char *name = pcdom_element_tag_name(node, NULL);
     const char *id = pcdom_element_get_attribute(node, "id", 2, NULL);
-    const HLBox *box = domruler_get_element_bounding_box(ctxt, node);
+    const HLBox *box = domruler_get_node_bounding_box(ctxt, node);
 
     if (box) {
         fprintf(stderr, "node|name=%s|id=%s", name, id);

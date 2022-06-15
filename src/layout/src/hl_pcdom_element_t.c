@@ -105,7 +105,7 @@ const char *hl_pcdom_element_t_get_name(void *n)
         name = pcdom_element_tag_name(elem, NULL);
     }
     else {
-        name = NULL;
+        name = "NOT-INTEND-TO-LAYOUT";
     }
 
     return name;

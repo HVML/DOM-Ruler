@@ -869,7 +869,7 @@ int domruler_layout(struct DOMRulerCtxt *ctxt, void *root_node,
  *
  * Since: 1.2
  */
-const HLBox *domruler_get_element_bounding_box(struct DOMRulerCtxt *ctxt,
+const HLBox *domruler_get_node_bounding_box(struct DOMRulerCtxt *ctxt,
         void *node);
 
 /**
@@ -879,7 +879,7 @@ const HLBox *domruler_get_element_bounding_box(struct DOMRulerCtxt *ctxt,
  *
  * Since: 1.2.1
  */
-void domruler_reset_elements(struct DOMRulerCtxt *ctxt);
+void domruler_reset_nodes(struct DOMRulerCtxt *ctxt);
 
 /**
  * Destroy DOMRulerCtxt
