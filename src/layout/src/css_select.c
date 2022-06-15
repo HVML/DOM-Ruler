@@ -204,7 +204,7 @@ dom_node_get_previous_sibling(HiLayoutNode *node, HiLayoutNode **result)
 static css_error
 named_sibling_node(void *pw, void *n, const css_qname *qname, void **sibling)
 {
-    HiLayoutNode *node = node;
+    HiLayoutNode *node = n;
     HiLayoutNode *prev;
     int err;
 
@@ -377,7 +377,7 @@ static css_error
 node_has_class(void *pw, void *n, lwc_string *name, bool *match)
 {
     unsigned int class;
-    HiLayoutNode *node = node;
+    HiLayoutNode *node = n;
 
     /* Short-circuit case where we have no classes */
     if (node->nr_inner_classes == 0) {
