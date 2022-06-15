@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: DOM Ruler
 Description: A library to maintain a DOM tree, lay out and stylize the DOM elements by using CSS.
-Version: 1.2
+Version: 1.2.1
 Requires: glib-2.0
 Libs: -L${libdir} -ldomruler
 Cflags: -I${includedir}
