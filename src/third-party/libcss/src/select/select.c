@@ -1154,6 +1154,10 @@ static css_error css_select__initialise_selection_state(
 	return CSS_OK;
 
 failed:
+    /* FIXME: xue node : bloom belong to its parent */
+    if (state->node_data->bloom) {
+        state->node_data->bloom = NULL;
+    }
 	css_select__finalise_selection_state(state);
 	return error;
 }
