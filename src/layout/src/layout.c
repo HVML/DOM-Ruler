@@ -649,7 +649,9 @@ int hl_layout_node(struct DOMRulerCtxt *ctx, HiLayoutNode *node, int x, int y,
         int container_width, int container_height, int level)
 {
     if (node == NULL) {
-        HL_LOGD("layout node|level=%d|node=%p(%p)|name=%s|id=%s\n", level, node, node->origin, hi_layout_node_get_name(node), hi_layout_node_get_id(node));
+        HL_LOGD("layout node|level=%d|node=%p(%p)|name=%s|id=%s\n", level,
+                node, node->origin, hi_layout_node_get_name(node),
+                hi_layout_node_get_id(node));
         return HILAYOUT_OK;
     }
 
@@ -660,7 +662,8 @@ int hl_layout_node(struct DOMRulerCtxt *ctx, HiLayoutNode *node, int x, int y,
     hl_find_background(node);
     hl_find_font(ctx, node);
 
-    if (hi_layout_node_get_type(node) == DOM_TEXT_NODE) {
+    // filter non element node
+    if (hi_layout_node_get_type(node) != DOM_ELEMENT_NODE) {
         return HILAYOUT_OK;
     }
 
@@ -710,6 +713,11 @@ int hl_layout_node(struct DOMRulerCtxt *ctx, HiLayoutNode *node, int x, int y,
 
     HiLayoutNode *child = hi_layout_node_first_child(node);
     if (child == NULL) {
+        HL_LOGD("layout node end|level=%d|node=%p(%p)|name=%s|id=%s|"
+                "(x, y, w, h)=(%d, %d, %d, %d)\n", level, node, node->origin,
+                hi_layout_node_get_name(node), hi_layout_node_get_id(node),
+                (int)node->box_values.x, (int)node->box_values.y,
+                (int)node->box_values.w, (int)node->box_values.h);
         return HILAYOUT_OK;
     }
 
@@ -734,6 +742,11 @@ int hl_layout_node(struct DOMRulerCtxt *ctx, HiLayoutNode *node, int x, int y,
     int line_height = 0;
     int prev_width = 0;
     while(child) {
+        // filter non element node
+        if (hi_layout_node_get_type(child) != DOM_ELEMENT_NODE) {
+            child = hi_layout_node_next(child);
+            continue;
+        }
 
         if (css_computed_position(child->computed_style) ==
                 CSS_POSITION_FIXED) {
@@ -815,6 +828,11 @@ int hl_layout_node(struct DOMRulerCtxt *ctx, HiLayoutNode *node, int x, int y,
         child = hi_layout_node_next(child);
     }
 
+    HL_LOGD("layout node end|level=%d|node=%p(%p)|name=%s|id=%s|"
+            "(x, y, w, h)=(%d, %d, %d, %d)\n", level, node, node->origin,
+            hi_layout_node_get_name(node), hi_layout_node_get_id(node),
+            (int)node->box_values.x, (int)node->box_values.y,
+            (int)node->box_values.w, (int)node->box_values.h);
     return HILAYOUT_OK;
 }
 

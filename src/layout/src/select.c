@@ -315,6 +315,12 @@ void hl_computed_node_display(HiLayoutNode *node)
 int hl_select_node_style(const css_media *media, css_select_ctx *select_ctx,
         HiLayoutNode *node)
 {
+    // filter non element node
+    HLNodeType type = hi_layout_node_get_type(node);
+    if (type != DOM_ELEMENT_NODE) {
+        return HILAYOUT_OK;
+    }
+
     css_select_results* result = hl_get_node_style(media, select_ctx, node);
     if (result) {
         if (node->select_styles) {
