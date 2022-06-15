@@ -102,7 +102,6 @@ void hi_layout_node_destroy(HiLayoutNode *node)
         }
         free(node->attach_data);
     }
-    free(node);
 
     if (node->inner_tag) {
         lwc_string_unref(node->inner_tag);
@@ -117,6 +116,7 @@ void hi_layout_node_destroy(HiLayoutNode *node)
         }
         free(node->inner_classes);
     }
+    free(node);
 }
 
 int hi_layout_node_set_attach_data(HiLayoutNode *node,
