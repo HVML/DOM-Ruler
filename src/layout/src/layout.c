@@ -581,7 +581,7 @@ void hl_computed_offsets(const struct DOMRulerCtxt *len_ctx,
     css_fixed value = 0;
     css_unit unit = CSS_UNIT_PX;
 
-#if 1
+#if 0
     assert(containing_block->box_values.w != HL_UNKNOWN &&
             containing_block->box_values.w != HL_AUTO &&
             containing_block->box_values.h != HL_AUTO);

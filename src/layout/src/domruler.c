@@ -121,7 +121,7 @@ int domruler_layout(struct DOMRulerCtxt *ctxt, void *root_node,
     return hi_layout_do_layout(ctxt, layout_node);
 }
 
-const HLBox *domruler_get_element_bounding_box(struct DOMRulerCtxt *ctxt,
+const HLBox *domruler_get_node_bounding_box(struct DOMRulerCtxt *ctxt,
         void *node)
 {
     HiLayoutNode *layout = (HiLayoutNode*)g_hash_table_lookup(ctxt->node_map,
@@ -146,13 +146,9 @@ void domruler_destroy(struct DOMRulerCtxt *ctxt)
 }
 
 /* VM: reset elements for re-layout when DOM changed */
-void domruler_reset_elements(struct DOMRulerCtxt *ctxt)
+void domruler_reset_nodes(struct DOMRulerCtxt *ctxt)
 {
-    if (!ctxt) {
-        return;
-    }
-
-    if (ctxt->node_map) {
+    if (ctxt && ctxt->node_map) {
         g_hash_table_remove_all(ctxt->node_map);
     }
 }
