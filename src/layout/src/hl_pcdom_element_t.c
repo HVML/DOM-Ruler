@@ -113,21 +113,47 @@ const char *hl_pcdom_element_t_get_name(void *n)
 
 const char *hl_pcdom_element_t_get_id(void *n)
 {
-    pcdom_element_t *elem = (pcdom_element_t *)n;
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    if (node->type == PCDOM_NODE_TYPE_ELEMENT) {
+        pcdom_element_t *elem = (pcdom_element_t *)n;
+        if (elem->attr_id) {
+            return pcdom_attr_value(elem->attr_id, NULL);
+        }
+    }
+
+    return NULL;
+
+#if 0
     const char *id = pcdom_element_get_attribute(elem, ATTR_ID, strlen(ATTR_ID), NULL);
     return id;
+#endif
 }
 
 #define WHITESPACE      " "
 int hl_pcdom_element_t_get_classes(void *n, char ***classes)
 {
+    pcdom_node_t *node = (pcdom_node_t *)n;
+    if (node->type != PCDOM_NODE_TYPE_ELEMENT) {
+        return 0;
+    }
+
     pcdom_element_t *elem = (pcdom_element_t *)n;
+
     *classes = NULL;
+#if 0
     const char *cls =  pcdom_element_get_attribute(elem, ATTR_CLASS,
             strlen(ATTR_CLASS), NULL);
     if (cls == NULL) {
         return 0;
     }
+#else
+    const char *cls;
+    if (elem->attr_class) {
+        cls = pcdom_attr_value(elem->attr_class, NULL);
+    }
+    else
+        return 0;
+#endif
     int nr_classes = 0;
     char *value = strdup(cls);
     char *c = strtok(value, WHITESPACE);
