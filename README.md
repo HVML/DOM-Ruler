@@ -9,10 +9,15 @@
 
 ## Introduction
 
-DOM Ruler is a library to maintain a DOM tree, lay out and stylize
-the DOM elements by using CSS (Cascaded Style Sheets). It integrates LibCSS
-(MIT licensed), LibParserUtils (MIT licensed) and LibWapcaplet (MIT licensed)
-from open source community.
+DOM Ruler is a library to maintain a DOM tree, lay out and stylize the DOM elements by using CSS (Cascaded Style Sheets).
+It integrates LibCSS (MIT licensed), LibParserUtils (MIT licensed) and LibWapcaplet (MIT licensed) from open source community.
+
+This software is a part of HVML project.
+
+For more information about HVML, you can visit the following URLs:
+
+- <https://github.com/HVML>, or
+- <https://hvml.fmsoft.cn>
 
 ## Dependencies
 
@@ -294,28 +299,4 @@ GNU Lesser General License for more details.
 
 You should have received a copy of the GNU Lesser General License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-### Commercial License
-
-If you cannot accept LGPLv3, you need to be licensed from FMSoft.
-
-For more information about the commercial license, please refer to
-<https://hybridos.fmsoft.cn/blog/hybridos-licensing-policy>.
-
-### Special Statement
-
-The above open source or free software license(s) does
-not apply to any entity in the Exception List published by
-Beijing FMSoft Technologies Co., Ltd.
-
-If you are or the entity you represent is listed in the Exception List,
-the above open source or free software license does not apply to you
-or the entity you represent. Regardless of the purpose, you should not
-use the software in any way whatsoever, including but not limited to
-downloading, viewing, copying, distributing, compiling, and running.
-If you have already downloaded it, you MUST destroy all of its copies.
-
-The Exception List is published by FMSoft and may be updated
-from time to time. For more information, please see
-<https://www.fmsoft.cn/exception-list>.
 
