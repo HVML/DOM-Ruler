@@ -121,7 +121,7 @@ struct css_rule {
 	uint16_t items; /**< number of items (selectors) in rule */
 	uint8_t type;   /**< css_rule_type */
 	uint8_t ptype;  /**< css_rule_parent_type */
-} _ALIGNED;
+};
 
 typedef struct css_rule_selector {
 	css_rule base;
