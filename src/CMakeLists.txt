@@ -47,5 +47,5 @@ cmake_minimum_required(VERSION 3.10)
 add_subdirectory(third-party)
 add_subdirectory(layout)
 add_subdirectory(test)
-add_subdirectory(tools)
+add_subdirectory(samples)
 

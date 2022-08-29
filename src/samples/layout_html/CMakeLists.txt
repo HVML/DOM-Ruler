@@ -52,7 +52,7 @@ list(APPEND layout_html_INCLUDE_DIRECTORIES
 )
 
 list(APPEND layout_html_SOURCES
-    ${CMAKE_SOURCE_DIR}/src/tools/layout_html/layout_html.c
+    layout_html.c
 )
 
 include_directories(${layout_html_INCLUDE_DIRECTORIES} ${GLIB_INCLUDE_DIRS})
